@@ -1,4 +1,4 @@
-[submodule "mast-web"]
+[submodule "webapp"]
 	path = webapp
 	url = ssh://git@git.edouard-lopez.com:822/root/mast-web.git
 [submodule "tests/shebang_unit"]
