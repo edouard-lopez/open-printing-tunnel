@@ -1,5 +1,6 @@
 [submodule "webapp"]
 	path = webapp
+    # FIXME: update to new repo
 	url = ssh://git@git.edouard-lopez.com:822/root/mast-web.git
 [submodule "tests/shebang_unit"]
 	path = tests/shebang_unit

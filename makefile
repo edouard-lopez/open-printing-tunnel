@@ -55,8 +55,8 @@ EMPTY:=
 SSH_DIR:=/home/${APP}/.ssh
 SSH_KEYFILE:=${SSH_DIR}/id_rsa.mast.coaxis
 
-# webapp sources directory, cloned during install (deployed to /var/www/mast-web)
-WEBAPP=mast-web
+# webapp sources directory, cloned during install (deployed to /var/www/${WEBAPP})
+WEBAPP=opt-webapp
 # location of served web app.
 WEBAPP_DEST_DIR=/var/www/
 
@@ -68,14 +68,16 @@ DEPS_UTILS:=bmon iftop htop
 
 # Code source repository
 BRANCH=dev
+# FIXME: update to new repo
 WEBAPP_REPO:=https://github.com/edouard-lopez/mast-web.git
+# FIXME: update to new repo
 WEBAPP_ARCHIVE:=https://github.com/edouard-lopez/mast-web/archive/${BRANCH}.tar.gz
 # DEV ONLY
-WEBAPP_REPO:=file://$(shell pwd)/../mast-web/.git
+WEBAPP_REPO:=file://$(shell pwd)/../webapp/.git
 # Web app's hostname
 APACHE_HOSTNAME:=mast.dev
 # Path to apache config file
-APACHE_SRC_CONF=${WEBAPP}/resources/server/mast-web.apache.conf
+APACHE_SRC_CONF=${WEBAPP}/resources/server/${WEBAPP}.apache.conf
 APACHE_DEST_CONF=/etc/apache2/sites-enabled/${WEBAPP}.conf
 
 # Branch to checkout before deploying webapp
@@ -289,8 +291,8 @@ uninstall:
 		"${LOG_DIR}" \
 		"${PID_DIR}" \
 		"${LOCK_DIR}" \
-		"${WEBAPP_DEST_DIR}"/mast-web \
-		mast-web \
+		"${WEBAPP_DEST_DIR}/${WEBAPP}" \
+		"${WEBAPP}" \
 	); for fn in "$${filesList[@]}"; do \
 		[[ -f $$fn || -d $$fn ]] || continue; \
 		rm -rf "$$fn" \
@@ -337,7 +339,7 @@ deploy-webapp:
 			||    printf "$(call ERROR,fail)"
 	@printf "\t%s\n" $$'$(call DEBUG,${WEBAPP_DEST_DIR}/${WEBAPP})'
 
-	@# configuring Apache: /etc/apache2/sites-enabled/mast-web.conf
+	@# configuring Apache: /etc/apache2/sites-enabled/${WEBAPP}.conf
 	@printf "\t%-50s" $$'$(call INFO,configuring Apache)'
 		@a2enmod php5 rewrite > /dev/null  # enable Apache module
 		@cp ${APACHE_SRC_CONF} ${APACHE_DEST_CONF} \
