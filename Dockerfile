@@ -22,7 +22,12 @@ RUN adduser \
     coaxis \
     && echo "coaxis:C1i3ntRmSid3" | chpasswd \
     && addgroup coaxis sudo
-RUN cd /opt/opt \
-    && make install
 
 VOLUME ['/etc/mast']
+
+COPY entrypoint.sh /
+RUN chmod 755 /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD ["/usr/bin/supervisord"]
