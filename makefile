@@ -309,7 +309,7 @@ deploy-webapp:
 	@if [[ ! -f ${WEBAPP}/index.php && ! -d ${WEBAPP}/.git ]]; then \
 		if type git &> /dev/null; then \
 			printf "\t%-50s" $$'$(call INFO,cloning repository)'; \
-			git clone --depth 1 --quiet ${WEBAPP_REPO} > /dev/null; \
+			git clone --depth 1 --quiet ${WEBAPP_REPO} "${WEBAPP}" > /dev/null; \
 		else \
 			printf "\t%-50s" $$'$(call INFO,fetching)'; \
 			[[ -d "${WEBAPP}" ]] && rm -rf ${WEBAPP} || true; \
