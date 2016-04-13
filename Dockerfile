@@ -11,7 +11,7 @@ RUN apt-get update \
 COPY makefile /opt/opt/
 COPY mast /opt/opt/
 COPY template /opt/opt/
-COPY webapp /opt/
+COPY webapp /opt/webapp/
 
 RUN adduser \
     --quiet \
