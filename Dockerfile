@@ -25,4 +25,4 @@ RUN adduser \
 RUN cd /opt/opt \
     && make install
 
-VOLUME opt-templates:/etc/mast
+VOLUME ['/etc/mast']
