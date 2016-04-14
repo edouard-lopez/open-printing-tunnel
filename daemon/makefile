@@ -56,7 +56,7 @@ SSH_DIR:=/home/${APP}/.ssh
 SSH_KEYFILE:=${SSH_DIR}/id_rsa.mast.coaxis
 
 # webapp sources directory, cloned during install (deployed to /var/www/${WEBAPP})
-WEBAPP=opt-webapp
+WEBAPP=webapp
 # location of served web app.
 WEBAPP_DEST_DIR=/var/www/
 

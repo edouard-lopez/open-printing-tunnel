@@ -28,7 +28,7 @@ RUN apt-get update \
 COPY daemon/makefile /opt/mast/
 COPY daemon/mast /opt/mast/
 COPY daemon/template /opt/mast/
-COPY daemon/webapp /opt/webapp/
+COPY webapp /opt/webapp/
 
 RUN adduser \
     --quiet \
