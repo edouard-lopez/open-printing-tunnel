@@ -272,7 +272,8 @@ remove-host:
 	fi
 
 # Install application network may not be setup, so don't deploy (ssh's key) on remote devices
-install: requirements check-system check-privileges deploy-service create-ssh-key deploy-webapp
+#install: requirements check-system check-privileges deploy-service create-ssh-key deploy-webapp
+install: check-system check-privileges deploy-service create-ssh-key deploy-webapp
 
 purge: uninstall
 	@printf "Purging…\n"

@@ -6,7 +6,25 @@ ENV DEBIAN_FRONTEND noninteractive
 
 
 RUN apt-get update \
-    && apt-get install --yes wget make git
+    && apt-get install --yes \
+            bmon \
+            dpkg \
+            git \
+            htop \
+            iftop \
+            make \
+            wget
+
+RUN apt-get update \
+    && apt-get install --yes \
+            autossh \
+            libc-bin \
+            openssh-client \
+            sshpass \
+            sudo \
+            trickle \
+            whois
+
 
 COPY makefile /opt/opt/
 COPY mast /opt/opt/
