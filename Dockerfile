@@ -26,10 +26,11 @@ RUN apt-get update \
             whois
 
 
-COPY makefile /opt/opt/
-COPY mast /opt/opt/
-COPY template /opt/opt/
-COPY webapp /opt/webapp/
+# Mast
+COPY daemon/makefile /opt/mast/
+COPY daemon/mast /opt/mast/
+COPY daemon/template /opt/mast/
+COPY daemon/webapp /opt/webapp/
 
 RUN adduser \
     --quiet \
