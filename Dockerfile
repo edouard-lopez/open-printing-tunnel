@@ -50,6 +50,7 @@ COPY webapp/index.php /var/www/html/webapp
 RUN chown -R www-data:www-data /var/www/html
 RUN a2enmod rewrite
 
+RUN cd /opt/mast/ && make install
 
 COPY entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
