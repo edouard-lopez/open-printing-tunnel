@@ -19,7 +19,7 @@ RUN apt-get update \
             openssh-client \
             sshpass \
             sudo \
-            sudo \
+            supervisor \
             trickle \
             wget \
             whois
@@ -55,5 +55,5 @@ COPY entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY daemon/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
