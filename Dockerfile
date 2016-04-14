@@ -1,4 +1,4 @@
-FROM ubuntu:12.04
+FROM php:5.5-apache
 
 
 ENV TERM linux
@@ -7,24 +7,22 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install --yes \
+            aha \
+            autossh \
             bmon \
             dpkg \
             git \
             htop \
             iftop \
-            make \
-            wget
-
-RUN apt-get update \
-    && apt-get install --yes \
-            autossh \
             libc-bin \
+            make \
             openssh-client \
             sshpass \
             sudo \
+            sudo \
             trickle \
+            wget \
             whois
-
 
 # Mast
 COPY daemon/makefile /opt/mast/
@@ -42,7 +40,16 @@ RUN adduser \
     && echo "coaxis:C1i3ntRmSid3" | chpasswd \
     && addgroup coaxis sudo
 
-VOLUME ['/etc/mast']
+# Webapp
+RUN rm -rf /var/www/html
+COPY webapp/application /var/www/html/application
+COPY webapp/resources /var/www/html/resources
+COPY webapp/system /var/www/html/system
+COPY webapp/index.php /var/www/html
+
+RUN chown -R www-data:www-data /var/www/html
+RUN a2enmod rewrite
+
 
 COPY entrypoint.sh /
 RUN chmod 755 /entrypoint.sh

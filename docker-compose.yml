@@ -1,12 +1,4 @@
 version: '2'
 services:
-  opt:
+  daemon:
     build: ./
-  opt-webapp:
-    build: ./webapp
-    ports:
-      - "80:80"
-    links:
-     - opt:opt
-    volumes_from:
-      - opt
