@@ -2,3 +2,5 @@ version: '2'
 services:
   daemon:
     build: ./
+    ports:
+      - "80:80"
