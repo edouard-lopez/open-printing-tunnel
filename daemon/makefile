@@ -77,7 +77,7 @@ WEBAPP_REPO:=file://$(shell pwd)/../webapp/.git
 # Web app's hostname
 APACHE_HOSTNAME:=mast.dev
 # Path to apache config file
-APACHE_SRC_CONF=${WEBAPP}/resources/server/${WEBAPP}.apache.conf
+APACHE_SRC_CONF=/var/www/html/${WEBAPP}/resources/server/${WEBAPP}.apache.conf
 APACHE_DEST_CONF=/etc/apache2/sites-enabled/${WEBAPP}.conf
 
 # Branch to checkout before deploying webapp
