@@ -57,4 +57,5 @@ RUN chmod 755 /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 COPY daemon/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+EXPOSE 80
 CMD ["/usr/bin/supervisord"]
