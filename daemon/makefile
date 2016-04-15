@@ -348,18 +348,6 @@ deploy-webapp:
 			||    printf "$(call ERROR,fail)"
 		@printf "\t%s\n" $$'$(call DEBUG,${APACHE_DEST_CONF})'
 
-	@# declaring hostname: /etc/hosts
-	@printf "\t%-50s" $$'$(call INFO,declaring hostname)'
-		@if ! grep -iq 'mast' /etc/hosts; then \
-			sed -i "1i 127.0.0.1 ${APACHE_REMOTE_HOSTNAME} www.${APACHE_REMOTE_HOSTNAME}" /etc/hosts; \
-			sed -i "1i # Mast-web" /etc/hosts; \
-			printf "%s" $$'$(call SUCCESS,done)'; \
-			printf "\t%s\n" $$'$(call DEBUG,/etc/hosts)'; \
-		else \
-			printf "%s\t%s" $$'$(call WARNING,skipped)' 1>&2; \
-			printf "%s\n" $$'$(call DEBUG,/etc/hosts already existing)'; \
-		fi
-
 	@# check for ServerName variable
 	@if ! grep -iq ServerName /etc/apache2/apache2.conf; then \
 		echo "ServerName localhost" >> /etc/apache2/apache2.conf; \
