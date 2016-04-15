@@ -4,3 +4,9 @@ services:
     build: ./
     ports:
       - "80:80"
+    links:
+      - opt-box:opt-box
+  opt-box:
+      build: ./opt-box/
+      ports:
+        - "22:22"
