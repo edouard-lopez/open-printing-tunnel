@@ -11,7 +11,9 @@ RUN apt-get update \
             autossh \
             bmon \
             dpkg \
+            gawk \
             git \
+            grep \
             htop \
             iftop \
             libc-bin \
