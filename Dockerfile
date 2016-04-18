@@ -49,6 +49,7 @@ COPY webapp/resources /var/www/html/webapp/resources
 COPY webapp/system /var/www/html/webapp/system
 COPY webapp/index.php /var/www/html/webapp
 
+COPY webapp/resources/server/php.ini /usr/local/etc/php/
 RUN chown -R www-data:www-data /var/www/html
 RUN a2enmod rewrite
 
