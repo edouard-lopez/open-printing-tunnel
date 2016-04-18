@@ -23,6 +23,7 @@ RUN apt-get update \
             sudo \
             supervisor \
             trickle \
+            vim-tiny \
             wget \
             whois
 
