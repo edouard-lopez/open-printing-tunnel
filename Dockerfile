@@ -54,7 +54,7 @@ COPY webapp/index.php ${WEBAPP_DIR}
 
 COPY webapp/resources/server/webapp.apache.conf /etc/apache2/sites-enabled/opt-webapp.conf
 COPY webapp/resources/server/php.ini /usr/local/etc/php/
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R ${OPT_USER}:www-data "${WEBAPP_DIR}"
 RUN a2enmod rewrite
 
 RUN cd /opt/mast/ && make install
