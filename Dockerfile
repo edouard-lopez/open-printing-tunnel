@@ -3,9 +3,9 @@ FROM php:5.5-apache
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
-ENV OPT_USER coaxis
-ENV OPT_PASSWORD C1i3ntRmSid3
-ENV WEBAPP_DIR /var/www/html/webapp
+ARG OPT_USER coaxis
+ARG OPT_PASSWORD C1i3ntRmSid3
+ARG WEBAPP_DIR /var/www/html/webapp
 
 RUN apt-get update \
     && apt-get install --yes \
