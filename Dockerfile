@@ -3,7 +3,9 @@ FROM php:5.5-apache
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
-
+ENV OPT_USER coaxis
+ENV OPT_PASSWORD C1i3ntRmSid3
+ENV WEBAPP_DIR /var/www/html/webapp
 
 RUN apt-get update \
     && apt-get install --yes \
@@ -37,18 +39,18 @@ RUN adduser \
     --quiet \
     --disabled-password \
     --shell /bin/bash \
-    --home /home/coaxis \
+    --home /home/${OPT_USER} \
     --gecos "Open Print Tunnel" \
-    coaxis \
-    && echo "coaxis:C1i3ntRmSid3" | chpasswd \
-    && addgroup coaxis sudo
+    ${OPT_USER} \
+    && echo "${OPT_USER}:${OPT_PASSWORD}" | chpasswd \
+    && addgroup ${OPT_USER} sudo
 
 # Webapp
 RUN rm -rf /var/www/html
-COPY webapp/application /var/www/html/webapp/application
-COPY webapp/resources /var/www/html/webapp/resources
-COPY webapp/system /var/www/html/webapp/system
-COPY webapp/index.php /var/www/html/webapp
+COPY webapp/application ${WEBAPP_DIR}/application
+COPY webapp/resources ${WEBAPP_DIR}/resources
+COPY webapp/system ${WEBAPP_DIR}/system
+COPY webapp/index.php ${WEBAPP_DIR}
 
 COPY webapp/resources/server/php.ini /usr/local/etc/php/
 RUN chown -R www-data:www-data /var/www/html
