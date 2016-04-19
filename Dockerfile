@@ -52,6 +52,7 @@ COPY webapp/resources ${WEBAPP_DIR}/resources
 COPY webapp/system ${WEBAPP_DIR}/system
 COPY webapp/index.php ${WEBAPP_DIR}
 
+COPY webapp/resources/server/webapp.apache.conf /etc/apache2/sites-enabled/opt-webapp.conf
 COPY webapp/resources/server/php.ini /usr/local/etc/php/
 RUN chown -R www-data:www-data /var/www/html
 RUN a2enmod rewrite

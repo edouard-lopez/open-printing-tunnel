@@ -93,7 +93,6 @@ WEBAPP_BRANCH=dev
 	deploy  \
 	deploy-key  \
 	deploy-service  \
-	deploy-webapp  \
 	install  \
 	requirements  \
 	list-channels  \
@@ -272,8 +271,8 @@ remove-host:
 	fi
 
 # Install application network may not be setup, so don't deploy (ssh's key) on remote devices
-#install: requirements check-system check-privileges deploy-service create-ssh-key deploy-webapp
-install: check-system check-privileges deploy-service create-ssh-key deploy-webapp
+#install: requirements check-system check-privileges deploy-service create-ssh-key
+install: check-system check-privileges deploy-service create-ssh-key
 
 purge: uninstall
 	@printf "Purging…\n"
@@ -302,68 +301,6 @@ uninstall:
 	done
 	@update-rc.d -f mast remove > /dev/null
 
-# deploy the webapp, configure apache, /etc/hosts
-deploy-webapp:
-	@printf "Deploying…\t%s\n" $$'$(call VALUE,webapp)'
-
-	@# cloning repository
-	@if [[ ! -f ${WEBAPP}/index.php && ! -d ${WEBAPP}/.git ]]; then \
-		if type git &> /dev/null; then \
-			printf "\t%-50s" $$'$(call INFO,cloning repository)'; \
-			git clone --depth 1 --quiet ${WEBAPP_REPO} "${WEBAPP}" > /dev/null; \
-		else \
-			printf "\t%-50s" $$'$(call INFO,fetching)'; \
-			[[ -d "${WEBAPP}" ]] && rm -rf ${WEBAPP} || true; \
-			wget --quiet --output-document="${WEBAPP}.tar.gz" ${WEBAPP_ARCHIVE}; \
-			tar xzf "${WEBAPP}.tar.gz"; \
-			mv ${WEBAPP}{-${BRANCH},}; \
-		fi; \
-	elif [[ ! -f ${WEBAPP}/index.php && -d ${WEBAPP}/.git ]]; then \
-		printf "\t%-50s" $$'$(call INFO,updating repository)'; \
-		pushd "${WEBAPP}" \
-			&& git pull ${WEBAPP_REPO} > /dev/null; \
-		popd; \
-			git checkout --quiet ${WEBAPP_BRANCH} > /dev/null \
-				&& printf "$(call SUCCESS,done)"; \
-	else \
-		[[ -f ${WEBAPP}/index.php ]] && printf "\t%-50s" $$'$(call INFO,fetching repository)' || true; \
-		printf "%s (already existing)\n" $$'$(call WARNING,skipped)' 1>&2; \
-	fi; \
-	chmod -R u=rwx,g=rwx,o= "${WEBAPP}/"; \
-	chown -R $${SUDO_USER}:${WEB_SERVER} "${WEBAPP}/"
-	@printf "\t%s\n" $$'$(call DEBUG,${WEBAPP_REPO})'
-
-	@# deploying webapp: /var/www/mast
-	@printf "\t%-50s" $$'$(call INFO,deploying webapp)'
-		@cp -R --preserve=all ${WEBAPP} ${WEBAPP_DEST_DIR} \
-			&& printf "$(call SUCCESS,done)" \
-			||    printf "$(call ERROR,fail)"
-	@printf "\t%s\n" $$'$(call DEBUG,${WEBAPP_DEST_DIR}/${WEBAPP})'
-
-	@# configuring Apache: /etc/apache2/sites-enabled/${WEBAPP}.conf
-	@printf "\t%-50s" $$'$(call INFO,configuring Apache)'
-		@a2enmod php5 rewrite > /dev/null  # enable Apache module
-		@cp ${APACHE_SRC_CONF} ${APACHE_DEST_CONF} \
-			&& printf "$(call SUCCESS,done)" \
-			||    printf "$(call ERROR,fail)"
-		@printf "\t%s\n" $$'$(call DEBUG,${APACHE_DEST_CONF})'
-
-	@# check for ServerName variable
-	@if ! grep -iq ServerName /etc/apache2/apache2.conf; then \
-		echo "ServerName localhost" >> /etc/apache2/apache2.conf; \
-	fi
-
-	@# reloading Apache
-	@printf "\t%-50s" $$'$(call INFO,reloading Apache)'
-		@if apache2ctl configtest &> /dev/null; then \
-				apache2ctl graceful; \
-				printf "$(call SUCCESS,done)\n"; \
-				printf "\t%-50s%s\n" $$'$(call SUCCESS,test installation using)' $$'$(call VALUE,http://%SOCIETE%.opt/)'; \
-			else \
-				printf "$(call ERROR,failed)"; \
-				printf "\t%s\n" $$'$(call DEBUG,${WEBAPP_DEST_DIR}/${WEBAPP})'; \
-				apache2ctl configtest; \
-			fi
 
 deploy-service:
 	@printf "Deploying…\t%s\n" $$'$(call VALUE,service)'
@@ -431,7 +368,7 @@ deploy-service:
 	@chmod -R u=rwx,g=rwx,o= "${LOG_DIR}" "${CONFIG_DIR}" "${PID_DIR}" "${LOCK_DIR}"
 
 
-deploy: deploy-service deploy-webapp
+deploy: deploy-service
 
 config-ssh: deploy-key
 
@@ -572,12 +509,11 @@ usage:
 doc:
 	screenshotDir="docs/screenshots"; \
 	[[ ! -d $$screenshotDir ]] && mkdir -p "$$screenshotDir" || true; \
-	taskList=( deploy-service deploy-webapp create-ssh-key deploy-key add-host:fail add-host add-channel:fail add-channel list-channels list-logs list-hosts remove-channel:fail remove-channel remove-host:fail remove-host requirements check-privileges check-system uninstall usage ); \
+	taskList=( deploy-service create-ssh-key deploy-key add-host:fail add-host add-channel:fail add-channel list-channels list-logs list-hosts remove-channel:fail remove-channel remove-host:fail remove-host requirements check-privileges check-system uninstall usage ); \
 	for task in "$${taskList[@]}"; do \
 		clear; unset fn; \
 		height=200; width=800; lineHeight=13; \
 		case $$task in \
-			'deploy-webapp') height=$$((8*$$lineHeight));; \
 			'deploy-service') height=$$((7*$$lineHeight));; \
 			'create-ssh-key') height=$$((4*$$lineHeight));; \
 			'deploy-key') height=$$((4*$$lineHeight));; \
