@@ -58,6 +58,4 @@ RUN a2enmod rewrite
 
 RUN cd /opt/mast/ && make install
 
-COPY daemon/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 80
-CMD ["/usr/bin/supervisord"]
