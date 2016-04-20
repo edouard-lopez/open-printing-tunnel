@@ -64,3 +64,10 @@ All administrative tasks are accomplished through an utility command-line call `
 ### Web Interface
 
 Build on top of both the service and the utility toolbox
+
+
+## Documentation
+
+* [installation](docs/INSTALLATION.md) ;
+* [how to docker](docs/HOW-TO-DOCKER.md) ;
+* [daemon usage](docs/DAEMON.md) ;
