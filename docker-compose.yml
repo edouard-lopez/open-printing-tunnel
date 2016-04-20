@@ -6,6 +6,8 @@ services:
       - "80:80"
     links:
       - opt-box:opt-box
+    volumes:
+      - ./webapp:/var/www/html/webapp
   opt-box:
       build: ./opt-box/
       ports:
