@@ -57,7 +57,7 @@ declare -i NO_TRANSFERT_LIMIT=$((10**9))
 SUCCESS_STATUS=0 # used in 'return'
 ABORT_STATUS=1 # used in 'return'
 
-# debug mode (need to `export DEBUG='true'` and run as `sudo -E`, see installation.md)
+# debug mode (need to `export DEBUG='true'` and run as `sudo -E`, see docs/installation.md)
 [[ -n $DEBUG ]] && set -x
 
 
