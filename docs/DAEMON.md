@@ -1,30 +1,8 @@
 
 ## Installation
 
-This is a short procedure, if you want **more details refer to the [step by step installation](INSTALATION.md)**.
+This is done during the docker container building process, if you want **more details refer to the [Dockerfile](Dockerfile)**.
 
-First, be sure to have _make_ installed on your system:
-```bash
-apt-get install -y make
-```
-
-Then, you must get the project on both the customer's node and your infrastructure:
-```bash
-branch=master;
-wget --output-document="mast.tar.gz" https://github.com/edouard-lopez/mast/archive/$branch.tar.gz
-tar xvzf mast.tar.gz && cd mast-$branch
-```
-Finally, you can type:
-```bash
-make install
-```
-### Using Git
-
-If `git` is installed, you can use it as follow:
-```bash
-git clone --depth 1 https://github.com/edouard-lopez/mast.git && cd mast
-make install
-```
 
 ## Toolbox's Tasks
 
