@@ -84,9 +84,8 @@ COPY daemon/mast /opt/mast/
 COPY webapp /opt/webapp/
 
 # Webapp
-RUN rm -rf /var/www/html
-RUN mkdir ${WEBAPP_DIR}
-VOLUME [ "${WEBAPP_DIR}" ]
+RUN rm -rf /var/www/html \
+    && mkdir -p ${WEBAPP_DIR}
 
 COPY webapp/resources/server/webapp.apache.conf /etc/apache2/sites-enabled/opt-webapp.conf
 COPY webapp/resources/server/php.ini /usr/local/etc/php/
@@ -95,5 +94,7 @@ RUN chown -R ${REMOTE_USER}:www-data "${WEBAPP_DIR}" \
 
 
 RUN cd /opt/mast/ && make install
+
+VOLUME [ "${WEBAPP_DIR}" ]
 
 EXPOSE 80
