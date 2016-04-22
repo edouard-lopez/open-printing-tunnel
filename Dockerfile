@@ -3,8 +3,8 @@ FROM php:5.5-apache
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
-ARG OPT_USER=coaxis
-ARG OPT_PASSWORD=C1i3ntRmSid3
+ARG REMOTE_USER=coaxis
+ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 ARG WEBAPP_DIR=/var/www/html/webapp
 
 RUN apt-get update \
@@ -30,20 +30,19 @@ RUN apt-get update \
             whois
 
 # Mast
+RUN adduser \
+        --quiet \
+        --disabled-password \
+        --shell /bin/bash \
+        --home /home/${REMOTE_USER} \
+        --gecos "Open Print Tunnel" \
+        ${REMOTE_USER} \
+    && echo "${REMOTE_USER}:${REMOTE_INIT_PWD}" | chpasswd \
+    && addgroup ${REMOTE_USER} sudo
+
 COPY daemon/makefile /opt/mast/
 COPY daemon/mast /opt/mast/
-COPY daemon/template /opt/mast/
 COPY webapp /opt/webapp/
-
-RUN adduser \
-    --quiet \
-    --disabled-password \
-    --shell /bin/bash \
-    --home /home/${OPT_USER} \
-    --gecos "Open Print Tunnel" \
-    ${OPT_USER} \
-    && echo "${OPT_USER}:${OPT_PASSWORD}" | chpasswd \
-    && addgroup ${OPT_USER} sudo
 
 # Webapp
 RUN rm -rf /var/www/html
@@ -52,8 +51,9 @@ VOLUME [ "${WEBAPP_DIR}" ]
 
 COPY webapp/resources/server/webapp.apache.conf /etc/apache2/sites-enabled/opt-webapp.conf
 COPY webapp/resources/server/php.ini /usr/local/etc/php/
-RUN chown -R ${OPT_USER}:www-data "${WEBAPP_DIR}"
-RUN a2enmod rewrite
+RUN chown -R ${REMOTE_USER}:www-data "${WEBAPP_DIR}" \
+    && a2enmod rewrite
+
 
 RUN cd /opt/mast/ && make install
 
