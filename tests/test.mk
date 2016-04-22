@@ -82,24 +82,6 @@ uninstall:
 	test=$$(make uninstall | grep -c '') &> /dev/null; \
 	(( test >= assert )) && printf "$(call PASS)" || printf "$(call FAIL)" 1>&2;
 
-deploy-webapp:
-	$(call self,$@)
-	@assert=1; \
-	test=$$(make deploy-webapp | grep -c '') &> /dev/null; \
-	(( test >= assert )) && printf "$(call PASS)" || printf "$(call FAIL)" 1>&2;
-
-deploy-service:
-	$(call self,$@)
-	@assert=7; \
-	test=$$(make deploy-service | grep -cE 'done|skipped') &> /dev/null; \
-	(( test >= assert )) && printf "$(call PASS)" || printf "$(call FAIL)" 1>&2;
-
-deploy:
-	$(call self,$@)
-	@assert=1; \
-	test=$$(make deploy | grep -c '') &> /dev/null; \
-	(( test >= assert )) && printf "$(call PASS)" || printf "$(call FAIL)" 1>&2;
-
 config-ssh:
 	$(call self,$@)
 	@assert=1; \

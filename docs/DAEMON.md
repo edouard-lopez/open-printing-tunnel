@@ -31,26 +31,7 @@ sudo make
 
 ### Deploy
 
-This is a meta-task that will run the following dependencies:
-
-* depends of [Deploy Service](#deploy-service) ;
-* depends of [Deploy Webapp](#deploy-webapp).
-
-### Deploy Service
-
-This task copy project file to their adequate location (_i.e._ `/etc/init.d/`, `/usr/sbin/`)
-```bash
-sudo make deploy-service
-```
-![sudo-make-deploy-service](./screenshots/sudo-make-deploy-service.png)
-
-### Deploy Webapp
-Deploy the webapp, configure and reloading apache, configure _/etc/hosts_
-
-```bash
-sudo make deploy-webapp
-```
-![sudo-make-deploy-webapp](./screenshots/sudo-make-deploy-webapp.png)
+This task is now done by the [daemon's `Dockerfile`](../Dockerfile).
 
 ### Install
 
@@ -58,9 +39,8 @@ This is a meta-task that will run the following dependencies:
 
 * [Install project dependencies](#install-requirements) ;
 * [Check system](#check-system) and [privileges](](#check-privileges)) ;
-* [Deploy the service](#deploy-service) ;
-* [Create a SSH key pair](#create-ssh-key) if necessary ;
-* and [deploy the webapp](#deploy-webapp).
+* [Deploy the service and webapp](#deploy) ;
+* [Create a SSH key pair](#create-ssh-key) if necessary.
 
 ```bash
 sudo make install

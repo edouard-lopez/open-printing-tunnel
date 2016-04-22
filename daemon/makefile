@@ -92,7 +92,6 @@ WEBAPP_BRANCH=dev
 	create-ssh-key  \
 	deploy  \
 	deploy-key  \
-	deploy-service  \
 	install  \
 	requirements  \
 	list-channels  \
@@ -271,8 +270,7 @@ remove-host:
 	fi
 
 # Install application network may not be setup, so don't deploy (ssh's key) on remote devices
-#install: requirements check-system check-privileges deploy-service create-ssh-key
-install: check-system check-privileges deploy-service create-ssh-key
+install: check-system check-privileges create-ssh-key
 
 purge: uninstall
 	@printf "Purging…\n"
@@ -302,73 +300,7 @@ uninstall:
 	@update-rc.d -f mast remove > /dev/null
 
 
-deploy-service:
-	@printf "Deploying…\t%s\n" $$'$(call VALUE,service)'
 
-	@printf "\t%-50s" $$'$(call INFO,initd service)'
-		@rm -f /etc/init.d/mast \
-		&& cp mast /etc/init.d/ \
-		&& printf "$(call SUCCESS,done)\n" \
-		||    printf "$(call ERROR,error)\n" 1>&2
-		@chown ${APP}:${WEB_SERVER} /etc/init.d/mast
-		@update-rc.d mast defaults > /dev/null
-
-	@printf "\t%-50s" $$'$(call INFO,utils)'
-		@rm -f /usr/sbin/mast-utils \
-		&& cp makefile /usr/sbin/mast-utils \
-		&& printf "$(call SUCCESS,done)\n" \
-		||    printf "$(call ERROR,error)\n" 1>&2
-		@chown ${APP}:${WEB_SERVER} /usr/sbin/mast-utils; \
-
-	@printf "\t%-50s" $$'$(call INFO,config directory)'
-		@if [[ ! -d "${CONFIG_DIR}" ]]; then \
-			mkdir "${CONFIG_DIR}" \
-				&& printf "%s\t%s\n" $$'$(call SUCCESS,done)' $$'$(call VALUE, ${CONFIG_DIR}/)' \
-				||    printf "$(call ERROR,error)\n" 1>&2; \
-		elif [[ -d "${CONFIG_DIR}" ]]; then \
-			printf "%s\t%s\n" $$'$(call WARNING,skipped)' $$'$(call VALUE, ${CONFIG_DIR}/)'; \
-		fi
-
-	@printf "\t%-50s" $$'$(call INFO,template)'
-		@rm -f ${CONFIG_DIR}/template \
-			&& chmod u=rw,go= template \
-			&& cp {.,${CONFIG_DIR}}/template \
-				&& printf "%s\t%s\n" $$'$(call SUCCESS,done)' $$'$(call VALUE, ${CONFIG_DIR}/template)' \
-				||    printf "$(call ERROR,error)\n" 1>&2
-			@chown ${APP}:${WEB_SERVER} ${CONFIG_DIR}/template
-
-	@printf "\t%-50s" $$'$(call INFO,log directory)'
-		@if [[ ! -d "${LOG_DIR}" ]]; then \
-			mkdir "${LOG_DIR}" \
-				&& printf "%s\t%s\n" $$'$(call SUCCESS,done)' $$'$(call VALUE, ${LOG_DIR}/)' \
-				||    printf "$(call ERROR,error)\n" 1>&2; \
-		elif [[ -d "${LOG_DIR}" ]]; then \
-			printf "%s\t%s\n" $$'$(call WARNING,skipped)' $$'$(call VALUE, ${LOG_DIR}/)'; \
-		fi
-
-	@printf "\t%-50s" $$'$(call INFO,pid directory)'
-		@if [[ ! -d "${PID_DIR}" ]]; then \
-			mkdir "${PID_DIR}" \
-				&& printf "%s\t%s\n" $$'$(call SUCCESS,done)' $$'$(call VALUE, ${PID_DIR}/)' \
-				||    printf "$(call ERROR,error)\n" 1>&2; \
-		elif [[ -d "${PID_DIR}" ]]; then \
-			printf "%s\t%s\n" $$'$(call WARNING,skipped)' $$'$(call VALUE, ${PID_DIR}/)'; \
-		fi
-
-	@printf "\t%-50s" $$'$(call INFO,lock directory)'
-		@if [[ ! -d "${LOCK_DIR}" ]]; then \
-			mkdir "${LOCK_DIR}" \
-				&& printf "%s\t%s\n" $$'$(call SUCCESS,done)' $$'$(call VALUE, ${LOCK_DIR}/)' \
-				||    printf "$(call ERROR,error)\n" 1>&2; \
-		elif [[ -d "${LOCK_DIR}" ]]; then \
-			printf "%s\t%s\n" $$'$(call WARNING,skipped)' $$'$(call VALUE, ${LOCK_DIR}/)'; \
-		fi
-
-	@chown -R ${APP}:${WEB_SERVER} "${LOG_DIR}" "${CONFIG_DIR}" "${PID_DIR}" "${LOCK_DIR}"
-	@chmod -R u=rwx,g=rwx,o= "${LOG_DIR}" "${CONFIG_DIR}" "${PID_DIR}" "${LOCK_DIR}"
-
-
-deploy: deploy-service
 
 config-ssh: deploy-key
 
@@ -509,12 +441,11 @@ usage:
 doc:
 	screenshotDir="docs/screenshots"; \
 	[[ ! -d $$screenshotDir ]] && mkdir -p "$$screenshotDir" || true; \
-	taskList=( deploy-service create-ssh-key deploy-key add-host:fail add-host add-channel:fail add-channel list-channels list-logs list-hosts remove-channel:fail remove-channel remove-host:fail remove-host requirements check-privileges check-system uninstall usage ); \
+	taskList=( create-ssh-key deploy-key add-host:fail add-host add-channel:fail add-channel list-channels list-logs list-hosts remove-channel:fail remove-channel remove-host:fail remove-host requirements check-privileges check-system uninstall usage ); \
 	for task in "$${taskList[@]}"; do \
 		clear; unset fn; \
 		height=200; width=800; lineHeight=13; \
 		case $$task in \
-			'deploy-service') height=$$((7*$$lineHeight));; \
 			'create-ssh-key') height=$$((4*$$lineHeight));; \
 			'deploy-key') height=$$((4*$$lineHeight));; \
 			'add-host:fail') height=$$((3*$$lineHeight)); \
