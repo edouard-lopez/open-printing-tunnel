@@ -93,13 +93,11 @@ WEBAPP_BRANCH=dev
 	deploy  \
 	deploy-key  \
 	install  \
-	requirements  \
 	list-channels  \
 	list-hosts  \
 	list-logs  \
 	remove-channel \
 	remove-host  \
-	requirements  \
 	uninstall  \
 	usage
 
@@ -346,16 +344,6 @@ ${SSH_KEYFILE}:
 			||    printf "%s\n" $$'$(call ERROR,failed)'
 	@chmod -R u=rwx,go= "${SSH_DIR}"
 
-# Install packages required
-requirements:
-	@printf "Installing…\t%s\n" $$'$(call VALUE, Infrastructure\'s node)'
-	@aptUpdateExpiration=86400; \
-	lastAptUpdate=$$(stat -c '%Z' /var/cache/apt/pkgcache.bin); \
-	now=$$(date +%s); \
-	(( now - lastAptUpdate > aptUpdateExpiration )) && apt-get update || true
-	apt-get -y -q install ${DEPS_CORE_INFRA} ${DEPS_UTILS}
-
-
 # Check files permission
 check-privileges:
 	@printf "Checking…\t%s\n" $$'$(call VALUE,Privileges)'
@@ -435,13 +423,12 @@ usage:
 	@printf "Usage…\n"
 	@printf "\t%s: both commands require %s privilieges.\n" $$'$(call WARNING,warning)' $$'$(call VALUE,sudo)' 1>&2
 	@printf "\n"
-	@printf "\t%-50s%s %s\n" $$'$(call INFO,for install requirements)' $$'$(call WARNING,sudo)' $$'$(call VALUE,make requirements)'
 	@printf "\t%-50s%s %s\n" $$'$(call INFO,for full installation)' $$'$(call WARNING,sudo)' $$'$(call VALUE,make install)'
 
 doc:
 	screenshotDir="docs/screenshots"; \
 	[[ ! -d $$screenshotDir ]] && mkdir -p "$$screenshotDir" || true; \
-	taskList=( create-ssh-key deploy-key add-host:fail add-host add-channel:fail add-channel list-channels list-logs list-hosts remove-channel:fail remove-channel remove-host:fail remove-host requirements check-privileges check-system uninstall usage ); \
+	taskList=( create-ssh-key deploy-key add-host:fail add-host add-channel:fail add-channel list-channels list-logs list-hosts remove-channel:fail remove-channel remove-host:fail remove-host check-privileges check-system uninstall usage ); \
 	for task in "$${taskList[@]}"; do \
 		clear; unset fn; \
 		height=200; width=800; lineHeight=13; \
