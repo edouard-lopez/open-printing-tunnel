@@ -39,7 +39,7 @@ RUN groupadd -r ${DAEMON_USER} \
         --password "$$(mkpasswd "${REMOTE_INIT_PWD}")" \
         --create-home \
         --system ${DAEMON_USER} \
-        --comment "MAST user" \
+        --comment "MAST user"
 RUN adduser \
         --quiet \
         --disabled-password \
