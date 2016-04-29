@@ -27,8 +27,9 @@ Then extract them with `tar`
 tar xvzf $branch.tar.gz
 cd open-printing-tunnel-$branch
 ```
-![tar xvzf](docs/screenshots/installation-01-extract.png)
+![tar xvzf](../screenshots/installation-01-extract.png)
 
+![arrow](arrow.png)
 **N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch`
 
 ## Installing
