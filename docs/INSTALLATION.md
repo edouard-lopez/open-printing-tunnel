@@ -31,7 +31,7 @@ cd open-printing-tunnel-$branch
 
 **N.B.:**: a one-liner equivalent would be
 
-![arrow](../docs/screenshots/arrow.png) `branch=master; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch\daemon && sudo make install`
+![arrow](../docs/screenshots/arrow.png) `branch=master; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch/daemon && sudo make install`
 
 ## Installing
 
