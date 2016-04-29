@@ -17,7 +17,7 @@ branch=master
 Start by fetching sources from official repository and extract them on stable directory (_i.e._ your user's `$HOME`).
 
 ```bash
-https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
+wget https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
 ```
 ![wget](docs/screenshots/installation-00-fetch.png)
 
