@@ -7,7 +7,7 @@
 First we need to specify the branch we are working with
 ```bash
 # Development
-branch=dev 
+# branch=dev 
 # Stable
 branch=master
 ```
@@ -19,7 +19,7 @@ Start by fetching sources from official repository and extract them on stable di
 ```bash
 wget https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
 ```
-![wget](../../docs/screenshots/installation-00-fetch.png)
+![wget](../docs/screenshots/installation-00-fetch.png)
 
 #### Extract sources
 Then extract them with `tar`
@@ -29,8 +29,8 @@ cd open-printing-tunnel-$branch
 ```
 ![tar xvzf](../docs/screenshots/installation-01-extract.png)
 
-![arrow](arrow.png)
-**N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch`
+![arrow](../docs/screenshots/arrow.png)
+**N.B.:**: a one-liner equivalent would be `branch=master; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch`
 
 ## Installing
 
@@ -38,7 +38,7 @@ We will use the makefile script to install the service and related components:
 ```bash
 sudo make install
 ```
-![sudo make install](docs/screenshots/installation-02-make-install.png)
+![sudo make install](../docs/screenshots/installation-02-make-install.png)
 
 We can see two errors related to the web UI. If you want to use the web UI, you will have to refer to it's project. Otherwise, you can just ignore both errors.
 
