@@ -25,11 +25,11 @@ wget https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
 Then extract them with `tar`
 ```bash
 tar xvzf $branch.tar.gz
-cd mast-$branch
+cd open-printing-tunnel-$branch
 ```
 ![tar xvzf](docs/screenshots/installation-01-extract.png)
 
-**N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd mast-$branch`
+**N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch`
 
 ## Installing
 
