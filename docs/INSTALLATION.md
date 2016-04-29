@@ -1,4 +1,8 @@
-# Step by step Installation
+# DEPRECATED !
+
+
+
+## Step by step Installation
 
     sudo apt-get install docker git autossh openssh-client trickle trickle apache2 libapache2-mod-php5 sudo aha sshpass whois libc-bin bmon iftop htop
 
