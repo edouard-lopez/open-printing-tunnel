@@ -1,5 +1,7 @@
 # Step by step Installation
 
+    apt-get install docker git
+
 [TOC]
 
 First we need to specify the branch we are working with
