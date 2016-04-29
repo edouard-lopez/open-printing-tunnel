@@ -19,7 +19,7 @@ Start by fetching sources from official repository and extract them on stable di
 ```bash
 wget https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
 ```
-![wget](docs/screenshots/installation-00-fetch.png)
+![wget](../../docs/screenshots/installation-00-fetch.png)
 
 #### Extract sources
 Then extract them with `tar`
@@ -27,7 +27,7 @@ Then extract them with `tar`
 tar xvzf $branch.tar.gz
 cd open-printing-tunnel-$branch
 ```
-![tar xvzf](../screenshots/installation-01-extract.png)
+![tar xvzf](../docs/screenshots/installation-01-extract.png)
 
 ![arrow](arrow.png)
 **N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch`
