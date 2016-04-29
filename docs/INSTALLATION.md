@@ -17,7 +17,7 @@ branch=master
 Start by fetching sources from official repository and extract them on stable directory (_i.e._ your user's `$HOME`).
 
 ```bash
-wget https://github.com/edouard-lopez/mast/archive/$branch.tar.gz
+https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
 ```
 ![wget](docs/screenshots/installation-00-fetch.png)
 
@@ -29,7 +29,7 @@ cd mast-$branch
 ```
 ![tar xvzf](docs/screenshots/installation-01-extract.png)
 
-**N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/edouard-lopez/mast/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd mast-$branch`
+**N.B.:**: a one-liner equivalent would be `branch=dev; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd mast-$branch`
 
 ## Installing
 
