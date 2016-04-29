@@ -1,6 +1,6 @@
 # Step by step Installation
 
-    apt-get install docker git
+    sudo apt-get install docker git autossh openssh-client trickle trickle apache2 libapache2-mod-php5 sudo aha sshpass whois libc-bin bmon iftop htop
 
 [TOC]
 
