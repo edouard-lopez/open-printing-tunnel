@@ -1,6 +1,3 @@
 [submodule "webapp"]
 	path = webapp
 	url = git@github.com:Coaxis-ASP/webapp.git
-[submodule "tests/shebang_unit"]
-	path = tests/shebang_unit
-	url = git@github.com:arpinum/shebang_unit.git
