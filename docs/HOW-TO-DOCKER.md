@@ -25,7 +25,7 @@
 
 We are using a `docker-compose` to manage the various containers: 
 
-    cd coaxis-opt/  # project root directory
+    cd open-printing-tunnel-master/  # project root directory
     docker-compose build  # create the containers images 
     docker-compose up  # start project
     
