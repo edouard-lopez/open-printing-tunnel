@@ -12,6 +12,7 @@
     # sudo apt-get purge lxc-docker
     # sudo apt-cache policy docker-engine
     sudo apt-get install -y docker docker-engine
+    sudo usermod -aG docker coaxis
     sudo apt-get autoremove
     sudo wget https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` -O /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
