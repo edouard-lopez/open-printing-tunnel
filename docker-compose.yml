@@ -9,6 +9,8 @@ services:
     volumes:
       - ./webapp:/var/www/html/webapp
       - config:/etc/mast
+    extra_hosts:
+      - "mon-client.opt:127.0.0.1"
   opt-box:
       build: ./opt-box/
       ports:

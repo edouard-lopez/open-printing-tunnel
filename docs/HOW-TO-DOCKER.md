@@ -26,6 +26,13 @@ docker-compose --version
 
 ## Usage
 
+### Configure DNS
+
+You need to edit [docker-compose.yml](../docker-compose.yml) file to change the value of the [`extra_hosts`](https://docs.docker.com/compose/compose-file/#extra-hosts) directive. Only the domain name should change and target the local loop (e.g. `127.0.0.1`): 
+
+    extra_hosts:
+      - "mon-client.opt:127.0.0.1"
+
 ### Start OPT
 
 We are using a `docker-compose` to manage the various containers: 
