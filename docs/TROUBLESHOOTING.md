@@ -1,62 +1,13 @@
-# DEPRECATED !
+# Troubleshooting
 
-
-
-## Step by step Installation
-
-    sudo apt-get install docker git autossh openssh-client trickle trickle apache2 libapache2-mod-php5 sudo aha sshpass whois libc-bin bmon iftop htop
-
-[TOC]
-
-First we need to specify the branch we are working with
-```bash
-# Development
-# branch=dev 
-# Stable
-branch=master
-```
-### Fetching sources
-
-#### Download sources
-Start by fetching sources from official repository and extract them on stable directory (_i.e._ your user's `$HOME`).
-
-```bash
-wget https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz
-```
-![wget](../docs/screenshots/installation-00-fetch.png)
-
-#### Extract sources
-Then extract them with `tar`
-```bash
-tar xvzf $branch.tar.gz
-cd open-printing-tunnel-$branch
-```
-![tar xvzf](../docs/screenshots/installation-01-extract.png)
-
-**N.B.:**: a one-liner equivalent would be
-
-![arrow](../docs/screenshots/arrow.png) `branch=master; wget --output-document="mast.tar.gz" https://github.com/Coaxis-ASP/open-printing-tunnel/archive/$branch.tar.gz && tar xvzf mast.tar.gz && cd open-printing-tunnel-$branch/daemon && sudo make install`
-
-## Installing
-
-We will use the makefile script to install the service and related components:
-```bash
-sudo make install
-```
-![sudo make install](../docs/screenshots/installation-02-make-install.png)
-
-We can see two errors related to the web UI. If you want to use the web UI, you will have to refer to it's project. Otherwise, you can just ignore both errors.
-
-## Troubleshooting
-
-### Debug _Makefile_
+## Debug _Makefile_
 To enable debug mode with the makefile, run the command with the `-d` flag:
 
 ```bash
 sudo make -d install
 ```
 
-### Debug _init.d_ service
+## Debug _init.d_ service
 
 To debug the service you will need to export the `DEBUG` variable with a non-empty value and tell `sudo` to preserve environment with `-e` or `--preserve-env` option. So the exported variable is available to `sudo` context.
 
@@ -68,7 +19,7 @@ To debug the service you will need to export the `DEBUG` variable with a non-emp
 
  **N.B.:** using `-E` option may have some [security implications](https://stackoverflow.com/questions/8633461/how-to-keep-environment-variables-when-using-sudo#comment10726355_8636711), **never use it in production code!**
 
-### _perl: warning: Setting locale failed._
+## _perl: warning: Setting locale failed._
 
 If you got this perl related warning, the actual issue is with SSH and locale forwarding (see below).
 ```bash
@@ -90,7 +41,7 @@ perl: warning: Please check that your locale settings:
 perl: warning: Falling back to the standard locale ("C").
 ```
 
-#### Solution
+### Solution
 The solution is to modify the server configuration in order to refuse locale forwarding:
 
 > Stop accepting locale on the server. Do not accept the locale environment variable from your local machine to the server. 
@@ -103,7 +54,7 @@ The file _/etc/ssh/sshd_config_ should then look like:
 ```
 For more information refer to [Locale variables have no effect in remote shell (perl: warning: Setting locale failed.)](http://askubuntu.com/a/144448/22343).
 
-## Screenshots
+# Screenshots
 
 ```bash
 screenshotDir="$PWD/docs/screenshots"; height=200; width=675; lineHeight=13;

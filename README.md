@@ -68,6 +68,6 @@ Build on top of both the service and the utility toolbox
 
 ## Documentation
 
-* [installation](docs/INSTALLATION.md) ;
+* [Troubleshooting](docs/TROUBLESHOOTING.md) ;
 * [how to docker](docs/HOW-TO-DOCKER.md) ;
 * [daemon usage](docs/DAEMON.md) ;
