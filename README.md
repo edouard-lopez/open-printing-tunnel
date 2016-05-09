@@ -4,17 +4,6 @@
 
 [TOC]
 
-### Web Interface
-
-Dans un second temps il nous faudrait une interface web en 4 pages web:
-
-* liste des sites (basé sur les fichiers de conf) et leur état (en couleur) ;
-* ajout / suppression de site-tunnel ;
-* liste des imps par site (basé sur les fichiers de conf) ;
-* ajout / suppression d'imprimante par site-tunnel ;
-* la mise en forme et le style graphique pour ces pages sera réduite au minimum ;
-* le code sera ouvert et documenté. ;
-* l'ensemble devra être packagé pour une mise en place facile.
 
 ## Glossary
 
@@ -58,3 +47,7 @@ Build on top of both the service and the utility toolbox
 * [Troubleshooting](docs/TROUBLESHOOTING.md) ;
 * [how to docker](docs/HOW-TO-DOCKER.md) ;
 * [daemon usage](./daemon/) ;
+
+## Develop
+
+* [Setup Django Backend](backend/README.md)
