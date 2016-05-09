@@ -1,0 +1,45 @@
+[
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "admin-coaxis",
+        "permissions": [
+            4,
+            5,
+            6,
+            1,
+            2,
+            3,
+            10,
+            11,
+            12,
+            7,
+            8,
+            9,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+        "name": "admin-client",
+        "permissions": []
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+        "name": "utilisateur",
+        "permissions": []
+    }
+}
+]
