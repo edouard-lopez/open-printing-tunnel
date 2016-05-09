@@ -4,19 +4,6 @@
 
 [TOC]
 
-## Goals
-
-### Unix Service
-
-* monter les tunnel par `autossh` limité individuellement en bande passante par `trickle` ;
-* l'ensemble des tunnels `SSH` présent dans les fichiers de conf doivent tous monter au démarrage de la machine sans intervention humaine. ;
-* chaque tunnel sera indépendamment, maintenu et logué par le service ;
-* chaque tunnel doit pouvoir être monté ou arrêté manuellement ;
-* une liste et l'état des tunnel doit être consultable a la demande (service status) ;
-* les logs seront séparé par tunnel ;
-* le code sera ouvert et documenté. ;
-* l'ensemble devra être packagé pour une mise en place facile.
-
 ### Web Interface
 
 Dans un second temps il nous faudrait une interface web en 4 pages web:
@@ -70,4 +57,4 @@ Build on top of both the service and the utility toolbox
 
 * [Troubleshooting](docs/TROUBLESHOOTING.md) ;
 * [how to docker](docs/HOW-TO-DOCKER.md) ;
-* [daemon usage](docs/DAEMON.md) ;
+* [daemon usage](./daemon/) ;

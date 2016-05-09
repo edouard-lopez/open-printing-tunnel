@@ -1,8 +1,19 @@
+# OPT daemon
+
+## Features
+
+* monter les tunnel par `autossh` limité individuellement en bande passante par `trickle` ;
+* l'ensemble des tunnels `SSH` présent dans les fichiers de conf doivent tous monter au démarrage de la machine sans intervention humaine ;
+* chaque tunnel sera indépendamment, maintenu et logué par le service ;
+* chaque tunnel doit pouvoir être monté ou arrêté manuellement ;
+* une liste et l'état des tunnel doit être consultable a la demande (service status) ;
+* les logs seront séparé par tunnel ;
+* le code sera ouvert et documenté ;
+* l'ensemble devra être packagé pour une mise en place facile.
 
 ## Installation
 
 This is done during the docker container building process, if you want **more details refer to the [Dockerfile](Dockerfile)**.
-
 
 ## Toolbox's Tasks
 
