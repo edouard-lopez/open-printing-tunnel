@@ -1,9 +1,16 @@
-# MAST
+# OPT
 
-**MAST** is a project to setup a Linux service to mount __Multiple Auto-SSH Tunnels__
+**OPT** stands for _Open Printing Tunnel_ is  a solution to compress printing stream from TSE instance to a remote printer.
 
-[TOC]
+## Components
 
+* [backend](./backend) **(todo)**: let sysadmin manage daemon instance through a _REST_ API ;
+* [daemon](./daemon): core daemon to manage compression channels ;
+* frontend **(wip)**, revamp into `Python`/`Django` to :  
+    * let administrators or sysadmin manage printers and location (_add_, _remove_, _edit_, etc.) ;
+    * let users check printer status ;
+* proxy server **(todo)**: proxy request from customer's frontend to backend ;
+* opt-box: a mockup instance of OPT-box to simulate a remote node (only for development).  
 
 ## Glossary
 
@@ -27,7 +34,7 @@ Others required packages are _automatically installed_ by the `make requirements
 
 Except for _make_, all this dependencies can be [checked](./docs/DAEMON.md#check-system) and [installed](./docs/DAEMON.md#install-requirements) using the makefile, as described below.
 
-## Architecture design: Separation of Concerns
+## Architecture design
 
 ### Service
 
