@@ -1,3 +1,4 @@
+backend/config/config.ini
 resources/linux/
 *.coaxis.*
 ### VirtualEnv template
