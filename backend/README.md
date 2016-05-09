@@ -34,6 +34,10 @@
 * Create local database and apply migrations
 
         python3.5 ./manage.py migrate
+
+* Create a super-user:
+
+        python3.5 ./manage.py createsuperuser
         
 * Run development server:
 
