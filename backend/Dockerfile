@@ -6,10 +6,10 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     netcat \
     && rm -rf /var/lib/apt/lists/*
-ADD requirements.txt /backend/
+COPY requirements.txt /backend/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-ADD . /backend/
+COPY . /backend/
 
 COPY entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
