@@ -38,9 +38,14 @@
 * Create a super-user:
 
         python3.5 ./manage.py createsuperuser
-        
+
+* Run the tests:
+
+        python3.5 ./manage.py test
+
 * Run development server:
 
         python3.5 ./manage.py runserver
         
-* Open browser in http://127.0.0.1:8000/.
+* Open browser and reach either http://127.0.0.1:8000/api/ or http://127.0.0.1:8000/admin/ 
+ (as the `/` is managed by the [nginx](https://github.com/Coaxis-ASP/opt-nginx) and the [frontend](https://github.com/Coaxis-ASP/opt-frontend) components). 
