@@ -21,11 +21,11 @@
 * [Create a Python virtual environement](https://docs.python.org/3.5/library/venv.html#creating-virtual-environments) ;
 
         cd backend/
-        python3.5 -m venv .env
+        python3.5 -m venv env
     
 * [activate the virtual env](https://packaging.python.org/en/latest/installing/#creating-virtual-environments)
 
-        source .env/bin/activate
+        source env/bin/activate
         
 * install project's requirements:
     
