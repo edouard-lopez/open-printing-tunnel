@@ -1,9 +1,9 @@
-from api import models, serializers
-from api.permissions import IsOwner
-
 from django.contrib.auth import login, authenticate
 from rest_framework import status, permissions, viewsets
 from rest_framework.response import Response
+
+from api import models, serializers
+from api.permissions import IsAdmin
 
 
 class AuthViewSet(viewsets.ViewSet):
@@ -39,11 +39,17 @@ class AuthViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
-class EntryViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.EntrySerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwner,)
-    search_fields = ('site', 'email',)
-    ordering_fields = ('site', 'email', 'created')
+class CompanyViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.CompanySerializer
+    permission_classes = (permissions.IsAuthenticated, IsAdmin,)
 
     def get_queryset(self):
-        return models.Entry.objects.filter(user=self.request.user)
+        return models.Company.objects.all()
+
+
+class RemoteNodeViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.RemoteNodeSerializer
+    permission_classes = (permissions.IsAuthenticated, IsAdmin,)
+
+    def get_queryset(self):
+        return models.RemoteNode.objects.filter(company=self.request.user.company)
