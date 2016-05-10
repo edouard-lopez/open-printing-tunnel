@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -21,14 +20,21 @@ class OptUserManager(BaseUserManager):
     def create_superuser(self, email, password):
         user = self.create_user(email, password=password, )
         user.is_admin = True
+        user.is_technician = True
         user.save(using=self._db)
         return user
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Company\'s name', help_text='e.g. Coaxis SAS, Akema')
+
+
 class OptUser(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
+    company = models.ForeignKey(Company, null=True, on_delete=models.CASCADE, related_name='employees')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_technician = models.BooleanField(default=False)
 
     objects = OptUserManager()
 
@@ -63,3 +69,10 @@ class DateMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class RemoteNode(DateMixin):
+    """A remote node i.e. OPT-box"""
+    name = models.CharField(max_length=255, verbose_name='node\'s name', help_text='Headquarter office or a branch')
+    address = models.GenericIPAddressField(help_text='node IPv4 or IPv6 address')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='printers')

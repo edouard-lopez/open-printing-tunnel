@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from api import models
+
+admin.site.register(models.Company)
+admin.site.register(models.RemoteNode)
+admin.site.register(models.OptUser)
