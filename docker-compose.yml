@@ -15,6 +15,7 @@ services:
     build: ./backend
     volumes:
       - ./backend:/backend
+      - database:/backend/database
     ports:
       - "8000:8000"
     command: python manage.py runserver 0.0.0.0:8000
@@ -24,5 +25,6 @@ services:
         - "22:22"
 
 volumes:
+  database:
   config:
     driver: local
