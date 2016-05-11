@@ -11,6 +11,13 @@ services:
       - config:/etc/mast
     extra_hosts:
       - "mon-client.opt:127.0.0.1"
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
   opt-box:
       build: ./opt-box/
       ports:
