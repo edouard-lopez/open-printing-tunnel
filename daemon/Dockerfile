@@ -85,10 +85,10 @@ COPY mast /opt/mast/
 # Proxy
 RUN rm /etc/nginx/nginx.conf
 RUN rm /etc/nginx/mime.types
-COPY nginx/conf.d/nginx.conf /etc/nginx/nginx.conf
-COPY nginx/conf.d/mime.types /etc/nginx/mime.types
-COPY nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-COPY nginx/conf.d/backend.conf /etc/nginx/conf.d/backend.conf
+COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
+COPY proxy-web/mime.types /etc/nginx/mime.types
+COPY proxy-web/default.conf /etc/nginx/conf.d/default.conf
+COPY proxy-web/backend.conf /etc/nginx/conf.d/backend.conf
 
 
 RUN cd /opt/mast/ && make install
