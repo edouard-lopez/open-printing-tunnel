@@ -1,5 +1,5 @@
 FROM php:5.5-apache
-
+# todo: remove when UI ported to Python+JS
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
