@@ -1,16 +1,21 @@
 version: '2'
 services:
   daemon:
-    build: ./
+    build: ./daemon
     ports:
       - "80:80"
     links:
       - opt-box:opt-box
     volumes:
-      - ./webapp:/var/www/html/webapp
+#      - ./webapp:/var/www/html/webapp
       - config:/etc/mast
+    volumes_from:
+      - backend
     extra_hosts:
       - "mon-client.opt:127.0.0.1"
+    links:
+      - backend
+#      - frontend
   backend:
     build: ./backend
     volumes:
@@ -19,7 +24,9 @@ services:
     ports:
       - "8000:8000"
     command: python manage.py runserver 0.0.0.0:8000
-  opt-box:
+
+  # demo box
+  box:
       build: ./opt-box/
       ports:
         - "22:22"
