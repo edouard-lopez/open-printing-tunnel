@@ -18,7 +18,7 @@ module.exports = {
     resolveLoader: {root: path.join(__dirname, 'node_modules'),},
     module: {
         loaders: [
-            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+            {test: /\.js$/, loader: ['ng-annotate', 'babel-loader'], exclude: /node_modules/},
             {test: /\.html$/, loader: 'raw-loader'},
             {test: /\.css$/, loaders: ["style-loader", "css-loader"]},
             {test: /\.scss$/, loaders: ["style-loader", "css-loader", "sass-loader"]},
