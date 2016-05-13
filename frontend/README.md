@@ -1,4 +1,4 @@
-# lesspass
+# OPT
 
 open source password manager
 
