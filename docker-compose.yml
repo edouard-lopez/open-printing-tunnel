@@ -3,7 +3,7 @@ services:
   daemon:
     build: ./daemon
     ports:
-      - "80:80"
+      - "81:80"
     links:
       - opt-box:opt-box
     volumes:
@@ -15,15 +15,26 @@ services:
       - "mon-client.opt:127.0.0.1"
     links:
       - backend
-#      - frontend
   backend:
     build: ./backend
     volumes:
-      - ./backend:/backend
       - database:/backend/database
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+
+  frontend:
+    build: ./frontend
+    ports:
+     - "8080:8080"
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    links:
+      - backend
+      - frontend
 
   # demo box
   box:
@@ -34,4 +45,3 @@ services:
 volumes:
   database:
   config:
-    driver: local

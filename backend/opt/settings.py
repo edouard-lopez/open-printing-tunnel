@@ -147,4 +147,4 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
-AUTH_USER_MODEL = 'api.OptUser'
+AUTH_USER_MODEL = 'api.MyUser'

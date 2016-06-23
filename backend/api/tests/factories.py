@@ -12,7 +12,7 @@ class CompanyFactory(factory.DjangoModelFactory):
 
 class UserFactory(factory.DjangoModelFactory):
     class Meta:
-        model = models.OptUser
+        model = models.MyUser
 
     email = factory.Sequence(lambda n: 'u{0}@coaxis.com'.format(n))
     password = factory.PostGenerationMethodCall('set_password', 'password')
@@ -22,7 +22,7 @@ class UserFactory(factory.DjangoModelFactory):
 
 class TechnicianFactory(factory.DjangoModelFactory):
     class Meta:
-        model = models.OptUser
+        model = models.MyUser
 
     email = factory.Sequence(lambda n: 'u{0}@coaxis.com'.format(n))
     password = factory.PostGenerationMethodCall('set_password', 'password')

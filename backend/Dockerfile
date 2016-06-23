@@ -1,11 +1,10 @@
-FROM python:3.5
+FROM python:3.5-alpine
 
 RUN mkdir /backend
 WORKDIR /backend
-RUN apt-get update && apt-get install -y \
-    supervisor \
-    netcat \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk upgrade && apk add \
+    bash \
+    supervisor
 COPY requirements.txt /backend/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt

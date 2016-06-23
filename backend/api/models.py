@@ -1,10 +1,11 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
 
-class OptUserManager(BaseUserManager):
+class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
             raise ValueError('Users must have an email address')
@@ -20,23 +21,18 @@ class OptUserManager(BaseUserManager):
     def create_superuser(self, email, password):
         user = self.create_user(email, password=password, )
         user.is_admin = True
-        user.is_technician = True
         user.save(using=self._db)
         return user
 
 
-class Company(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Company\'s name', help_text='e.g. Coaxis SAS, Akema')
-
-
-class OptUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser):
+    first_name = models.CharField(verbose_name='first name', max_length=30, blank=True)
+    last_name = models.CharField(verbose_name='last name', max_length=30, blank=True)
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
-    company = models.ForeignKey(Company, null=True, on_delete=models.CASCADE, related_name='employees')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_technician = models.BooleanField(default=False)
 
-    objects = OptUserManager()
+    objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
 
@@ -70,6 +66,17 @@ class DateMixin(models.Model):
     class Meta:
         abstract = True
 
+
+class Employee(DateMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    is_technician = models.BooleanField(default=False)
+
+
+class Company(DateMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255, unique=True)
+    employees = models.ManyToManyField(Employee)
 
 class RemoteNode(DateMixin):
     """A remote node i.e. OPT-box"""

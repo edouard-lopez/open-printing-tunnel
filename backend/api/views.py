@@ -44,6 +44,11 @@ class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, IsAdmin,)
 
     def get_queryset(self):
+        from docker import Client
+        cli = Client(base_url='unix://var/run/docker.sock')
+        # print(cli.containers())
+        for container in cli.containers():
+            print(container['Image'])
         return models.Company.objects.all()
 
 
@@ -52,4 +57,5 @@ class RemoteNodeViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, IsAdmin,)
 
     def get_queryset(self):
-        return models.RemoteNode.objects.filter(company=self.request.user.company)
+        # return models.RemoteNode.objects.filter(company=self.request.user.company)
+        return models.RemoteNode.objects.all()
