@@ -11,8 +11,6 @@ services:
     restart: always
   nginx:
     restart: always
-    volumes_from:
-      - backend
 volumes:
   backend:
   frontend:
