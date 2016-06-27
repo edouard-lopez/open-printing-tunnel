@@ -1,4 +1,12 @@
 <style>
+    #landing-page  {
+        height: 100vh;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        flex-flow: column;
+    }
+
     #login-bar {
         background-color: #424242;
         height: 38px;
@@ -15,29 +23,25 @@
         line-height: 38px;
     }
 
-    #navbar {
-        background-color: white;
-        border-bottom: 1px solid #e8e8e8;
-        margin: 0;
+    #content {
+        flex: 1 1 auto;
+        text-align: center;
     }
-
-    #navbar #navbar__logo {
-        height: 36px;
+    #content h1 {
+        text-shadow: 2px 2px 0px #fff;
+        margin-top: 10%;
     }
-
-    #navbar .navbar {
-        padding: 1em 0;
+    #content img {
+        margin: 0 auto;
     }
 
     #footer {
-        background-color: #424242;
-        color: #F5F5F5;
-        font-size: 0.8em;
+        color: #424242;
     }
-
     #footer a {
         color: inherit;
     }
+
 </style>
 <template>
     <div id="landing-page">
@@ -45,31 +49,26 @@
             <div class="container">
                 <nav class="nav nav-inline pull-xs-right">
                     <a class="nav-link bg-primary" v-link="{ path: '/app/' }">
-                        {{ $t('index.LOGIN') }}
+                        {{ $t('index.login') }}
                     </a>
                     <a class="nav-link" v-link="{ path: '/register/' }">
-                        {{ $t('index.REGISTER') }}
+                        {{ $t('index.register') }}
                     </a>
                 </nav>
             </div>
         </div>
-        <div id="navbar">
+        <main id="content">
             <div class="container">
-                <nav class="navbar">
-                    <ul class="nav navbar-nav">
-                        <li class="nav-item">
-                            OPT
-                        </li>
-                    </ul>
-                </nav>
+                <h1>{{ $t('name') }}</h1>
+                <img src="/src/app/images/coaxis-logo.png" width="100" height="100">
             </div>
-        </div>
+        </main>
         <div id="footer">
             <div class="container p-t-1">
                 <div class="row">
                     <div class="col-lg-12 text-xs-center">
                         <p>
-                            &copy;
+                            &copy; <a href="http://coaxis-asp.fr/">Coaxis ASP</a>.
                         </p>
                     </div>
                 </div>

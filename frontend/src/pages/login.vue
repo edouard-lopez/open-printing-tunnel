@@ -3,9 +3,7 @@
         <div class="col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
             <div class="card card-block m-y-2">
                 <form v-on:submit.prevent="login" name="loginForm">
-                    <fieldset class="form-group">
-                        {{ $t('name') }}
-                    </fieldset>
+                    <h4>{{ $t('name') }}</h4>
                     <fieldset class="form-group">
                         <p class="text-muted">
                             {{{ $t('login.LogInInfo') }}}

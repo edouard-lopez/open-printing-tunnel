@@ -1,17 +1,17 @@
 const locales = {
-  en: {lang: 'en', name: 'Merci'},
-  fr: {lang: 'fr', name: 'Merci'}
+  en: {lang: 'en', name: 'Open Printing Tunnels'},
+  fr: {lang: 'fr', name: 'Open Printing Tunnels'}
 };
 
 locales.en.index = {
-  LOGIN: 'LOGIN',
-  REGISTER: 'REGISTER',
+  login: 'login',
+  register: 'register',
   title: 'Take your passwords with you',
   subtitle: 'Stop wasting time synchronize your encrypted vault. Remember one master password to access your passwords, anywhere, anytime. No sync needed.'
 };
 locales.fr.index = {
-  LOGIN: 'CONNEXION',
-  REGISTER: 'INSCRIPTION',
+  login: 'CONNEXION',
+  register: 'INSCRIPTION',
   title: 'Emmenez tous vos mots de passe avec vous',
   subtitle: 'Arrêtez de perdre du temps à synchroniser vos coffres-forts chiffrés. Mémorisez un mot de passe fort pour retrouver tous vos mots de passe, partout, à tout moment. Pas besoin de synchronisation.'
 };
