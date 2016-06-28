@@ -7,9 +7,19 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
 
+
 class RemoteNodeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(read_only=True)
 
     class Meta:
         model = models.RemoteNode
         read_only_fields = ('company ', 'created', 'modified')
+
+
+class MastContainerSerializer(serializers.ModelSerializer):
+    # company = CompanySerializer(read_only=True)
+
+    class Meta:
+        model = models.MastContainer
+        fields = ('id', 'config', 'company')
+        read_only_fields = ('config', 'company',)

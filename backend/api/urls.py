@@ -3,10 +3,14 @@ from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 
 from api import views
+from django.contrib import admin
+
+# admin.autodiscover()
 
 router = DefaultRouter()
 router.register(r'remote-nodes', views.RemoteNodeViewSet, base_name='remote-nodes')
 router.register(r'companies', views.CompanyViewSet, base_name='companies')
+router.register(r'mast-containers', views.MastContainerViewSet, base_name='mast-containers')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

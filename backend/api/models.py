@@ -83,3 +83,9 @@ class RemoteNode(DateMixin):
     name = models.CharField(max_length=255, verbose_name='node\'s name', help_text='Headquarter office or a branch')
     address = models.GenericIPAddressField(help_text='node IPv4 or IPv6 address')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='printers')
+
+class MastContainer(DateMixin):
+    """MAST (Multi Auto-SSH Tunnel daemon docker"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='mast_containers')
+    config = models.TextField(verbose_name='container system config', help_text='Detailled information about container')
