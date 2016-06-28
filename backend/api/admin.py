@@ -63,12 +63,15 @@ class MyUserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-class EntryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user',)
-    search_fields = ('user__email',)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+    ordering = ('name',)
+
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'is_technician',)
     ordering = ('user',)
 
 
 admin.site.register(MyUser, MyUserAdmin)
-admin.site.unregister(Group)
-admin.site.register(models.RemoteNode)
+admin.site.register(models.Company, CompanyAdmin)
+admin.site.register(models.Employee, EmployeeAdmin)

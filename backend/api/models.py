@@ -76,7 +76,7 @@ class Employee(DateMixin):
 class Company(DateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    employees = models.ManyToManyField(Employee)
+    employees = models.ManyToManyField(Employee, blank=True)
 
 class RemoteNode(DateMixin):
     """A remote node i.e. OPT-box"""
