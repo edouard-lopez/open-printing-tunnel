@@ -13,7 +13,7 @@ class LogoutApiTestCase(APITestCase):
 class LoggedinStaffApiTestCase(APITestCase):
     def setUp(self):
         self.company = factories.CompanyFactory(name='Akema')
-        self.user = factories.UserFactory()
+        self.user = factories.UserFactory(company=self.company)
         self.technician = factories.TechnicianFactory(user=self.user)
 
         self.client = APIClient()
@@ -24,7 +24,7 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.assertEqual(len(request.data['results']), 0)
 
     def test_retrieve_its_own_remote_nodes(self):
-        remote_node = factories.RemoteNodeFactory(company=self.technician.company)
+        remote_node = factories.RemoteNodeFactory(company=self.technician.user.company)
         request = self.client.get('/api/remote-nodes/')
         self.assertEqual(len(request.data['results']), 1)
         self.assertEqual(request.data['results'][0]['name'], remote_node.name)
@@ -35,7 +35,7 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.assertEqual(request.status_code, 404)
 
     def test_delete_its_own_remote_nodes(self):
-        remote_node = factories.RemoteNodeFactory(company=self.technician.company)
+        remote_node = factories.RemoteNodeFactory(company=self.technician.user.company)
         self.assertEqual(models.RemoteNode.objects.all().count(), 1)
         request = self.client.delete('/api/remote-nodes/%s/' % remote_node.id)
         self.assertEqual(request.status_code, 204)
@@ -51,7 +51,7 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.assertEqual(models.RemoteNode.objects.all().count(), 1)
 
     def test_update_remote_node(self):
-        remote_node = factories.RemoteNodeFactory(company=self.technician.company)
+        remote_node = factories.RemoteNodeFactory(company=self.technician.user.company)
         self.assertNotEqual(remote_node.name, 'akema')
         new_remote_node = {
             "name": "akema",
