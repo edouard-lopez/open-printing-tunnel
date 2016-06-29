@@ -6,7 +6,7 @@ from rest_framework import status, permissions, viewsets
 from rest_framework.response import Response
 from docker import Client
 
-from api import models, serializers
+from api import models, serializers, services
 from api.permissions import IsAdmin
 
 docker_api = Client(base_url='unix://var/run/docker.sock')
@@ -76,6 +76,7 @@ class MastContainerViewSet(viewsets.ModelViewSet):
             container.append({'config': docker_api.containers(id=container['Id'])})
             containers.append(container)
         print(containers)
+        services.get_employee(request.user)
         return Response(containers)
 
     def post(self, request, pk=None):
