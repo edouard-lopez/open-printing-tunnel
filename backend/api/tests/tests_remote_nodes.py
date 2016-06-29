@@ -13,9 +13,11 @@ class LogoutApiTestCase(APITestCase):
 class LoggedinStaffApiTestCase(APITestCase):
     def setUp(self):
         self.company = factories.CompanyFactory(name='Akema')
-        self.technician = factories.TechnicianFactory(company=self.company)
+        self.user = factories.UserFactory()
+        self.technician = factories.TechnicianFactory(user=self.user)
+
         self.client = APIClient()
-        self.client.force_authenticate(user=self.technician)
+        self.client.force_authenticate(user=self.user)
 
     def test_get_empty_remote_nodes(self):
         request = self.client.get('/api/remote-nodes/')
