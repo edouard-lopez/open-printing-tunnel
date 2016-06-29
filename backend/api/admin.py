@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
+from django.utils import html
 
 from api import models
 from api.models import MyUser
@@ -68,8 +69,12 @@ class CompanyAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'is_technician',)
+    list_display = ('id', 'user', 'is_technician', '_company')
     ordering = ('user',)
+
+    def _company(self, instance):
+        return ",".join([company.name for company in instance.company_set.all()])
+
 
 class MastContainerAdmin(admin.ModelAdmin):
     list_display = ('id', 'description', 'company',)
