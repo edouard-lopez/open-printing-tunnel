@@ -1,8 +1,9 @@
 import uuid
-from django.db import models
+
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.db import models
 
 
 class MyUserManager(BaseUserManager):
@@ -81,15 +82,20 @@ class Company(DateMixin):
     name = models.CharField(max_length=255, unique=True)
     employees = models.ManyToManyField(Employee, blank=True)
 
+
 class RemoteNode(DateMixin):
     """A remote node i.e. OPT-box"""
     name = models.CharField(max_length=255, verbose_name='node\'s name', help_text='Headquarter office or a branch')
     address = models.GenericIPAddressField(help_text='node IPv4 or IPv6 address')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='printers')
 
+
 class MastContainer(DateMixin):
+
     """MAST (Multi Auto-SSH Tunnel daemon docker"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     description = models.TextField(blank=True, verbose_name='site location', help_text='Headquarter office or a branch')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='mast_containers')
-    config = models.TextField(verbose_name='container system config', help_text='Detailled information about container')
+    container_id = models.TextField(verbose_name='container system config',
+                                    help_text='Detailled information about container')
+

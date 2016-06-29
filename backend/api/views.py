@@ -1,15 +1,16 @@
-import json
-import uuid
-
+import docker
+from django import dispatch
 from django.contrib.auth import login, authenticate
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from rest_framework import status, permissions, viewsets
 from rest_framework.response import Response
-from docker import Client
 
-from api import models, serializers, services
+from api import models, serializers, services, container_services
+from api.models import MastContainer
 from api.permissions import IsAdmin
 
-docker_api = Client(base_url='unix://var/run/docker.sock')
+docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 
 
 class AuthViewSet(viewsets.ViewSet):
@@ -58,7 +59,6 @@ class RemoteNodeViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, IsAdmin,)
 
     def get_queryset(self):
-        # print(cli.containers())
         for container in docker_api.containers():
             print(container['Image'])
         return models.RemoteNode.objects.filter(company=self.request.user.company)
@@ -69,36 +69,30 @@ class MastContainerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.MastContainerSerializer
     permission_classes = (permissions.AllowAny,)
 
-    def list(self, request, *args, **kwargs):
-        containers = []
-        for container in self.queryset:
-            container.append({'config': docker_api.containers(id=container['Id'])})
-            containers.append(container)
-        print(containers)
-        services.get_employee(request.user)
-        return Response(containers)
+    # def get_queryset(self):
+    #     return self.queryset
 
-    def post(self, request, pk=None):
-        image_name = 'busybox:latest'
-        docker_api.pull(image_name)
-        container = docker_api.create_container(
-            image=image_name,
-            name='mast_{}'.format(uuid.uuid4()),
-            command='tail -f /dev/null'
-        )
-        container_id = container.get('Id')
-        docker_api.start(container=container_id)
-        print(container)
+    def create(self, request, *args, **kwargs):
+        container = container_services.pop_new_container()
+        user = services.get_employee(request.user)
 
-        container_obj = models.MastContainer.objects.create(
-            id=container_id,
-            config=json.dumps(container),
-            company=None
-        )
+        container_obj = container_services.save_infos({
+            'user': user,
+            'container': container,
+            'description': request.data.get('description')
+        })
+
         if container_obj:
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id=None):
-        print(docker_api.containers(id=id))
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    container_destroyed = dispatch.Signal(providing_args=[])
+    def perform_destroy(self, instance):
+        self.container_destroyed.send(sender=self.__class__)
+        # container_services.destroy(instance.container_id)
+        # instance.delete()
+
+    @receiver(post_delete, sender=MastContainer)
+    def destroy_container(sender, **kwargs):
+        print('signal received!')
+        # container_services.destroy(instance.container_id)

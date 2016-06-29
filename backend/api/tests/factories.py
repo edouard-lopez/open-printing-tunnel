@@ -18,25 +18,31 @@ class UserFactory(factory.DjangoModelFactory):
     password = factory.PostGenerationMethodCall('set_password', 'password')
     is_staff = False
 
-    @factory.post_generation
-    def company(self, create, company, **kwargs):
-        if not create:  # Simple build, do nothing.
-            return
-
-        if company:  # A list of groups were passed in, use them
-            self.company = company
 
 class EmployeeFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Employee
+
     user = factory.SubFactory(UserFactory)
     is_technician = False
+
+    @factory.post_generation
+    def company_set(self, create, extracted, **kwargs):
+        if not create:  # Simple build, do nothing.
+            return
+
+        if extracted:  # A list of objects were passed in, use them
+            for company in extracted:
+                self.company_set.add(company)
+
 
 class TechnicianFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Employee
+
     user = factory.SubFactory(UserFactory)
     is_technician = True
+
 
 class RemoteNodeFactory(factory.DjangoModelFactory):
     class Meta:
