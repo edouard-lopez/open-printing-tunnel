@@ -71,7 +71,12 @@ class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'is_technician',)
     ordering = ('user',)
 
+class MastContainerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'description', 'company',)
+    ordering = ('company',)
+
 
 admin.site.register(MyUser, MyUserAdmin)
 admin.site.register(models.Company, CompanyAdmin)
 admin.site.register(models.Employee, EmployeeAdmin)
+admin.site.register(models.MastContainer, MastContainerAdmin)
