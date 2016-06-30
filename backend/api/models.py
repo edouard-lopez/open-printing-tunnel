@@ -82,6 +82,8 @@ class Company(DateMixin):
     name = models.CharField(max_length=255, unique=True)
     employees = models.ManyToManyField(Employee, blank=True, related_name='companies')
 
+    def __str__(self):
+        return self.name
 
 
 class RemoteNode(DateMixin):

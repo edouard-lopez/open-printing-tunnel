@@ -2,10 +2,11 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.contrib.auth.models import Group
-from django.utils import html
+from django.core.exceptions import FieldDoesNotExist
 
+import api
 from api import models
+from api.forms import CompanyForm
 from api.models import MyUser
 
 
@@ -68,9 +69,24 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name',)
     ordering = ('name',)
 
+    def to_field_allowed(self, request, to_field):
+        rv = super(CompanyAdmin, self).to_field_allowed(request, to_field)
+        if not rv:
+            opts = self.model._meta
+            try:
+                return opts.get_field(to_field) == opts.pk and len(opts.many_to_many)
+            except FieldDoesNotExist:
+                return False
+        return rv
+
+
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'is_technician', '_company')
     ordering = ('user',)
+    form = api.forms.CompanyForm
+    fieldsets = (
+        (None, {'fields': ('user', 'is_technician', 'companies')}),
+    )
 
     def _company(self, instance):
         return ",".join([company.name for company in instance.companies.all()])
