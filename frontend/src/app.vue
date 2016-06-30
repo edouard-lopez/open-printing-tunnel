@@ -23,19 +23,19 @@
 
 	.white-link {
 		color: #ffffff;
-		text-decoration:underline;
+		text-decoration: underline;
 
 	}
 
 	.white-link:hover {
 		color: #ffffff;
-		text-decoration:none;
+		text-decoration: none;
 
 	}
 
 	.app {
 		height: 100%;
-		display:flex;
+		display: flex;
 
 	}
 
@@ -51,14 +51,12 @@
 
 	}
 
-	@media (min-width: 48em)
+	@media (min-width: 48em) {
+		.content {
+			padding-top: 1em;
+			padding-left: 64px;
 
-	{
-	.content {
-		padding-top: 1em;
-		padding-left: 64px;
-
-	}
+		}
 	}
 </style>
 <template>
