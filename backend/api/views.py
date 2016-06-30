@@ -61,7 +61,7 @@ class RemoteNodeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         for container in docker_api.containers():
             print(container['Image'])
-        return models.RemoteNode.objects.filter(company=self.request.user.company)
+        return models.RemoteNode.objects.filter(company__in=self.request.user.employee.company_set.all())
 
 
 class MastContainerViewSet(viewsets.ModelViewSet):

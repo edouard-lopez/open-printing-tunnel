@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase, APIClient
 
-from api import models
+from api import models, services
 from api.tests import factories
 
 
@@ -13,8 +13,10 @@ class LogoutApiTestCase(APITestCase):
 class LoggedinStaffApiTestCase(APITestCase):
     def setUp(self):
         self.company = factories.CompanyFactory(name='Akema')
-        self.user = factories.UserFactory(company=self.company)
-        self.technician = factories.TechnicianFactory(user=self.user)
+        self.other_company = factories.CompanyFactory(name='otherCompany')
+
+        self.user = factories.UserFactory()
+        self.technician = factories.TechnicianFactory(user=self.user,company_set=[self.company])
 
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -24,25 +26,25 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.assertEqual(len(request.data['results']), 0)
 
     def test_retrieve_its_own_remote_nodes(self):
-        remote_node = factories.RemoteNodeFactory(company=self.technician.user.company)
+        remote_node = factories.RemoteNodeFactory(company=services.get_company(self.technician))
         request = self.client.get('/api/remote-nodes/')
         self.assertEqual(len(request.data['results']), 1)
         self.assertEqual(request.data['results'][0]['name'], remote_node.name)
 
     def test_cannot_retrieve_other_remote_nodes(self):
-        not_my_remote_node = factories.RemoteNodeFactory(company=factories.CompanyFactory(name='otherCompany'))
+        not_my_remote_node = factories.RemoteNodeFactory(company=self.other_company)
         request = self.client.get('/api/remote-nodes/%s/' % not_my_remote_node.id)
         self.assertEqual(request.status_code, 404)
 
     def test_delete_its_own_remote_nodes(self):
-        remote_node = factories.RemoteNodeFactory(company=self.technician.user.company)
+        remote_node = factories.RemoteNodeFactory(company=services.get_company(self.technician))
         self.assertEqual(models.RemoteNode.objects.all().count(), 1)
         request = self.client.delete('/api/remote-nodes/%s/' % remote_node.id)
         self.assertEqual(request.status_code, 204)
         self.assertEqual(models.RemoteNode.objects.all().count(), 0)
 
     def test_cannot_delete_other_remote_node(self):
-        not_my_remote_node = factories.RemoteNodeFactory(company=factories.CompanyFactory(name='otherCompany'))
+        not_my_remote_node = factories.RemoteNodeFactory(company=self.other_company)
         self.assertNotEqual(not_my_remote_node.company.name, 'Akema')
         self.assertEqual(models.RemoteNode.objects.all().count(), 1)
 
@@ -51,7 +53,7 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.assertEqual(models.RemoteNode.objects.all().count(), 1)
 
     def test_update_remote_node(self):
-        remote_node = factories.RemoteNodeFactory(company=self.technician.user.company)
+        remote_node = factories.RemoteNodeFactory(company=services.get_company(self.technician))
         self.assertNotEqual(remote_node.name, 'akema')
         new_remote_node = {
             "name": "akema",
@@ -64,7 +66,7 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.assertEqual(remote_node_updated.address, '1.2.3.4')
 
     def test_cannot_update_other_remote_node(self):
-        not_my_remote_node = factories.RemoteNodeFactory(company=factories.CompanyFactory(name='otherCompany'))
+        not_my_remote_node = factories.RemoteNodeFactory(company=self.other_company)
         self.assertNotEqual(not_my_remote_node.company.name, 'Akema')
         self.assertEqual(not_my_remote_node.name, 'open-space')
         new_remote_node = {
