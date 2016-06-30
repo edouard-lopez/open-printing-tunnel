@@ -70,6 +70,7 @@ class CompanyAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
     def to_field_allowed(self, request, to_field):
+        """see: https://www.lasolution.be/blog/related-manytomanyfield-django-admin-site-continued.html"""
         rv = super(CompanyAdmin, self).to_field_allowed(request, to_field)
         if not rv:
             opts = self.model._meta
@@ -81,9 +82,10 @@ class CompanyAdmin(admin.ModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
+    form = api.forms.CompanyForm  # https://www.lasolution.be/blog/related-manytomanyfield-django-admin-site.html
+
     list_display = ('id', 'user', 'is_technician', '_company')
     ordering = ('user',)
-    form = api.forms.CompanyForm
     fieldsets = (
         (None, {'fields': ('user', 'is_technician', 'companies')}),
     )
