@@ -21,5 +21,5 @@ class MastContainerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.MastContainer
-        fields = ('id', 'description', 'company', 'config')
-        read_only_fields = ('company', 'config')
+        fields = ('id', 'description', 'company', 'container_id')
+        read_only_fields = ('company', 'container_id')

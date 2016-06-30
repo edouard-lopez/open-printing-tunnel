@@ -29,7 +29,7 @@ def save_infos(data):
     description = data.get('description')
 
     container_obj = models.MastContainer.objects.create(
-        config=container.get('Id'),
+        container_id=container.get('Id'),
         company=company,
         description=description
     )
