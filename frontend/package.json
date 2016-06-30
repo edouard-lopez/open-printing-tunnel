@@ -48,14 +48,26 @@
   },
   "xo": {
     "esnext": true,
-    "space": true,
     "envs": [
       "browser"
     ],
+    "rules": {
+      "import/newline-after-import": 0
+    },
     "ignores": [
       "webpack.config.js",
       "server.js",
       "test/_helpers.js"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "test/**/*.js"
+        ],
+        "rules": {
+          "max-lines": 0
+        }
+      }
     ]
   },
   "babel": {
