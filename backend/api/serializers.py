@@ -1,6 +1,9 @@
-from rest_framework import serializers
+import json
 
-from api import models
+from rest_framework import serializers
+from rest_framework.renderers import JSONRenderer
+
+from api import models, container_services
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -17,9 +20,9 @@ class RemoteNodeSerializer(serializers.ModelSerializer):
 
 
 class MastContainerSerializer(serializers.ModelSerializer):
-    # company = CompanySerializer(read_only=True)
+    infos = serializers.ReadOnlyField()
 
     class Meta:
         model = models.MastContainer
-        fields = ('id', 'description', 'company', 'container_id')
-        read_only_fields = ('company', 'container_id')
+        fields = ('id', 'description', 'company', 'container_id', 'infos',)
+        read_only_fields = ('company', 'container_id', 'infos',)

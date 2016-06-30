@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
+from api import container_services
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -94,7 +96,6 @@ class RemoteNode(DateMixin):
 
 
 class MastContainer(DateMixin):
-
     """MAST (Multi Auto-SSH Tunnel daemon docker"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     description = models.TextField(blank=True, verbose_name='site location', help_text='Headquarter office or a branch')
@@ -102,3 +103,9 @@ class MastContainer(DateMixin):
     container_id = models.TextField(verbose_name='container system config',
                                     help_text='Detailled information about container')
 
+    def infos(self):
+        import docker
+        docker_api = docker.Client(base_url='unix://var/run/docker.sock')
+        container_data = docker_api.inspect_container(self.container_id)
+
+        return container_services.get_container_dict(container_data)

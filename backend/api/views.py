@@ -1,16 +1,15 @@
+import logging
+
 import docker
-from django import dispatch
 from django.contrib.auth import login, authenticate
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
 from rest_framework import status, permissions, viewsets
 from rest_framework.response import Response
 
 from api import models, serializers, services, container_services
-from api.models import MastContainer
 from api.permissions import IsAdmin
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
+logger = logging.getLogger(__name__)
 
 
 class AuthViewSet(viewsets.ViewSet):
@@ -69,9 +68,6 @@ class MastContainerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.MastContainerSerializer
     permission_classes = (permissions.AllowAny,)
 
-    # def get_queryset(self):
-    #     return self.queryset
-
     def create(self, request, *args, **kwargs):
         container = container_services.pop_new_container()
         user = services.get_employee(request.user)
@@ -86,13 +82,6 @@ class MastContainerViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    container_destroyed = dispatch.Signal(providing_args=[])
     def perform_destroy(self, instance):
-        self.container_destroyed.send(sender=self.__class__)
-        # container_services.destroy(instance.container_id)
-        # instance.delete()
-
-    @receiver(post_delete, sender=MastContainer)
-    def destroy_container(sender, **kwargs):
-        print('signal received!')
-        # container_services.destroy(instance.container_id)
+        container_services.destroy(instance.container_id)
+        instance.delete()
