@@ -10,7 +10,7 @@ export default {
 	},
 	create(container) {
 		const config = this.getRequestConfig();
-		return axios.post('/api/mast-containers/', container, config)
+		return axios.post('/api/containers/', container, config)
 			.then(response => {
 				return response.data;
 			});
@@ -23,28 +23,28 @@ export default {
 			search,
 			ordering
 		};
-		return axios.get('/api/mast-containers/', config)
+		return axios.get('/api/containers/', config)
 			.then(response => {
 				return response;
 			});
 	},
 	get(uuid) {
 		const config = this.getRequestConfig();
-		return axios.get(`/api/mast-containers/${uuid}/`, config)
+		return axios.get(`/api/containers/${uuid}/`, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	update(container) {
 		const config = this.getRequestConfig();
-		return axios.put(`/api/mast-containers/${container.id}/`, container, config)
+		return axios.put(`/api/containers/${container.id}/`, container, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	delete(container) {
 		const config = this.getRequestConfig();
-		return axios.delete(`/api/mast-containers/${container.id}/`, config)
+		return axios.delete(`/api/containers/${container.id}/`, config)
 			.then(response => {
 				return response.data;
 			});
