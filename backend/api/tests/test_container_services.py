@@ -9,7 +9,7 @@ class ContainersTestCase(APITestCase):
     def setUp(self):
         self.docker_api = docker.Client(base_url='unix://var/run/docker.sock')
         self.company = factories.CompanyFactory(name='Akema')
-        self.employee = factories.EmployeeFactory(company_set=[self.company])
+        self.employee = factories.EmployeeFactory(companies=[self.company])
 
     # see: test_pop_new_container()
     #  def tearDown(self):
@@ -30,7 +30,7 @@ class ContainersTestCase(APITestCase):
         self.assertEqual(len(containers), 1)
 
     def test_can_destroy_container(self):
-        self.skipTest()
+        self.skipTest('not implemented')
 
     # is it really helpful?
     # def test_pop_new_container(self):

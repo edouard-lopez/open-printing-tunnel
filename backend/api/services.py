@@ -9,4 +9,4 @@ def get_employee(user):
     return shortcuts.get_object_or_404(models.Employee, pk=user.employee.id)
 
 def get_company(user):
-    return user.company_set.first()
+    return user.companies.first()

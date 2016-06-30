@@ -27,13 +27,13 @@ class EmployeeFactory(factory.DjangoModelFactory):
     is_technician = False
 
     @factory.post_generation
-    def company_set(self, create, extracted, **kwargs):
+    def companies(self, create, extracted, **kwargs):
         if not create:  # Simple build, do nothing.
             return
 
         if extracted:  # A list of objects were passed in, use them
             for company in extracted:
-                self.company_set.add(company)
+                self.companies.add(company)
 
 
 class TechnicianFactory(EmployeeFactory):
@@ -44,13 +44,13 @@ class TechnicianFactory(EmployeeFactory):
     is_technician = True
     #
     # @factory.post_generation
-    # def company_set(self, create, extracted, **kwargs):
+    # def companies(self, create, extracted, **kwargs):
     #     if not create:  # Simple build, do nothing.
     #         return
     #
     #     if extracted:  # A list of objects were passed in, use them
     #         for company in extracted:
-    #             self.company_set.add(company)
+    #             self.companies.add(company)
 
 class RemoteNodeFactory(factory.DjangoModelFactory):
     class Meta:

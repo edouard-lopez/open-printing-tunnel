@@ -16,7 +16,7 @@ class LoggedinStaffApiTestCase(APITestCase):
         self.other_company = factories.CompanyFactory(name='otherCompany')
 
         self.user = factories.UserFactory()
-        self.technician = factories.TechnicianFactory(user=self.user,company_set=[self.company])
+        self.technician = factories.TechnicianFactory(user=self.user,companies=[self.company])
 
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)

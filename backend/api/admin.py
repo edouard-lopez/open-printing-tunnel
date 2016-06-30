@@ -73,7 +73,7 @@ class EmployeeAdmin(admin.ModelAdmin):
     ordering = ('user',)
 
     def _company(self, instance):
-        return ",".join([company.name for company in instance.company_set.all()])
+        return ",".join([company.name for company in instance.companies.all()])
 
 
 class MastContainerAdmin(admin.ModelAdmin):
