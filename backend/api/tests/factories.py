@@ -36,13 +36,21 @@ class EmployeeFactory(factory.DjangoModelFactory):
                 self.company_set.add(company)
 
 
-class TechnicianFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.Employee
-
-    user = factory.SubFactory(UserFactory)
+class TechnicianFactory(EmployeeFactory):
+    # class Meta:
+    #     model = models.Employee
+    #
+    # user = factory.SubFactory(UserFactory)
     is_technician = True
-
+    #
+    # @factory.post_generation
+    # def company_set(self, create, extracted, **kwargs):
+    #     if not create:  # Simple build, do nothing.
+    #         return
+    #
+    #     if extracted:  # A list of objects were passed in, use them
+    #         for company in extracted:
+    #             self.company_set.add(company)
 
 class RemoteNodeFactory(factory.DjangoModelFactory):
     class Meta:
