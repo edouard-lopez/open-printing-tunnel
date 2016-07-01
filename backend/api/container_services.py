@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import uuid
 
 import docker
@@ -7,6 +8,7 @@ from api import models
 from api import services
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
+logger = logging.getLogger(__name__)
 
 
 def pop_new_container():
@@ -24,7 +26,8 @@ def pop_new_container():
 def save_infos(data):
     container = data.get('container')
     company = services.get_company(data.get('user'))
-    print('company', company)
+    if not company:
+        raise AttributeError('Employee need to belong to a company')
     description = data.get('description')
 
     container_obj = models.MastContainer.objects.create(

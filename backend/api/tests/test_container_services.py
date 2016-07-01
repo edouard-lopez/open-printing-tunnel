@@ -29,6 +29,16 @@ class ContainersTestCase(APITestCase):
 
         self.assertEqual(len(containers), 1)
 
+    def test_can_not_save_infos_when_employee_has_no_company(self):
+        container = {'Id': '9959ea03-685b-4437-ab49-c5d0a28b15e8'}
+        self.orphan_employee = factories.EmployeeFactory(companies=[])
+
+        with self.assertRaises(AttributeError):
+            container_services.save_infos({'user': self.orphan_employee,
+                                           'container': container,
+                                           'description': 'blabla'
+                                           })
+
     def test_can_get_container_infos(self):
         container_data = {
             "Name": "/mast__e45b0231-251f-401d-b379-eb5875fc343b",
