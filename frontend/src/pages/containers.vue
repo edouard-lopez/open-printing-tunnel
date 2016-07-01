@@ -101,7 +101,8 @@
 										{{ container.description }}
 									</td>
 									<td>
-										<span class="btn btn-sm btn-danger" title="delete">
+										<span class="btn btn-sm btn-danger" title="delete"
+										@click="deleteContainer(container)">
 											<i class="fa fa-trash"></i>
 										</span>
 										<span class="btn btn-sm btn-warning" title="restart">
@@ -220,6 +221,9 @@
 			},
 			openContainer(id){
 				this.$router.go(`/containers/${id}/`);
+			deleteContainer(container){
+				Containers.delete(container);
+				this.getContainers();
 			}
 		},
 		filters: {
