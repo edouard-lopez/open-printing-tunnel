@@ -60,23 +60,23 @@
     <div class="sidebar">
         <ul class="sidebar-menu main">
             <li class="sidebar-item" v-link-active>
-                <a v-link="{ path: '/app/', activeClass: 'active' }" class="sidebar-link">
-                    <i class="icon ion-ios-heart-outline"></i>
-                    <span>thanks</span>
-                </a>
+                <a v-link="{ path: '/containers/', activeClass: 'active' }" class="sidebar-link" title="Dashboard">
+                    <i class="fa fa-home"></i>
+					<span class="sr-only">Dashboard</span>
+				</a>
             </li>
         </ul>
         <ul class="sidebar-menu settings">
             <li class="sidebar-item" v-link-active>
-                <a v-link="{ path: '/settings/', activeClass: 'active' }" class="sidebar-link">
-                    <i class="icon ion-ios-settings-outline"></i>
-                    <span>settings</span>
+                <a v-link="{ path: '/settings/', activeClass: 'active' }" class="sidebar-link" title="Settings">
+                    <i class="fa fa-cog"></i>
+                    <span class="sr-only">Settings</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" @click.stop.prevent="logout()">
-                    <i class="icon ion-ios-log-out-outline"></i>
-                    <span>logout</span>
+                <a class="sidebar-link" @click.stop.prevent="logout()" title="Sign-out">
+                    <i class="fa fa-sign-out"></i>
+                    <span class="sr-only">Signout</span>
                 </a>
             </li>
         </ul>
