@@ -5,7 +5,7 @@ import VueI18n from 'vue-i18n';
 import App from './app';
 import LandingPage from './pages/index';
 import LoginPage from './pages/login';
-import AppPage from './pages/app.vue';
+import ContainersPage from './pages/containers';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 import auth from './services/auth';
@@ -36,8 +36,10 @@ router.map({
 		component: SettingsPage,
 		authRequired: true
 	},
-	'/app/': {
-		component: AppPage,
+	'/containers/': {
+		component: ContainersPage,
+		authRequired: true
+	},
 		authRequired: true
 	}
 });
@@ -48,7 +50,7 @@ router.beforeEach(transition => {
 	auth.checkAuth()
 		.then(() => {
 			if (transition.to.path === '/') {
-				transition.redirect('/app/');
+				transition.redirect('/containers/');
 			} else {
 				transition.next();
 			}

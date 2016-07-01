@@ -78,8 +78,10 @@
 									</td>
 								</tr>
 								<tr v-for="container in containers">
-									<td @click="openContainer(container.id)">
-										{{ container.infos.name }}
+									<td>
+										<a @click="openContainer(container.id)">
+											{{ container.infos.name }}
+										</a>
 									</td>
 									<td>
 										<span class="label"
@@ -92,7 +94,7 @@
 										</span>
 
 									</td>
-									<td @click="openContainer(container.id)">
+									<td>
 										{{ container.company }}
 									</td>
 									<td>
@@ -101,6 +103,9 @@
 									<td>
 										<span class="btn btn-sm btn-danger" title="delete">
 											<i class="fa fa-trash"></i>
+										</span>
+										<span class="btn btn-sm btn-warning" title="restart">
+											<i class="fa fa-refresh"></i>
 										</span>
 									</td>
 								</tr>
@@ -133,28 +138,6 @@
 			</div>
 		</div>
 
-		<!-- Modal -->
-		<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
-			 aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="confirmModalLabel">Confirm status change</h4>
-					</div>
-					<div class="modal-body">
-						Are you sure you want to change the status of the <span v-if="selected.length>1">{{ selected.length}}</span>
-						selected container<span v-if="selected.length>1">s</span>?
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" @click="updateSelected">Change status</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -176,11 +159,10 @@
 				selectedEntry: null,
 				numberPages: 1,
 				count: 0,
-				clicks: 0,
 				sorting: 'asc',
 				ordering: '-created',
 				search: '',
-				no_container_message: 'loading....',
+				no_container_message: 'loading…',
 				selectAll: false,
 				selected: [],
 			};
@@ -220,6 +202,7 @@
 				this.currentPage = 1;
 				this.offset = 0;
 				this.getContainers(this.limit, this.offset, query).then(()=> {
+					console.log(query);
 					if (this.count == 0) {
 						this.no_container_message = 'there is no container matching your search'
 					}
@@ -234,31 +217,6 @@
 					this.ordering = `-${field}`;
 				}
 				this.getContainers();
-			},
-			toggleAll(){
-				this.selectAll = !this.selectAll;
-				this.selected = [];
-				if (this.selectAll) {
-					this.containers.forEach(container => {
-						this.selected.push(`${container.id}`)
-					});
-				}
-			},
-			confirmUpdateSelected(){
-				$('#confirmModal').modal('show');
-			},
-			updateSelected(){
-				const ids = this.selected.map(containerId => {
-					return parseInt(containerId)
-				});
-				Containers.changeStatus(ids, this.newStatus)
-						.then(updatedContainers => {
-							logging.success('Selected items have been updated');
-						})
-						.catch(() => {
-							logging.error('Cannot update selected elements, try again in a moment');
-						});
-				$('#confirmModal').modal('hide');
 			},
 			openContainer(id){
 				this.$router.go(`/containers/${id}/`);
