@@ -31,10 +31,10 @@
 						</div>
 						<div class="col-md-4 text-xs-right">
 							<h2>
-                                <span class="label label-success">
+                                <button class="btn btn-success" @click="createContainer()">
 									<i class="fa fa-plus-circle"></i>
                                     Add new container
-                                </span>
+                                </button>
 							</h2>
 						</div>
 					</div>
@@ -221,6 +221,10 @@
 			},
 			openContainer(id){
 				this.$router.go(`/containers/${id}/`);
+			},
+			createContainer(container){
+				this.$router.go(`/containers/create/`);
+			},
 			deleteContainer(container){
 				Containers.delete(container);
 				this.getContainers();

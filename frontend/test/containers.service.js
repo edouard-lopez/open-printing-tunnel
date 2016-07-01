@@ -24,7 +24,8 @@ test('should create a container', t => {
 	nock('http://localhost/').post('/api/containers/', container).reply(201, container);
 
 	return containers.create(container).then(newContainer => {
-		t.is(container.login, newContainer.login);
+		t.truthy(newContainer.description);
+		t.is(newContainer.description, 'my new container');
 	});
 });
 
@@ -73,7 +74,7 @@ test('should update a container', t => {
 
 	return containers.update(updatedContainer)
 		.then(container => {
-			t.is(updatedContainer.description, container.description);
+			t.is(container.description, 'new description');
 		});
 });
 

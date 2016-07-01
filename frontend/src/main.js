@@ -7,6 +7,7 @@ import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ContainersPage from './pages/containers';
 import ContainerPage from './pages/container';
+import ContainerCreatePage from './pages/container.create';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 import auth from './services/auth';
@@ -43,6 +44,10 @@ router.map({
 	},
 	'/containers/:id': {
 		component: ContainerPage,
+		authRequired: true
+	},
+	'/containers/create/': {
+		component: ContainerCreatePage,
 		authRequired: true
 	}
 });
