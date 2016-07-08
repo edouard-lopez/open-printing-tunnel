@@ -11,12 +11,13 @@ docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 logger = logging.getLogger(__name__)
 
 
-def pop_new_container():
+def pop_new_container(data):
     image_name = 'busybox:latest'
     docker_api.pull(image_name)
     container = docker_api.create_container(
         image=image_name,
         name='mast__{}'.format(uuid.uuid4()),
+        hostname=data.get('hostname'),
         command='tail -f /dev/null'
     )
     docker_api.start(container=(container.get('Id')))
@@ -43,6 +44,8 @@ def get_container_dict(container_data):
         'id': container_data.get('Id'),
         'name': container_data.get('Name'),
         'status': container_data.get('State').get('Status'),
+        'gateway': container_data.get('NetworkSettings').get('Networks').get('Gateway'),
+        'ipAddress': container_data.get('NetworkSettings').get('Networks').get('IPAddress'),
         # 'verbatim': container_data
     }
 

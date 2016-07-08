@@ -69,13 +69,16 @@ class MastContainerViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
     def create(self, request, *args, **kwargs):
-        container = container_services.pop_new_container()
+        container = container_services.pop_new_container({
+            'hostname': request.data.get('hostname'),
+            'labels': request.data.get('labels')
+        })
         user = services.get_employee(request.user)
 
         container_obj = container_services.save_infos({
             'user': user,
             'container': container,
-            'description': request.data.get('description')
+            'description': request.data.get('description'),
         })
 
         if container_obj:
