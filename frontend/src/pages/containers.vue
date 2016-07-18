@@ -226,7 +226,9 @@
 				this.$router.go(`/containers/create/`);
 			},
 			deleteContainer(container){
-				Containers.delete(container);
+				Containers.delete(container)
+						.then(() => {logging.success(this.$t('containers.delete.succeed'))})
+						.catch(() => {logging.error(this.$t('containers.delete.failed'))});
 				this.getContainers();
 			}
 		},

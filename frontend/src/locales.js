@@ -92,4 +92,17 @@ locales.fr.settings = {
 	credentialsMandatory: 'Le mot de passe actuel et le nouveau mot de passe sont obligatoires'
 };
 
+locales.fr.containers = {
+	delete: {
+		succeed: 'Conteneur supprimé.',
+		failed: 'La suppression du conteneur a échouée.'
+	}
+};
+locales.en.containers = {
+	delete: {
+		succeed: 'Container successfully deleted.',
+		failed: 'Deletion of container failed.'
+	}
+};
+
 export default locales;
