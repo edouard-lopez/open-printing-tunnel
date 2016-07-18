@@ -51,6 +51,7 @@ def get_container_dict(container_data):
 
 
 def destroy(container_id):
-    container = docker_api.containers(filters={'id': container_id})[0]
-    docker_api.stop(container.get('Id'))
-    return docker_api.remove_container(container.get('Id'))
+    container = docker_api.containers(filters={'id': container_id})
+    if len(container)==1:
+        docker_api.stop(container.get('Id'))
+        return docker_api.remove_container(container.get('Id'))
