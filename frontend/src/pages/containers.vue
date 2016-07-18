@@ -227,9 +227,11 @@
 			},
 			deleteContainer(container){
 				Containers.delete(container)
-						.then(() => {logging.success(this.$t('containers.delete.succeed'))})
+						.then(() => {
+							logging.success(this.$t('containers.delete.succeed'));
+							this.getContainers();
+						})
 						.catch(() => {logging.error(this.$t('containers.delete.failed'))});
-				this.getContainers();
 			}
 		},
 		filters: {
