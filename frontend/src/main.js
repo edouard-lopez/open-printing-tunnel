@@ -9,6 +9,7 @@ import ContainersPage from './pages/containers';
 import ContainerPage from './pages/container';
 import ContainerCreatePage from './pages/container.create';
 import PrintersPage from './pages/printers';
+import PrintersAddPage from './pages/printers.add';
 import PrinterPage from './pages/printer';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
@@ -54,6 +55,10 @@ router.map({
 	},
 	'/printers/': {
 		component: PrintersPage,
+		authRequired: true
+	},
+	'/containers/add/': {
+		component: PrintersAddPage,
 		authRequired: true
 	},
 	'/printers/:id': {

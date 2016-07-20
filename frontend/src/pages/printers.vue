@@ -5,25 +5,18 @@
 				<div class="card card-block">
 					<h2 class="row">
 						<span class="col-md-8">
-							<span>Printers</span>
+							<span>Boitiers OPT</span>
 						</span>
 						<span class="col-md-4 text-xs-right">
-							<span class="label label-info">
-								<span v-if="printers.length>0"> {{printers.length}} / </span> {{count}} printer<span
-									v-if="printers.length>1">s</span>
-							</span>
+							<button class="btn btn-success" @click="addPrinter()">
+								<i class="fa fa-plus-circle"></i>
+								Ajouter un boitier
+							</button>
 						</span>
 					</h2>
-					<div class="row">
-						<div class="col-md-4">
-							<h2>
-								<button class="btn btn-success" @click="createPrinter()">
-									<i class="fa fa-plus-circle"></i>
-									Ajouter un hôte
-								</button>
-							</h2>
-						</div>
-					</div>
+
+					<br>
+
 					<div class="row">
 						<div id="accordion" role="tablist" aria-multiselectable="true">
 							<div v-for="printer in printers" class="panel panel-default">
@@ -31,7 +24,7 @@
 									<h5 class="panel-title"
 										data-toggle="collapse"
 										data-parent="#accordion"
-										href="#host-{{printer.location}}"
+										href="#host-{{printer.opt_box}}"
 										aria-expanded="false"
 										aria-controls="host-{{printer.location}}"
 									>
@@ -58,9 +51,6 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-status"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Status"
 														>
 															<i class="fa fa-info"> </i>
@@ -73,10 +63,8 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-add-channel"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Ajouter un *canal*"
+																@click="addPrinter()"
 														>
 															<i class="fa fa-plus-circle"> </i>
 														</button>
@@ -88,10 +76,8 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-add-bulk-channels"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Ajouter des *canaux* par lot"
+																@click="addPrinter()"
 														>
 															<i class="fa fa-print"> </i>
 														</button>
@@ -103,9 +89,6 @@
 																data-redirect="true"
 																data-href="./home/getScript/PORTS/eyJyZW1vdGVIb3N0IjoiMTcyLjE4LjAuMSIsInJlbW90ZVBvcnQiOjIyLCJjaGFubmVscyI6W3sibG9jYWxIb3N0IjoiKiIsImxvY2FsUG9ydCI6IjkxMDIiLCJyZW1vdGVIb3N0IjoiMS4yLjMuNCIsInJlbW90ZVBvcnQiOiI5MTAwIiwiY29tbWVudCI6ImFrZW1hIn1dLCJzaXRlIjoiYWxiYW4taG9tZSJ9"
 																data-target="#modal-link"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="script d'installation d'imprimante"
 														>
 															<i class="fa fa-comment"> </i>
@@ -121,9 +104,6 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-restart"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Redémarrer"
 														>
 															<i class="fa fa-refresh"> </i>
@@ -136,9 +116,6 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-start"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Démarrer"
 														>
 															<i class="fa fa-play"> </i>
@@ -151,9 +128,6 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-stop"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Arrêter"
 														>
 															<i class="fa fa-stop"> </i>
@@ -169,9 +143,6 @@
 																data-redirect="false"
 																data-href="./"
 																data-target="#modal-remove-host"
-																data-placement="left"
-																data-toggle="tooltip"
-																data-html="true"
 																aria-label="Supprimer cet *hôte*"
 														>
 															<i class="fa fa-trash text-danger"> </i>
@@ -183,16 +154,18 @@
 										</div>
 									</h5>
 								</div>
-								<div id="host-{{printer.location}}" class="panel-collapse collapse" role="tabpanel"
+								<div id="host-{{printer.opt_box}}" class="panel-collapse collapse" role="tabpanel"
 									 aria-labelledby="heading-host-{{printer.location}}">
-									Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-									richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-									brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-									aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-									Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-									ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-									farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-									accusamus labore sustainable VHS.
+									<div class="text-xs-center">
+										<button class="btn btn-success" @click="addPrinter()">
+											<i class="fa fa-plus-circle"></i>
+											Ajouter une imprimante
+										</button>
+										<button class="btn btn-info" @click="addPrinter()">
+											<i class="fa fa-plus-circle"></i>
+											Ajouter des imprimantes
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -283,7 +256,7 @@
 			openPrinter(id){
 				this.$router.go(`/printers/${id}/`);
 			},
-			createPrinter(printer){
+			addPrinter(printer){
 				this.$router.go(`/printers/create/`);
 			},
 			deletePrinter(printer){
