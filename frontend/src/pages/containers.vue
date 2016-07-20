@@ -105,9 +105,9 @@
 										@click="deleteContainer(container)">
 											<i class="fa fa-trash"></i>
 										</span>
-										<span class="btn btn-sm btn-warning" title="restart">
-											<i class="fa fa-refresh"></i>
-										</span>
+										<!--<span class="btn btn-sm btn-warning" title="restart">-->
+											<!--<i class="fa fa-refresh"></i>-->
+										<!--</span>-->
 									</td>
 								</tr>
 								</tbody>

@@ -2,6 +2,8 @@
 	@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 	@import '../node_modules/font-awesome/css/font-awesome.min.css';
 	@import '../node_modules/notie/dist/notie.css';
+	@import '../node_modules/hint.css/hint.min.css';
+
 
 	* {
 		border-radius: 0 !important;
@@ -72,7 +74,6 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import 'bootstrap/dist/js/umd/collapse.js';
 	import Sidebar from './components/sidebar';
 	import auth from './services/auth';
 
