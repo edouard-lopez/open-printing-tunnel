@@ -65,13 +65,13 @@
 					<span class="sr-only">Dashboard</span>
 				</a>
             </li>
-			<li class="sidebar-item">
+			<li class="sidebar-item" v-link-active>
 				<a v-link="{ path: '/containers/', activeClass: 'active' }" class="sidebar-link" title="Conteneurs">
 					<i class="fa fa-cube"></i>
 					<span class="sr-only">Conteneurs</span>
 				</a>
 			</li>
-			<li class="sidebar-item">
+			<li class="sidebar-item" v-link-active>
 				<a v-link="{ path: '/printers/', activeClass: 'active' }" class="sidebar-link" title="Imprimante">
 					<i class="fa fa-print"></i>
 					<span class="sr-only">Imprimantes</span>
