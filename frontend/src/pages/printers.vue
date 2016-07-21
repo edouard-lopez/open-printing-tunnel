@@ -1,9 +1,23 @@
+<style>
+.highlight {
+    margin: 1rem -1rem;
+    background-color: #f7f7f9;
+}
+.highlight {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+
+
+</style>
 <template>
 	<div id="printers-page">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card card-block">
-					<h2 class="row">
+					<h2 class="row" id="dashboard">
 						<span class="col-md-8">
 							<span>Boitiers OPT</span>
 						</span>
@@ -41,7 +55,7 @@
 											</span>
 
 											<div class="col-md-6">
-												<ul class="btn-toolbar pull-right" role="toolbar"
+												<ul class="btn-toolbar pull-md-right" role="toolbar"
 													aria-label="Toolbar with button groups">
 													<li class="btn-group" role="group" aria-label="Actions publiques">
 														<button title="Status" role="button"
@@ -170,28 +184,64 @@
 							</div>
 						</div>
 					</div>
-					<div class="row m-t-1">
-						<div class="paginate">
-							<div class="col-xs-4 text-xs-left">
-								<button class="btn btn-primary btn-sm" v-if="count > limit"
-										:disabled="(currentPage===1)"
-										@click="getNextPrinters()">
-									previous
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card card-block">
+					<h2 class="row" id="cnc">
+						<span class="col-md-8">
+							Centre de Contrôle
+						</span>
+						<ul class="btn-toolbar pull-right" role="toolbar"
+							aria-label="Toolbar with button groups">
+							<li class="btn-group" role="group" aria-label="Actions publiques">
+								<button title="Status" role="button"
+										class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
+										data-name="{printer.location}}"
+										data-action="status"
+										data-redirect="false"
+										data-href="./"
+										data-target="#modal-status"
+										aria-label="Lister les canaux"
+								>
+									<i class="fa fa-print"> </i>
 								</button>
-							</div>
-							<div class="col-xs-4 text-xs-center" v-if="numberPages > 1">
-								{{ currentPage }} / {{ numberPages }}
-							</div>
-							<div class="col-xs-4 text-xs-right">
-								<button class="btn btn-primary btn-sm" v-if="count > limit"
-										:disabled="(currentPage*limit >= count)"
-										@click="getPreviousPrinters()">
-									next
+								<button title="Status" role="button"
+										class="btn btn-warning btn-sm btn-action hide-btn-content hint--top"
+										data-name="{printer.location}}"
+										data-action="status"
+										data-redirect="false"
+										data-href="./"
+										data-target="#modal-status"
+										aria-label="Lister les machines"
+								>
+									<i class="fa fa-cube"> </i>
 								</button>
-							</div>
+							</li>
+							<li class="btn-group" role="group" aria-label="Actions publiques">
+								<button title="Status" role="button"
+										class="btn btn-default btn-sm btn-action hide-btn-content hint--top-left"
+										data-name="{printer.location}}"
+										data-action="status"
+										data-redirect="false"
+										data-href="./"
+										data-target="#modal-status"
+										aria-label="Nettoyer le log"
+								>
+									<i class="fa fa-trash-o"> </i>
+								</button>
+							</li>
+						</ul>
+					</h2>
+					<div class="row">
+						<div class="col-xs-12 highlight">
+							<samp class="stdout">output results</samp>
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
