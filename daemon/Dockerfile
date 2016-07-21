@@ -1,5 +1,4 @@
-FROM ubuntu:16.04
-
+FROM python:3.5.2
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
@@ -83,16 +82,25 @@ COPY makefile /opt/mast/
 COPY mast /opt/mast/
 
 # Proxy
-RUN rm /etc/nginx/nginx.conf
-RUN rm /etc/nginx/mime.types
-COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
-COPY proxy-web/mime.types /etc/nginx/mime.types
-COPY proxy-web/default.conf /etc/nginx/conf.d/default.conf
-COPY proxy-web/backend.conf /etc/nginx/conf.d/backend.conf
+#RUN rm /etc/nginx/nginx.conf
+#RUN rm /etc/nginx/mime.types
+#COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
+#COPY proxy-web/mime.types /etc/nginx/mime.types
+#COPY proxy-web/default.conf /etc/nginx/conf.d/default.conf
+#COPY proxy-web/api.conf /etc/nginx/conf.d/api.conf
 
+# Flask
+RUN apt-get update && apt-get install -y \
+    python3-venv \
+    supervisor
+WORKDIR /api
+COPY ./api/ /api
+COPY requirements.txt ./
+RUN python3 -m pip install -r requirements.txt
 
 RUN cd /opt/mast/ && make install
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
-EXPOSE 80
+EXPOSE 5000

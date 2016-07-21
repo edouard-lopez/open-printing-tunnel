@@ -3,11 +3,10 @@ services:
   daemon:
     build: ./daemon
     ports:
-      - "81:80"
+      - "5000:5000"
     links:
       - opt-box:opt-box
     volumes:
-#      - ./webapp:/var/www/html/webapp
       - config:/etc/mast
     volumes_from:
       - backend
