@@ -163,17 +163,13 @@
 				sorting: 'asc',
 				ordering: '-created',
 				search: '',
-				no_container_message: 'loading…',
+				no_container_message: 'There is no container.',
 				selectAll: false,
 				selected: [],
 			};
 		},
 		ready(){
-			this.getContainers().then(()=> {
-				if (this.count == 0) {
-					this.no_container_message = 'there is no container'
-				}
-			});
+			this.getContainers().then(()=> { });
 		},
 		components: {
 			OrderingArrow
