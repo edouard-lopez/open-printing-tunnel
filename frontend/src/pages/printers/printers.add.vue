@@ -34,8 +34,8 @@
 </template>
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/umd/modal';
-	import Printers from '../services/printers';
-	import logging from '../services/logging';
+	import Printers from '../../services/printers';
+	import logging from '../../services/logging';
 
 	Printers.localStorage = localStorage;
 	export default {
