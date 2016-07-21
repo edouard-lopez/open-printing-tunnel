@@ -57,16 +57,16 @@
 				printers: [
 					{
 						id: 1,
-						location: 'salle de réunion (Cenon)',
+						location: 'Coaxis Cenon',
 						opt_box: '049fed91-6880-4c08-8cb2-21e8579d4543',
 						address: '10.1.4.1'
 					},
 					{
 						id: 2,
-						location: 'Secrétariat',
+						location: 'Fauguerolles',
 						opt_box: 'd5d3ce56-0e2f-428f-a6c6-8142616f54c7',
 						address: '10.1.4.23'
-					},
+					}
 				]
 			};
 		},
