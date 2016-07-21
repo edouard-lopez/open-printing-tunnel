@@ -1,3 +1,8 @@
+<style>
+	.expandable {
+		cursor: pointer;
+	}
+</style>
 <template>
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="heading-host-{{printer.location}}">
@@ -9,7 +14,7 @@
 				aria-controls="host-{{printer.location}}"
 			>
 				<div class="row">
-					<span class="col-md-6">
+					<span class="col-md-6 expandable">
 						<span class="hint--top-right" aria-label="Tooltip on top">
 							<i class="tunnel-status fa fa-check text-muted"> </i>
 						</span>
@@ -125,7 +130,7 @@
 										data-target="#modal-remove-host"
 										aria-label="Supprimer cet *hôte*"
 								>
-									<i class="fa fa-trash text-danger"> </i>
+									<i class="fa fa-trash-o text-danger"> </i>
 								</button>
 							</li>
 						</ul>
