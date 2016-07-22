@@ -1,4 +1,5 @@
 wheel
 Flask==0.11.1
+Flask-RESTful==0.3.5
 # server
 gunicorn==19.4.5
