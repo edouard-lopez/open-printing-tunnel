@@ -1,5 +1,13 @@
 version: '2'
+
 services:
+  daemon:
+    environment:
+      - FLASK_APP=/api/api.py
+      - FLASK_DEBUG=1
+    volumes:
+      - ./daemon/api:/api
+    command: python -m flask run --host=0.0.0.0
   backend:
     volumes:
       - ./backend:/backend
