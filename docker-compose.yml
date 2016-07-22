@@ -34,8 +34,10 @@ services:
     links:
       - backend
       - frontend
+      - daemon
     volumes_from:
       - backend
+      - daemon
 
   # demo box
   box:
