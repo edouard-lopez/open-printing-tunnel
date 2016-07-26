@@ -3,6 +3,8 @@ import logging
 import uuid
 
 import docker
+import docker.utils
+import docker.errors
 
 from api import models
 from api import services
@@ -39,6 +41,7 @@ def save_infos(data):
 
     return container_obj
 
+
 def get_container_dict(container_data):
     return {
         'id': container_data.get('Id'),
@@ -52,6 +55,17 @@ def get_container_dict(container_data):
 
 def destroy(container_id):
     container = docker_api.containers(filters={'id': container_id})
-    if len(container)==1:
+    if len(container) == 1:
         docker_api.stop(container.get('Id'))
         return docker_api.remove_container(container.get('Id'))
+
+
+def create_network(data, docker_client):
+    try:
+        ipam_pool = docker.utils.create_ipam_pool(subnet=data.get('subnet'))
+        ipam_config = docker.utils.create_ipam_config(pool_configs=[ipam_pool])
+        network = docker_client.create_network("mynet", driver="bridge", ipam=ipam_config)
+        return network
+    except Exception as e:
+        logger.exception(e)
+        raise
