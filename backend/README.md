@@ -11,26 +11,10 @@
 
 ## Development setup
 
-### Requirement
+Refer to the [main project documetation for a quick introduction to virtualenv](../README.md) in Python.
 
-* Python `3.5` ;
-* (`Pip` should be [available](https://pip.pypa.io/en/stable/installing/#do-i-need-to-install-pip)).
+### Database
 
-### Installation
-
-* [Create a Python virtual environement](https://docs.python.org/3.5/library/venv.html#creating-virtual-environments) ;
-
-        cd backend/
-        python3.5 -m venv env
-    
-* [activate the virtual env](https://packaging.python.org/en/latest/installing/#creating-virtual-environments)
-
-        source env/bin/activate
-        
-* install project's requirements:
-    
-        python3.5 -m pip install -r requirements.txt
-        
 * Create local database and apply migrations
 
         python3.5 ./manage.py migrate

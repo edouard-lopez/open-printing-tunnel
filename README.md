@@ -23,7 +23,7 @@ For the host system we recommend **Debian-based** OS, other distribution are not
 * `docker` `≥1.10` ;
 * `docker-compose` `≥1.7.0`;
 
-### Development
+## Development
 
 We are using a `docker-compose` to manage the various containers. See [how to docker](docs/HOW-TO-DOCKER.md) for install and basics: 
 
@@ -31,6 +31,27 @@ We are using a `docker-compose` to manage the various containers. See [how to do
     docker-compose build  # create the containers images 
     docker-compose up  # start project
 
+### Python and virtualenv
+
+### Requirement
+
+* Python `3.5` ;
+* (`Pip` should be [available](https://pip.pypa.io/en/stable/installing/#do-i-need-to-install-pip)).
+
+### Installation
+
+* [Create a Python virtual environement](https://docs.python.org/3.5/library/venv.html#creating-virtual-environments) ;
+
+        python3.5 -m venv env
+    
+* [activate the virtual env](https://packaging.python.org/en/latest/installing/#creating-virtual-environments)
+
+        source env/bin/activate
+        
+* install project's requirements:
+    
+        python3.5 -m pip install -r requirements-dev.txt   
+    
 ## Glossary
 
 * **infrastructure**: a machine that manage the customer's tunnels. Can manage multiple customers ;
