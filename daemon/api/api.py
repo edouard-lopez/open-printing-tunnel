@@ -8,26 +8,35 @@ api = Api(app)
 parser = reqparse.RequestParser()
 
 
-class Mast():
-    service = '/etc/init.d/mast'
-    makefile = '/usr/sbin/mast-utils'
-
 
 class Root(Resource):
     def get(self):
         return {
-            'output': str(subprocess.check_output(["ls"]))
+            'output': 'nothing here'
         }
+
+
+class AddHost(Resource):
+    def post(self, name):
+        args = parser.parse_args()
+        response = mast.Service.add_host(args['name'], args['remote-host'])
+
+        return {
+                   name: response['name'],
+                   'remote-host': response['remote-host']
+               }, 201
 
 
 class ListHosts(Resource):
     def get(self):
-        cmd = [Mast.makefile, 'list-hosts']
-        return str(subprocess.check_output(cmd))
+        return {
+            'output': mast.list_hosts()
+        }
 
 
 api.add_resource(Root, '/')
 api.add_resource(ListHosts, '/list-hosts/')
+api.add_resource(AddHost, '/add-host/')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
