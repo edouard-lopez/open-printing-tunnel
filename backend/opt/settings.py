@@ -1,5 +1,7 @@
 import os
 import datetime
+import sys
+import logging
 
 from smartconfigparser import Config
 
@@ -72,14 +74,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'opt.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'database', 'db.sqlite3'),
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -96,7 +96,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'UTC'
@@ -107,11 +106,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -148,3 +145,23 @@ JWT_AUTH = {
 }
 
 AUTH_USER_MODEL = 'api.MyUser'
+
+
+class DisableMigrations(object):
+    def __contains__(self, item):
+        return True
+
+    def __getitem__(self, item):
+        return "notmigrations"
+
+
+TESTS_IN_PROGRESS = False
+if 'test' in sys.argv[1:] or 'jenkins' in sys.argv[1:]:
+    logging.disable(logging.CRITICAL)
+    PASSWORD_HASHERS = (
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    )
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+    TESTS_IN_PROGRESS = True
+    MIGRATION_MODULES = DisableMigrations()
