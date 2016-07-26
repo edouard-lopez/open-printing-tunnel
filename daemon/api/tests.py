@@ -1,17 +1,11 @@
-import os
 import unittest
 
-import subprocess
-import uuid
-
-from daemon.api import mast
 from daemon.api import shell
 
 
 class ShellTestCase(unittest.TestCase):
     def test_can_execute_command(self):
         response = shell.execute(['echo', 'test'])
-        print(response)
         self.assertEqual(response['success'], True)
         self.assertEqual(response['output'], ['test'])
 

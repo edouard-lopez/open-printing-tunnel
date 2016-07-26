@@ -1,6 +1,7 @@
-import subprocess
 from flask import Flask
 from flask_restful import reqparse, Resource, Api
+
+from api import mast
 
 app = Flask(__name__)
 api = Api(app)
