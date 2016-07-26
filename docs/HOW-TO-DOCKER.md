@@ -33,13 +33,6 @@ You need to edit [docker-compose.yml](../docker-compose.yml) file to change the 
     extra_hosts:
       - "mon-client.opt:127.0.0.1"
 
-### Start OPT
-
-We are using a `docker-compose` to manage the various containers: 
-
-    cd open-printing-tunnel-master/  # project root directory
-    docker-compose build  # create the containers images 
-    docker-compose up  # start project
     
 ### Entering in a `docker`
 
