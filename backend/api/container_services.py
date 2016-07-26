@@ -44,8 +44,8 @@ def get_container_dict(container_data):
         'id': container_data.get('Id'),
         'name': container_data.get('Name'),
         'status': container_data.get('State').get('Status'),
-        'gateway': container_data.get('NetworkSettings').get('Networks').get('Gateway'),
-        'ipAddress': container_data.get('NetworkSettings').get('Networks').get('IPAddress'),
+        'gateway': container_data.get('NetworkSettings').get('Gateway'),
+        'ipAddress': container_data.get('NetworkSettings').get('IPAddress'),
         # 'verbatim': container_data
     }
 

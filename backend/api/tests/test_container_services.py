@@ -210,10 +210,13 @@ class ContainersTestCase(APITestCase):
         }
 
         infos = container_services.get_container_dict(container_data)
-        self.assertDictEqual(infos, {'name': '/mast__e45b0231-251f-401d-b379-eb5875fc343b',
-                                     'id': 'a5775b3cf95c465d5abcee59934c087cad9ca3d20bee266c44576b7b3d06ac1c',
-                                     'status': 'running'}
-                             )
+        self.assertDictEqual(infos, {
+            'id': 'a5775b3cf95c465d5abcee59934c087cad9ca3d20bee266c44576b7b3d06ac1c',
+            'name': '/mast__e45b0231-251f-401d-b379-eb5875fc343b',
+            'status': 'running',
+            'gateway': '172.17.0.1',
+            'ipAddress': '172.17.0.4'
+        })
 
     def test_can_destroy_container(self):
         self.skipTest('not implemented')
