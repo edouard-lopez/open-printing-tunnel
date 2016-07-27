@@ -3,7 +3,7 @@ version: '2'
 services:
   daemon:
     environment:
-      - FLASK_APP=/api/api.py
+      - FLASK_APP=/api/views.py
       - FLASK_DEBUG=1
     volumes:
       - ./daemon/api:/api

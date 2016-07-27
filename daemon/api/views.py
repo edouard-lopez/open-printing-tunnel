@@ -1,12 +1,12 @@
 from flask import Flask
-from flask_restful import reqparse, Resource, Api
+from flask import request
+from flask_restful import Resource, Api, abort
 
 from api import mast
+from api import validators
 
 app = Flask(__name__)
 api = Api(app)
-parser = reqparse.RequestParser()
-
 
 
 class Root(Resource):
@@ -17,21 +17,21 @@ class Root(Resource):
 
 
 class AddHost(Resource):
-    def post(self, name):
-        args = parser.parse_args()
-        response = mast.Service.add_host(args['name'], args['remote-host'])
+    def post(self):
+        if not request.json or not validators.has_all(request.json, ['name', 'remote-host']):
+            abort(400)
+
+        response = mast.Daemon.add_host(request.json['name'], request.json['remote-host'])
 
         return {
-                   name: response['name'],
+                   'name': response['name'],
                    'remote-host': response['remote-host']
                }, 201
 
 
 class ListHosts(Resource):
     def get(self):
-        return {
-            'output': mast.list_hosts()
-        }
+        return mast.Utils.list_hosts()
 
 
 api.add_resource(Root, '/')
