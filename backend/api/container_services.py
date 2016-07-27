@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import uuid
 
 import docker
 import docker.utils
@@ -13,17 +12,26 @@ docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 logger = logging.getLogger(__name__)
 
 
-def pop_new_container(data):
+def pop_new_container(data, docker_client=None):
     image_name = 'busybox:latest'
     docker_api.pull(image_name)
     container = docker_api.create_container(
         image=image_name,
-        name='mast__{}'.format(uuid.uuid4()),
         hostname=data.get('hostname'),
-        command='tail -f /dev/null'
+        command='tail -f /dev/null',
+        networking_config=get_network_config(data, docker_client)
     )
     docker_api.start(container=(container.get('Id')))
     return container
+
+
+def get_network_config(data, docker_client):
+    network = create_network(data, docker_client)
+    network_name = docker_client.inspect_network(network.get('Id')).get('Name')
+    network_info = dict()
+    network_info[network_name] = docker_client.create_endpoint_config()
+    networking_config = docker_client.create_networking_config(network_info)
+    return networking_config
 
 
 def save_infos(data):
@@ -49,7 +57,6 @@ def get_container_dict(container_data):
         'status': container_data.get('State').get('Status'),
         'gateway': container_data.get('NetworkSettings').get('Gateway'),
         'ipAddress': container_data.get('NetworkSettings').get('IPAddress'),
-        # 'verbatim': container_data
     }
 
 
@@ -61,7 +68,7 @@ def destroy(container_id):
 
 
 def create_network(data, docker_client):
-    network_name = "opt_network_%s" % data.get('client_id')[:6] 
+    network_name = "opt_network_%s" % data.get('client_id')[:6]
     for network in docker_client.networks():
         if network.get('Name') == network_name:
             return network

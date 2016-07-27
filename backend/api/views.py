@@ -70,9 +70,11 @@ class MastContainerViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         container = container_services.pop_new_container({
+            'client_id': 'abcdef',
+            'subnet': '10.0.0.0/24',
             'hostname': request.data.get('hostname'),
             'labels': request.data.get('labels')
-        })
+        }, docker_api)
         user = services.get_employee(request.user)
 
         container_obj = container_services.save_infos({
