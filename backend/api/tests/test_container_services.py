@@ -15,13 +15,13 @@ class ContainersTestCase(APITestCase):
 
     def test_create_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+        network = container_services.create_network(data={'company_id': 'fe234e', 'subnet': '1.0.0.0/24'},
                                                     docker_client=self.docker_api)
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.docker_api.remove_network(network.get('Id'))
 
     def test_network_is_linked_to_the_host(self):
-        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+        network = container_services.create_network(data={'company_id': 'fe234e', 'subnet': '1.1.0.0/24'},
                                                     docker_client=self.docker_api)
         listen_on_all_interfaces = self.docker_api.inspect_network(network.get('Id')).get('Options') \
             .get('com.docker.network.bridge.host_binding_ipv4')
@@ -30,16 +30,16 @@ class ContainersTestCase(APITestCase):
 
     def test_create_existing_network_return_old_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.1.0.0/24'},
+        network = container_services.create_network(data={'company_id': 'fe234e', 'subnet': '1.2.0.0/24'},
                                                     docker_client=self.docker_api)
-        network2 = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.1.0.0/24'},
+        network2 = container_services.create_network(data={'company_id': 'fe234e', 'subnet': '1.2.0.0/24'},
                                                      docker_client=self.docker_api)
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.assertEqual(network.get('Id'), network2.get('Id'))
         self.docker_api.remove_network(network.get('Id'))
 
-    def test_create_network_create_bridge_base_on_shorten_client_id(self):
-        network = container_services.create_network(data={'client_id': 'fe234e12dc', 'subnet': '10.2.0.0/24'},
+    def test_create_network_create_bridge_base_on_shorten_company_id(self):
+        network = container_services.create_network(data={'company_id': 'fe234e12dc', 'subnet': '1.3.0.0/24'},
                                                     docker_client=self.docker_api)
         bridge_name = self.docker_api.inspect_network(network.get('Id')).get('Name')
         self.assertEqual('opt_network_fe234e', bridge_name)

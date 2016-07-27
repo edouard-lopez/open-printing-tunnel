@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from api import models, serializers, services, container_services
 from api.permissions import IsAdmin
+from api.services import get_company, get_employee
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 logger = logging.getLogger(__name__)
@@ -69,16 +70,17 @@ class MastContainerViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
     def create(self, request, *args, **kwargs):
+        employee = services.get_employee(request.user)
+
         container = container_services.pop_new_container({
-            'client_id': 'abcdef',
-            'subnet': '10.0.0.0/24',
+            'company_id': str(get_company(employee).id),
+            'subnet': request.data.get('subnet'),
             'hostname': request.data.get('hostname'),
             'labels': request.data.get('labels')
         }, docker_api)
-        user = services.get_employee(request.user)
 
         container_obj = container_services.save_infos({
-            'user': user,
+            'user': employee,
             'container': container,
             'description': request.data.get('description'),
         })
