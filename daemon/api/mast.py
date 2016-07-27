@@ -1,14 +1,23 @@
+from slugify import slugify
+
 from api import shell
+from api import validators
 
 
-class Service(object):
-    def __init__(self):
-        self.program = '/etc/init.d/mast'
+class Daemon(object):
+    program = '/etc/init.d/mast'
 
     def add_host(self, name, remote_host):
-        return shell.execute([self.program, name, remote_host])
+        name = slugify(name)
+        if validators.is_valid_host(remote_host):
+            return shell.execute([Daemon.program, name, remote_host])
+        else:
+            raise ValueError
 
 
-class Makefile(object):
-    def __init__(self):
-        self.makefile = '/usr/sbin/mast-utils'
+class Utils(object):
+    program = '/usr/sbin/mast-utils'
+
+    @classmethod
+    def list_hosts(cls):
+        return shell.execute([Utils.program, 'list-hosts'])
