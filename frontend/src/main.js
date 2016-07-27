@@ -1,19 +1,16 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import VueI18n from 'vue-i18n';
-
-import App from './app';
-import LandingPage from './pages/index';
-import LoginPage from './pages/login';
-import ContainersPage from './pages/containers/containers';
-import ContainerPage from './pages/containers/container';
-import PrintersPage from './pages/printers/printers';
-import PrintersAddPage from './pages/printers/printers.add.vue';
-import PrinterPage from './pages/printers/printer';
-import RegisterPage from './pages/register';
-import SettingsPage from './pages/settings';
-import auth from './services/auth';
-import locales from './locales';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import VueI18n from "vue-i18n";
+import App from "./app";
+import LandingPage from "./pages/index";
+import LoginPage from "./pages/login";
+import ContainersPage from "./pages/containers/containers";
+import ContainerPage from "./pages/containers/container.details";
+import OptboxesPage from "./pages/optboxes/optboxes";
+import RegisterPage from "./pages/register";
+import SettingsPage from "./pages/settings";
+import auth from "./services/auth";
+import locales from "./locales";
 
 Vue.use(VueI18n);
 const browserLanguage = (navigator.language || navigator.browserLanguage).split('-')[0];
@@ -48,18 +45,10 @@ router.map({
 		component: ContainerPage,
 		authRequired: true
 	},
-	'/printers/': {
-		component: PrintersPage,
+	'/optboxes/': {
+		component: OptboxesPage,
 		authRequired: true
 	},
-	'/containers/add/': {
-		component: PrintersAddPage,
-		authRequired: true
-	},
-	'/printers/:id': {
-		component: PrinterPage,
-		authRequired: true
-	}
 });
 
 auth.localStorage = localStorage;

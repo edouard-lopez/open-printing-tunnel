@@ -72,7 +72,7 @@
 				</a>
 			</li>
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/printers/', activeClass: 'active' }" class="sidebar-link" title="Imprimante">
+				<a v-link="{ path: '/optboxes/', activeClass: 'active' }" class="sidebar-link" title="Boîtiers">
 					<i class="fa fa-print"></i>
 					<span class="sr-only">Imprimantes</span>
 				</a>

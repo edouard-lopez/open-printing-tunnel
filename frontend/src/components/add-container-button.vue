@@ -5,7 +5,7 @@
 			<i class="fa fa-plus-circle"></i>
 			Ajouter un conteneur
 		</button>
-		<div class="modal fade" id="newContainerModal" tabindex="-1" role="dialog" aria-labelledby="newEntry"
+		<div class="modal fade" id="newContainerModal" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content text-xs-left">
@@ -13,12 +13,12 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="newEntry">Créer un conteneur</h4>
+						<h4 class="modal-title" id="action-label">Créer un conteneur</h4>
 					</div>
 					<div class="modal-body">
 						<form @submit="createContainer()">
 							<fieldset class="form-group">
-								<label for="description">Subnet <span class="text-danger">*</span></label>
+								<label for="subnet">Subnet <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="subnet"
 									   placeholder="Subnet (i.e. 10.0.0.0/24)" v-model="container.subnet"/>

@@ -1,26 +1,25 @@
 <template>
-	<div id="printers-page">
+	<div id="optboxes-page">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card card-block">
-					<h2 class="row" id="dashboard">
-						<span class="col-md-8">
-							<span>Boitiers OPT</span>
+					<div class="row">
+						<div class="col-md-12">
+							<h3>Boîtiers OPT-box</h3>
+						</div>
+					</div>
+					<div class="row" id="dashboard">
+						<span class="col-md-12 text-xs-right">
+							<add-optbox-button></add-optbox-button>
 						</span>
-						<span class="col-md-4 text-xs-right">
-							<button class="btn btn-success" @click="addPrinter()">
-								<i class="fa fa-plus-circle"></i>
-								Ajouter un boitier
-							</button>
-						</span>
-					</h2>
+					</div>
 
 					<br>
 
 					<div class="row">
 						<div id="accordion" role="tablist" aria-multiselectable="true">
-							<div v-for="printer in printers" class="panel panel-default">
-								<opt-box :printer="printer"></opt-box>
+							<div v-for="optbox in optboxes" class="panel panel-default">
+								<opt-box :optbox="optbox"></opt-box>
 							</div>
 						</div>
 					</div>
@@ -39,8 +38,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import Printers from '../../services/printers';
+	import Optboxes from '../../services/optboxes';
 	import OptBoxComponent from './opt-box.component.vue';
+	import AddOptboxButtonComponent from '../../components/add-optbox-button.vue';
 	import LogsComponent from './logs.component.vue';
 	import OrderingArrow from '../../components/ordering-arrow';
 	import moment from 'moment';
@@ -54,41 +54,42 @@
 				ordering: '-created',
 				sorting: 'asc',
 				no_container_message: 'loading…',
-				printers: [
+				optboxes: [
 					{
 						id: 1,
 						location: 'Coaxis Cenon',
-						opt_box: '049fed91-6880-4c08-8cb2-21e8579d4543',
+						name: '049fed91-6880-4c08-8cb2-21e8579d4543',
 						address: '10.1.4.1'
 					},
 					{
 						id: 2,
 						location: 'Fauguerolles',
-						opt_box: 'd5d3ce56-0e2f-428f-a6c6-8142616f54c7',
+						name: 'd5d3ce56-0e2f-428f-a6c6-8142616f54c7',
 						address: '10.1.4.23'
 					}
 				]
 			};
 		},
 		ready(){
-			// this.getPrinters().then(()=> {
+			// this.getOptboxes().then(()=> {
 			// 	if (this.count == 0) {
-			// 		this.no_printer_message = 'there is no printer'
+			// 		this.no_optbox_message = 'there is no optbox'
 			// 	}
 			// });
 		},
 		components: {
 			OrderingArrow,
 			'opt-box': OptBoxComponent,
+			'add-optbox-button': AddOptboxButtonComponent,
 			'logs': LogsComponent,
 		},
 		methods: {
 			moment: function (date) {
 				return moment(date);
 			},
-			getPrinters(ordering = this.ordering){
-				return Printers.all(ordering).then(response => {
-					this.printers = response.data.results;
+			getOptboxes(ordering = this.ordering){
+				return Optboxes.all(ordering).then(response => {
+					this.optboxes = response.data.results;
 					this.count = response.data.count;
 					this.numberPages = Math.ceil(this.count / this.limit);
 				})
@@ -101,22 +102,22 @@
 					this.sorting = 'asc';
 					this.ordering = `-${field}`;
 				}
-				this.getPrinters();
+				this.getOptboxes();
 			},
-			openPrinter(id){
-				this.$router.go(`/printers/${id}/`);
+			openOptbox(id){
+				this.$router.go(`/optboxes/${id}/`);
 			},
-			addPrinter(printer){
-				this.$router.go(`/printers/create/`);
+			addOptbox(optbox){
+				this.$router.go(`/optboxes/create/`);
 			},
-			deletePrinter(printer){
-				Printers.delete(printer)
+			deleteOptbox(optbox){
+				Optboxes.delete(optbox)
 						.then(() => {
-							logging.success(this.$t('printers.delete.succeed'));
-							this.getPrinters();
+							logging.success(this.$t('optboxes.delete.succeed'));
+							this.getOptboxes();
 						})
 						.catch(() => {
-							logging.error(this.$t('printers.delete.failed'))
+							logging.error(this.$t('optboxes.delete.failed'))
 						});
 			}
 		}

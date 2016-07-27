@@ -8,9 +8,9 @@ export default {
 			headers: {Authorization: `JWT ${token}`}
 		};
 	},
-	create(printer) {
+	create(optbox) {
 		const config = this.getRequestConfig();
-		return axios.post('/api/printers/', printer, config)
+		return axios.post('/api/optboxes/', optbox, config)
 			.then(response => {
 				return response.data;
 			});
@@ -20,28 +20,28 @@ export default {
 		config.params = {
 			ordering
 		};
-		return axios.get('/api/printers/', config)
+		return axios.get('/api/optboxes/', config)
 			.then(response => {
 				return response;
 			});
 	},
 	get(uuid) {
 		const config = this.getRequestConfig();
-		return axios.get(`/api/printers/${uuid}/`, config)
+		return axios.get(`/api/optboxes/${uuid}/`, config)
 			.then(response => {
 				return response.data;
 			});
 	},
-	update(printer) {
+	update(optbox) {
 		const config = this.getRequestConfig();
-		return axios.put(`/api/printers/${printer.id}/`, printer, config)
+		return axios.put(`/api/optboxes/${optbox.id}/`, optbox, config)
 			.then(response => {
 				return response.data;
 			});
 	},
-	delete(printer) {
+	delete(optbox) {
 		const config = this.getRequestConfig();
-		return axios.delete(`/api/printers/${printer.id}/`, config)
+		return axios.delete(`/api/optboxes/${optbox.id}/`, config)
 			.then(response => {
 				return response.data;
 			});
