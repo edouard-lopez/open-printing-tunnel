@@ -6,7 +6,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close" @click="goBack">
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<h4 class="modal-title" id="createModalLabel">Création d'un conteneur</h4>
@@ -17,19 +17,21 @@
 								<label for="description">Subnet <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="subnet"
-									   placeholder="Subnet (i.e. 10.0.0.0/24)" v-model="container.subnet" />
+									   placeholder="Subnet (i.e. 10.0.0.0/24)" v-model="container.subnet"/>
 							</fieldset>
 							<fieldset class="form-group">
 								<label for="description">Description <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="description"
-									   placeholder="Description" v-model="container.description" />
+									   placeholder="Description" v-model="container.description"/>
 							</fieldset>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-						<button type="button" class="btn btn-primary" @click="createContainer">Créer</button>
+						<button type="button" class="btn btn-secondary" @click="goBack">Annuler</button>
+						<button type="button" class="btn btn-primary" @click="createContainer" :disabled="!formIsValid">
+							Créer
+						</button>
 					</div>
 				</div>
 			</div>
@@ -46,9 +48,10 @@
 		data() {
 			return {
 				container: {
-					subnet:'',
+					subnet: '',
 					description: ''
 				},
+				formSubmitted: false
 			};
 		},
 		ready(){
@@ -56,18 +59,34 @@
 		},
 		components: {},
 		methods: {
+			resetPage(){
+				this.formSubmitted = false;
+				$('#createModal').modal('hide');
+			},
 			createContainer(){
+				this.formSubmitted = true;
 				Containers.create(this.container)
-						.then(createdContainer => {
+						.then(() => {
 							logging.success('Container successfully created');
-							$('#createModal').modal('hide');
+							this.resetPage();
 							this.$router.go(`/containers/`);
 						})
 						.catch(() => {
+							this.resetPage();
 							logging.error('Cannot create container');
 						});
 			},
+			goBack(){
+				this.resetPage();
+				this.$router.go(`/containers/`);
+			}
 		},
+		computed: {
+			formIsValid(){
+				return !!(this.container.subnet && this.container.description && !this.formSubmitted);
+
+			}
+		}
 	};
 </script>
 
