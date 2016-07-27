@@ -61,7 +61,7 @@ def destroy(container_id):
 
 
 def create_network(data, docker_client):
-    network_name = "opt_network_%s" % data.get('client_id')
+    network_name = "opt_network_%s" % data.get('client_id')[:6] 
     for network in docker_client.networks():
         if network.get('Name') == network_name:
             return network

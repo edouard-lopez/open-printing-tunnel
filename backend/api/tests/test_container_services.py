@@ -30,12 +30,19 @@ class ContainersTestCase(APITestCase):
 
     def test_create_existing_network_return_old_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.1.0.0/24'},
                                                     docker_client=self.docker_api)
-        network2 = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+        network2 = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.1.0.0/24'},
                                                      docker_client=self.docker_api)
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.assertEqual(network.get('Id'), network2.get('Id'))
+        self.docker_api.remove_network(network.get('Id'))
+
+    def test_create_network_create_bridge_base_on_shorten_client_id(self):
+        network = container_services.create_network(data={'client_id': 'fe234e12dc', 'subnet': '10.2.0.0/24'},
+                                                    docker_client=self.docker_api)
+        bridge_name = self.docker_api.inspect_network(network.get('Id')).get('Name')
+        self.assertEqual('opt_network_fe234e', bridge_name)
         self.docker_api.remove_network(network.get('Id'))
 
     def test_can_save_infos(self):
@@ -237,4 +244,3 @@ class ContainersTestCase(APITestCase):
             'gateway': '172.17.0.1',
             'ipAddress': '172.17.0.4'
         })
-
