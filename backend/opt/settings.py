@@ -155,6 +155,20 @@ class DisableMigrations(object):
         return "notmigrations"
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+    }
+}
+
 TESTS_IN_PROGRESS = False
 if 'test' in sys.argv[1:] or 'jenkins' in sys.argv[1:]:
     logging.disable(logging.CRITICAL)
