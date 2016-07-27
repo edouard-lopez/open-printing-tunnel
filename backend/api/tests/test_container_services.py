@@ -15,27 +15,28 @@ class ContainersTestCase(APITestCase):
 
     def test_create_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'subnet': '10.31.0.0/16'}, docker_client=self.docker_api)
+        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+                                                    docker_client=self.docker_api)
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.docker_api.remove_network(network.get('Id'))
 
-    def test_cannot_create_network_twice(self):
+    def test_network_is_linked_to_the_host(self):
+        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+                                                    docker_client=self.docker_api)
+        listen_on_all_interfaces = self.docker_api.inspect_network(network.get('Id')).get('Options') \
+            .get('com.docker.network.bridge.host_binding_ipv4')
+        self.assertEqual('0.0.0.0', listen_on_all_interfaces)
+        self.docker_api.remove_network(network.get('Id'))
+
+    def test_create_existing_network_return_old_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'subnet': '10.32.0.0/16'}, docker_client=self.docker_api)
-        self.assertRaises(docker.errors.APIError,
-                          lambda: container_services.create_network(data={'subnet': '10.32.0.0/16'},
-                                                                    docker_client=self.docker_api))
+        network = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+                                                    docker_client=self.docker_api)
+        network2 = container_services.create_network(data={'client_id': 'fe234e', 'subnet': '10.0.0.0/24'},
+                                                     docker_client=self.docker_api)
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
+        self.assertEqual(network.get('Id'), network2.get('Id'))
         self.docker_api.remove_network(network.get('Id'))
-
-    def skip_test_pop_new_container(self):
-        data = {
-            'hostname': 'example.opt',
-            'image': 'busybox:latest',
-            'subnet': '10.31.0.0/16',
-            'ip': '10.31.0.2'
-        }
-        container_services.pop_new_container(data=data, docker_client=self.docker_api)
 
     def test_can_save_infos(self):
         container = {'Id': '9959ea03-685b-4437-ab49-c5d0a28b15e8'}

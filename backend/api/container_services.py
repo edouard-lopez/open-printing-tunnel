@@ -61,10 +61,18 @@ def destroy(container_id):
 
 
 def create_network(data, docker_client):
+    network_name = "opt_network_%s" % data.get('client_id')
+    for network in docker_client.networks():
+        if network.get('Name') == network_name:
+            return network
+
     try:
         ipam_pool = docker.utils.create_ipam_pool(subnet=data.get('subnet'))
         ipam_config = docker.utils.create_ipam_config(pool_configs=[ipam_pool])
-        network = docker_client.create_network("mynet", driver="bridge", ipam=ipam_config)
+        network = docker_client.create_network(network_name,
+                                               driver="bridge",
+                                               ipam=ipam_config,
+                                               options={"com.docker.network.bridge.host_binding_ipv4": "0.0.0.0"})
         return network
     except Exception as e:
         logger.exception(e)

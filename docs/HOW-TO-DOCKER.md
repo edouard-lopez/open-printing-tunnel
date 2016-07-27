@@ -24,36 +24,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-* [install weave](https://www.weave.works/docs/net/latest/installing-weave/)
-
-```bash
-sudo curl -L git.io/weave -o /usr/local/bin/weave
-sudo chmod a+x /usr/local/bin/weave
-```
-
-* [using Weave with Systemd](https://www.weave.works/docs/net/latest/installing-weave/systemd/)
-
-create `/etc/systemd/system/weave.service`
-
-    [Unit]
-    Description=Weave Network
-    Documentation=http://docs.weave.works/weave/latest_release/
-    Requires=docker.service
-    After=docker.service
-    [Service]
-    EnvironmentFile=-/etc/sysconfig/weave
-    ExecStartPre=/usr/local/bin/weave launch --no-restart
-    ExecStart=/usr/bin/docker attach weave
-    ExecStartPost=/usr/local/bin/weave expose
-    ExecStop=/usr/local/bin/weave stop
-    [Install]
-    WantedBy=multi-user.target
-
-launch Weave Net using
-
-    sudo systemctl start weave
-    sudo systemctl enable weave
-
 ## Usage
 
 ### Configure DNS
