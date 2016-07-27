@@ -1,5 +1,3 @@
-.gitconfig
-
 resources/linux/
 *.coaxis.*
 ### VirtualEnv template
