@@ -1,5 +1,3 @@
-<style scoped>
-</style>
 <template>
 	<div id="containers-page">
 		<!-- Modal -->
@@ -16,10 +14,16 @@
 					<div class="modal-body">
 						<form @submit="createContainer()">
 							<fieldset class="form-group">
+								<label for="description">Subnet <span class="text-danger">*</span></label>
+
+								<input type="text" class="form-control" id="subnet"
+									   placeholder="Subnet (i.e. 10.0.0.0/24)" v-model="container.subnet" />
+							</fieldset>
+							<fieldset class="form-group">
 								<label for="description">Description <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="description"
-									   placeholder="Description" />
+									   placeholder="Description" v-model="container.description" />
 							</fieldset>
 						</form>
 					</div>
@@ -42,6 +46,7 @@
 		data() {
 			return {
 				container: {
+					subnet:'',
 					description: ''
 				},
 			};
