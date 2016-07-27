@@ -7,7 +7,6 @@ import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ContainersPage from './pages/containers/containers';
 import ContainerPage from './pages/containers/container';
-import ContainerCreatePage from './pages/containers/container.create.vue';
 import PrintersPage from './pages/printers/printers';
 import PrintersAddPage from './pages/printers/printers.add.vue';
 import PrinterPage from './pages/printers/printer';
@@ -47,10 +46,6 @@ router.map({
 	},
 	'/containers/:id': {
 		component: ContainerPage,
-		authRequired: true
-	},
-	'/containers/create/': {
-		component: ContainerCreatePage,
 		authRequired: true
 	},
 	'/printers/': {

@@ -5,7 +5,7 @@
 				<div class="card card-block">
 					<div class="row">
 						<div class="col-md-12">
-							<h3>Containers</h3>
+							<h3>Conteneurs</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -17,25 +17,20 @@
                                     </span>
 									<input type="text" class="form-control" placeholder="search"
 										   v-model="search" aria-describedby="search-addon"
-										   @keyup="filterEntry(search) | debounce 500">
+										   @keyup="filter(search) | debounce 500">
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4 text-xs-right">
+						<div class="col-md-4">
 							<h2>
                                 <span class="label label-info">
-                                    <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} container<span
+                                    <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} conteneur<span
 										v-if="containers.length>1">s</span>
                                 </span>
 							</h2>
 						</div>
 						<div class="col-md-4 text-xs-right">
-							<h2>
-                                <button class="btn btn-success" @click="createContainer()">
-									<i class="fa fa-plus-circle"></i>
-                                    Add new container
-                                </button>
-							</h2>
+							<new-container-button></new-container-button>
 						</div>
 					</div>
 					<div class="row">
@@ -88,8 +83,7 @@
 											  v-bind:class="{
 											  'label-danger': container.infos.status=='exited' || container.infos.status=='dead',
 											  'label-warning': container.infos.status=='paused' || container.infos.status=='restarting',
-											  'label-success': container.infos.status=='running' || container.infos.status=='created', }"
-										>
+											  'label-success': container.infos.status=='running' || container.infos.status=='created', }">
 											{{ container.infos.status }}
 										</span>
 
@@ -102,12 +96,9 @@
 									</td>
 									<td>
 										<span class="btn btn-sm btn-danger" title="delete"
-										@click="deleteContainer(container)">
+											  @click="deleteContainer(container)">
 											<i class="fa fa-trash"></i>
 										</span>
-										<!--<span class="btn btn-sm btn-warning" title="restart">-->
-											<!--<i class="fa fa-refresh"></i>-->
-										<!--</span>-->
 									</td>
 								</tr>
 								</tbody>
@@ -138,15 +129,14 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/umd/modal';
 	import Containers from '../../services/containers';
+	import NewContainerButton from '../../components/NewContainerButton';
 	import OrderingArrow from '../../components/ordering-arrow';
-	import moment from 'moment';
 	import logging from '../../services/logging';
 
 	Containers.localStorage = localStorage;
@@ -168,16 +158,19 @@
 				selected: [],
 			};
 		},
+		events: {
+			containerCreated() {
+				this.getContainers();
+			}
+		},
 		ready(){
-			this.getContainers().then(()=> { });
+			this.getContainers();
 		},
 		components: {
-			OrderingArrow
+			OrderingArrow,
+			NewContainerButton
 		},
 		methods: {
-			moment: function (date) {
-				return moment(date);
-			},
 			getContainers(limit = this.limit, offset = this.offset, search = this.search, ordering = this.ordering){
 				return Containers.all(limit, offset, search, ordering).then(response => {
 					this.containers = response.data.results;
@@ -195,11 +188,10 @@
 				this.offset = (this.currentPage - 1) * this.limit;
 				this.getContainers();
 			},
-			filterEntry(query){
+			filter(query){
 				this.currentPage = 1;
 				this.offset = 0;
 				this.getContainers(this.limit, this.offset, query).then(()=> {
-					console.log(query);
 					if (this.count == 0) {
 						this.no_container_message = 'there is no container matching your search'
 					}
@@ -218,9 +210,6 @@
 			openContainer(id){
 				this.$router.go(`/containers/${id}/`);
 			},
-			createContainer(container){
-				this.$router.go(`/containers/create/`);
-			},
 			deleteContainer(container){
 				Containers.delete(container)
 						.then(() => {
@@ -230,20 +219,6 @@
 						.catch(() => {
 							logging.error(this.$t('containers.delete.failed'))
 						});
-			}
-		},
-		filters: {
-			moment: function (date) {
-				return moment(date).format('MMMM Do YYYY, h:mm');
-			},
-			displayStatus: function (statusId) {
-				const status = {
-					0: 'New',
-					1: 'In progress',
-					2: 'Solved',
-					3: 'Closed'
-				};
-				return status[statusId];
 			}
 		}
 	};

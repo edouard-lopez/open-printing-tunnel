@@ -1,15 +1,19 @@
 <template>
-	<div id="containers-page">
-		<!-- Modal -->
-		<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+	<div id="newContainer">
+		<button type="button" class="btn btn-success" data-toggle="modal"
+				data-target="#newContainerModal">
+			<i class="fa fa-plus-circle"></i>
+			Ajouter un conteneur
+		</button>
+		<div class="modal fade" id="newContainerModal" tabindex="-1" role="dialog" aria-labelledby="newEntry"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
-				<div class="modal-content">
+				<div class="modal-content text-xs-left">
 					<div class="modal-header">
-						<button type="button" class="close" @click="goBack">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="createModalLabel">Création d'un conteneur</h4>
+						<h4 class="modal-title" id="newEntry">Créer un conteneur</h4>
 					</div>
 					<div class="modal-body">
 						<form @submit="createContainer()">
@@ -28,9 +32,11 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" @click="goBack">Annuler</button>
-						<button type="button" class="btn btn-primary" @click="createContainer" :disabled="!formIsValid">
-							Créer
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+						<button type="button" class="btn btn-primary" v-on:click.stop.prevent="createContainer"
+								:disabled="!formIsValid">
+							<span v-if="!formSubmitted">Créer</span>
+							<span v-else><i class="fa fa-spinner fa-pulse fa-fw"></i> Création en cours</span>
 						</button>
 					</div>
 				</div>
@@ -40,8 +46,8 @@
 </template>
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/umd/modal';
-	import Containers from '../../services/containers';
-	import logging from '../../services/logging';
+	import Containers from '../services/containers';
+	import logging from '../services/logging';
 
 	Containers.localStorage = localStorage;
 	export default {
@@ -54,37 +60,25 @@
 				formSubmitted: false
 			};
 		},
-		ready(){
-			$('#createModal').modal('show');
-		},
-		components: {},
 		methods: {
-			resetPage(){
-				this.formSubmitted = false;
-				$('#createModal').modal('hide');
-			},
 			createContainer(){
 				this.formSubmitted = true;
+
 				Containers.create(this.container)
 						.then(() => {
-							logging.success('Container successfully created');
-							this.resetPage();
-							this.$router.go(`/containers/`);
+							$('#newContainerModal').modal('hide');
+							this.formSubmitted = false;
+							this.$dispatch('containerCreated');
 						})
 						.catch(() => {
-							this.resetPage();
-							logging.error('Cannot create container');
+							this.formSubmitted = false;
+							logging.error('Impossible de créer un conteneur');
 						});
-			},
-			goBack(){
-				this.resetPage();
-				this.$router.go(`/containers/`);
 			}
 		},
 		computed: {
 			formIsValid(){
 				return !!(this.container.subnet && this.container.description && !this.formSubmitted);
-
 			}
 		}
 	};
