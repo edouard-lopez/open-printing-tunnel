@@ -238,5 +238,3 @@ class ContainersTestCase(APITestCase):
             'ipAddress': '172.17.0.4'
         })
 
-    def test_can_destroy_container(self):
-        self.skipTest('not implemented')
