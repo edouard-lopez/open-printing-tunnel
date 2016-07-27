@@ -17,3 +17,10 @@ def is_valid_ip(ip):
 
 def is_valid_host(host):
     return is_valid_ip(host) or bool(re.match(HOSTNAME_REGEX, host))
+
+
+def has_all(payload, required_args):
+    for arg in required_args:
+        if arg not in payload:
+            return False
+        return True

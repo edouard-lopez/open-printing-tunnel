@@ -1,22 +1,6 @@
 import unittest
 
-from daemon.api import shell
-from daemon.api import validators
-
-
-class ShellTestCase(unittest.TestCase):
-    def test_can_execute_command(self):
-        response = shell.execute(['echo', 'test'])
-        self.assertEqual(response['success'], True)
-        self.assertEqual(response['output'], ['test'])
-
-    def test_can_return_results_as_array(self):
-        response = shell.execute(['printf', 'a\nb'])
-        self.assertEqual(len(response['output']), 2)
-
-    def test_return_std_err(self):
-        response = shell.execute(["ls", "non_existent_file"])
-        self.assertEqual(response['output'], ["ls: cannot access 'non_existent_file': No such file or directory"])
+from api import validators
 
 
 class ValidatorsTestCase(unittest.TestCase):
@@ -41,6 +25,22 @@ class ValidatorsTestCase(unittest.TestCase):
 
     def test_forbid_space_in_host(self):
         self.assertEqual(validators.is_valid_host('being stupid'), False)
+
+    def test_silent_if_all_required_args_present(self):
+        required_args = ('name', 'remote-host')
+        payload = {'name': None, 'remote-host': None}
+
+        has_all = validators.has_all(payload, required_args)
+
+        self.assertEqual(has_all, True)
+
+    def test_fail_on_missing_required_arg(self):
+        required_args = ('name', 'remote-host')
+        payload = {'remote-host': None}
+
+        has_all = validators.has_all(payload, required_args)
+
+        self.assertEqual(has_all, False)
 
 
 if __name__ == '__main__':
