@@ -78,3 +78,25 @@ class ContainersTestCase(APITestCase):
             'gateway': '172.17.0.1',
             'ipAddress': '172.17.0.4'
         })
+
+    def test_can_get_container_network_infos(self):
+        container_data = mock.get_one_container_data()
+
+        network_data = container_services.get_container_network_infos(container_data)
+
+        self.assertEqual(network_data.get('IPAddress'), '172.17.0.4')
+
+    def test_can_get_container_ipaddress(self):
+        container_data = mock.get_one_container_data()
+
+        ipaddress = container_services.get_container_ipaddress(container_data)
+
+        self.assertEqual(ipaddress, '172.17.0.4')
+
+
+    def test_can_get_container_gateway(self):
+        container_data = mock.get_one_container_data()
+
+        gateway = container_services.get_container_gateway(container_data)
+
+        self.assertEqual(gateway, '172.17.0.1')

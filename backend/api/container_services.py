@@ -55,8 +55,8 @@ def get_container_dict(container_data):
         'id': container_data.get('Id'),
         'name': container_data.get('Name'),
         'status': container_data.get('State').get('Status'),
-        'gateway': container_data.get('NetworkSettings').get('Gateway'),
-        'ipAddress': container_data.get('NetworkSettings').get('IPAddress'),
+        'gateway': get_container_gateway(container_data),
+        'ipAddress': get_container_ipaddress(container_data),
     }
 
 
@@ -85,3 +85,15 @@ def create_network(data, docker_client):
     except Exception as e:
         logger.exception(e)
         raise
+
+
+def get_container_network_infos(container_data):
+    return container_data.get('NetworkSettings')
+
+
+def get_container_ipaddress(container_data):
+    return get_container_network_infos(container_data).get('IPAddress')
+
+
+def get_container_gateway(container_data):
+    return get_container_network_infos(container_data).get('Gateway')
