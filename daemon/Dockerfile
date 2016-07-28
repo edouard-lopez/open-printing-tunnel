@@ -7,7 +7,7 @@ ARG REMOTE_USER=coaxis
 ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 
 RUN apt-get update \
-    && apt-get install --yes \
+    && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
             aha \
             autossh \
             bmon \
@@ -19,15 +19,14 @@ RUN apt-get update \
             iftop \
             libc-bin \
             make \
-            nginx \
             openssh-client \
             sshpass \
             sudo \
-            supervisor \
             trickle \
             vim-tiny \
             wget \
             whois
+#	&& rm -rf /var/lib/apt/lists/*
 
 # DAEMON
 # Create users
@@ -81,26 +80,38 @@ RUN mkdir /var/log/mast \
 COPY makefile /opt/mast/
 COPY mast /opt/mast/
 
+
 # Proxy
-#RUN rm /etc/nginx/nginx.conf
-#RUN rm /etc/nginx/mime.types
-#COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
-#COPY proxy-web/mime.types /etc/nginx/mime.types
-#COPY proxy-web/default.conf /etc/nginx/conf.d/default.conf
-#COPY proxy-web/api.conf /etc/nginx/conf.d/api.conf
+RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+            ca-certificates \
+            nginx \
+            supervisor
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+	&& ln -sf /dev/stderr /var/log/nginx/error.log
+
+RUN rm /etc/nginx/nginx.conf
+RUN rm /etc/nginx/mime.types
+COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY proxy-web/mime.types /etc/nginx/mime.types
+COPY proxy-web/conf.d /etc/nginx/conf.d/
+EXPOSE 80 443
 
 # Flask
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+    gunicorn \
     python3-venv \
     supervisor
-WORKDIR /api
-COPY ./api/ /api
+WORKDIR /daemon
+COPY ./ /daemon
 COPY requirements.txt ./
 RUN python3 -m pip install -r requirements.txt
 
 RUN cd /opt/mast/ && make install
 
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+COPY config/ /etc/supervisor/conf.d
+CMD ["/usr/bin/supervisord"]
 
 EXPOSE 5000

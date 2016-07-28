@@ -3,11 +3,11 @@ version: '2'
 services:
   daemon:
     environment:
-      - FLASK_APP=/api/views.py
+      - FLASK_APP=/daemon/api/views.py
       - FLASK_DEBUG=1
     volumes:
-      - ./daemon/api:/api
-    command: python -m flask run --host=0.0.0.0
+      - ./daemon/api:/daemon/api
+    command: supervisord
   backend:
     volumes:
       - ./backend:/backend

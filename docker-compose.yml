@@ -4,16 +4,16 @@ services:
     build: ./daemon
     ports:
       - "5000:5000"
-    links:
-      - opt-box:opt-box
+      - "80:80"
     volumes:
       - config:/etc/mast
     volumes_from:
       - backend
-    extra_hosts:
-      - "mon-client.opt:127.0.0.1"
+      - frontend
     links:
+      - opt-box
       - backend
+      - frontend
   backend:
     build: ./backend
     volumes:
@@ -27,20 +27,8 @@ services:
     ports:
      - "8080:8080"
 
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    links:
-      - backend
-      - frontend
-      - daemon
-    volumes_from:
-      - backend
-      - daemon
-
   # demo box
-  box:
+  opt-box:
       build: ./opt-box/
       ports:
         - "22:22"
