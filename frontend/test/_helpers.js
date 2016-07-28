@@ -84,32 +84,29 @@ const optboxGetOne = JSON.parse(JSON.stringify(optboxesGetAll.results[0]));
 export {optboxGetOne};
 
 
-const optboxesGetAll = {
+const printersGetAll = {
 	count: 3,
 	next: null,
 	previous: null,
 	results: [
 		{
-			id: 1,
-			location: 'salle de réunion (Cenon)',
-			name: '049fed91-6880-4c08-8cb2-21e8579d4543',
-			address: '10.1.4.1'
+			name: 'imprimante 1',
+			hostname: '1.2.3.4',
+			description: 'salle 1',
 		},
 		{
-			id: 2,
-			location: 'salle de réunion (Marmande)',
-			name: '0d8dbbf3-73f4-49ab-a550-22c1fca93439',
-			address: '10.1.4.2'
+			name: 'imprimante 2',
+			hostname: '1.2.3.5',
+			description: 'salle 2',
 		},
 		{
-			id: 3,
-			location: 'salle de réunion (Cestas)',
-			name: '92e66964-cdc3-4186-a121-603a11980763',
-			address: '10.1.4.1'
+			name: 'imprimante 3',
+			hostname: '1.2.3.6',
+			description: 'salle 3',
 		}
 	]
 };
-export {optboxesGetAll};
+export {printersGetAll};
 
-const optboxGetOne = JSON.parse(JSON.stringify(optboxesGetAll.results[0]));
-export {optboxGetOne};
+const printerGetOne = JSON.parse(JSON.stringify(printersGetAll.results[0]));
+export {printerGetOne};
