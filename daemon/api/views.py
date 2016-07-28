@@ -59,26 +59,7 @@ class Optboxes(Resource):
                }, 201 if response['success'] else 500
 
 
-class AddChannel(Resource):
-    def post(self):
-        if not request.json or not validators.has_all(request.json, ['name', 'hostname', 'description']):
-            abort(400)
-
-        name = slugify(request.json['name'])
-        hostname = request.json['hostname']
-        description = request.json['description']
-        if validators.is_valid_host(hostname):
-            response = mast_utils.add_channel(name, hostname)
-            return {
-                       'success': response['success'],
-                       'name': name,
-                       'description': description,
-                       'hostname': hostname,
-                       'output': response['output'],
-                   }, 201 if response['success'] else 500
-
-
-class ListChannels(Resource):
+class Printers(Resource):
     def get(self):
         if request.json:
             if not validators.has_all(request.json, ['name']):
@@ -96,38 +77,43 @@ class ListChannels(Resource):
                    'output': response['output'],
                }, 201 if response['success'] else 500
 
+    def delete(self):
+        if not request.json or not validators.has_all(request.json, ['name']):
+            abort(400)
 
-class RemoveChannel(Resource):
+        name = slugify(request.json['name'])
+        response = mast_utils.remove_channel(name)
+        return {
+                   'success': response['success'],
+                   'name': name,
+                   'output': response['output'],
+               }, 201 if response['success'] else 500
+
     def post(self):
-        if not request.json or not validators.has_all(request.json, ['id', 'name']):
+        if not request.json or not validators.has_all(request.json, ['name', 'hostname', 'description']):
             abort(400)
 
         name = slugify(request.json['name'])
-        response = mast_utils.remove_channel(id, name)
-        return {
-                   'success': response['success'],
-                   'id': id,
-                   'name': name,
-                   'output': response['output'],
-               }, 201 if response['success'] else 500
+        hostname = request.json['hostname']
+        description = request.json['description']
+        if validators.is_valid_host(hostname):
+            response = mast_utils.add_channel(name, hostname)
+            return {
+                       'success': response['success'],
+                       'name': name,
+                       'description': description,
+                       'hostname': hostname,
+                       'output': response['output'],
+                   }, 201 if response['success'] else 500
 
-
-class ListLogs(Resource):
-    def get(self):
-        response = mast_utils.list_logs()
-        return {
-                   'success': response['success'],
-                   'output': response['output'],
-               }, 201 if response['success'] else 500
-
-
-class Restart(Resource):
-    def put(self):
-        if not request.json or not validators.has_all(request.json, ['name']):
+    def put(self, name):
+        if not request.json or not validators.has_all(request.json, ['action']):
             abort(400)
 
-        name = slugify(request.json['name'])
-        response = mast_utils.restart(name)
+        action = slugify(request.json['action'])
+        if action not in ['start', 'stop', 'status', 'restart']:
+            abort(400)
+        response = getattr(mast_utils, action)(name)
         return {
                    'success': response['success'],
                    'name': name,
@@ -135,41 +121,6 @@ class Restart(Resource):
                }, 201 if response['success'] else 500
 
 
-class Start(Resource):
-    def put(self):
-        if not request.json or not validators.has_all(request.json, ['name']):
-            abort(400)
-
-        name = slugify(request.json['name'])
-        response = mast_utils.start(name)
-        return {
-                   'success': response['success'],
-                   'name': name,
-                   'output': response['output'],
-               }, 201 if response['success'] else 500
-
-
-class Status(Resource):
-    def put(self):
-        if not request.json or not validators.has_all(request.json, ['name']):
-            abort(400)
-
-        name = slugify(request.json['name'])
-        response = mast_utils.status(name)
-        return {
-                   'success': response['success'],
-                   'name': name,
-                   'output': response['output'],
-               }, 201 if response['success'] else 500
-
-
-class Stop(Resource):
-    def put(self):
-        if not request.json or not validators.has_all(request.json, ['name']):
-            abort(400)
-
-        name = slugify(request.json['name'])
-        response = mast_utils.stop(name)
 class Logs(Resource):
     def get(self):
         response = mast_utils.list_logs()
@@ -184,12 +135,8 @@ api.add_resource(Root, '/')
 # api.add_resource(CopyLogs, '/copy-logs/')
 # api.add_resource(Link, '/link/')
 api.add_resource(ListLogs, '/list-logs/')
-api.add_resource(Restart, '/restart/')
-api.add_resource(Start, '/start/')
-api.add_resource(Status, '/status/')
-api.add_resource(Stop, '/stop/')
 # api.add_resource(Link, '/optboxes/link/')
-api.add_resource(Printers, '/channels/<string:name>')
+api.add_resource(Printers, '/printers/<string:name>')
 api.add_resource(Optboxes, '/optboxes/')
 
 if __name__ == "__main__":
