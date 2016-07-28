@@ -6,15 +6,15 @@
 <template>
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="heading-host-{{optbox.location}}">
-			<h5 class="panel-title"
-				data-toggle="collapse"
-				data-parent="#accordion"
-				href="#host-{{optbox.name}}"
-				aria-expanded="false"
-				aria-controls="host-{{optbox.location}}"
-			>
+			<h5 class="panel-title">
 				<div class="row">
-					<span class="col-md-6 expandable">
+					<span class="col-md-6 expandable"
+						  data-toggle="collapse"
+						  data-parent="#accordion"
+						  href="#host-{{optbox.name}}"
+						  aria-expanded="false"
+						  aria-controls="host-{{optbox.location}}"
+					>
 						<span class="hint--top-right" aria-label="Tooltip on top">
 							<i class="tunnel-status fa fa-check text-muted"> </i>
 						</span>
