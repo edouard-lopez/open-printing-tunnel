@@ -27,7 +27,7 @@ class Optboxes(Resource):
         return {
                    'success': response['success'],
                    'output': response['output'],
-               }, 201 if response['success'] else 500
+               }, 200 if response['success'] else 500
 
     def post(self):
         logger.debug(request.json)
@@ -56,7 +56,7 @@ class Optboxes(Resource):
                    'id': id,
                    'name': name,
                    'output': response['output'],
-               }, 201 if response['success'] else 500
+               }, 200 if response['success'] else 500
 
 
 class Printers(Resource):
@@ -75,7 +75,7 @@ class Printers(Resource):
                    'success': response['success'],
                    'name': name,
                    'output': response['output'],
-               }, 201 if response['success'] else 500
+               }, 200 if response['success'] else 500
 
     def delete(self):
         if not request.json or not validators.has_all(request.json, ['name']):
@@ -87,7 +87,7 @@ class Printers(Resource):
                    'success': response['success'],
                    'name': name,
                    'output': response['output'],
-               }, 201 if response['success'] else 500
+               }, 200 if response['success'] else 500
 
     def post(self):
         if not request.json or not validators.has_all(request.json, ['name', 'hostname', 'description']):
@@ -118,7 +118,7 @@ class Printers(Resource):
                    'success': response['success'],
                    'name': name,
                    'output': response['output'],
-               }, 201 if response['success'] else 500
+               }, 200 if response['success'] else 500
 
 
 class Logs(Resource):
@@ -127,7 +127,7 @@ class Logs(Resource):
         return {
                    'success': response['success'],
                    'output': response['output'],
-               }, 201 if response['success'] else 500
+               }, 200 if response['success'] else 500
 
 
 api.add_resource(Root, '/')
