@@ -34,7 +34,7 @@ def list_hosts():
 
 
 def add_host(name, hostname):
-    command = [makefile, 'add-host', 'NAME=' + name, 'REMOTE_HOST' + hostname]
+    command = [makefile, 'add-host', 'NAME=' + name, 'REMOTE_HOST=' + hostname]
     return shell.execute(command)
 
 
