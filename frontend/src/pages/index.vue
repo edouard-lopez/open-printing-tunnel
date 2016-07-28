@@ -60,7 +60,7 @@
         <main id="content">
             <div class="container">
                 <h1>{{ $t('name') }}</h1>
-                <img src="/src/app/images/coaxis-logo.png" width="100" height="100">
+                <!--<img src="/dist/images/coaxis-logo.png" width="100" height="100">-->
             </div>
         </main>
         <div id="footer">
