@@ -39,8 +39,14 @@
 								<thead class="thead-inverse">
 								<tr>
 									<th @click="sort('name')">
-										Name
+										Nom
 										<ordering-arrow column="name" :sorting="sorting" :ordering="ordering">
+										</ordering-arrow>
+									</th>
+									<th @click="sort('adresse')">
+										Adresse
+										<ordering-arrow column="adresse" :sorting="sorting"
+														:ordering="ordering">
 										</ordering-arrow>
 									</th>
 									<th @click="sort('status')">
@@ -50,7 +56,7 @@
 										</ordering-arrow>
 									</th>
 									<th @click="sort('company')">
-										Company
+										Société
 										<ordering-arrow column="company" :sorting="sorting"
 														:ordering="ordering">
 										</ordering-arrow>
@@ -76,6 +82,11 @@
 									<td>
 										<a @click="openContainer(container.id)">
 											{{ container.infos.name }}
+										</a>
+									</td>
+									<td>
+										<a @click="openContainer(container.id)">
+											{{ container.infos.ipAddress }}
 										</a>
 									</td>
 									<td>
