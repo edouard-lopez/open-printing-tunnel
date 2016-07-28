@@ -1,14 +1,10 @@
 import logging
-
 import shell
 
 logger = logging.getLogger(__name__)
 
 daemon = '/etc/init.d/mast'
 makefile = '/usr/sbin/mast-utils'
-
-
-# [key + '=' + o[key] for key in o]
 
 
 def add_channel(name, hostname, description=''):
@@ -35,6 +31,7 @@ def list_hosts():
 
 def add_host(name, hostname):
     command = [makefile, 'add-host', 'NAME=' + name, 'REMOTE_HOST=' + hostname]
+    logger.debug(name, hostname, command)
     return shell.execute(command)
 
 

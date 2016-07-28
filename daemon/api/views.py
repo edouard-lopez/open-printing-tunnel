@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask
 from flask import request
 from flask_restful import Resource, Api, abort
@@ -9,6 +11,8 @@ import validators
 app = Flask(__name__)
 api = Api(app)
 
+logger = logging.getLogger(__name__)
+
 
 class Root(Resource):
     def get(self):
@@ -19,6 +23,7 @@ class Root(Resource):
 
 class AddHost(Resource):
     def post(self):
+        logger.debug(request.json)
         if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
             abort(400)
 
