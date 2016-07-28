@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def pop_new_container(data, docker_client=None):
-    image_name = 'busybox:latest'
+    image_name = 'coaxisopt_daemon'
     docker_api.pull(image_name)
     container = docker_api.create_container(
         image=image_name,
