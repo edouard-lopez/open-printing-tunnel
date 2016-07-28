@@ -85,10 +85,7 @@ export {optboxGetOne};
 
 
 const printersGetAll = {
-	count: 3,
-	next: null,
-	previous: null,
-	results: [
+	data: [
 		{
 			name: 'imprimante 1',
 			hostname: '1.2.3.4',
@@ -108,5 +105,5 @@ const printersGetAll = {
 };
 export {printersGetAll};
 
-const printerGetOne = JSON.parse(JSON.stringify(printersGetAll.results[0]));
+const printerGetOne = JSON.parse(JSON.stringify(printersGetAll.data[0]));
 export {printerGetOne};

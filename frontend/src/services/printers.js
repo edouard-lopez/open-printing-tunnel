@@ -15,19 +15,16 @@ export default {
 				return response.data;
 			});
 	},
-	all(ordering = '-created') {
+	all() {
 		const config = this.getRequestConfig();
-		config.params = {
-			ordering
-		};
 		return axios.get('/daemon/printers/', config)
 			.then(response => {
-				return response;
+				return response.data;
 			});
 	},
-	get(uuid) {
+	get(id) {
 		const config = this.getRequestConfig();
-		return axios.get(`/daemon/printers/${uuid}/`, config)
+		return axios.get(`/daemon/printers/${id}/`, config)
 			.then(response => {
 				return response.data;
 			});
