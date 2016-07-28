@@ -10,7 +10,7 @@ export default {
 	},
 	create(optbox) {
 		const config = this.getRequestConfig();
-		return axios.post('/api/optboxes/', optbox, config)
+		return axios.post('/daemon/optboxes/', optbox, config)
 			.then(response => {
 				return response.data;
 			});
@@ -20,28 +20,28 @@ export default {
 		config.params = {
 			ordering
 		};
-		return axios.get('/api/optboxes/', config)
+		return axios.get('/daemon/optboxes/', config)
 			.then(response => {
 				return response;
 			});
 	},
 	get(uuid) {
 		const config = this.getRequestConfig();
-		return axios.get(`/api/optboxes/${uuid}/`, config)
+		return axios.get(`/daemon/optboxes/${uuid}/`, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	update(optbox) {
 		const config = this.getRequestConfig();
-		return axios.put(`/api/optboxes/${optbox.id}/`, optbox, config)
+		return axios.put(`/daemon/optboxes/${optbox.id}/`, optbox, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	delete(optbox) {
 		const config = this.getRequestConfig();
-		return axios.delete(`/api/optboxes/${optbox.id}/`, config)
+		return axios.delete(`/daemon/optboxes/${optbox.id}/`, config)
 			.then(response => {
 				return response.data;
 			});

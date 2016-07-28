@@ -21,7 +21,14 @@ class Root(Resource):
         }
 
 
-class AddHost(Resource):
+class Optboxes(Resource):
+    def get(self):
+        response = mast_utils.list_hosts()
+        return {
+                   'success': response['success'],
+                   'output': response['output'],
+               }, 201 if response['success'] else 500
+
     def post(self):
         logger.debug(request.json)
         if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
@@ -38,25 +45,15 @@ class AddHost(Resource):
                        'hostname': hostname,
                    }, 201 if response['success'] else 500
 
-
-class ListHosts(Resource):
-    def get(self):
-        response = mast_utils.list_hosts()
-        return {
-                   'success': response['success'],
-                   'output': response['output'],
-               }, 201 if response['success'] else 500
-
-
-class RemoveHost(Resource):
-    def post(self):
-        if not request.json or not validators.has_all(request.json, ['name']):
+    def delete(self):
+        if not request.json or not validators.has_all(request.json, ['id', 'name']):
             abort(400)
 
         name = slugify(request.json['name'])
-        response = mast_utils.remove_channel(name)
+        response = mast_utils.remove_host(name)
         return {
                    'success': response['success'],
+                   'id': id,
                    'name': name,
                    'output': response['output'],
                }, 201 if response['success'] else 500
@@ -173,28 +170,27 @@ class Stop(Resource):
 
         name = slugify(request.json['name'])
         response = mast_utils.stop(name)
+class Logs(Resource):
+    def get(self):
+        response = mast_utils.list_logs()
         return {
                    'success': response['success'],
-                   'name': name,
                    'output': response['output'],
                }, 201 if response['success'] else 500
 
 
 api.add_resource(Root, '/')
 # api.add_resource(AddBulkChannels, '/add-bulk-channels/')
-api.add_resource(AddChannel, '/add-channel/')
-api.add_resource(AddHost, '/add-host/')
 # api.add_resource(CopyLogs, '/copy-logs/')
 # api.add_resource(Link, '/link/')
-api.add_resource(ListChannels, '/list-channels/')
-api.add_resource(ListHosts, '/list-hosts/')
 api.add_resource(ListLogs, '/list-logs/')
-api.add_resource(RemoveChannel, '/remove-channel/')
-api.add_resource(RemoveHost, '/remove-host/')
 api.add_resource(Restart, '/restart/')
 api.add_resource(Start, '/start/')
 api.add_resource(Status, '/status/')
 api.add_resource(Stop, '/stop/')
+# api.add_resource(Link, '/optboxes/link/')
+api.add_resource(Printers, '/channels/<string:name>')
+api.add_resource(Optboxes, '/optboxes/')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

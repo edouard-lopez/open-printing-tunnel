@@ -56,35 +56,32 @@ export {containersGetAll};
 const containersGetOne = JSON.parse(JSON.stringify(containersGetAll.results[0]));
 export {containersGetOne};
 
-const optBoxesGetAll = {
+const optboxesGetAll = {
 	count: 4,
 	next: null,
 	previous: null,
 	results: [
 		{
-			id: '049fed91-6880-4c08-8cb2-21e8579d4543',
-			name: 'Cenon',
-			company: '049fed91-6880-4c08-8cb2-21e8579d4543',
-			address: 'bordeaux.opt'
+			id: 1,
+			name: 'Bordeaux',
+			hostname: 'bordeaux.opt'
 		},
 		{
-			id: '0d8dbbf3-73f4-49ab-a550-22c1fca93439',
+			id: 2,
 			name: 'Marmande',
-			company: '049fed91-6880-4c08-8cb2-21e8579d4543',
-			address: 'marmande.opt'
+			hostname: 'marmande.opt'
 		},
 		{
-			id: '92e66964-cdc3-4186-a121-603a11980763',
+			id: 3,
 			name: 'Cestas',
-			company: '049fed91-6880-4c08-8cb2-21e8579d4543',
-			address: 'cestas.opt'
+			hostname: 'cestas.opt'
 		}
 	]
 };
-export {optBoxesGetAll};
+export {optboxesGetAll};
 
-const optBoxGetOne = JSON.parse(JSON.stringify(optBoxesGetAll.results[0]));
-export {optBoxGetOne};
+const optboxGetOne = JSON.parse(JSON.stringify(optboxesGetAll.results[0]));
+export {optboxGetOne};
 
 
 const optboxesGetAll = {

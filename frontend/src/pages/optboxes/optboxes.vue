@@ -71,11 +71,11 @@
 			};
 		},
 		ready(){
-			// this.getOptboxes().then(()=> {
-			// 	if (this.count == 0) {
-			// 		this.no_optbox_message = 'there is no optbox'
-			// 	}
-			// });
+			 this.getOptboxes().then(()=> {
+			 	if (this.count == 0) {
+			 		this.no_optbox_message = 'there is no optbox'
+			 	}
+			 });
 		},
 		components: {
 			OrderingArrow,
