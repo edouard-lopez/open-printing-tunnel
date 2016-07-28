@@ -3,8 +3,8 @@ from flask import request
 from flask_restful import Resource, Api, abort
 from slugify import slugify
 
-from api import mast_utils
-from api import validators
+import mast_utils
+import validators
 
 app = Flask(__name__)
 api = Api(app)

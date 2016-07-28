@@ -1,6 +1,6 @@
 import unittest
 
-from api import validators
+import validators
 
 
 class ValidatorsTestCase(unittest.TestCase):

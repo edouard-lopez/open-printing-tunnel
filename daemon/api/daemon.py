@@ -1,6 +1,6 @@
 import logging
 
-from api import shell
+import shell
 
 logger = logging.getLogger(__name__)
 

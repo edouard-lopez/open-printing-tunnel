@@ -1,6 +1,6 @@
 import unittest
 
-from api import shell
+import shell
 
 
 class ShellTestCase(unittest.TestCase):
