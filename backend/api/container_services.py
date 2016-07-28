@@ -88,7 +88,9 @@ def create_network(data, docker_client):
 
 
 def get_container_network_infos(container_data):
-    return container_data.get('NetworkSettings')
+    networks = container_data.get('NetworkSettings').get('Networks')
+    for network in networks:
+        return networks[network]
 
 
 def get_container_ipaddress(container_data):
