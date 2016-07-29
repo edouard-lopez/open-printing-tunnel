@@ -63,7 +63,7 @@ test('should get a optbox', t => {
 test('should update a optbox', t => {
 	const updatedPrinter = JSON.parse(JSON.stringify(optboxGetOne));
 	updatedPrinter.description = 'new description';
-	nock('http://localhost/').put(`/daemon/optboxes/${updatedPrinter.id}/`).reply(200, updatedPrinter);
+	nock('http://localhost/').put(`/daemon/optboxes/${updatedPrinter.name}/`).reply(200, updatedPrinter);
 
 	return optboxes.update(updatedPrinter)
 		.then(optbox => {
@@ -72,7 +72,7 @@ test('should update a optbox', t => {
 });
 
 test('should delete a optbox', t => {
-	nock('http://localhost/').delete(`/daemon/optboxes/${optboxGetOne.id}/`).reply(200);
+	nock('http://localhost/').delete(`/daemon/optboxes/${optboxGetOne.name}/`).reply(200);
 
 	return optboxes.delete(optboxGetOne)
 		.then(response => {

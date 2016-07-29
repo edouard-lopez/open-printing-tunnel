@@ -56,16 +56,12 @@
 				no_container_message: 'loading…',
 				optboxes: [
 					{
-						id: 1,
-						location: 'Coaxis Cenon',
-						name: '049fed91-6880-4c08-8cb2-21e8579d4543',
-						address: '10.1.4.1'
+						name: 'coaxis-cenon',
+						hostname: '10.1.4.1'
 					},
 					{
-						id: 2,
-						location: 'Fauguerolles',
-						name: 'd5d3ce56-0e2f-428f-a6c6-8142616f54c7',
-						address: '10.1.4.23'
+						name: 'fauguerolles',
+						hostname: '10.1.4.23'
 					}
 				]
 			};

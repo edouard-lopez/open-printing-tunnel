@@ -25,23 +25,23 @@ export default {
 				return response;
 			});
 	},
-	get(uuid) {
+	get(name) {
 		const config = this.getRequestConfig();
-		return axios.get(`/daemon/optboxes/${uuid}/`, config)
+		return axios.get(`/daemon/optboxes/${name}/`, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	update(optbox) {
 		const config = this.getRequestConfig();
-		return axios.put(`/daemon/optboxes/${optbox.id}/`, optbox, config)
+		return axios.put(`/daemon/optboxes/${optbox.name}/`, optbox, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	delete(optbox) {
 		const config = this.getRequestConfig();
-		return axios.delete(`/daemon/optboxes/${optbox.id}/`, config)
+		return axios.delete(`/daemon/optboxes/${optbox.name}/`, config)
 			.then(response => {
 				return response.data;
 			});

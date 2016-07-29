@@ -62,17 +62,14 @@ const optboxesGetAll = {
 	previous: null,
 	results: [
 		{
-			id: 1,
 			name: 'Bordeaux',
 			hostname: 'bordeaux.opt'
 		},
 		{
-			id: 2,
 			name: 'Marmande',
 			hostname: 'marmande.opt'
 		},
 		{
-			id: 3,
 			name: 'Cestas',
 			hostname: 'cestas.opt'
 		}
