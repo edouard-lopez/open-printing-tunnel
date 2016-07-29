@@ -57,9 +57,6 @@ export default {
 			.post('/api/tokens/refresh/', {token})
 			.then(response => {
 				return response.data.token;
-			})
-			.catch(err => {
-				throw err;
 			});
 	},
 	verifyToken(token) {

@@ -11,14 +11,13 @@ printers.localStorage.setItem('token', token);
 const printer = {
 	name: 'nouvelle imprimante',
 	hostname: '1.2.3.4',
-	description: 'salle de réunion',
+	description: 'salle de réunion'
 };
 test('should send requests with Authorization header', t => {
 	const headers = {reqheaders: {Authorization: `JWT ${token}`}};
 	nock('http://localhost/', headers).get('/daemon/printers/').query(true).reply(200, {});
 
 	return printers.all().then(response => {
-		console.log(response)
 		t.truthy(response);
 	});
 });
