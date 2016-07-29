@@ -1,5 +1,6 @@
 import unittest
 
+import parser
 import shell
 
 
@@ -26,16 +27,27 @@ class ShellTestCase(unittest.TestCase):
 
     def test_remove_ansi_escape_sequences_from_array(self):
         data = [
-            '\t\u001b[0;35mBlabla\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m',
-            '\t\u001b[0;35mBlabla\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m'
+            '\t\u001b[0;35mCoaxis\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m',
+            '\t\u001b[0;35mAkema\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m'
         ]
 
         escaped_data = shell.clean_response(data)
 
         self.assertEqual(escaped_data, [
-            '\tBlabla                                  172.18.0.2',
-            '\tBlabla                                  172.18.0.2'
+            '\tCoaxis                                  172.18.0.2',
+            '\tAkema                                  172.18.0.2'
         ])
+
+    def test_parse_list_hosts_response(self):
+        response = [
+            '\tCoaxis                                  172.23.4.1',
+            '\tAkema                                  172.18.0.2'
+        ]
+
+        parsed_response = parser.list_hosts(response)
+
+        self.assertDictEqual(parsed_response[0], {'name': 'Coaxis', 'hostname': '172.23.4.1'})
+        self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '172.18.0.2'})
 
 
 if __name__ == '__main__':

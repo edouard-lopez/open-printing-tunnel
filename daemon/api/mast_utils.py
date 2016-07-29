@@ -1,4 +1,6 @@
 import logging
+
+import parser
 import shell
 
 logger = logging.getLogger(__name__)
@@ -26,7 +28,7 @@ def remove_channel(id, name):
 
 def list_hosts():
     command = [makefile, 'list-hosts']
-    return shell.execute(command)
+    return parser.list_hosts(shell.execute(command))
 
 
 def add_host(name, hostname):

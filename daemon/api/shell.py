@@ -27,3 +27,5 @@ def clean_response(lines):
     for line in lines:
         cleaned_response.append(escape_ansi(line))
     return cleaned_response
+
+
