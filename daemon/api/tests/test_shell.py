@@ -17,6 +17,12 @@ class ShellTestCase(unittest.TestCase):
         response = shell.execute(["ls", "non_existent_file"])
         self.assertEqual(response['output'], ['ls: cannot access \'non_existent_file\': No such file or directory'])
 
+    def test_remove_ansi_escape_sequence(self):
+        line = '\t\u001b[0;35mBlabla\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m'
+
+        escaped_line = shell.escape_ansi(line)
+
+        self.assertEqual(escaped_line, '\tBlabla                                  172.18.0.2')
 
 if __name__ == '__main__':
     unittest.main()
