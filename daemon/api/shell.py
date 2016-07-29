@@ -7,13 +7,13 @@ def execute(command):
         response = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8').splitlines()
         return {
             'success': True,
-            'output': response
+            'output': clean_response(response)
         }
     except subprocess.CalledProcessError as e:
         response = e.output.decode('utf-8').splitlines()
         return {
             'success': False,
-            'output': response
+            'output': clean_response(response)
         }
 
 
