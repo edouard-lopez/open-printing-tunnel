@@ -20,3 +20,10 @@ def execute(command):
 def escape_ansi(line):
     ansi_escape = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
     return ansi_escape.sub('', line)
+
+
+def clean_response(lines):
+    cleaned_response = []
+    for line in lines:
+        cleaned_response.append(escape_ansi(line))
+    return cleaned_response

@@ -24,5 +24,19 @@ class ShellTestCase(unittest.TestCase):
 
         self.assertEqual(escaped_line, '\tBlabla                                  172.18.0.2')
 
+    def test_remove_ansi_escape_sequences_from_array(self):
+        data = [
+            '\t\u001b[0;35mBlabla\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m',
+            '\t\u001b[0;35mBlabla\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m'
+        ]
+
+        escaped_data = shell.clean_response(data)
+
+        self.assertEqual(escaped_data, [
+            '\tBlabla                                  172.18.0.2',
+            '\tBlabla                                  172.18.0.2'
+        ])
+
+
 if __name__ == '__main__':
     unittest.main()
