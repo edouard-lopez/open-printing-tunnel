@@ -3,9 +3,6 @@ from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 
 from api import views
-from django.contrib import admin
-
-# admin.autodiscover()
 
 router = DefaultRouter()
 router.register(r'remote-nodes', views.RemoteNodeViewSet, base_name='remote-nodes')
