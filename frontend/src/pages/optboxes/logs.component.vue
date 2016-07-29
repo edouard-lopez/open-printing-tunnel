@@ -9,6 +9,10 @@
 		margin-right: 0;
 		margin-left: 0;
 	}
+
+	.line {
+		display: block;
+	}
 </style>
 <template>
 	<div>
@@ -38,7 +42,7 @@
 					<button title="Status" role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top-left"
 							aria-label="Nettoyer le log"
-							@click="output=[]"
+							@click="data=[]"
 					>
 						<i class="fa fa-trash-o"> </i>
 					</button>
@@ -47,11 +51,9 @@
 		</h2>
 		<div class="row">
 			<div class="col-xs-12 highlight">
-				<samp class="stdout">
-					<pre v-for="line in output">
-						{{line}}
-					</pre>
-				</samp>
+				<pre class="stdout">
+					<samp v-for="line in data.output" class="line">{{line}}</samp>
+				</pre>
 			</div>
 		</div>
 	</div>
@@ -65,22 +67,31 @@
 	export default {
 		data() {
 			return {
-				output: []
+				data: {
+					'output': [],
+					'success': false
+				}
 			};
 		},
 		ready(){
-			this.getOptboxes().then(()=> {});
+			this.getOptboxes().then(()=> {
+			});
 		},
 		methods: {
 			getOptboxes(){
 				return Optboxes.all().then(response => {
-					this.optboxes = response.data;
-				})
+					this.data = response.data;
+				}).catch(err => {
+					console.error(err)
+				});
 			},
 			getPrinters(){
 				return Printers.all().then(response => {
-					this.optboxes = response.data;
-				})
+					console.log(response)
+					this.data = response.data;
+				}).catch(err => {
+					console.error(err)
+				});
 			},
 		}
 	}
