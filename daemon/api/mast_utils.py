@@ -28,7 +28,9 @@ def remove_channel(id, name):
 
 def list_hosts():
     command = [makefile, 'list-hosts']
-    return parser.list_hosts(shell.execute(command))
+    response = shell.execute(command)
+    response['output'] = parser.list_hosts(response['output'])
+    return response
 
 
 def add_host(name, hostname):
