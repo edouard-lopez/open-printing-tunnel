@@ -43,7 +43,7 @@ test('should send requests with Authorization header updated', t => {
 });
 
 test('should get all optboxes with parameters', t => {
-	nock('http://localhost/').get('/daemon/optboxes/?ordering=-created').reply(200, optboxesGetAll);
+	nock('http://localhost/').get('/daemon/optboxes/').reply(200, optboxesGetAll);
 
 	return optboxes.all('-created').then(response => {
 		t.is(response.status, 200);

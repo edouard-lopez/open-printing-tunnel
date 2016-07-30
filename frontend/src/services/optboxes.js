@@ -15,11 +15,8 @@ export default {
 				return response.data;
 			});
 	},
-	all(ordering = '-created') {
+	all() {
 		const config = this.getRequestConfig();
-		config.params = {
-			ordering
-		};
 		return axios.get('/daemon/optboxes/', config)
 			.then(response => {
 				return response;

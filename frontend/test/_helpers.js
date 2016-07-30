@@ -57,9 +57,6 @@ const containersGetOne = JSON.parse(JSON.stringify(containersGetAll.results[0]))
 export {containersGetOne};
 
 const optboxesGetAll = {
-	count: 4,
-	next: null,
-	previous: null,
 	results: [
 		{
 			name: 'Bordeaux',

@@ -5,7 +5,7 @@
 </style>
 <template>
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="heading-host-{{optbox.location}}">
+		<div class="panel-heading" role="tab" id="heading-host-{{optbox.hostname}}">
 			<h5 class="panel-title">
 				<div class="row">
 					<span class="col-md-6 expandable"
@@ -120,7 +120,9 @@
 	</div>
 </template>
 <script>
-    export default{
+	import 'bootstrap/dist/js/umd/collapse.js';
+
+	export default{
         data(){
             return{
                 msg:'hello vue'

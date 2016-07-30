@@ -42,17 +42,11 @@
 	import OptBoxComponent from './opt-box.component.vue';
 	import AddOptboxButtonComponent from '../../components/add-optbox-button.vue';
 	import LogsComponent from './logs.component.vue';
-	import OrderingArrow from '../../components/ordering-arrow';
-	import moment from 'moment';
 	import logging from '../../services/logging';
-	import 'bootstrap/dist/js/umd/collapse.js';
 
 	export default {
 		data() {
 			return {
-				count: 1,
-				ordering: '-created',
-				sorting: 'asc',
 				no_container_message: 'loading…',
 				optboxes: [
 					{
@@ -74,31 +68,15 @@
 			 });
 		},
 		components: {
-			OrderingArrow,
 			'opt-box': OptBoxComponent,
 			'add-optbox-button': AddOptboxButtonComponent,
 			'logs': LogsComponent,
 		},
 		methods: {
-			moment: function (date) {
-				return moment(date);
-			},
-			getOptboxes(ordering = this.ordering){
-				return Optboxes.all(ordering).then(response => {
-					this.optboxes = response.data.results;
-					this.count = response.data.count;
-					this.numberPages = Math.ceil(this.count / this.limit);
+			getOptboxes(){
+				return Optboxes.all().then(response => {
+					this.optboxes = response.data.output;
 				})
-			},
-			sort(field){
-				if (this.sorting == 'asc') {
-					this.sorting = 'desc';
-					this.ordering = field;
-				} else {
-					this.sorting = 'asc';
-					this.ordering = `-${field}`;
-				}
-				this.getOptboxes();
 			},
 			openOptbox(id){
 				this.$router.go(`/optboxes/${id}/`);
