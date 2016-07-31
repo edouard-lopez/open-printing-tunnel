@@ -52,7 +52,7 @@
 		<div class="row">
 			<div class="col-xs-12 highlight">
 				<pre class="stdout">
-					<samp v-for="line in data.output" class="line">{{line}}</samp>
+					<samp v-for="line in stdout" class="line">{{line | json }}</samp>
 				</pre>
 			</div>
 		</div>
@@ -70,7 +70,8 @@
 				data: {
 					'output': [],
 					'success': false
-				}
+				},
+				stdout: {}
 			};
 		},
 		ready(){
@@ -81,18 +82,24 @@
 			getOptboxes(){
 				return Optboxes.all().then(response => {
 					this.data = response.data;
+					this.stdout = response.data.output;
 				}).catch(err => {
 					console.error(err)
 				});
 			},
 			getPrinters(){
 				return Printers.all().then(response => {
-					console.log(response)
 					this.data = response.data;
+					this.stdout = response.data.output;
 				}).catch(err => {
 					console.error(err)
 				});
 			},
+		},
+		events: {
+			'log-response': function (response) {
+				this.stdout = response.output;
+			}
 		}
 	}
 </script>

@@ -10,6 +10,7 @@
   "dependencies": {
     "express": "^4.13.4",
     "hint.css": "^2.3.1",
+    "pilou": "0.0.2",
     "vue-i18n": "^4.0.1"
   },
   "devDependencies": {

@@ -19,9 +19,9 @@ def status(lines):
     for line in lines:
         status = detect_status(line)
         if status == 'on':
-            return status_is_on()
+            return status_is_on(lines)
         elif status == 'off':
-            return {}
+            return status_is_off(lines)
 
 
 def detect_status(line):
@@ -53,7 +53,7 @@ def status_is_off(lines):
         data = parser.search(line)
         response.append({
             'name': data.group(1),
-            'status': data.group(2),
+            'state': data.group(2),
             'help': data.group(3),
         })
 

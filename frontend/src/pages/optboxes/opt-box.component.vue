@@ -121,23 +121,30 @@
 </template>
 <script>
 	import 'bootstrap/dist/js/umd/collapse.js';
+	import resource from 'pilou';
+
+	const printers = resource('printers', {
+		update: '/daemon/${resource}/${name}'
+	});
 
 	export default{
-        data(){
-            return{
-                msg:'hello vue'
-            }
-        },
-        props: {
-        	optbox: {
+		data(){
+			return {}
+		},
+		props: {
+			optbox: {
 				type: Object,
 				required: true
 			},
+		},
+		methods: {
+			status(name) {
+				printers.update({name: name}, {action: 'status'}).then(response => {
+					this.$dispatch('log-response', response.data);
+				});
+			}
 		}
-    }
-
-
-
+	}
 
 
 </script>

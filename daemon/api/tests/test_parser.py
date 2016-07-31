@@ -34,7 +34,7 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertDictEqual(parsed_response[0], {
             'name': 'Akema',
-            'status': 'off',
+            'state': 'off',
             'help': 'service has not been started yet'
         })
 

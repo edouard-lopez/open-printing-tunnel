@@ -1,5 +1,6 @@
 import logging
 
+import parser
 import shell
 
 logger = logging.getLogger(__name__)
@@ -20,7 +21,9 @@ def start(name):
 
 
 def status(name):
-    return service('status', name)
+    response = service('status', name)
+    response['output'] = parser.status(response['output'])
+    return response
 
 
 def stop(name):

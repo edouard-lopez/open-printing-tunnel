@@ -31,7 +31,6 @@
 				<div class="card card-block">
 					<logs></logs>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -50,22 +49,22 @@
 				no_container_message: 'loading…',
 				optboxes: [
 					{
-						name: 'coaxis-cenon',
+						name: 'no-data-01',
 						hostname: '10.1.4.1'
 					},
 					{
-						name: 'fauguerolles',
+						name: 'no-data-02',
 						hostname: '10.1.4.23'
 					}
 				]
 			};
 		},
 		ready(){
-			 this.getOptboxes().then(()=> {
-			 	if (this.count == 0) {
-			 		this.no_optbox_message = 'there is no optbox'
-			 	}
-			 });
+			this.getOptboxes().then(()=> {
+				if (this.count == 0) {
+					this.no_optbox_message = 'there is no optbox'
+				}
+			});
 		},
 		components: {
 			'opt-box': OptBoxComponent,
@@ -93,6 +92,11 @@
 						.catch(() => {
 							logging.error(this.$t('optboxes.delete.failed'))
 						});
+			}
+		},
+		events: {
+			'log-response': function (message) {
+				this.$broadcast('log-response', message);
 			}
 		}
 	}
