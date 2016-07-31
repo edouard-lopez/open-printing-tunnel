@@ -5,6 +5,7 @@ from flask import request
 from flask_restful import Resource, Api, abort
 from slugify import slugify
 
+import daemon
 import mast_utils
 import validators
 
@@ -113,7 +114,7 @@ class Printers(Resource):
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
-        response = getattr(mast_utils, action)(name)
+        response = getattr(daemon, action)(name)
         return {
                    'success': response['success'],
                    'name': name,
