@@ -9,7 +9,9 @@ daemon = '/etc/init.d/mast'
 
 
 def service(action, name):
-    return shell.execute([daemon, action, name])
+    response = shell.execute([daemon, action, name])
+    response['output'] = getattr(parser, action)(response['output'])
+    return response
 
 
 def restart(name):
@@ -21,9 +23,7 @@ def start(name):
 
 
 def status(name):
-    response = service('status', name)
-    response['output'] = parser.status(response['output'])
-    return response
+    return service('status', name)
 
 
 def stop(name):
