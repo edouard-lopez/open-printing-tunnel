@@ -4,16 +4,16 @@ import subprocess
 
 def execute(command):
     try:
-        response = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8').splitlines()
+        stdout = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8').splitlines()
         return {
             'success': True,
-            'output': clean_response(response)
+            'output': clean_response(stdout)
         }
     except subprocess.CalledProcessError as e:
-        response = e.output.decode('utf-8').splitlines()
+        stdout = e.output.decode('utf-8').splitlines()
         return {
             'success': False,
-            'output': clean_response(response)
+            'output': clean_response(stdout)
         }
 
 
@@ -25,7 +25,8 @@ def escape_ansi(line):
 def clean_response(lines):
     cleaned_response = []
     for line in lines:
-        cleaned_response.append(escape_ansi(line))
+        if line:
+            cleaned_response.append(escape_ansi(line))
     return cleaned_response
 
 

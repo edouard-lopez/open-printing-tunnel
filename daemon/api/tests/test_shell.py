@@ -25,13 +25,23 @@ class ShellTestCase(unittest.TestCase):
 
         self.assertEqual(escaped_line, '\tBlabla                                  172.18.0.2')
 
+    def test_ignore_empty_lines(self):
+        stdout = [
+            "",
+            "\tAkema                               off\tservice has not been started yet"
+        ]
+
+        cleaned_response = shell.clean_response(stdout)
+
+        self.assertEqual(len(cleaned_response), 1)
+
     def test_remove_ansi_escape_sequences_from_array(self):
-        data = [
+        stdout = [
             '\t\u001b[0;35mCoaxis\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m',
             '\t\u001b[0;35mAkema\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m'
         ]
 
-        escaped_data = shell.clean_response(data)
+        escaped_data = shell.clean_response(stdout)
 
         self.assertEqual(escaped_data, [
             '\tCoaxis                                  172.18.0.2',
