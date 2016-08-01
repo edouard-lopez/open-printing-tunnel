@@ -17,7 +17,7 @@ def list_hosts(lines):
     return response
 
 
-def status(lines):
+def status(lines, name):
     response = []
     for line in lines:
         status = detect_status_state(line)
@@ -63,16 +63,19 @@ def status_is_off(lines):
     return response
 
 
-def start(lines):
-    response = {'name': get_start_optbox_name(lines[0])}
+def start(lines, name):
+    response = {'name': name}
 
-    state = detect_start_state(lines[2])
-    if state == 'done':
-        response['status'] = 'started'
-    elif state == 'failed':
-        response['status'] = 'stopped'
+    if 'ForwardPort array' in lines[0]:
+        response['status'] =  'no channels'
+    else:
+        state = detect_start_state(lines[2])
+        if state == 'done':
+            response['status'] = 'started'
+        elif state == 'failed':
+            response['status'] = 'stopped'
 
-    response['pid'] = start_get_optbox_pid(lines[2])
+        response['pid'] = start_get_optbox_pid(lines[2])
 
     return response
 
@@ -84,14 +87,6 @@ def detect_start_state(line):
     return state
 
 
-def get_start_optbox_name(line):
-    parser = re.compile(r'\s(?P<name>[\w-]+$)')
-
-    name = parser.search(line).group(1)
-
-    return name
-
-
 def start_get_optbox_pid(line):
     parser = re.compile(r'(?P<pid>\d+$)')
 
@@ -100,8 +95,8 @@ def start_get_optbox_pid(line):
     return int(pid)
 
 
-def stop(lines):
-    response = {'name': get_stop_optbox_name(lines[0])}
+def stop(lines, name):
+    response = {'name': name}
 
     state = detect_stop_state(lines[1])
     if state == 'done' or state == 'skipped':
@@ -112,10 +107,6 @@ def stop(lines):
     response['pid'] = stop_get_optbox_pid(lines[1])
 
     return response
-
-
-def get_stop_optbox_name(line):
-    return get_start_optbox_name(line)
 
 
 def stop_get_optbox_pid(line):
@@ -129,8 +120,8 @@ def detect_stop_state(line):
     return state
 
 
-def restart(lines):
-    response = {'name': get_start_optbox_name(lines[0])}
+def restart(lines, name):
+    response = {'name': name}
 
     state = detect_start_state(lines[-1])
     if state == 'done':

@@ -16,6 +16,14 @@ class ParserTestCase(unittest.TestCase):
         self.assertDictEqual(parsed_response[0], {'name': '3W', 'hostname': '10.100.7.49'})
         self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '88.116.12.46'})
 
+    def test_parse_status(self):
+        stdout = ["Akema                               off\tservice has not been started yet"]
+
+        response = parser.status(stdout, 'Akema')
+
+        self.assertIsNotNone(response[0]['name'])
+        self.assertIsNotNone(response[0]['state'])
+
     def test_can_detect_status_state(self):
         line = "Akema:autossh                      on    pid: 19569, uptime: 30-16:22:00"
         status = parser.detect_status_state(line)
@@ -26,9 +34,7 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual(status, 'off')
 
     def test_parse_status_is_off_response(self):
-        stdout = [
-            "Akema                               off\tservice has not been started yet"
-        ]
+        stdout = ["Akema                               off\tservice has not been started yet"]
 
         parsed_response = parser.status_is_off(stdout)
 
@@ -60,12 +66,22 @@ class ParserTestCase(unittest.TestCase):
             "starting tunnel                        done  pid 26348"
         ]
 
-        response = parser.start(stdout)
+        response = parser.start(stdout, 'Akema')
 
         self.assertDictEqual(response, {
             'name': 'Akema',
             'status': 'started',
             'pid': 26348,
+        })
+
+    def test_parse_empty_channels_list(self):
+        stdout = ["        ForwardPort array                   empty       no value in /etc/mast/Akema"]
+
+        response = parser.start(stdout, 'Akema')
+
+        self.assertDictEqual(response, {
+            'name': 'Akema',
+            'status': 'no channels',
         })
 
     def test_detect_start_state(self):
@@ -84,13 +100,6 @@ class ParserTestCase(unittest.TestCase):
         status = parser.detect_start_state(stdout[1])
         self.assertEqual(status, 'failed')
 
-    def test_parse_start_optbox_name(self):
-        line = "Starting mast Akema"
-
-        name = parser.get_start_optbox_name(line)
-
-        self.assertEqual(name, 'Akema')
-
     def test_parse_start_optbox_pid(self):
         line = "starting tunnel                        done  pid 26348"
         pid = parser.start_get_optbox_pid(line)
@@ -99,6 +108,18 @@ class ParserTestCase(unittest.TestCase):
         line = "starting tunnel  failed\tempty pid: 26348"
         pid = parser.start_get_optbox_pid(line)
         self.assertEqual(pid, 26348)
+
+    def test_parse_stop(self):
+        stdout = [
+            "Stopping mast Akema",
+            "stoping tunnel                         done  pid 26149"
+        ]
+        response = parser.stop(stdout, 'Akema')
+        self.assertDictEqual(response, {
+            'name': 'Akema',
+            'status': 'stopped',
+            'pid': 26149,
+        })
 
     def test_detect_stop_state(self):
         stdout = [
@@ -122,13 +143,6 @@ class ParserTestCase(unittest.TestCase):
         status = parser.detect_stop_state(stdout[1])
         self.assertEqual(status, 'failed')
 
-    def test_parse_stop_optbox_name(self):
-        line = "Stopping mast Akema"
-
-        name = parser.get_stop_optbox_name(line)
-
-        self.assertEqual(name, 'Akema')
-
     def test_parse_stop_optbox_pid(self):
         line = "stoping tunnel                         done  pid 26149"
         pid = parser.stop_get_optbox_pid(line)
@@ -147,7 +161,7 @@ class ParserTestCase(unittest.TestCase):
             "restarting tunnel                      done  pid 26453",
         ]
 
-        response = parser.restart(stdout)
+        response = parser.restart(stdout, 'Akema')
 
         self.assertDictEqual(response, {
             'name': 'Akema',
