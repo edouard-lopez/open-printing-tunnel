@@ -66,13 +66,13 @@ def status_is_off(lines):
 def start(lines):
     response = {'name': get_start_optbox_name(lines[0])}
 
-    state = detect_start_state(lines[1])
+    state = detect_start_state(lines[2])
     if state == 'done':
         response['status'] = 'started'
     elif state == 'failed':
         response['status'] = 'stopped'
 
-    response['pid'] = start_get_optbox_pid(lines[1])
+    response['pid'] = start_get_optbox_pid(lines[2])
 
     return response
 

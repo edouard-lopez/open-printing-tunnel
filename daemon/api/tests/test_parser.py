@@ -53,6 +53,21 @@ class ParserTestCase(unittest.TestCase):
             'pid': 19569,
         })
 
+    def test_parse_start(self):
+        stdout = [
+            "Starting mast Akema",
+            "latency                                waiting   wait a maximum of 5s before failing",
+            "starting tunnel                        done  pid 26348"
+        ]
+
+        response = parser.start(stdout)
+
+        self.assertDictEqual(response, {
+            'name': 'Akema',
+            'status': 'started',
+            'pid': 26348,
+        })
+
     def test_detect_start_state(self):
         stdout = [
             "Starting mast Akema",
