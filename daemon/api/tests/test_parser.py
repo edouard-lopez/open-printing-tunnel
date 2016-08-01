@@ -16,13 +16,13 @@ class ParserTestCase(unittest.TestCase):
         self.assertDictEqual(parsed_response[0], {'name': 'Coaxis', 'hostname': '172.23.4.1'})
         self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '172.18.0.2'})
 
-    def test_can_distinguish_on_off_status(self):
+    def test_can_detect_status_state(self):
         line = "Akema:autossh    on  pid: 11828, uptime: 00:20:05"
-        status = parser.detect_status(line)
+        status = parser.detect_status_state(line)
         self.assertEqual(status, 'on')
 
         line = "\tAkema                               off\tservice has not been started yet"
-        status = parser.detect_status(line)
+        status = parser.detect_status_state(line)
         self.assertEqual(status, 'off')
 
     def test_parse_status_is_off_response(self):

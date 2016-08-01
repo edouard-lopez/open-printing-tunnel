@@ -17,7 +17,7 @@ def list_hosts(lines):
 def status(lines):
     response = []
     for line in lines:
-        status = detect_status(line)
+        status = detect_status_state(line)
         if status == 'on':
             return status_is_on(lines)
         elif status == 'off':
