@@ -7,27 +7,27 @@ import shell
 class ParserTestCase(unittest.TestCase):
     def test_parse_list_hosts_response(self):
         stdout = [
-            '\tCoaxis                                  172.23.4.1',
-            '\tAkema                                  172.18.0.2'
+            '3W                                     10.100.7.49',
+            'Akema                              88.116.12.46'
         ]
 
         parsed_response = parser.list_hosts(stdout)
 
-        self.assertDictEqual(parsed_response[0], {'name': 'Coaxis', 'hostname': '172.23.4.1'})
-        self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '172.18.0.2'})
+        self.assertDictEqual(parsed_response[0], {'name': '3W', 'hostname': '10.100.7.49'})
+        self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '88.116.12.46'})
 
     def test_can_detect_status_state(self):
-        line = "Akema:autossh    on  pid: 11828, uptime: 00:20:05"
+        line = "Akema:autossh                      on    pid: 19569, uptime: 30-16:22:00"
         status = parser.detect_status_state(line)
         self.assertEqual(status, 'on')
 
-        line = "\tAkema                               off\tservice has not been started yet"
+        line = "Akema                               off\tservice has not been started yet"
         status = parser.detect_status_state(line)
         self.assertEqual(status, 'off')
 
     def test_parse_status_is_off_response(self):
         stdout = [
-            "\tAkema                               off\tservice has not been started yet"
+            "Akema                               off\tservice has not been started yet"
         ]
 
         parsed_response = parser.status_is_off(stdout)
@@ -40,8 +40,8 @@ class ParserTestCase(unittest.TestCase):
 
     def test_parse_status_is_on_response(self):
         stdout = [
-            "Akema:autossh    on  pid: 11828, uptime: 00:20:05",
-            "Akema ssh"        "on  port: 9100"
+            "Akema:autossh                      on    pid: 19569, uptime: 30-16:22:00",
+            "          ssh                          on    port: 22,80,81,3389"
         ]
 
         parsed_response = parser.status_is_on(stdout)
@@ -49,21 +49,22 @@ class ParserTestCase(unittest.TestCase):
         self.assertDictEqual(parsed_response[0], {
             'name': 'Akema',
             'state': 'on',
-            'uptime': '00:20:05',
-            'pid': 11828,
+            'uptime': '30-16:22:00',
+            'pid': 19569,
         })
 
     def test_detect_start_state(self):
         stdout = [
             "Starting mast Akema",
-            "\tstarting tunnel  'done'\tpid: 11828"
+            "latency                                waiting   wait a maximum of 5s before failing",
+            "starting tunnel                        done  pid 26348"
         ]
-        status = parser.detect_start_state(stdout[1])
+        status = parser.detect_start_state(stdout[2])
         self.assertEqual(status, 'done')
 
         stdout = [
             "Starting mast Akema",
-            "\tstarting tunnel  failed\tempty pid: 11828"
+            "starting tunnel  failed\tempty pid: 11828"
         ]
         status = parser.detect_start_state(stdout[1])
         self.assertEqual(status, 'failed')
@@ -76,32 +77,32 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual(name, 'Akema')
 
     def test_parse_start_optbox_pid(self):
-        line = "\tstarting tunnel  'done'\tpid: 11828"
+        line = "starting tunnel                        done  pid 26348"
         pid = parser.start_get_optbox_pid(line)
-        self.assertEqual(pid, 11828)
+        self.assertEqual(pid, 26348)
 
-        line = "\tstarting tunnel  failed\tempty pid: 9821"
+        line = "starting tunnel  failed\tempty pid: 26348"
         pid = parser.start_get_optbox_pid(line)
-        self.assertEqual(pid, 9821)
+        self.assertEqual(pid, 26348)
 
     def test_detect_stop_state(self):
         stdout = [
             "Stopping mast Akema",
-            "\tstopping tunnel  skipped\talready stopped"
+            "stopping tunnel  skipped\talready stopped"
         ]
         status = parser.detect_stop_state(stdout[1])
         self.assertEqual(status, 'skipped')
 
         stdout = [
             "Stopping mast Akema",
-            "\tstopping tunnel  'done'\tpid: 11828"
+            "stoping tunnel                         done  pid 26149"
         ]
         status = parser.detect_stop_state(stdout[1])
         self.assertEqual(status, 'done')
 
         stdout = [
             "Stopping mast Akema",
-            "\tstopping tunnel  failed\tempty pid: 11828"
+            "stopping tunnel  failed\tempty pid: 11828"
         ]
         status = parser.detect_stop_state(stdout[1])
         self.assertEqual(status, 'failed')
@@ -114,13 +115,13 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual(name, 'Akema')
 
     def test_parse_stop_optbox_pid(self):
-        line = "\tstopping tunnel  'done'\tpid: 11828"
+        line = "stoping tunnel                         done  pid 26149"
         pid = parser.stop_get_optbox_pid(line)
-        self.assertEqual(pid, 11828)
+        self.assertEqual(pid, 26149)
 
-        line = "\tstopping tunnel  failed\tempty pid: 9821"
+        line = "stopping tunnel  failed\tempty pid: 26149"
         pid = parser.stop_get_optbox_pid(line)
-        self.assertEqual(pid, 9821)
+        self.assertEqual(pid, 26149)
 
     def test_parse_restart(self):
         self.fail('not implemented')

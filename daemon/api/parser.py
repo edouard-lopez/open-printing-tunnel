@@ -36,7 +36,7 @@ def detect_status_state(line):
 
 def status_is_on(lines):
     parser = re.compile(
-        r'\s*(?P<name>\w+):autossh\s+(?P<state>on)\s+pid:\s+(?P<pid>[\d]+).*uptime:\s+(?P<uptime>\d+:\d+:\d+)')
+        r'\s*(?P<name>\w+):autossh\s+(?P<state>on)\s+pid:\s+(?P<pid>[\d]+).*uptime:\s+(?P<uptime>[\d\-:]+)')
     response = []
     for line in lines:
         data = parser.search(line)
@@ -78,7 +78,7 @@ def start(lines):
 
 
 def detect_start_state(line):
-    parser = re.compile(r'\s*(?P<state>done(?=\'\s+pid)|failed(?=\s+empty))')
+    parser = re.compile(r'\s*(?P<state>done(?=\s+pid)|failed(?=\s+empty))')
 
     state = parser.search(line).group(1)
     return state
@@ -123,7 +123,7 @@ def stop_get_optbox_pid(line):
 
 
 def detect_stop_state(line):
-    parser = re.compile(r'\s*(?P<state>skipped(?=\s+already)|done(?=\'\s+pid)|failed(?=\s+empty))')
+    parser = re.compile(r'\s*(?P<state>skipped(?=\s+already)|done(?=\s+pid)|failed(?=\s+empty))')
 
     state = parser.search(line).group(1)
     return state
