@@ -155,6 +155,57 @@ class ParserTestCase(unittest.TestCase):
             'pid': 26453,
         })
 
+    def test_detect_channel_forward_rules(self):
+        host = "3W"
+        forward = "L *:9102:10.100.7.48:9100         0     # Samsung ML3710"
+        reverse = "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home"
+
+        is_rule = parser.is_forward_rule(host)
+        self.assertEqual(is_rule, False)
+        is_rule = parser.is_forward_rule(forward)
+        self.assertEqual(is_rule, True)
+        is_rule = parser.is_forward_rule(reverse)
+        self.assertEqual(is_rule, True)
+
+    def test_parse_forward_rule(self):
+        line1 = "L *:9102:10.100.7.48:9100         0     # Samsung ML3710"
+        line2 = "L *:9103:10.100.7.47:9100         1     # Ricoh Aficio MPC300"
+        line3 = "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home"
+
+        rule1 = parser.forward_rule(line1)
+        rule2 = parser.forward_rule(line2)
+        rule3 = parser.forward_rule(line3)
+
+        self.assertDictEqual(rule1, {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48', 'description': 'Samsung ML3710'})
+        self.assertDictEqual(rule2, {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47', 'description': 'Ricoh Aficio MPC300'})
+        self.assertDictEqual(rule3, {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost', 'description': 'Revers forward for use ssh git.coaxis.com at home'})
+
+    def test_parse_list_channels(self):
+        stdout = [
+            "3W",
+            "L *:9102:10.100.7.48:9100         0     # Samsung ML3710",
+            "L *:9103:10.100.7.47:9100         1     # Ricoh Aficio MPC300",
+            "Akema",
+            "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home",
+            "R *:80:localhost:80               1     # Revers forward for use http git.coaxis.com at home",
+            "R *:3389:10.48.50.7:3389          3     # PC maison",
+        ]
+
+        response = parser.list_channels(stdout)
+
+        self.assertDictEqual(response, [
+            {
+                'name': '3W',
+                'channels': [
+                    {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48', 'description': 'Samsung ML3710'},
+                    {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47', 'description': 'Ricoh Aficio MPC300'},
+                    {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost', 'description': 'Revers forward for use ssh git.coaxis.com at home'},
+                    {'id': 1, 'forward': 'reverse', 'port': 80, 'hostname': 'localhost', 'description': 'Revers forward for use http git.coaxis.com at home'},
+                    {'id': 3, 'forward': 'reverse', 'port': 3389, 'hostname': '10.48.50.7', 'description': 'PC maison'},
+                ]
+
+            }
+        ])
 
 
 if __name__ == '__main__':

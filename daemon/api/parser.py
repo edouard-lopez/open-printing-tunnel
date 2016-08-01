@@ -139,3 +139,37 @@ def restart(lines):
     response['pid'] = start_get_optbox_pid(lines[-1])
 
     return response
+
+
+def forward_rule(line):
+    fields = line.split()
+    rule = fields[1].split(':')
+    description = line.split('#')[1].strip()
+    forward = 'normal' if fields[0] == 'L' else 'reverse'
+
+    return {
+        'id': int(fields[2]),
+        'forward': forward,
+        'port': int(rule[1]),
+        'hostname': rule[2],
+        'description': description
+    }
+
+
+def list_channels(lines):
+    response = []
+    optbox = None
+
+    for line in lines:
+        if is_forward_rule(line):
+            optbox = line
+            response.append({'name': line, 'channels': []})
+        else:
+            channels = next((host for host in response if host['name'] == optbox), None)
+            response['channels'].append(forward_rule(line))
+
+
+def is_forward_rule(line):
+    parser = re.compile(r'^(L|R) \*')
+
+    return bool(parser.search(line))
