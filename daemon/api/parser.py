@@ -152,12 +152,20 @@ def list_channels(lines):
     optbox = None
 
     for line in lines:
-        if is_forward_rule(line):
+        if not is_forward_rule(line):
             optbox = line
             response.append({'name': line, 'channels': []})
         else:
-            channels = next((host for host in response if host['name'] == optbox), None)
-            response['channels'].append(forward_rule(line))
+            index = find_optbox(response, optbox)
+            response[index]['channels'].append(forward_rule(line))
+
+    return response
+
+
+def find_optbox(response, optbox):
+    for i, host in enumerate(response):
+        if host['name'] == optbox:
+            return i
 
 
 def is_forward_rule(line):
