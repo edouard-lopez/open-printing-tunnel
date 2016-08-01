@@ -26,7 +26,7 @@ def clean_response(lines):
     cleaned_response = []
     for line in lines:
         if line:
-            cleaned_response.append(escape_ansi(line))
+            cleaned_response.append(escape_ansi(line.strip()))
     return cleaned_response
 
 
