@@ -53,6 +53,37 @@ class ParserTestCase(unittest.TestCase):
             'pid': 11828,
         })
 
+    def test_detect_start_state(self):
+        stdout = [
+            "Starting mast Akema",
+            "\tstarting tunnel  'done'\tpid: 11828"
+        ]
+        status = parser.detect_start_state(stdout[1])
+        self.assertEqual(status, 'done')
+
+        stdout = [
+            "Starting mast Akema",
+            "\tstarting tunnel  failed\tempty pid: 11828"
+        ]
+        status = parser.detect_start_state(stdout[1])
+        self.assertEqual(status, 'failed')
+
+    def test_parse_start_optbox_name(self):
+        line = "Starting mast Akema"
+
+        name = parser.get_start_optbox_name(line)
+
+        self.assertEqual(name, 'Akema')
+
+    def test_parse_start_optbox_pid(self):
+        line = "\tstarting tunnel  'done'\tpid: 11828"
+        pid = parser.start_get_optbox_pid(line)
+        self.assertEqual(pid, 11828)
+
+        line = "\tstarting tunnel  failed\tempty pid: 9821"
+        pid = parser.start_get_optbox_pid(line)
+        self.assertEqual(pid, 9821)
+
 
 if __name__ == '__main__':
     unittest.main()
