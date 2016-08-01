@@ -20,7 +20,7 @@ Most of the requirements are managed by the Docker containers themselves. What y
 For the host system we recommend **Debian-based** OS, other distribution are not officially supported. For reference, here is a list of the main requirements:
 
 * Debian `6.0+` or Ubuntu-server `16.04+` ;
-* `docker` `≥1.10` ;
+* `docker` `≥1.12` ;
 * `docker-compose` `≥1.7.0`;
 
 ## Development
