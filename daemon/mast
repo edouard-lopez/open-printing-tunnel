@@ -355,13 +355,13 @@ function stop() {
 
 	# if no config names (on the command-line), stop all autossh processes
 	if [[ ! -f $pidfile ]]; then
-		feedback "${action}ing tunnel"  "$(_warning skipped)"  "already stopped"
+		feedback "${action}ping tunnel"  "$(_warning skipped)"  "already stopped"
 	elif [[ -s $pidfile ]]; then
 		kill_and_clean "$NAME" "$pidfile"
-		feedback "${action}ing tunnel"  "$(_valid 'done')"  "pid $autossh_pid"
+		feedback "${action}ping tunnel"  "$(_valid 'done')"  "pid: $autossh_pid"
 	else
 		kill_and_clean "$NAME" "$pidfile"
-		feedback "${action}ing tunnel"  "failed"  "empty pid $pidfile"
+		feedback "${action}ping tunnel"  "failed"  "empty pid: $pidfile"
 		return $ABORT_STATUS
 	fi
 

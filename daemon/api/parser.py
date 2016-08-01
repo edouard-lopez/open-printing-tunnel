@@ -96,3 +96,35 @@ def start_get_optbox_pid(line):
 
     return int(pid)
 
+
+def stop(lines):
+    response = {'name': get_stop_optbox_name(lines[0])}
+
+    state = detect_stop_state(lines[1])
+    if state == 'done' or state == 'skipped':
+        response['status'] = 'stopped'
+    elif state == 'failed':
+        response['status'] = 'stopped'
+
+    response['pid'] = stop_get_optbox_pid(lines[1])
+
+    return response
+
+
+def get_stop_optbox_name(line):
+    return get_start_optbox_name(line)
+
+
+def stop_get_optbox_pid(line):
+    return start_get_optbox_pid(line)
+
+
+def detect_stop_state(line):
+    parser = re.compile(r'\s*(?P<state>skipped(?=\s+already)|done(?=\'\s+pid)|failed(?=\s+empty))')
+
+    state = parser.search(line).group(1)
+    return state
+
+
+def restart(lines):
+    pass

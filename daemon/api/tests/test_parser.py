@@ -84,6 +84,47 @@ class ParserTestCase(unittest.TestCase):
         pid = parser.start_get_optbox_pid(line)
         self.assertEqual(pid, 9821)
 
+    def test_detect_stop_state(self):
+        stdout = [
+            "Stopping mast Akema",
+            "\tstopping tunnel  skipped\talready stopped"
+        ]
+        status = parser.detect_stop_state(stdout[1])
+        self.assertEqual(status, 'skipped')
+
+        stdout = [
+            "Stopping mast Akema",
+            "\tstopping tunnel  'done'\tpid: 11828"
+        ]
+        status = parser.detect_stop_state(stdout[1])
+        self.assertEqual(status, 'done')
+
+        stdout = [
+            "Stopping mast Akema",
+            "\tstopping tunnel  failed\tempty pid: 11828"
+        ]
+        status = parser.detect_stop_state(stdout[1])
+        self.assertEqual(status, 'failed')
+
+    def test_parse_stop_optbox_name(self):
+        line = "Stopping mast Akema"
+
+        name = parser.get_stop_optbox_name(line)
+
+        self.assertEqual(name, 'Akema')
+
+    def test_parse_stop_optbox_pid(self):
+        line = "\tstopping tunnel  'done'\tpid: 11828"
+        pid = parser.stop_get_optbox_pid(line)
+        self.assertEqual(pid, 11828)
+
+        line = "\tstopping tunnel  failed\tempty pid: 9821"
+        pid = parser.stop_get_optbox_pid(line)
+        self.assertEqual(pid, 9821)
+
+    def test_parse_restart(self):
+        self.fail('not implemented')
+
 
 if __name__ == '__main__':
     unittest.main()
