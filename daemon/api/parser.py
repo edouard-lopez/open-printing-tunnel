@@ -147,7 +147,7 @@ def forward_rule(line):
     }
 
 
-def list_channels(lines):
+def list_channels(lines, name=''):
     response = []
     optbox = None
 

@@ -204,8 +204,7 @@ class ParserTestCase(unittest.TestCase):
             "L *:9103:10.100.7.47:9100         1     # Ricoh Aficio MPC300",
             "Akema",
             "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home",
-            "R *:80:localhost:80               1     # Revers forward for use http git.coaxis.com at home",
-            "R *:3389:10.48.50.7:3389          3     # PC maison",
+            "R *:3389:10.48.50.7:3389          3     # PC maison"
         ]
 
         response = parser.list_channels(stdout)
@@ -226,9 +225,7 @@ class ParserTestCase(unittest.TestCase):
                 'channels': [
                     {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost',
                      'description': 'Revers forward for use ssh git.coaxis.com at home'},
-                    {'id': 1, 'forward': 'reverse', 'port': 80, 'hostname': 'localhost',
-                     'description': 'Revers forward for use http git.coaxis.com at home'},
-                    {'id': 3, 'forward': 'reverse', 'port': 3389, 'hostname': '10.48.50.7', 'description': 'PC maison'},
+                    {'id': 3, 'forward': 'reverse', 'port': 3389, 'hostname': '10.48.50.7', 'description': 'PC maison'}
                 ]
             }
         ])

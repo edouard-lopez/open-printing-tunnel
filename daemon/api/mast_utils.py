@@ -18,7 +18,11 @@ def list_channels(name=''):
     command = [makefile, 'list-channels']
     if name:
         command.append('NAME=' + name)
-    return shell.execute(command)
+
+    response = shell.execute(command)
+    response['output'] = parser.list_channels(response['output'], name)
+
+    return response
 
 
 def remove_channel(id, name):
