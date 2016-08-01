@@ -130,4 +130,12 @@ def detect_stop_state(line):
 
 
 def restart(lines):
-    pass
+    response = {'name': get_start_optbox_name(lines[0])}
+
+    state = detect_start_state(lines[-1])
+    if state == 'done':
+        response['status'] = 'restarted'
+
+    response['pid'] = start_get_optbox_pid(lines[-1])
+
+    return response

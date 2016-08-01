@@ -139,7 +139,22 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual(pid, 26149)
 
     def test_parse_restart(self):
-        self.fail('not implemented')
+        stdout = [
+            "Stopping mast Akema",
+            "restarting tunnel                      done  pid 26348",
+            "Starting mast Akema",
+            "latency                                waiting   wait a maximum of 5s before failing",
+            "restarting tunnel                      done  pid 26453",
+        ]
+
+        response = parser.restart(stdout)
+
+        self.assertDictEqual(response, {
+            'name': 'Akema',
+            'status': 'restarted',
+            'pid': 26453,
+        })
+
 
 
 if __name__ == '__main__':
