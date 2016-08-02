@@ -63,18 +63,18 @@ class Optboxes(Resource):
 class Printers(Resource):
     def get(self):
         if request.json:
-            if not validators.has_all(request.json, ['name']):
+            if not validators.has_all(request.json, ['optbox']):
                 abort(400)
             else:
-                name = slugify(request.json['name'])
-                response = mast_utils.list_channels(name)
+                optbox = slugify(request.json['optbox'])
+                response = mast_utils.list_channels(optbox)
         else:
             response = mast_utils.list_channels()
-            name = '*'
+            optbox = '*'
 
         return {
                    'success': response['success'],
-                   'name': name,
+                   'optbox': optbox,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 

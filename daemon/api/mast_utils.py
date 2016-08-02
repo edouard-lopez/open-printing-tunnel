@@ -20,7 +20,7 @@ def list_channels(name=''):
         command.append('NAME=' + name)
 
     response = shell.execute(command)
-    response['output'] = parser.list_channels(response['output'], name)
+    response['output'] = parser.list_printers(response['output'], name)
 
     return response
 
@@ -33,7 +33,7 @@ def remove_channel(id, name):
 def list_hosts():
     command = [makefile, 'list-hosts']
     response = shell.execute(command)
-    response['output'] = parser.list_hosts(response['output'])
+    response['output'] = parser.list_optboxes(response['output'])
     return response
 
 

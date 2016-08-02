@@ -4,7 +4,7 @@ import re
 logger = logging.getLogger(__name__)
 
 
-def list_hosts(lines):
+def list_optboxes(lines):
     parser = re.compile(r'[\t]*(?P<name>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
     response = []
     for line in lines:
@@ -18,12 +18,11 @@ def list_hosts(lines):
 
 
 def status(lines, name):
-    response = []
     for line in lines:
-        status = detect_status_state(line)
-        if status == 'on':
+        state = detect_status_state(line)
+        if state == 'on':
             return status_is_on(lines)
-        elif status == 'off':
+        elif state == 'off':
             return status_is_off(lines)
 
 
@@ -67,7 +66,7 @@ def start(lines, name):
     response = {'name': name}
 
     if 'ForwardPort array' in lines[0]:
-        response['status'] =  'no channels'
+        response['status'] = 'no channels'
     else:
         state = detect_start_state(lines[2])
         if state == 'done':
@@ -147,14 +146,14 @@ def forward_rule(line):
     }
 
 
-def list_channels(lines, name=''):
+def list_printers(lines, name=''):
     response = []
     optbox = None
 
     for line in lines:
         if not is_forward_rule(line):
             optbox = line
-            response.append({'name': line, 'channels': []})
+            response.append({'optbox': line, 'channels': []})
         else:
             index = find_optbox(response, optbox)
             response[index]['channels'].append(forward_rule(line))
@@ -162,9 +161,9 @@ def list_channels(lines, name=''):
     return response
 
 
-def find_optbox(response, optbox):
+def find_optbox(response, name):
     for i, host in enumerate(response):
-        if host['name'] == optbox:
+        if host['optbox'] == name:
             return i
 
 

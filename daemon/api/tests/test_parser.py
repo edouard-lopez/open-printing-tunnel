@@ -11,7 +11,7 @@ class ParserTestCase(unittest.TestCase):
             'Akema                              88.116.12.46'
         ]
 
-        parsed_response = parser.list_hosts(stdout)
+        parsed_response = parser.list_optboxes(stdout)
 
         self.assertDictEqual(parsed_response[0], {'name': '3W', 'hostname': '10.100.7.49'})
         self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '88.116.12.46'})
@@ -170,11 +170,11 @@ class ParserTestCase(unittest.TestCase):
         })
 
     def test_detect_channel_forward_rules(self):
-        host = "3W"
+        optbox = "3W"
         forward = "L *:9102:10.100.7.48:9100         0     # Samsung ML3710"
         reverse = "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home"
 
-        is_rule = parser.is_forward_rule(host)
+        is_rule = parser.is_forward_rule(optbox)
         self.assertEqual(is_rule, False)
         is_rule = parser.is_forward_rule(forward)
         self.assertEqual(is_rule, True)
@@ -207,12 +207,12 @@ class ParserTestCase(unittest.TestCase):
             "R *:3389:10.48.50.7:3389          3     # PC maison"
         ]
 
-        response = parser.list_channels(stdout)
+        response = parser.list_printers(stdout)
 
         self.assertEqual(len(response), 2)
         self.assertListEqual(response, [
             {
-                'name': '3W',
+                'optbox': '3W',
                 'channels': [
                     {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48',
                      'description': 'Samsung ML3710'},
@@ -221,7 +221,7 @@ class ParserTestCase(unittest.TestCase):
                 ]
             },
             {
-                'name': 'Akema',
+                'optbox': 'Akema',
                 'channels': [
                     {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost',
                      'description': 'Revers forward for use ssh git.coaxis.com at home'},
@@ -232,11 +232,11 @@ class ParserTestCase(unittest.TestCase):
 
 
     def test_get_optbox_dict(self):
-        response = [{'name': '3W'}, {'name': 'Akema'}]
+        response = [{'optbox': '3W'}, {'optbox': 'Akema'}]
 
         index = parser.find_optbox(response, 'Akema')
 
-        self.assertDictEqual(response[index], {'name': 'Akema'})
+        self.assertDictEqual(response[index], {'optbox': 'Akema'})
 
 
 if __name__ == '__main__':
