@@ -132,13 +132,12 @@ class Logs(Resource):
 
 
 api.add_resource(Root, '/')
-# api.add_resource(AddBulkChannels, '/add-bulk-channels/')
-# api.add_resource(CopyLogs, '/copy-logs/')
-# api.add_resource(Link, '/link/')
-api.add_resource(ListLogs, '/list-logs/')
-# api.add_resource(Link, '/optboxes/link/')
-api.add_resource(Printers, '/printers/<string:name>')
+# todo: api.add_resource(AddBulkPrinters, '/optboxes/add-bulk-channels/')
+# todo: api.add_resource(CopyLogs, '/optboxes/copy-logs/')
+# todo: api.add_resource(Link, '/optboxes/link/')
+api.add_resource(Printers, '/printers/')
 api.add_resource(Optboxes, '/optboxes/')
+api.add_resource(Logs, '/logs/')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
