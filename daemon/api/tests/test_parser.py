@@ -197,7 +197,7 @@ class ParserTestCase(unittest.TestCase):
         self.assertDictEqual(rule3, {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost',
                                      'description': 'Revers forward for use ssh git.coaxis.com at home'})
 
-    def test_parse_list_channels(self):
+    def test_parse_list_all_printers_channels(self):
         stdout = [
             "3W",
             "L *:9102:10.100.7.48:9100         0     # Samsung ML3710",

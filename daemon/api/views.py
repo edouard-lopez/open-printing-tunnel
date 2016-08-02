@@ -24,7 +24,7 @@ class Root(Resource):
 
 class Optboxes(Resource):
     def get(self):
-        response = mast_utils.list_hosts()
+        response = mast_utils.list_optboxes()
         return {
                    'success': response['success'],
                    'output': response['output'],
@@ -38,7 +38,7 @@ class Optboxes(Resource):
         name = slugify(request.json['name'])
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_host(name, hostname)
+            response = mast_utils.add_optbox(name, hostname)
             return {
                        'success': response['success'],
                        'output': response['output'],
@@ -51,7 +51,7 @@ class Optboxes(Resource):
             abort(400)
 
         name = slugify(request.json['name'])
-        response = mast_utils.remove_host(name)
+        response = mast_utils.remove_optbox(name)
         return {
                    'success': response['success'],
                    'id': id,
@@ -83,7 +83,7 @@ class Printers(Resource):
             abort(400)
 
         name = slugify(request.json['name'])
-        response = mast_utils.remove_channel(name)
+        response = mast_utils.remove_printer(name)
         return {
                    'success': response['success'],
                    'name': name,
@@ -98,7 +98,7 @@ class Printers(Resource):
         hostname = request.json['hostname']
         description = request.json['description']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_channel(optbox, hostname)
+            response = mast_utils.add_printer(optbox, hostname)
             return {
                        'success': response['success'],
                        'optbox': optbox,
