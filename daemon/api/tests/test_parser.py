@@ -238,6 +238,22 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertDictEqual(response[index], {'optbox': 'Akema'})
 
+    def test_parse_a_printer_s_channels(self):
+        stdout = [
+            "L *:9102:10.100.7.48:9100         0     # Samsung ML3710",
+            "L *:9103:10.100.7.47:9100         1     # Ricoh Aficio MPC300",
+        ]
+
+        channels = parser.list_channels(stdout, 'Akema')
+
+        self.assertEqual(len(channels), 2)
+        self.assertListEqual(channels,
+            [
+                {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48', 'description': 'Samsung ML3710'},
+                {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47', 'description': 'Ricoh Aficio MPC300'},
+            ]
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

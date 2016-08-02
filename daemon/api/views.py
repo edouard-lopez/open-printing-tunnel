@@ -62,15 +62,19 @@ class Optboxes(Resource):
 
 class Printers(Resource):
     def get(self):
-        if request.json:
-            if not validators.has_all(request.json, ['optbox']):
-                abort(400)
-            else:
-                optbox = slugify(request.json['optbox'])
-                response = mast_utils.list_channels(optbox)
-        else:
-            response = mast_utils.list_channels()
-            optbox = '*'
+        response = mast_utils.list_printers()
+        optbox = '*'
+
+        return {
+                   'success': response['success'],
+                   'optbox': optbox,
+                   'output': response['output'],
+               }, 200 if response['success'] else 500
+
+class Printer(Resource):
+    def get(self, optbox=None):
+        optbox = slugify(optbox)
+        response = mast_utils.list_printers(optbox)
 
         return {
                    'success': response['success'],
@@ -137,6 +141,7 @@ api.add_resource(Root, '/')
 # todo: api.add_resource(CopyLogs, '/optboxes/copy-logs/')
 # todo: api.add_resource(Link, '/optboxes/link/')
 api.add_resource(Printers, '/printers/')
+api.add_resource(Printer, '/printers/<string:optbox>')
 api.add_resource(Optboxes, '/optboxes/')
 api.add_resource(Logs, '/logs/')
 
