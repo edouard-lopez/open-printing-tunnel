@@ -1,5 +1,9 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
-	<div id="newPrinter">
+<style>
+	.new-printer {
+		display: inline-block;
+	}
+</style>
+<template>
 	<div class="new-printer">
 		<button aria-label="Ajouter une imprimante"
 				role="button"
