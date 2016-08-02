@@ -44,8 +44,8 @@ class ShellTestCase(unittest.TestCase):
         escaped_data = shell.clean_response(stdout)
 
         self.assertEqual(escaped_data, [
-            '\tCoaxis                                  172.18.0.2',
-            '\tAkema                                  172.18.0.2'
+            'Coaxis                                  172.18.0.2',
+            'Akema                                  172.18.0.2'
         ])
 
 
