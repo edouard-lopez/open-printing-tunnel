@@ -146,7 +146,7 @@
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/umd/modal';
 	import Containers from '../../services/containers';
-	import AddContainerButton from '../../components/add-container-button';
+	import AddContainerButton from './add-container-button';
 	import OrderingArrow from '../../components/ordering-arrow';
 	import logging from '../../services/logging';
 
