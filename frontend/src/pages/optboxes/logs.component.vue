@@ -42,7 +42,7 @@
 					<button title="Status" role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top-left"
 							aria-label="Nettoyer le log"
-							@click="data=[]"
+							@click="stdout=[]"
 					>
 						<i class="fa fa-trash-o"> </i>
 					</button>
@@ -63,6 +63,10 @@
 	import Optboxes from '../../services/optboxes';
 	import Printers from '../../services/printers';
 	import logging from '../../services/logging';
+	import resource from 'pilou';
+
+	const printers = resource('printers', { all: '/daemon/${resource}/${name}'});
+	const optboxes = resource('optboxes', { all: '/daemon/${resource}/${name}'});
 
 	export default {
 		data() {
@@ -74,13 +78,9 @@
 				stdout: {}
 			};
 		},
-		ready(){
-			this.getOptboxes().then(()=> {
-			});
-		},
 		methods: {
 			getOptboxes(){
-				return Optboxes.all().then(response => {
+				return optboxes.all().then((response)=> {
 					this.data = response.data;
 					this.stdout = response.data.output;
 				}).catch(err => {
@@ -88,7 +88,7 @@
 				});
 			},
 			getPrinters(){
-				return Printers.all().then(response => {
+				printers.all().then((response)=> {
 					this.data = response.data;
 					this.stdout = response.data.output;
 				}).catch(err => {
