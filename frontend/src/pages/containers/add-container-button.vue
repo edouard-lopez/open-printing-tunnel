@@ -24,6 +24,18 @@
 									   placeholder="Subnet (i.e. 10.0.0.0/24)" v-model="container.subnet"/>
 							</fieldset>
 							<fieldset class="form-group">
+								<label for="subnet">Gateway <span class="text-danger">*</span></label>
+
+								<input type="text" class="form-control" id="gateway"
+									   placeholder="10.0.0.254" v-model="container.gateway"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label for="subnet">Container IP <span class="text-danger">*</span></label>
+
+								<input type="text" class="form-control" id="containerIp"
+									   placeholder="10.0.0.2" v-model="container.ip"/>
+							</fieldset>
+							<fieldset class="form-group">
 								<label for="description">Description <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="description"
@@ -55,6 +67,8 @@
 			return {
 				container: {
 					subnet: '',
+					gateway: '',
+					ip: '',
 					description: ''
 				},
 				formSubmitted: false

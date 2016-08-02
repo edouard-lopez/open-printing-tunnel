@@ -30,7 +30,7 @@ def get_network_config(data, docker_client):
     network = create_network(data, docker_client)
     network_name = docker_client.inspect_network(network.get('Id')).get('Name')
     network_info = dict()
-    network_info[network_name] = docker_client.create_endpoint_config()
+    network_info[network_name] = docker_client.create_endpoint_config(ipv4_address=data.get('ip'))
     networking_config = docker_client.create_networking_config(network_info)
     return networking_config
 

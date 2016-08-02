@@ -75,6 +75,8 @@ class MastContainerViewSet(viewsets.ModelViewSet):
         container = container_services.pop_new_container({
             'company_id': str(get_company(employee).id),
             'subnet': request.data.get('subnet'),
+            'gateway': request.data.get('gateway'),
+            'ip': request.data.get('ip'),
             'hostname': request.data.get('hostname'),
             'labels': request.data.get('labels')
         }, docker_api)
