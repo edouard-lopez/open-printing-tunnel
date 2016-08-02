@@ -1,14 +1,15 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 	<div id="newPrinter">
+	<div class="new-printer">
 		<button aria-label="Ajouter une imprimante"
 				role="button"
 				class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
 				data-toggle="modal"
-				data-target="#newPrinterModal"
+				data-target="#new-printer-modal-{{printer.optbox}}"
 		>
 			<i class="fa fa-plus-circle"> </i>
 		</button>
-		<div class="modal fade" id="newPrinterModal" tabindex="-1" role="dialog" aria-labelledby="action-label"
+		<div class="modal fade" id="new-printer-modal-{{printer.optbox}}" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content text-xs-left">
@@ -84,7 +85,7 @@
 
 				printers.create(this.printer)
 						.then(() => {
-							$('#newPrinterModal').modal('hide');
+							$('#new-printer-modal-'+printer.optbox).modal('hide');
 							this.formSubmitted = false;
 							this.$dispatch('PrinterCreated');
 						})

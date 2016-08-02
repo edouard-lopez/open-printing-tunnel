@@ -5,13 +5,14 @@
 </style>
 <template>
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="heading-host-{{optbox.hostname}}">
+		<div class="panel-heading" role="tab">
 			<h5 class="panel-title">
 				<div class="row">
 					<span class="col-md-5 expandable"
 						  data-toggle="collapse"
 						  aria-expanded="false"
-						  aria-controls="host-{{optbox.hostname}}"
+						  aria-controls="optbox-{{optbox.name}}"
+						  data-target="#optbox-{{optbox.name}}"
 					>
 						<span class="hint--top-right" aria-label="Tooltip on top">
 							<i class="tunnel-status fa fa-check text-muted"> </i>
@@ -22,9 +23,8 @@
 						<span class="divider"> – </span>
 						<span class="tunnel-fqdn text-muted">{{optbox.hostname}}</span>
 					</span>
-
 					<div class="col-md-7">
-						<ul class="btn-toolbar pull-md-right" role="toolbar"
+						<ul class="row btn-toolbar pull-md-right" role="toolbar"
 							aria-label="Toolbar with button groups">
 							<li class="btn-group" role="group" aria-label="Actions publiques">
 								<button aria-label="Status"
@@ -79,7 +79,7 @@
 								<button aria-label="Supprimer cet *hôte*"
 										role="button"
 										class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
-										@click="remove_host(optbox.name)"
+										@click="remove_optbox(optbox.name)"
 								>
 									<i class="fa fa-trash-o text-danger"> </i>
 								</button>
@@ -90,19 +90,25 @@
 				</div>
 			</h5>
 		</div>
-		<div id="host-{{optbox.name}}" class="panel-collapse collapse" role="tabpanel"
-			 aria-labelledby="heading-host-{{optbox.hostname}}">
-			<div class="text-xs-center">
-				<button class="btn btn-success" @click="add_printer()">
-					<i class="fa fa-plus-circle"></i>
-					Ajouter une imprimante
-				</button>
-				<button class="btn btn-info" @click="add_printer()">
-					<i class="fa fa-plus-circle"></i>
-					Ajouter des imprimantes
-				</button>
+		<div id="optbox-{{optbox.name}}" class="panel-collapse collapse in" role="tabpanel"
+			 aria-labelledby="optbox-{{optbox.hostname}}">
+			<div class="row">
+				<div id="accordion" class="col-lg-12" role="tablist" aria-multiselectable="true">
+				</div>
 			</div>
-			<br>
+			<div class=row>
+				<div class="text-xs-center">
+					<button class="btn btn-success" @click="add_printer()">
+						<i class="fa fa-plus-circle"></i>
+						Ajouter une imprimante
+					</button>
+					<button class="btn btn-info" @click="add_bulk_printers()">
+						<i class="fa fa-plus-circle"></i>
+						Ajouter des imprimantes
+					</button>
+				</div>
+				<br>
+			</div>
 		</div>
 	</div>
 </template>
