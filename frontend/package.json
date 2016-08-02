@@ -11,8 +11,7 @@
     "express": "^4.13.4",
     "hint.css": "^2.3.2",
     "notie": "^3.9.1",
-    "pilou": "0.0.2",
-    "vue-i18n": "^4.0.1"
+    "pilou": "0.0.3"
   },
   "devDependencies": {
     "ava": "^0.15.2",
@@ -41,6 +40,7 @@
     "vue": "^1.0.26",
     "vue-hot-reload-api": "^1.2.3",
     "vue-html-loader": "^1.0.0",
+    "vue-i18n": "^4.0.1",
     "vue-loader": "^8.2.1",
     "vue-router": "^0.7.13",
     "vue-style-loader": "^1.0.0",
