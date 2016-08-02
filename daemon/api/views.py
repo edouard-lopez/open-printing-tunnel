@@ -91,33 +91,34 @@ class Printers(Resource):
                }, 200 if response['success'] else 500
 
     def post(self):
-        if not request.json or not validators.has_all(request.json, ['name', 'hostname', 'description']):
+        if not request.json or not validators.has_all(request.json, ['optbox', 'hostname', 'description']):
             abort(400)
 
-        name = slugify(request.json['name'])
+        optbox = slugify(request.json['optbox'])
         hostname = request.json['hostname']
         description = request.json['description']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_channel(name, hostname)
+            response = mast_utils.add_channel(optbox, hostname)
             return {
                        'success': response['success'],
-                       'name': name,
+                       'optbox': optbox,
                        'description': description,
                        'hostname': hostname,
                        'output': response['output'],
                    }, 201 if response['success'] else 500
 
-    def put(self, name):
-        if not request.json or not validators.has_all(request.json, ['action']):
+    def put(self):
+        if not request.json or not validators.has_all(request.json, ['optbox', 'action']):
             abort(400)
 
+        optbox = slugify(request.json['optbox'])
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
-        response = getattr(daemon, action)(name)
+        response = getattr(daemon, action)(optbox)
         return {
                    'success': response['success'],
-                   'name': name,
+                   'optbox': optbox,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
