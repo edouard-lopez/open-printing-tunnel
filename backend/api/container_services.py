@@ -4,6 +4,7 @@ import logging
 import docker
 import docker.utils
 import docker.errors
+from django.conf import settings
 
 from api import models
 from api import services
@@ -75,12 +76,12 @@ def create_network(data, docker_client):
             return network
 
     try:
-        ipam_pool = docker.utils.create_ipam_pool(subnet=data.get('subnet'))
+        ipam_pool = docker.utils.create_ipam_pool(subnet=data.get('subnet'), gateway=data.get('gateway'))
         ipam_config = docker.utils.create_ipam_config(pool_configs=[ipam_pool])
         network = docker_client.create_network(network_name,
-                                               driver="bridge",
+                                               driver="macvlan",
                                                ipam=ipam_config,
-                                               options={"com.docker.network.bridge.host_binding_ipv4": "0.0.0.0"})
+                                               options={"parent": settings.DEFAULT_INTERFACE})
         return network
     except Exception as e:
         logger.exception(e)

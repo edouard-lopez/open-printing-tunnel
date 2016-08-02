@@ -6,6 +6,8 @@ services:
     restart: always
     volumes:
       - backend:/backend
+    environment:
+      - DEFAULT_INTERFACE=ens192
     command: /usr/bin/supervisord
   frontend:
     restart: always

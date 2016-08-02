@@ -179,3 +179,7 @@ if 'test' in sys.argv[1:] or 'jenkins' in sys.argv[1:]:
     TEMPLATE_DEBUG = False
     TESTS_IN_PROGRESS = True
     MIGRATION_MODULES = DisableMigrations()
+
+DEFAULT_INTERFACE = os.getenv('DEFAULT_INTERFACE')
+if not DEFAULT_INTERFACE:
+    raise Exception('Need default network interface, set DEFAULT_INTERFACE env var')
