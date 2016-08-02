@@ -8,7 +8,7 @@
 		<div class="panel-heading" role="tab" id="heading-host-{{optbox.hostname}}">
 			<h5 class="panel-title">
 				<div class="row">
-					<span class="col-md-6 expandable"
+					<span class="col-md-5 expandable"
 						  data-toggle="collapse"
 						  aria-expanded="false"
 						  aria-controls="host-{{optbox.hostname}}"
@@ -23,76 +23,63 @@
 						<span class="tunnel-fqdn text-muted">{{optbox.hostname}}</span>
 					</span>
 
-					<div class="col-md-6">
+					<div class="col-md-7">
 						<ul class="btn-toolbar pull-md-right" role="toolbar"
 							aria-label="Toolbar with button groups">
 							<li class="btn-group" role="group" aria-label="Actions publiques">
-								<button title="Status" role="button"
+								<button aria-label="Status"
+										role="button"
 										class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
 										@click="status(optbox.name)"
-										aria-label="Status"
 								>
 									<i class="fa fa-info"> </i>
 								</button>
-								<button
-										role="button"
-										class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
-										@click="add_channel(optbox.name)"
-										aria-label="Ajouter un *canal*"
-								>
-									<i class="fa fa-plus-circle"> </i>
-								</button>
-								<button
+								<add-printer-button :boitier="optbox"></add-printer-button>
+								<button aria-label="Ajouter des *canaux* par lot"
 										role="button"
 										class="btn btn-primary btn-sm btn-action hide-btn-content hint--top"
 										@click="add_bulk_channels(optbox.name)"
-										aria-label="Ajouter des *canaux* par lot"
 								>
 									<i class="fa fa-print"> </i>
 								</button>
-								<button
+								<button aria-label="script d'installation d'imprimante"
 										role="button"
 										class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
 										@click="link(optbox.name)"
-										aria-label="script d'installation d'imprimante"
 								>
 									<i class="fa fa-comment"> </i>
 								</button>
 							</li>
 							<li class="btn-group" role="group"
 								aria-label="Actions d'administration">
-								<button
+								<button aria-label="Redémarrer"
 										role="button"
 										class="btn btn-warning btn-sm btn-action restart hide-btn-content hint--top"
 										@click="restart(optbox.name)"
-										aria-label="Redémarrer"
 								>
 									<i class="fa fa-refresh"> </i>
 								</button>
-								<button
+								<button aria-label="Démarrer"
 										role="button"
 										class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
 										@click="start(optbox.name)"
-										aria-label="Démarrer"
 								>
 									<i class="fa fa-play"> </i>
 								</button>
-								<button
+								<button aria-label="Arrêter"
 										role="button"
 										class="btn btn-danger btn-sm btn-action hide-btn-content hint--top"
 										@click="stop(optbox.name)"
-										aria-label="Arrêter"
 								>
 									<i class="fa fa-stop"> </i>
 								</button>
 							</li>
 							<li class="btn-group" role="group"
 								aria-label="Actions non-réversibles">
-								<button
+								<button aria-label="Supprimer cet *hôte*"
 										role="button"
 										class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
 										@click="remove_host(optbox.name)"
-										aria-label="Supprimer cet *hôte*"
 								>
 									<i class="fa fa-trash-o text-danger"> </i>
 								</button>
@@ -122,10 +109,9 @@
 <script>
 	import 'bootstrap/dist/js/umd/collapse.js';
 	import resource from 'pilou';
+	import AddPrinterButtonComponent from './add-printer-button.vue';
 
-	const printers = resource('printers', {
-		update: '/daemon/${resource}/${name}'
-	});
+	const printers = resource('printers', {update: '/daemon/${resource}/${name}'});
 
 	export default{
 		data(){
@@ -137,12 +123,30 @@
 				required: true
 			},
 		},
+		components: {
+			'add-printer-button': AddPrinterButtonComponent,
+		},
 		methods: {
 			status(name) {
 				printers.update({name: name}, {action: 'status'}).then(response => {
 					this.$dispatch('log-response', response.data);
 				});
-			}
+			},
+			start(name) {
+				printers.update({name: name}, {action: 'start'}).then(response => {
+					this.$dispatch('log-response', response.data);
+				});
+			},
+			stop(name) {
+				printers.update({name: name}, {action: 'stop'}).then(response => {
+					this.$dispatch('log-response', response.data);
+				});
+			},
+			restart(name) {
+				printers.update({name: name}, {action: 'restart'}).then(response => {
+					this.$dispatch('log-response', response.data);
+				});
+			},
 		}
 	}
 
