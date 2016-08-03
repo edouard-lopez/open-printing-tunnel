@@ -46,6 +46,21 @@ class Optboxes(Resource):
                        'hostname': hostname,
                    }, 201 if response['success'] else 500
 
+    def put(self):
+        if not request.json or not validators.has_all(request.json, ['id', 'action']):
+            abort(400)
+
+        id = slugify(request.json['id'])
+        action = slugify(request.json['action'])
+        if action not in ['start', 'stop', 'status', 'restart']:
+            abort(400)
+        response = getattr(daemon, action)(id)
+        return {
+                   'success': response['success'],
+                   'id': id,
+                   'output': response['output'],
+               }, 200 if response['success'] else 500
+
     def delete(self):
         if not request.json or not validators.has_all(request.json, ['id', 'name']):
             abort(400)
@@ -114,22 +129,6 @@ class Printer(Resource):
                        'hostname': hostname,
                        'output': response['output'],
                    }, 201 if response['success'] else 500
-
-    def put(self):
-        if not request.json or not validators.has_all(request.json, ['optbox', 'action']):
-            abort(400)
-
-        optbox = slugify(request.json['optbox'])
-        action = slugify(request.json['action'])
-        if action not in ['start', 'stop', 'status', 'restart']:
-            abort(400)
-        response = getattr(daemon, action)(optbox)
-        return {
-                   'success': response['success'],
-                   'optbox': optbox,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
-
 
 class Logs(Resource):
     def get(self):
