@@ -19,7 +19,7 @@
 					<div class="row">
 						<div id="accordion" role="tablist" aria-multiselectable="true">
 							<div v-for="optbox in optboxes" class="panel panel-default">
-								<optbox-row :optbox="optbox"></optbox-row>
+								<optbox :optbox="optbox"></optbox>
 							</div>
 						</div>
 					</div>
@@ -38,25 +38,18 @@
 
 <script type="text/ecmascript-6">
 	import Optboxes from '../../services/optboxes';
-	import OptboxRowComponent from './optbox-row.component.vue';
-	import AddOptboxButtonComponent from './add-optbox-button.vue';
+	import OptboxComponent from './optbox.component.vue';
+	import AddOptboxButtonComponent from './add-optbox.component.vue';
 	import LogsComponent from './logs.component.vue';
 	import logging from '../../services/logging';
+
+	// todo: use pilou
 
 	export default {
 		data() {
 			return {
 				no_container_message: 'loading…',
-				optboxes: [
-					{
-						name: 'no-data-01',
-						hostname: '10.1.4.1'
-					},
-					{
-						name: 'no-data-02',
-						hostname: '10.1.4.23'
-					}
-				]
+				optboxes: []
 			};
 		},
 		ready(){
@@ -67,7 +60,7 @@
 			});
 		},
 		components: {
-			'optbox-row': OptboxRowComponent,
+			'optbox': OptboxComponent,
 			'add-optbox-button': AddOptboxButtonComponent,
 			'logs': LogsComponent,
 		},
