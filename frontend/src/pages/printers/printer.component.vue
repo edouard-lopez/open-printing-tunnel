@@ -8,9 +8,8 @@
 			 role="toolbar" aria-label="Toolbar with button groups">
 			<div class="col-md-8" role="group" aria-label="Actions publiques">
 				<a href="http://{{printer.hostname}}">{{ printer.hostname }}</a>
-				<span>on port <span class="port">{{ printer.port }}</span></span>
+				<span>on port <abbr class="port" title="{{printer.forward}}">{{ printer.port }}</abbr></span>
 				<span class="description text-muted">{{ printer.description }}</span>
-				<i class="text-muted">{{ printer.forward }}</i>
 			</div>
 			<div class="col-md-4">
 				<ul class="btn-toolbar">
