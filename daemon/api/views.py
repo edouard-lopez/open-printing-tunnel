@@ -73,6 +73,8 @@ class Printers(Resource):
 
 class Printer(Resource):
     def get(self, optbox=None):
+        if not optbox:
+            abort(400)
         optbox = slugify(optbox)
         response = mast_utils.list_printers(optbox)
 
@@ -82,7 +84,9 @@ class Printer(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-    def delete(self):
+    def delete(self, optbox=None):
+        if not optbox:
+            abort(400)
         if not request.json or not validators.has_all(request.json, ['name']):
             abort(400)
 
