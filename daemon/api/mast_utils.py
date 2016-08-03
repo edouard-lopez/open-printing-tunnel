@@ -9,24 +9,24 @@ daemon = '/etc/init.d/mast'
 makefile = '/usr/sbin/mast-utils'
 
 
-def add_printer(name, hostname, description=''):
-    command = [makefile, 'add-channel', 'NAME=' + name, 'PRINTER=' + hostname, 'DESC=' + description]
+def add_printer(optbox, hostname, description=''):
+    command = [makefile, 'add-channel', 'NAME=' + optbox, 'PRINTER=' + hostname, 'DESC=' + description]
     return shell.execute(command)
 
 
-def list_printers(name=''):
+def list_printers(optbox=''):
     command = [makefile, 'list-channels']
-    if name:
-        command.append(' NAME=' + name)
+    if optbox:
+        command.append(' NAME=' + optbox)
 
     response = shell.execute(command)
-    response['output'] = parser.list_printers(response['output'], name)
+    response['output'] = parser.list_printers(response['output'], optbox)
 
     return response
 
 
-def remove_printer(id, name):
-    command = [makefile, 'remove-channel', 'ID=' + id, 'NAME=' + name]
+def remove_printer(optbox, printer_id):
+    command = [makefile, 'remove-channel', 'ID=' + printer_id, 'NAME=' + optbox]
     return shell.execute(command)
 
 
