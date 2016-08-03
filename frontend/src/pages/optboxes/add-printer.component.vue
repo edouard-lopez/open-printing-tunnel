@@ -8,12 +8,12 @@
 			role="button"
 			class="btn btn-success btn-action hide-btn-content hint--top {{class}}"
 			data-toggle="modal"
-			data-target="#new-printer-modal-{{printer.optbox}}"
+			data-target="#printer-modal-{{printer.optbox}}"
 	>
 		<i class="fa fa-plus-circle"> </i>
 		<span v-if="label">{{label}}</span>
 	</button>
-	<div class="modal fade" id="new-printer-modal-{{printer.optbox}}"
+	<div class="modal fade" id="printer-modal-{{printer.optbox}}"
 		 tabindex="-1"
 		 role="dialog"
 		 aria-labelledby="action-label"
@@ -91,12 +91,13 @@
 				this.formSubmitted = true;
 
 				printers.create(this.printer)
-						.then(() => {
-							$('#new-printer-modal-' + printer.optbox).modal('hide');
+						.then((response) => {
+							$('#printer-modal-' + response.data.optbox).modal('hide');
 							this.formSubmitted = false;
 							this.$dispatch('PrinterCreated');
 						})
-						.catch(() => {
+						.catch((err) => {
+							console.log(err)
 							this.formSubmitted = false;
 							logging.error('Impossible d\'ajouter l\'imprimante');
 						});

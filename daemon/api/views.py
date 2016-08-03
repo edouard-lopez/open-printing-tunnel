@@ -30,6 +30,7 @@ class Optboxes(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
+
 class Optbox(Resource):
     def post(self, id):
         logger.debug(request.json)
@@ -86,7 +87,6 @@ class Printers(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-
     def post(self):
         if not request.json or not validators.has_all(request.json, ['optbox', 'hostname', 'description']):
             abort(400)
@@ -103,6 +103,8 @@ class Printers(Resource):
                        'hostname': hostname,
                        'output': response['output'],
                    }, 201 if response['success'] else 500
+
+
 class Printer(Resource):
     def get(self, optbox=None):
         if not optbox:
