@@ -30,27 +30,27 @@ class Optboxes(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-    def post(self):
+    def post(self, id):
         logger.debug(request.json)
-        if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
+        if not request.json or not validators.has_all(request.json, ['hostname']):
             abort(400)
 
-        name = slugify(request.json['name'])
+        id = slugify(id)
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_optbox(name, hostname)
+            response = mast_utils.add_optbox(id, hostname)
             return {
                        'success': response['success'],
                        'output': response['output'],
-                       'name': name,
+                       'id': id,
                        'hostname': hostname,
                    }, 201 if response['success'] else 500
 
-    def put(self):
-        if not request.json or not validators.has_all(request.json, ['id', 'action']):
+    def put(self, id):
+        if not request.json or not validators.has_all(request.json, ['action']):
             abort(400)
 
-        id = slugify(request.json['id'])
+        id = slugify(id)
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
@@ -62,15 +62,14 @@ class Optboxes(Resource):
                }, 200 if response['success'] else 500
 
     def delete(self):
-        if not request.json or not validators.has_all(request.json, ['id', 'name']):
+        if not request.json or not validators.has_all(request.json, ['id']):
             abort(400)
 
-        name = slugify(request.json['name'])
-        response = mast_utils.remove_optbox(name)
+        id = slugify(request.json['id'])
+        response = mast_utils.remove_optbox(id)
         return {
                    'success': response['success'],
                    'id': id,
-                   'name': name,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
@@ -102,14 +101,14 @@ class Printer(Resource):
     def delete(self, optbox=None):
         if not optbox:
             abort(400)
-        if not request.json or not validators.has_all(request.json, ['name']):
+        if not request.json or not validators.has_all(request.json, ['id']):
             abort(400)
 
-        name = slugify(request.json['name'])
-        response = mast_utils.remove_printer(name)
+        id = slugify(request.json['id'])
+        response = mast_utils.remove_printer(optbox, id)
         return {
                    'success': response['success'],
-                   'name': name,
+                   'id': id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
