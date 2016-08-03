@@ -12,7 +12,6 @@ services:
       - backend
       - frontend
     links:
-      - opt-box
       - backend
       - frontend
   backend:
@@ -27,12 +26,6 @@ services:
     build: ./frontend
     ports:
      - "8080:8080"
-
-  # demo box
-  opt-box:
-      build: ./opt-box/
-      ports:
-        - "22:22"
 
 volumes:
   database:
