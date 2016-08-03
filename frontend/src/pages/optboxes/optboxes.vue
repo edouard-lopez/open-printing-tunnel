@@ -43,21 +43,19 @@
 	import LogsComponent from './logs.component.vue';
 	import logging from '../../services/logging';
 
-	// todo: use pilou
+	import resource from 'pilou';
+
+	const optboxes = resource('optboxes', { all: '/daemon/${resource}/'});
 
 	export default {
 		data() {
 			return {
-				no_container_message: 'loading…',
-				optboxes: []
+				optboxes: [],
+				no_optbox_message: 'loading…'
 			};
 		},
 		ready(){
-			this.getOptboxes().then(()=> {
-				if (this.count == 0) {
-					this.no_optbox_message = 'there is no optbox'
-				}
-			});
+			this.getOptboxes();
 		},
 		components: {
 			'optbox': OptboxComponent,
@@ -65,26 +63,12 @@
 			'logs': LogsComponent,
 		},
 		methods: {
-			getOptboxes(){
-				return Optboxes.all().then(response => {
+			getOptboxes() {
+				optboxes.all().then((response) => {
 					this.optboxes = response.data.output;
-				})
-			},
-			openOptbox(id){
-				this.$router.go(`/optboxes/${id}/`);
-			},
-			addOptbox(optbox){
-				this.$router.go(`/optboxes/create/`);
-			},
-			deleteOptbox(optbox){
-				Optboxes.delete(optbox)
-						.then(() => {
-							logging.success(this.$t('optboxes.delete.succeed'));
-							this.getOptboxes();
-						})
-						.catch(() => {
-							logging.error(this.$t('optboxes.delete.failed'))
-						});
+				}).catch(() => {
+					this.no_optbox_message = 'there is no optbox';
+				});
 			}
 		},
 		events: {

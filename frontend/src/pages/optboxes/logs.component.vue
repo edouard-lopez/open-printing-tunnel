@@ -80,7 +80,7 @@
 		},
 		methods: {
 			getOptboxes(){
-				return optboxes.all().then((response)=> {
+				optboxes.all().then((response)=> {
 					this.data = response.data;
 					this.stdout = response.data.output;
 				}).catch(err => {
