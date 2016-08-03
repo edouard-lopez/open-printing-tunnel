@@ -45,7 +45,6 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import 'bootstrap/dist/js/umd/modal';
 	import Optboxes from '../../services/optboxes';
 	import logging from '../../services/logging';
 

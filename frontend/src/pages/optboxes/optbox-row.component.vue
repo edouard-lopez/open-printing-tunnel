@@ -113,7 +113,6 @@
 	</div>
 </template>
 <script>
-	import 'bootstrap/dist/js/umd/collapse.js';
 	import resource from 'pilou';
 	import AddPrinterButtonComponent from './add-printer-button.vue';
 

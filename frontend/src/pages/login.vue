@@ -1,6 +1,6 @@
 <template>
     <div id="login-page">
-        <div class="col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+        <div class="col-sm-6 offset-sm-3 col-lg-4 offset-lg-4">
             <div class="card card-block m-y-2">
                 <form v-on:submit.prevent="login" name="loginForm">
                     <h4>{{ $t('name') }}</h4>
