@@ -30,6 +30,7 @@ class Optboxes(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
+class Optbox(Resource):
     def post(self, id):
         logger.debug(request.json)
         if not request.json or not validators.has_all(request.json, ['hostname']):
@@ -85,6 +86,23 @@ class Printers(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
+
+    def post(self):
+        if not request.json or not validators.has_all(request.json, ['optbox', 'hostname', 'description']):
+            abort(400)
+
+        optbox = slugify(request.json['optbox'])
+        hostname = request.json['hostname']
+        description = request.json['description']
+        if validators.is_valid_host(hostname):
+            response = mast_utils.add_printer(optbox, hostname)
+            return {
+                       'success': response['success'],
+                       'optbox': optbox,
+                       'description': description,
+                       'hostname': hostname,
+                       'output': response['output'],
+                   }, 201 if response['success'] else 500
 class Printer(Resource):
     def get(self, optbox=None):
         if not optbox:
@@ -112,22 +130,6 @@ class Printer(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-    def post(self):
-        if not request.json or not validators.has_all(request.json, ['optbox', 'hostname', 'description']):
-            abort(400)
-
-        optbox = slugify(request.json['optbox'])
-        hostname = request.json['hostname']
-        description = request.json['description']
-        if validators.is_valid_host(hostname):
-            response = mast_utils.add_printer(optbox, hostname)
-            return {
-                       'success': response['success'],
-                       'optbox': optbox,
-                       'description': description,
-                       'hostname': hostname,
-                       'output': response['output'],
-                   }, 201 if response['success'] else 500
 
 class Logs(Resource):
     def get(self):
@@ -145,6 +147,7 @@ api.add_resource(Root, '/')
 api.add_resource(Printers, '/printers/')
 api.add_resource(Printer, '/printers/<string:optbox>')
 api.add_resource(Optboxes, '/optboxes/')
+api.add_resource(Optbox, '/optboxes/<string:id>')
 api.add_resource(Logs, '/logs/')
 
 if __name__ == "__main__":
