@@ -12,26 +12,27 @@
 				<span class="description text-muted">{{ printer.description }}</span>
 				<i class="text-muted">{{ printer.forward }}</i>
 			</div>
-			<ul class="col-md-4">
-				<li class="btn-group" role="group" aria-label="Actions non-réversibles">
-					<button aria-label="Supprimer cette *imprimante*"
-							role="button"
-							class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
-							@click="remove(printer.id)"
-					>
-						<i class="fa fa-trash-o text-danger"> </i>
-					</button>
-				</li>
-				<li class="btn-group" role="group" aria-label="Actions d'administrations">
-					<button aria-label="script d'installation d'imprimante"
-							role="button"
-							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
-							@click="link(optbox.name)"
-					>
-						<i class="fa fa-comment"> </i>
-					</button>
-				</li>
-			</ul>
+			<div class="col-md-4">
+				<ul class="btn-toolbar">
+					<li class="btn-group" role="group" aria-label="Actions non-réversibles">
+						<button aria-label="Supprimer cette *imprimante*"
+								role="button"
+								class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
+								@click="remove(printer.id)"
+						>
+							<i class="fa fa-trash-o text-danger"> </i>
+						</button>
+					</li>
+					<li class="btn-group" role="group" aria-label="Actions d'administrations">
+						<button aria-label="script d'installation d'imprimante"
+								role="button"
+								class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
+								@click="link(optbox.name)"
+						>
+							<i class="fa fa-comment"> </i>
+						</button>
+					</li>
+				</ul>			</div>
 		</div>
 </template>
 <script type="text/ecmascript-6">

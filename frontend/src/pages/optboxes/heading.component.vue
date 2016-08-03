@@ -5,7 +5,6 @@
 	<div class="row">
 		<div class="col-md-6 expandable"
 			 data-toggle="collapse"
-			 data-parent="#accordion"
 			 aria-expanded="false"
 			 aria-controls="optbox-{{optbox.name}}"
 			 data-target="#optbox-{{optbox.name}}"
