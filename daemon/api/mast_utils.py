@@ -26,7 +26,7 @@ def list_printers(optbox=''):
 
 
 def remove_printer(optbox, printer_id):
-    command = [makefile, 'remove-channel', 'ID=' + printer_id, 'NAME=' + optbox]
+    command = [makefile, 'remove-channel', 'ID=' + str(printer_id), 'NAME=' + optbox]
     return shell.execute(command)
 
 
