@@ -32,19 +32,19 @@ class Optboxes(Resource):
 
 
 class Optbox(Resource):
-    def post(self, id):
+    def post(self, optbox_id):
         logger.debug(request.json)
         if not request.json or not validators.has_all(request.json, ['hostname']):
             abort(400)
 
-        id = slugify(id)
+        optbox_id = slugify(optbox_id)
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_optbox(id, hostname)
+            response = mast_utils.add_optbox(optbox_id, hostname)
             return {
                        'success': response['success'],
                        'output': response['output'],
-                       'id': id,
+                       'id': optbox_id,
                        'hostname': hostname,
                    }, 201 if response['success'] else 500
 
@@ -63,15 +63,15 @@ class Optbox(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-    def delete(self):
-        if not request.json or not validators.has_all(request.json, ['id']):
+    def delete(self, optbox_id):
+        if not optbox_id:
             abort(400)
 
-        id = slugify(request.json['id'])
-        response = mast_utils.remove_optbox(id)
+        optbox_id = slugify(optbox_id)
+        response = mast_utils.remove_optbox(optbox_id)
         return {
                    'success': response['success'],
-                   'id': id,
+                   'id': optbox_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
