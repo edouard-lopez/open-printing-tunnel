@@ -40,7 +40,7 @@
 
 	const printer = resource('printers', {
 				get: '/daemon/${resource}/${optbox}',
-				'delete': '/daemon/${resource}/${optbox}'
+				delete: '/daemon/optboxes/${optbox}/${resource}/${id}'
 			}
 	);
 
@@ -55,7 +55,7 @@
 		},
 		methods: {
 			remove(printer_id) {
-				printer.delete({'optbox': optbox.name}, {'id': printer_id}).then((response) => {
+				printer.delete({'optbox': this.optbox.name, 'id': printer_id}).then((response) => {
 					console.log(this.printer.channels[printer_id])
 					logging.success(this.$t('optboxes.remove.succeed'));
 				}).catch(() => {

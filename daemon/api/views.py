@@ -76,14 +76,28 @@ class Optbox(Resource):
                }, 200 if response['success'] else 500
 
 
-class Printers(Resource):
+class PrintersList(Resource):
     def get(self):
-        response = mast_utils.list_printers()
         optbox = '*'
+        response = mast_utils.list_printers()
 
         return {
                    'success': response['success'],
                    'optbox': optbox,
+                   'output': response['output'],
+               }, 200 if response['success'] else 500
+
+
+class Printers(Resource):
+    def get(self, optbox_id=None):
+        if not optbox_id:
+            abort(400)
+        optbox_id = slugify(optbox_id)
+        response = mast_utils.list_printers(optbox_id)
+
+        return {
+                   'success': response['success'],
+                   'optbox': optbox_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
@@ -106,29 +120,17 @@ class Printers(Resource):
 
 
 class Printer(Resource):
-    def get(self, optbox=None):
-        if not optbox:
+    def delete(self, optbox_id=None, printer_id=None):
+        app.logger.debug(optbox_id, printer_id)
+        if optbox_id is None or printer_id is None:  # printer_id can have value of 0
             abort(400)
-        optbox = slugify(optbox)
-        response = mast_utils.list_printers(optbox)
 
+        optbox_id = slugify(optbox_id)
+        response = mast_utils.remove_printer(optbox_id, printer_id)
         return {
                    'success': response['success'],
-                   'optbox': optbox,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
-
-    def delete(self, optbox=None):
-        if not optbox:
-            abort(400)
-        if not request.json or not validators.has_all(request.json, ['id']):
-            abort(400)
-
-        id = slugify(request.json['id'])
-        response = mast_utils.remove_printer(optbox, id)
-        return {
-                   'success': response['success'],
-                   'id': id,
+                   'optbox': optbox_id,
+                   'id': printer_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
@@ -146,10 +148,11 @@ api.add_resource(Root, '/')
 # todo: api.add_resource(AddBulkPrinters, '/optboxes/add-bulk-channels/')
 # todo: api.add_resource(CopyLogs, '/optboxes/copy-logs/')
 # todo: api.add_resource(Link, '/optboxes/link/')
-api.add_resource(Printers, '/printers/')
-api.add_resource(Printer, '/printers/<string:optbox>')
 api.add_resource(Optboxes, '/optboxes/')
-api.add_resource(Optbox, '/optboxes/<string:id>')
+api.add_resource(Optbox, '/optboxes/<string:optbox_id>')
+api.add_resource(PrintersList, '/printers/')
+api.add_resource(Printers, '/printers/<string:optbox_id>')
+api.add_resource(Printer, '/optboxes/<string:optbox_id>/printers/<int:printer_id>')
 api.add_resource(Logs, '/logs/')
 
 if __name__ == "__main__":
