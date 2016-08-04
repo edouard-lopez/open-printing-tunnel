@@ -48,6 +48,13 @@ class ShellTestCase(unittest.TestCase):
             'Akema                                  172.18.0.2'
         ])
 
+    def test_ignore_empty_stdout(self):
+        stdout = [""]
+
+        escaped_data = shell.clean_response(stdout)
+
+        self.assertListEqual(escaped_data, [])
+
 
 if __name__ == '__main__':
     unittest.main()

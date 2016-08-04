@@ -171,7 +171,8 @@ def list_printers(lines, optbox=''):
 def list_channels(lines, printer):
     channels = []
     for line in lines:
-        channels.append(forward_rule(line))
+        if line:
+            channels.append(forward_rule(line))
 
     return channels
 

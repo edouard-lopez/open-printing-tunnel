@@ -230,7 +230,6 @@ class ParserTestCase(unittest.TestCase):
             }
         ])
 
-
     def test_get_optbox_dict(self):
         response = [{'optbox': '3W'}, {'optbox': 'Akema'}]
 
@@ -247,12 +246,19 @@ class ParserTestCase(unittest.TestCase):
         channels = parser.list_channels(stdout, 'Akema')
 
         self.assertEqual(len(channels), 2)
-        self.assertListEqual(channels,
-            [
-                {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48', 'description': 'Samsung ML3710'},
-                {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47', 'description': 'Ricoh Aficio MPC300'},
-            ]
-        )
+        self.assertListEqual(channels, [
+            {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48', 'description': 'Samsung ML3710'},
+            {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47',
+             'description': 'Ricoh Aficio MPC300'},
+        ]
+    )
+
+    def test_parse_empty_channels_list(self):
+        stdout = [""]
+
+        channels = parser.list_channels(stdout, 'Akema')
+
+        self.assertListEqual(channels, [])
 
 
 if __name__ == '__main__':
