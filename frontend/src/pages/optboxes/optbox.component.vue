@@ -22,10 +22,7 @@
 				</div>
 				<div class="text-xs-center">
 					<add-printer-button :boitier="optbox" label="Ajouter une imprimante"></add-printer-button>
-					<button class="btn btn-info" @click="add_bulk_printers()">
-						<i class="fa fa-plus-circle"></i>
-						Ajouter des imprimantes
-					</button>
+					<add-printers-button :boitier="optbox" label="Ajouter des imprimantes"></add-printers-button>
 				</div>
 				<br>
 			</div>
@@ -35,6 +32,7 @@
 <script>
 	import resource from 'pilou';
 	import AddPrinterButtonComponent from './add-printer.component.vue';
+	import AddPrintersButtonComponent from './add-printers.component.vue';
 	import PrinterComponent from '../printers/printer.component.vue';
 	import HeadingComponent from './heading.component.vue';
 
@@ -58,6 +56,7 @@
 		},
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
+			'add-printers-button': AddPrintersButtonComponent,
 			'printer': PrinterComponent,
 			'heading': HeadingComponent,
 		},
