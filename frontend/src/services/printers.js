@@ -2,6 +2,13 @@ import axios from 'axios';
 
 export default {
 	localStorage: null,
+	remove(printers, printerId) {
+		const index = printers.findIndex(printer => printer.id === printerId);
+
+		if (index !== -1) {
+			return printers.splice(index, 1);
+		}
+	},
 	getRequestConfig() {
 		const token = this.localStorage.getItem('token');
 		return {

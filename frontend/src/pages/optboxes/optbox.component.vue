@@ -31,6 +31,7 @@
 </template>
 <script>
 	import resource from 'pilou';
+	import printersService from '../../services/printers';
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 	import AddPrintersButtonComponent from './add-printers.component.vue';
 	import PrinterComponent from '../printers/printer.component.vue';
@@ -65,10 +66,18 @@
 		},
 		methods: {
 			getPrinters(optbox) {
-				printers.get({'optbox': optbox.name}).then(response => {
+				printers.get({optbox_id: optbox.name}).then(response => {
 					this.printers = response.data.output[0].channels;
 				});
 			}
+		},
+		events: {
+			'printer-created': (printer) => {
+				console.info('printer-created');
+				console.log(printer);
+				this.getPrinters(printer.optbox);
+			},
+			'printer-deleted': (printer) => { printersService.remove(this.printers, printer.id) }
 		}
 	}
 
