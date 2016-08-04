@@ -1,11 +1,11 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 	<div id="newOptbox">
 		<button type="button" class="btn btn-success" data-toggle="modal"
-				data-target="#newOptboxModal">
+				data-target="#optbox-modal">
 			<i class="fa fa-plus-circle"></i>
 			Ajouter un boitier
 		</button>
-		<div class="modal fade" id="newOptboxModal" tabindex="-1" role="dialog" aria-labelledby="action-label"
+		<div class="modal fade" id="optbox-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content text-xs-left">
@@ -21,13 +21,13 @@
 								<label for="name">Nom du boitier <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="name"
-									   placeholder="ex. client-un" v-model="Optbox.name"/>
+									   placeholder="ex. client-un" v-model="optbox.name"/>
 							</fieldset>
 							<fieldset class="form-group">
 								<label for="hostname">Hôte distant <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="hostname"
-									   placeholder="ex. 10.0.254.1" v-model="Optbox.hostname"/>
+									   placeholder="ex. 10.0.254.1" v-model="optbox.hostname"/>
 							</fieldset>
 						</form>
 					</div>
@@ -45,14 +45,15 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import Optboxes from '../../services/optboxes';
+	import resource from 'pilou';
 	import logging from '../../services/logging';
 
-	Optboxes.localStorage = localStorage;
+	const optboxes = resource('optboxes', {create: '/daemon/${resource}/',});
+
 	export default {
 		data() {
 			return {
-				Optbox: {
+				optbox: {
 					name: '',
 					hostname: ''
 				},
@@ -63,21 +64,23 @@
 			createOptbox(){
 				this.formSubmitted = true;
 
-				Optboxes.create(this.Optbox)
+				optboxes.create(this.optbox)
 						.then(() => {
-							$('#newOptboxModal').modal('hide');
+							$('#optbox-modal').modal('hide');
 							this.formSubmitted = false;
-							this.$dispatch('OptboxCreated');
+							this.$dispatch('optbox-created', response.data);
 						})
 						.catch(() => {
+							console.log(err);
 							this.formSubmitted = false;
 							logging.error('Impossible d\'ajouter le boitier');
 						});
 			}
+
 		},
 		computed: {
 			formIsValid(){
-				return !!(this.Optbox.name && this.Optbox.hostname && !this.formSubmitted);
+				return !!(this.optbox.name && this.optbox.hostname && !this.formSubmitted);
 			}
 		}
 	};

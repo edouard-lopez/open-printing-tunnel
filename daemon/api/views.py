@@ -30,14 +30,12 @@ class Optboxes(Resource):
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-
-class Optbox(Resource):
-    def post(self, optbox_id):
+    def post(self):
         logger.debug(request.json)
-        if not request.json or not validators.has_all(request.json, ['hostname']):
+        if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
             abort(400)
 
-        optbox_id = slugify(optbox_id)
+        optbox_id = slugify(request.json['name'])
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
             response = mast_utils.add_optbox(optbox_id, hostname)
@@ -48,18 +46,20 @@ class Optbox(Resource):
                        'hostname': hostname,
                    }, 201 if response['success'] else 500
 
-    def put(self, id):
+
+class Optbox(Resource):
+    def put(self, optbox_id):
         if not request.json or not validators.has_all(request.json, ['action']):
             abort(400)
 
-        id = slugify(id)
+        optbox_id = slugify(optbox_id)
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
-        response = getattr(daemon, action)(id)
+        response = getattr(daemon, action)(optbox_id)
         return {
                    'success': response['success'],
-                   'id': id,
+                   'id': optbox_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
@@ -76,28 +76,14 @@ class Optbox(Resource):
                }, 200 if response['success'] else 500
 
 
-class PrintersList(Resource):
+class Printers(Resource):
     def get(self):
-        optbox = '*'
+        optbox = '__all__'
         response = mast_utils.list_printers()
 
         return {
                    'success': response['success'],
                    'optbox': optbox,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
-
-
-class Printers(Resource):
-    def get(self, optbox_id=None):
-        if not optbox_id:
-            abort(400)
-        optbox_id = slugify(optbox_id)
-        response = mast_utils.list_printers(optbox_id)
-
-        return {
-                   'success': response['success'],
-                   'optbox': optbox_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
@@ -117,6 +103,20 @@ class Printers(Resource):
                        'hostname': hostname,
                        'output': response['output'],
                    }, 201 if response['success'] else 500
+
+
+class PrintersGet(Resource):
+    def get(self, optbox_id=None):
+        if optbox_id is None:
+            abort(400)
+        optbox_id = slugify(optbox_id)
+        response = mast_utils.list_printers(optbox_id)
+
+        return {
+                   'success': response['success'],
+                   'optbox': optbox_id,
+                   'output': response['output'],
+               }, 200 if response['success'] else 500
 
 
 class Printer(Resource):
@@ -150,8 +150,8 @@ api.add_resource(Root, '/')
 # todo: api.add_resource(Link, '/optboxes/link/')
 api.add_resource(Optboxes, '/optboxes/')
 api.add_resource(Optbox, '/optboxes/<string:optbox_id>')
-api.add_resource(PrintersList, '/printers/')
-api.add_resource(Printers, '/printers/<string:optbox_id>')
+api.add_resource(Printers, '/printers/')
+api.add_resource(PrintersGet, '/optboxes/<string:optbox_id>/printers/')
 api.add_resource(Printer, '/optboxes/<string:optbox_id>/printers/<int:printer_id>')
 api.add_resource(Logs, '/logs/')
 

@@ -39,7 +39,7 @@
 	import HeadingComponent from './heading.component.vue';
 
 	const printers = resource('printers', {
-				get: '/daemon/${resource}/${optbox}',
+				get: '/daemon/optboxes/${optbox}/${resource}/',
 				update: '/daemon/${resource}/${optbox}'
 			}
 	);
@@ -66,10 +66,10 @@
 		},
 		methods: {
 			getPrinters(optbox) {
-				printers.get({'optbox': optbox.name}).then((response) => {
+				printers.get({'optbox': optbox.name}).then(response => {
 					this.printers = response.data.output[0].channels;
-				})
-			},
+				});
+			}
 		}
 	}
 

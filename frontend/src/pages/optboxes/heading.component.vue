@@ -88,8 +88,9 @@
 	import resource from 'pilou';
 
 	const optboxes = resource('optboxes', {
-		all: '/daemon/${resource}/${id}',
-		update: '/daemon/${resource}/${id}'
+		all: '/daemon/${resource}/${optbox_id}',
+		update: '/daemon/${resource}/${optbox_id}',
+		delete: '/daemon/${resource}/${optbox_id}'
 	});
 
 
@@ -108,12 +109,12 @@
 		},
 		methods: {
 			status(optbox_id) {
-				optboxes.update({id: optbox_id}, {action: 'status'}).then(response => {
+				optboxes.update({optbox_id: optbox_id}, {action: 'status'}).then(response => {
 					this.$dispatch('log-response', response.data);
 				});
 			},
 			start(optbox_id) {
-				optboxes.update({id: optbox_id}, {action: 'start'}).then(response => {
+				optboxes.update({optbox_id: optbox_id}, {action: 'start'}).then(response => {
 					this.$dispatch('log-response', response.data);
 					logging.success(this.$t('optboxes.start.succeed'));
 				}).catch(() => {
@@ -121,7 +122,7 @@
 				});
 			},
 			stop(optbox_id) {
-				optboxes.update({id: optbox_id}, {action: 'stop'}).then(response => {
+				optboxes.update({optbox_id: optbox_id}, {action: 'stop'}).then(response => {
 					this.$dispatch('log-response', response.data);
 					logging.success(this.$t('optboxes.stop.succeed'));
 				}).catch(() => {
@@ -129,7 +130,7 @@
 				});
 			},
 			restart(optbox_id) {
-				optboxes.update({id: optbox_id}, {action: 'restart'}).then(response => {
+				optboxes.update({optbox_id: optbox_id}, {action: 'restart'}).then(response => {
 					this.$dispatch('log-response', response.data);
 					logging.success(this.$t('optboxes.restart.succeed'));
 				}).catch(() => {
@@ -137,8 +138,8 @@
 				});
 			},
 			remove(optbox_id) {
-				optboxes.delete({'optbox': optbox_id}).then((response) => {
-					console.log(this.printer.channels[optbox_id])
+				optboxes.delete({optbox_id: optbox_id}).then((response) => {
+					console.log(this.printer.channels[optbox_id]);
 					logging.success(this.$t('optboxes.remove.succeed'));
 				}).catch(() => {
 					logging.error(this.$t('optboxes.delete.failed'))
