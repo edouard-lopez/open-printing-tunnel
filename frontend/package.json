@@ -58,6 +58,7 @@
     "ignores": [
       "webpack.config.js",
       "server.js",
+      "src/services/array.js",
       "test/_helpers.js"
     ],
     "overrides": [
