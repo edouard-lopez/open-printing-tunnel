@@ -5,8 +5,7 @@
     "fields": {
       "created": "2016-06-28T16:07:11.733Z",
       "modified": "2016-06-28T16:07:11.733Z",
-      "name": "Akema SAS",
-      "employees": []
+      "name": "Akema SAS"
     }
   },
   {
@@ -15,8 +14,7 @@
     "fields": {
       "created": "2016-06-28T16:07:29.737Z",
       "modified": "2016-06-28T16:07:29.737Z",
-      "name": "Coaxis ASP",
-      "employees": []
+      "name": "Coaxis ASP"
     }
   }
 ]
