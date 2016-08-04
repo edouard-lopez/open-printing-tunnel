@@ -253,7 +253,7 @@ class ParserTestCase(unittest.TestCase):
         ]
     )
 
-    def test_parse_empty_channels_list(self):
+    def test_ignore_empty_channels_list(self):
         stdout = [""]
 
         channels = parser.list_channels(stdout, 'Akema')

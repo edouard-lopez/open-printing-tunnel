@@ -10,7 +10,10 @@ makefile = '/usr/sbin/mast-utils'
 
 
 def add_printer(optbox, hostname, description=''):
-    command = [makefile, 'add-channel', 'NAME=' + optbox, 'PRINTER=' + hostname, 'DESC=' + description]
+    command = [makefile, 'add-channel',
+               'NAME=' + optbox,
+               'PRINTER=' + hostname,
+               'DESC=' + description]
     return shell.execute(command)
 
 
@@ -26,7 +29,10 @@ def list_printers(optbox=''):
 
 
 def remove_printer(optbox, printer_id):
-    command = [makefile, 'remove-channel', 'ID=' + str(printer_id), 'NAME=' + optbox]
+    command = [makefile, 'remove-channel',
+               'ID=' + str(printer_id),
+               'NAME=' + optbox
+               ]
     return shell.execute(command)
 
 
@@ -38,7 +44,11 @@ def list_optboxes():
 
 
 def add_optbox(name, hostname):
-    command = [makefile, 'add-host', 'NAME=' + name, 'REMOTE_HOST=' + hostname]
+    command = [makefile, 'add-host',
+               'NAME=' + name,
+               'REMOTE_HOST=' + hostname,
+               'INTERACTIVE=false'
+               ]
     logger.debug(name, hostname, command)
     return shell.execute(command)
 

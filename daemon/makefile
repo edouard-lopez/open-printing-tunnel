@@ -29,6 +29,7 @@ WEB_SERVER:=www-data
 
 # force use of Bash
 SHELL := /bin/bash
+INTERACTIVE=true
 
 # default remote hostname
 REMOTE_HOST:=none
@@ -216,6 +217,7 @@ remove-channel:
 # Adding a new host configuration require to provide it's NAME and REMOTE_HOST
 # @require: {string} NAME configuration name
 # @require: {string} REMOTE_HOST  IP address or FQDN
+# @optional: {boolean} INTERACTIVE  require user input (default: true)
 add-host: deploy-key
 	@printf "Adding host…\n"
 	@if [[ "${NAME}" == "none" || -z "${NAME}" || "${REMOTE_HOST}" == "none" || -z "${REMOTE_HOST}" ]]; then \
@@ -229,7 +231,7 @@ add-host: deploy-key
 		safe_name="$$(echo "${NAME}" | iconv -t ASCII//TRANSLIT | sed -e 's/[^A-Za-z0-9._-]/-/g')"; \
 		cp ${CONFIG_DIR}/{template,"$${safe_name}"}; \
 		sed -i 's/{{HOST}}/${REMOTE_HOST}/g' "${CONFIG_DIR}/$${safe_name}"; \
-		while true; do \
+		while ${INTERACTIVE} && true; do \
 			read -p "$(shell printf "\tEditing…\t%s? [y/N]\n" $$'$(call VALUE,${CONFIG_DIR}/$${safe_name})' )" yn; \
 			case $$yn in \
 				[Yy]* ) \
