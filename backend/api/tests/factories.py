@@ -10,6 +10,7 @@ class CompanyFactory(factory.DjangoModelFactory):
     name = 'Coaxis'
 
 
+@factory.django.mute_signals(models.post_save)
 class UserFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.MyUser
@@ -51,6 +52,7 @@ class TechnicianFactory(EmployeeFactory):
     #     if extracted:  # A list of objects were passed in, use them
     #         for company in extracted:
     #             self.companies.add(company)
+
 
 class RemoteNodeFactory(factory.DjangoModelFactory):
     class Meta:

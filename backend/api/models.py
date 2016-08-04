@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from django.db import models
+from django.db.models.signals import post_save
 
 from api import container_services
 
@@ -77,6 +78,15 @@ class Employee(DateMixin):
 
     def __str__(self):
         return self.user.email
+
+
+def create_employee(sender, **kwargs):
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        Employee.objects.create(user=user)
+
+
+post_save.connect(create_employee, sender=MyUser)
 
 
 class Company(DateMixin):
