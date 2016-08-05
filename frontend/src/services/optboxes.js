@@ -2,6 +2,12 @@ import axios from 'axios';
 
 export default {
 	localStorage: null,
+	remove(optboxes, optbox) {
+		const index = optboxes.findIndex(current => current.id === optbox.id);
+		if (index !== -1) {
+			return optboxes.splice(index, 1);
+		}
+	},
 	getRequestConfig() {
 		const token = this.localStorage.getItem('token');
 		return {

@@ -87,6 +87,7 @@
 	import logging from '../../services/logging';
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 	import resource from 'pilou';
+	import actions from '../../store/actions'
 
 	const optboxes = resource('optboxes', {
 		all: '/daemon/${resource}/${optbox_id}',
@@ -140,14 +141,20 @@
 			},
 			remove(optbox_id) {
 				optboxes.delete({optbox_id: optbox_id}).then((response) => {
-					console.log(this.printer.channels[optbox_id]);
+					this.removeOptbox(response.data);
 					logging.success(this.$t('optboxes.remove.succeed'));
-				}).catch(() => {
+				}).catch((err) => {
+					console.log('deletion failed', err);
 					logging.error(this.$t('optboxes.delete.failed'))
 				});
 			},
 			link(name) {
 				// todo
+			}
+		},
+		vuex: {
+			actions: {
+				removeOptbox: actions.removeOptbox,
 			}
 		}
 	}

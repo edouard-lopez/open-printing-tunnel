@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import optboxesService from '../services/optboxes';
 Vue.use(Vuex);
 
 const state = {
@@ -11,6 +12,9 @@ const state = {
 const mutations = {
 	setOptboxes(state, optboxes) {
 		state.optboxes = optboxes;
+	},
+	removeOptbox(state, optbox) {
+		optboxesService.remove(state.optboxes, optbox);
 	}
 };
 
