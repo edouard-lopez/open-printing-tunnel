@@ -8,14 +8,14 @@
 	}
 </style>
 <template>
-	<div id="accordion-{{optbox.name}}" role="tablist" aria-multiselectable="true">
+	<div id="accordion-{{optbox.id}}" role="tablist" aria-multiselectable="true">
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab">
 				<h6 class="panel-title">
 					<heading :optbox="optbox"></heading>
 				</h6>
 			</div>
-			<div id="optbox-{{optbox.name}}" class="panel-collapse collapse in" role="tabpanel"
+			<div id="optbox-{{optbox.id}}" class="panel-collapse collapse in" role="tabpanel"
 				 aria-labelledby="optbox-{{optbox.hostname}}">
 				<div v-for="printer in printers">
 					<printer :printer="printer" :optbox="optbox"></printer>
@@ -66,7 +66,7 @@
 		},
 		methods: {
 			getPrinters(optbox) {
-				printers.get({optbox_id: optbox.name}).then(response => {
+				printers.get({optbox_id: optbox.id}).then(response => {
 					this.printers = response.data.output[0].channels;
 				});
 			}

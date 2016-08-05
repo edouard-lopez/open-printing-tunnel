@@ -6,14 +6,14 @@
 		<div class="col-md-6 expandable"
 			 data-toggle="collapse"
 			 aria-expanded="false"
-			 aria-controls="optbox-{{optbox.name}}"
-			 data-target="#optbox-{{optbox.name}}"
+			 aria-controls="optbox-{{optbox.id}}"
+			 data-target="#optbox-{{optbox.id}}"
 		>
 			<span class="hint--top-right" aria-label="Tooltip on top">
 				<i class="tunnel-status fa fa-check text-muted"> </i>
 			</span>
 			<span class="tunnel-name">
-				<b>{{optbox.name}}</b>
+				<b>{{optbox.id}}</b>
 			</span>
 			<span class="divider"> – </span>
 			<span class="tunnel-fqdn text-muted">{{optbox.hostname}}</span>
@@ -26,7 +26,7 @@
 					<button aria-label="Supprimer cet *hôte*"
 							role="button"
 							class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
-							@click="remove(optbox.name)"
+							@click="remove(optbox.id)"
 					>
 						<i class="fa fa-trash-o text-danger"> </i>
 					</button>
@@ -36,21 +36,21 @@
 					<button aria-label="Redémarrer"
 							role="button"
 							class="btn btn-warning btn-sm btn-action restart hide-btn-content hint--top"
-							@click="restart(optbox.name)"
+							@click="restart(optbox.id)"
 					>
 						<i class="fa fa-refresh"> </i>
 					</button>
 					<button aria-label="Démarrer"
 							role="button"
 							class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
-							@click="start(optbox.name)"
+							@click="start(optbox.id)"
 					>
 						<i class="fa fa-play"> </i>
 					</button>
 					<button aria-label="Arrêter"
 							role="button"
 							class="btn btn-danger btn-sm btn-action hide-btn-content hint--top"
-							@click="stop(optbox.name)"
+							@click="stop(optbox.id)"
 					>
 						<i class="fa fa-stop"> </i>
 					</button>
@@ -59,7 +59,7 @@
 					<button aria-label="Status"
 							role="button"
 							class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
-							@click="status(optbox.name)"
+							@click="status(optbox.id)"
 					>
 						<i class="fa fa-info"> </i>
 					</button>
@@ -67,14 +67,14 @@
 					<button aria-label="Ajouter des *canaux* par lot"
 							role="button"
 							class="btn btn-primary btn-sm btn-action hide-btn-content hint--top"
-							@click="add_bulk_channels(optbox.name)"
+							@click="add_bulk_channels(optbox.id)"
 					>
 						<i class="fa fa-print"> </i>
 					</button>
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
-							@click="link(optbox.name)"
+							@click="link(optbox.id)"
 					>
 						<i class="fa fa-comment"> </i>
 					</button>

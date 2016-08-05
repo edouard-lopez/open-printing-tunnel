@@ -13,15 +13,15 @@ class ParserTestCase(unittest.TestCase):
 
         parsed_response = parser.list_optboxes(stdout)
 
-        self.assertDictEqual(parsed_response[0], {'name': '3W', 'hostname': '10.100.7.49'})
-        self.assertDictEqual(parsed_response[1], {'name': 'Akema', 'hostname': '88.116.12.46'})
+        self.assertDictEqual(parsed_response[0], {'id': '3W', 'hostname': '10.100.7.49'})
+        self.assertDictEqual(parsed_response[1], {'id': 'Akema', 'hostname': '88.116.12.46'})
 
     def test_parse_status(self):
         stdout = ["Akema                               off\tservice has not been started yet"]
 
-        response = parser.status(stdout, 'Akema')
+        response = parser.status(stdout)
 
-        self.assertIsNotNone(response[0]['name'])
+        self.assertIsNotNone(response[0]['id'])
         self.assertIsNotNone(response[0]['state'])
 
     def test_can_detect_status_state(self):
@@ -39,7 +39,7 @@ class ParserTestCase(unittest.TestCase):
         parsed_response = parser.status_is_off(stdout)
 
         self.assertDictEqual(parsed_response[0], {
-            'name': 'Akema',
+            'id': 'Akema',
             'state': 'off',
             'help': 'service has not been started yet'
         })
@@ -53,7 +53,7 @@ class ParserTestCase(unittest.TestCase):
         parsed_response = parser.status_is_on(stdout)
 
         self.assertDictEqual(parsed_response[0], {
-            'name': 'Akema',
+            'id': 'Akema',
             'state': 'on',
             'uptime': '30-16:22:00',
             'pid': 19569,
@@ -69,7 +69,7 @@ class ParserTestCase(unittest.TestCase):
         response = parser.start(stdout, 'Akema')
 
         self.assertDictEqual(response, {
-            'name': 'Akema',
+            'id': 'Akema',
             'status': 'started',
             'pid': 26348,
         })
@@ -80,7 +80,7 @@ class ParserTestCase(unittest.TestCase):
         response = parser.start(stdout, 'Akema')
 
         self.assertDictEqual(response, {
-            'name': 'Akema',
+            'id': 'Akema',
             'status': 'no channels',
         })
 
@@ -116,7 +116,7 @@ class ParserTestCase(unittest.TestCase):
         ]
         response = parser.stop(stdout, 'Akema')
         self.assertDictEqual(response, {
-            'name': 'Akema',
+            'id': 'Akema',
             'status': 'stopped',
             'pid': 26149,
         })
@@ -164,7 +164,7 @@ class ParserTestCase(unittest.TestCase):
         response = parser.restart(stdout, 'Akema')
 
         self.assertDictEqual(response, {
-            'name': 'Akema',
+            'id': 'Akema',
             'status': 'restarted',
             'pid': 26453,
         })

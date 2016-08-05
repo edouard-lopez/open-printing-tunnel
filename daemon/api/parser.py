@@ -5,19 +5,19 @@ logger = logging.getLogger(__name__)
 
 
 def list_optboxes(lines):
-    parser = re.compile(r'[\t]*(?P<name>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
+    parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
     response = []
     for line in lines:
         data = parser.search(line)
         response.append({
-            'name': data.group(1),
+            'id': data.group(1),
             'hostname': data.group(2),
         })
 
     return response
 
 
-def status(lines, name):
+def status(lines):
     for line in lines:
         state = detect_status_state(line)
         if state == 'on':
@@ -35,12 +35,12 @@ def detect_status_state(line):
 
 def status_is_on(lines):
     parser = re.compile(
-        r'\s*(?P<name>\w+):autossh\s+(?P<state>on)\s+pid:\s+(?P<pid>[\d]+).*uptime:\s+(?P<uptime>[\d\-:]+)')
+        r'\s*(?P<id>\w+):autossh\s+(?P<state>on)\s+pid:\s+(?P<pid>[\d]+).*uptime:\s+(?P<uptime>[\d\-:]+)')
     response = []
     for line in lines:
         data = parser.search(line)
         response.append({
-            'name': data.group(1),
+            'id': data.group(1),
             'state': data.group(2),
             'pid': int(data.group(3)),
             'uptime': data.group(4),
@@ -49,12 +49,12 @@ def status_is_on(lines):
 
 
 def status_is_off(lines):
-    parser = re.compile(r'[\t]*(?P<name>[^\s]+)[\s]*(?P<status>[^\s]+)[\s]*(?P<help>[^\n\t]+)')
+    parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<status>[^\s]+)[\s]*(?P<help>[^\n\t]+)')
     response = []
     for line in lines:
         data = parser.search(line)
         response.append({
-            'name': data.group(1),
+            'id': data.group(1),
             'state': data.group(2),
             'help': data.group(3),
         })
@@ -62,8 +62,8 @@ def status_is_off(lines):
     return response
 
 
-def start(lines, name):
-    response = {'name': name}
+def start(lines, id):
+    response = {'id': id}
 
     if 'ForwardPort array' in lines[0]:
         response['status'] = 'no channels'
@@ -94,8 +94,8 @@ def start_get_optbox_pid(line):
     return int(pid)
 
 
-def stop(lines, name):
-    response = {'name': name}
+def stop(lines, id):
+    response = {'id': id}
 
     state = detect_stop_state(lines[1])
     if state == 'done' or state == 'skipped':
@@ -119,8 +119,8 @@ def detect_stop_state(line):
     return state
 
 
-def restart(lines, name):
-    response = {'name': name}
+def restart(lines, id):
+    response = {'id': id}
 
     state = detect_start_state(lines[-1])
     if state == 'done':
@@ -177,9 +177,9 @@ def list_channels(lines, printer):
     return channels
 
 
-def find_optbox(response, name):
+def find_optbox(response, id):
     for i, host in enumerate(response):
-        if host['optbox'] == name:
+        if host['optbox'] == id:
             return i
 
 

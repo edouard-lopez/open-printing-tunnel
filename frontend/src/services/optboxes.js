@@ -31,14 +31,14 @@ export default {
 	},
 	update(optbox) {
 		const config = this.getRequestConfig();
-		return axios.put(`/daemon/optboxes/${optbox.name}/`, optbox, config)
+		return axios.put(`/daemon/optboxes/${optbox.id}/`, optbox, config)
 			.then(response => {
 				return response.data;
 			});
 	},
 	delete(optbox) {
 		const config = this.getRequestConfig();
-		return axios.delete(`/daemon/optboxes/${optbox.name}/`, config)
+		return axios.delete(`/daemon/optboxes/${optbox.id}/`, config)
 			.then(response => {
 				return response.data;
 			});

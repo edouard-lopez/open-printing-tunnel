@@ -21,7 +21,7 @@
 								<label for="name">Nom du boitier <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="name"
-									   placeholder="ex. client-un" v-model="optbox.name"/>
+									   placeholder="ex. client-un" v-model="optbox.id"/>
 							</fieldset>
 							<fieldset class="form-group">
 								<label for="hostname">Hôte distant <span class="text-danger">*</span></label>
@@ -80,7 +80,7 @@
 		},
 		computed: {
 			formIsValid(){
-				return !!(this.optbox.name && this.optbox.hostname && !this.formSubmitted);
+				return !!(this.optbox.id && this.optbox.hostname && !this.formSubmitted);
 			}
 		}
 	};

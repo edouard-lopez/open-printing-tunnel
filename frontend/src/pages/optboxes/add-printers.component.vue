@@ -64,7 +64,7 @@
 			};
 		},
 		created() {
-			this.printers.optboxName = this.boitier.name
+			this.printers.optboxName = this.boitier.id
 		},
 		props: {
 			boitier: {

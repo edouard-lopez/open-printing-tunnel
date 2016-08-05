@@ -4,7 +4,6 @@ export default {
 	localStorage: null,
 	remove(printers, printerId) {
 		const index = printers.findIndex(printer => printer.id === printerId);
-
 		if (index !== -1) {
 			return printers.splice(index, 1);
 		}
