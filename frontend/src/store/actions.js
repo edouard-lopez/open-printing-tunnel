@@ -1,11 +1,8 @@
 export default {
-	incrementCounter({dispatch, state}) {
-		dispatch('INCREMENT', 1)
+	setOptboxes({dispatch}, optboxes) {
+		dispatch('setOptboxes', optboxes);
 	},
-	setOptboxes({dispatch, state}, optboxes) {
-		dispatch('setOptboxes', optboxes)
-	},
-	removeOptbox({dispatch, state}, optbox_id) {
-		dispatch('removeOptbox', optbox_id)
-	},
-}
+	removeOptbox({dispatch}, optbox) {
+		dispatch('removeOptbox', optbox);
+	}
+};

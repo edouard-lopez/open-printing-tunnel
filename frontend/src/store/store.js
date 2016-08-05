@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
@@ -10,11 +10,11 @@ const state = {
 
 const mutations = {
 	setOptboxes(state, optboxes) {
-		state.optboxes = optboxes
+		state.optboxes = optboxes;
 	}
 };
 
 export default new Vuex.Store({
 	state,
 	mutations
-})
+});

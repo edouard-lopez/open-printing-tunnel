@@ -1,5 +1,5 @@
 export default {
 	retrieveOptboxes(state) {
-		return state.optboxes
+		return state.optboxes;
 	}
-}
+};

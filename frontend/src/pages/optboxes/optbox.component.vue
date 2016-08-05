@@ -37,11 +37,7 @@
 	import PrinterComponent from '../printers/printer.component.vue';
 	import HeadingComponent from './heading.component.vue';
 
-	const printers = resource('printers', {
-				get: '/daemon/optboxes/${optbox}/${resource}/',
-				update: '/daemon/${resource}/${optbox}'
-			}
-	);
+	const printers = resource('printers', { get: '/daemon/optboxes/${optbox_id}/${resource}/'});
 
 	export default{
 		data(){

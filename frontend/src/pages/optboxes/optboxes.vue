@@ -46,7 +46,7 @@
 	import actions from '../../store/actions'
 	import resource from 'pilou';
 
-	const optboxes = resource('optboxes', { all: '/daemon/${resource}/'});
+	const optboxes = resource('optboxes', {all: '/daemon/${resource}/'});
 
 
 	export default {
