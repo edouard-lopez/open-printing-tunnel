@@ -5,12 +5,12 @@ import optboxesService from '../src/services/optboxes';
 import {storageMock, optboxesGetAll, optboxGetOne} from './_helpers';
 
 test('should remove optbox from list', t => {
-	const optboxes = [{id: 4}, {id: 5}, {id: 15}];
+	const optboxes = [{id: 'akema'}, {id: 'coaxis'}, {id: 'github'}];
 
-	optboxesService.remove(optboxes, {id: 5});
+	optboxesService.remove(optboxes, {id: 'coaxis'});
 
 	t.is(optboxes.length, 2);
-	t.deepEqual(optboxes, [{id: 4}, {id: 15}]);
+	t.deepEqual(optboxes, [{id: 'akema'}, {id: 'github'}]);
 });
 
 optboxesService.localStorage = storageMock();
