@@ -84,6 +84,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
+	import logging from '../../services/logging';
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 	import resource from 'pilou';
 
