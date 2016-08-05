@@ -112,6 +112,6 @@ RUN python3 -m pip install -r requirements.txt
 RUN cd /opt/mast/ && make install
 
 COPY config/ /etc/supervisor/conf.d
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/prod.conf"]
 
 EXPOSE 5000

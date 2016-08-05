@@ -156,4 +156,4 @@ api.add_resource(Printer, '/optboxes/<string:optbox_id>/printers/<int:printer_id
 api.add_resource(Logs, '/logs/')
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run()

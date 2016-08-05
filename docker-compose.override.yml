@@ -13,7 +13,7 @@ services:
       - FLASK_DEBUG=1
     volumes:
       - ./daemon/api:/daemon/api
-    command: supervisord
+    command: supervisord -c /etc/supervisor/conf.d/dev.conf
   frontend:
     volumes:
       - ./frontend:/frontend

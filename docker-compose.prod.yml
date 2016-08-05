@@ -8,7 +8,7 @@ services:
       - backend:/backend
     environment:
       - DEFAULT_INTERFACE=ens192
-    command: /usr/bin/supervisord
+    command: /usr/bin/supervisord -c /etc/supervisor/conf.d/prod.conf
   frontend:
     restart: always
   nginx:
