@@ -140,8 +140,9 @@ def forward_rule(line):
     return {
         'id': int(fields[2]),
         'forward': forward,
-        'port': int(rule[1]),
+        'listening_port': int(rule[1]),
         'hostname': rule[2],
+        'destination_port': int(rule[3]),
         'description': description
     }
 

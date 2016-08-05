@@ -190,12 +190,28 @@ class ParserTestCase(unittest.TestCase):
         rule2 = parser.forward_rule(line2)
         rule3 = parser.forward_rule(line3)
 
-        self.assertDictEqual(rule1, {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48',
-                                     'description': 'Samsung ML3710'})
-        self.assertDictEqual(rule2, {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47',
-                                     'description': 'Ricoh Aficio MPC300'})
-        self.assertDictEqual(rule3, {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost',
-                                     'description': 'Revers forward for use ssh git.coaxis.com at home'})
+        self.assertDictEqual(rule1, {
+            'id': 0, 'forward': 'normal',
+            'listening_port': 9102,
+            'destination_port': 9100,
+            'hostname': '10.100.7.48',
+            'description': 'Samsung ML3710'
+        })
+        self.assertDictEqual(rule2, {
+            'id': 1, 'forward': 'normal',
+            'listening_port': 9103,
+            'destination_port': 9100,
+            'hostname': '10.100.7.47',
+            'description': 'Ricoh Aficio MPC300'
+        })
+        self.assertDictEqual(rule3, {
+            'id': 0,
+            'forward': 'reverse',
+            'listening_port': 22,
+            'destination_port': 22,
+            'hostname': 'localhost',
+            'description': 'Revers forward for use ssh git.coaxis.com at home'
+        })
 
     def test_parse_list_all_printers_channels(self):
         stdout = [
@@ -251,7 +267,7 @@ class ParserTestCase(unittest.TestCase):
             {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47',
              'description': 'Ricoh Aficio MPC300'},
         ]
-    )
+                             )
 
     def test_ignore_empty_channels_list(self):
         stdout = [""]
