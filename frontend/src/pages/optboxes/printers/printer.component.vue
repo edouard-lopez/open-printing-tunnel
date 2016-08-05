@@ -36,7 +36,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from '../../services/logging';
+	import logging from '../../../services/logging';
 	import resource from 'pilou';
 
 	const printer = resource('printers', { delete: '/daemon/optboxes/${optbox_id}/${resource}/${printer_id}'}
@@ -56,7 +56,7 @@
 					this.$dispatch('printer-deleted', response.data);
 					logging.success(this.$t('optboxes.remove.succeed'));
 				}).catch((err) => {
-					console.log(err)
+					console.log('deletion failed', err);
 					logging.error(this.$t('optboxes.delete.failed'))
 				});
 			}
