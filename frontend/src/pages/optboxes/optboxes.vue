@@ -37,7 +37,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import optboxesService from '../../services/optboxes';
 	import OptboxComponent from './optbox.component.vue';
 	import AddOptboxButtonComponent from './add-optbox.component.vue';
 	import LogsComponent from './logs/logs.component.vue';
@@ -76,16 +75,10 @@
 			'log-response': function (message) {
 				this.$broadcast('log-response', message);
 			},
-			'optbox-deleted': (optbox) => {
-				console.log('optboxes list', this.optboxes);
-				console.log('optbox', this.optboxes, optbox);
-//				optboxesService.remove(this.optboxes, optbox.id);
-			}
 		},
 		vuex: {
 			actions: {
 				setOptboxes: actions.setOptboxes,
-//				removeBoitiers
 			},
 			getters: {
 				optboxes: getters.retrieveOptboxes
