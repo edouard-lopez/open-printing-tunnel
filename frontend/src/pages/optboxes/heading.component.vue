@@ -84,10 +84,11 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from '../../services/logging';
 	import AddPrinterButtonComponent from './add-printer.component.vue';
+
+	import actions from '../../store/actions';
+	import logging from '../../services/logging';
 	import resource from 'pilou';
-	import actions from '../../store/actions'
 
 	const optboxes = resource('optboxes', {
 		all: '/daemon/${resource}/${optbox_id}',

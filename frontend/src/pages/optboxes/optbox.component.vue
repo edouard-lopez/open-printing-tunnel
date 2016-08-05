@@ -30,14 +30,17 @@
 	</div>
 </template>
 <script>
-	import resource from 'pilou';
-	import printersService from '../../services/printers';
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 	import AddPrintersButtonComponent from './add-printers.component.vue';
-	import PrinterComponent from './printers/printer.component.vue';
 	import HeadingComponent from './heading.component.vue';
+	import PrinterComponent from './printers/printer.component.vue';
 
-	const printers = resource('printers', { get: '/daemon/optboxes/${optbox_id}/${resource}/'});
+	import actions from '../../store/actions';
+	import getters from '../../store/getters';
+	import printersService from '../../services/printers';
+	import resource from 'pilou';
+
+	const printers = resource('printers', {get: '/daemon/optboxes/${optbox_id}/${resource}/'});
 
 	export default{
 		data(){

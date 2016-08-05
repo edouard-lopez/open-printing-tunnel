@@ -58,6 +58,7 @@
 </template>
 <script type="text/ecmascript-6">
 	import Containers from '../../services/containers';
+
 	import logging from '../../services/logging';
 
 	Containers.localStorage = localStorage;

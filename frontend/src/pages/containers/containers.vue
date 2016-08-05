@@ -144,9 +144,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import Containers from '../../services/containers';
 	import AddContainerButton from './add-container-button';
+	import Containers from '../../services/containers';
 	import OrderingArrow from '../../components/ordering-arrow';
+
 	import logging from '../../services/logging';
 
 	Containers.localStorage = localStorage;

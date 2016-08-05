@@ -48,8 +48,8 @@
 </template>
 <script type="text/ecmascript-6">
 	import logging from '../../services/logging';
-	import resource from 'pilou';
 	import printersService from '../../services/printers';
+	import resource from 'pilou';
 
 	const printers = resource('printers', {create: '/daemon/${resource}/'});
 
