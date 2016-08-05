@@ -19,7 +19,7 @@ printersService.localStorage = storageMock();
 const token = 'ZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFt';
 printersService.localStorage.setItem('token', token);
 const printer = {
-	name: 'nouvelle imprimante',
+	id: 'nouvelle imprimante',
 	hostname: '1.2.3.4',
 	description: 'salle de réunion'
 };
@@ -64,8 +64,8 @@ test('should get a printer', t => {
 	nock('http://localhost/').get('/daemon/printers/049fed91-6880-4c08-8cb2-21e8579d4543/').reply(200, printerGetOne);
 
 	return printersService.get('049fed91-6880-4c08-8cb2-21e8579d4543').then(printer => {
-		t.truthy(printerGetOne.name);
-		t.is(printerGetOne.name, printer.name);
+		t.is(printerGetOne.id, 0);
+		t.is(printerGetOne.id, printer.id);
 	});
 });
 

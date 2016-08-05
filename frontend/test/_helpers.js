@@ -35,7 +35,7 @@ const containersGetAll = {
 			infos: {
 				id: 'a5775b3cf95c465d5abcee59934c087cad9ca3d20bee266c44576b7b3d06ac1c',
 				status: 'running',
-				name: '/mast__e45b0231-251f-401d-b379-eb5875fc343b'
+				id: '/mast__e45b0231-251f-401d-b379-eb5875fc343b'
 			}
 		},
 		{
@@ -46,7 +46,7 @@ const containersGetAll = {
 			infos: {
 				id: 'a5775b3cf95c465d5abcee59934c087cad9ca3d20bee266c44576b7b3d06ac1c',
 				status: 'running',
-				name: '/mast__e45b0231-251f-401d-b379-eb5875fc343b'
+				id: '/mast__e45b0231-251f-401d-b379-eb5875fc343b'
 			}
 		}
 	]
@@ -59,15 +59,15 @@ export {containersGetOne};
 const optboxesGetAll = {
 	results: [
 		{
-			name: 'Bordeaux',
+			id: 'Bordeaux',
 			hostname: 'bordeaux.opt'
 		},
 		{
-			name: 'Marmande',
+			id: 'Marmande',
 			hostname: 'marmande.opt'
 		},
 		{
-			name: 'Cestas',
+			id: 'Cestas',
 			hostname: 'cestas.opt'
 		}
 	]
@@ -81,17 +81,17 @@ export {optboxGetOne};
 const printersGetAll = {
 	data: [
 		{
-			name: 'imprimante 1',
+			id: 0,
 			hostname: '1.2.3.4',
 			description: 'salle 1',
 		},
 		{
-			name: 'imprimante 2',
+			id: 4,
 			hostname: '1.2.3.5',
 			description: 'salle 2',
 		},
 		{
-			name: 'imprimante 3',
+			id: 3,
 			hostname: '1.2.3.6',
 			description: 'salle 3',
 		}
