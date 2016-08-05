@@ -37,20 +37,21 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import Optboxes from '../../services/optboxes';
+	import optboxesService from '../../services/optboxes';
 	import OptboxComponent from './optbox.component.vue';
 	import AddOptboxButtonComponent from './add-optbox.component.vue';
-	import LogsComponent from './logs.component.vue';
+	import LogsComponent from './logs/logs.component.vue';
 	import logging from '../../services/logging';
-
+	import getters from '../../store/getters'
+	import actions from '../../store/actions'
 	import resource from 'pilou';
 
 	const optboxes = resource('optboxes', { all: '/daemon/${resource}/'});
 
+
 	export default {
 		data() {
 			return {
-				optboxes: [],
 				no_optbox_message: 'loading…'
 			};
 		},
@@ -65,7 +66,7 @@
 		methods: {
 			getOptboxes() {
 				optboxes.all().then((response) => {
-					this.optboxes = response.data.output;
+					this.setOptboxes(response.data.output);
 				}).catch(() => {
 					this.no_optbox_message = 'there is no optbox';
 				});
@@ -74,6 +75,20 @@
 		events: {
 			'log-response': function (message) {
 				this.$broadcast('log-response', message);
+			},
+			'optbox-deleted': (optbox) => {
+				console.log('optboxes list', this.optboxes);
+				console.log('optbox', this.optboxes, optbox);
+//				optboxesService.remove(this.optboxes, optbox.id);
+			}
+		},
+		vuex: {
+			actions: {
+				setOptboxes: actions.setOptboxes,
+//				removeBoitiers
+			},
+			getters: {
+				optboxes: getters.retrieveOptboxes
 			}
 		}
 	}

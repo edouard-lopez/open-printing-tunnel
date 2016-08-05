@@ -76,6 +76,7 @@
 	import 'bootstrap/dist/js/bootstrap.js';
 	import Sidebar from './components/sidebar';
 	import auth from './services/auth';
+	import store from './store/store'
 
 	export default {
 		data() {
@@ -85,6 +86,7 @@
 		},
 		components: {
 			Sidebar
-		}
+		},
+		store
 	};
 </script>
