@@ -95,8 +95,8 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import auth from '../services/auth';
-    import logging from '../services/logging';
+    import auth from '../services/auth.service';
+    import logging from '../services/logging.service';
 
     export default {
         methods: {

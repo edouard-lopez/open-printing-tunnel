@@ -9,7 +9,7 @@ import ContainerPage from './pages/containers/container.details';
 import OptboxesPage from './pages/optboxes/optboxes';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
-import auth from './services/auth';
+import auth from './services/auth.service';
 import locales from './locales';
 
 Vue.use(VueI18n);

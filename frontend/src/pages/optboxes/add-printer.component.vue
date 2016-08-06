@@ -60,7 +60,8 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from '../../services/logging';
+	import actions from '../../store/actions';
+	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
 	const printers = resource('printers', {create: '/daemon/${resource}/'});

@@ -1,5 +1,5 @@
 import test from 'ava';
-import printers from '../src/services/printers';
+import printers from '../src/services/printers.service';
 
 test('should parse a line', t => {
 	const line = 'IMP RDC Couleur\t10.100.12.21';

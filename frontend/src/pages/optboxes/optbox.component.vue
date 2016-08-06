@@ -37,7 +37,9 @@
 
 	import actions from '../../store/actions';
 	import getters from '../../store/getters';
-	import printersService from '../../services/printers';
+	import logging from '../../services/logging.service';
+	import optboxesService from '../../services/optboxes.service';
+	import printersService from '../../services/printers.service';
 	import resource from 'pilou';
 
 	const printers = resource('printers', {get: '/daemon/optboxes/${optbox_id}/${resource}/'});

@@ -75,7 +75,7 @@
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/bootstrap.js';
 	import Sidebar from './components/sidebar';
-	import auth from './services/auth';
+	import auth from './services/auth.service';
 	import store from './store/store';
 
 	export default {

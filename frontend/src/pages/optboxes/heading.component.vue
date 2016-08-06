@@ -87,7 +87,7 @@
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 
 	import actions from '../../store/actions';
-	import logging from '../../services/logging';
+	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
 	const optboxes = resource('optboxes', {

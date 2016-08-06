@@ -1,6 +1,6 @@
 // Get the index of the object inside an array, matching a condition
 // @see: http://stackoverflow.com/a/15998003/802365
-if (!Array.prototype.findIndex) {
+if (!Array.prototype.getIndex) {
 	Array.prototype.findIndex = function (predicate) {
 		'use strict';
 		if (this == null) {

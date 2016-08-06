@@ -1,7 +1,7 @@
 import test from 'ava';
 import nock from 'nock';
 
-import containers from '../src/services/containers';
+import containers from '../src/services/containers.service';
 import {storageMock, containersGetAll, containersGetOne} from './_helpers';
 
 containers.localStorage = storageMock();

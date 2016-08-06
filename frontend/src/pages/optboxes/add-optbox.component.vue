@@ -45,7 +45,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from '../../services/logging';
+	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
 	const optboxes = resource('optboxes', {create: '/daemon/${resource}/',});

@@ -145,10 +145,10 @@
 
 <script type="text/ecmascript-6">
 	import AddContainerButton from './add-container-button';
-	import Containers from '../../services/containers';
+	import Containers from '../../services/containers.service';
 	import OrderingArrow from '../../components/ordering-arrow';
 
-	import logging from '../../services/logging';
+	import logging from '../../services/logging.service';
 
 	Containers.localStorage = localStorage;
 	export default {

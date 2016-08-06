@@ -60,10 +60,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import Optboxes from '../../../services/optboxes';
-	import Printers from '../../../services/printers';
+	import Optboxes from '../../../services/optboxes.service';
+	import Printers from '../../../services/printers.service';
 
-	import logging from '../../../services/logging';
+	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
 	const printers = resource('printers', { all: '/daemon/${resource}/'});

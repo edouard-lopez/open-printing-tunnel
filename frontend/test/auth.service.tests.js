@@ -1,7 +1,7 @@
 import test from 'ava';
 import nock from 'nock';
 
-import auth from '../src/services/auth';
+import auth from '../src/services/auth.service';
 import {storageMock} from './_helpers';
 
 auth.localStorage = storageMock();

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import optboxesService from '../services/optboxes';
+import optboxesService from '../services/optboxes.service';
 Vue.use(Vuex);
 
 const state = {

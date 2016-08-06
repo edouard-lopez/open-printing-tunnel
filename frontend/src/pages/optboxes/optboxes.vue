@@ -43,7 +43,7 @@
 
 	import actions from '../../store/actions';
 	import getters from '../../store/getters';
-	import logging from '../../services/logging';
+	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
 	const optboxes = resource('optboxes', {all: '/daemon/${resource}/'});

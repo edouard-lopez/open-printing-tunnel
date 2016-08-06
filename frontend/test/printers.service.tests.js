@@ -2,7 +2,7 @@ import test from 'ava';
 import nock from 'nock';
 
 import '../src/services/array';
-import printersService from '../src/services/printers';
+import printersService from '../src/services/printers.service';
 import {storageMock, printersGetAll, printerGetOne} from './_helpers';
 
 test('should remove printer from list', t => {
