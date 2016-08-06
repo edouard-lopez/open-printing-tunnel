@@ -1,6 +1,6 @@
 <style>
-	.new-printer {
-		display: inline-block;
+	.modal.in {
+		font-weight: normal;
 	}
 </style>
 <template>
