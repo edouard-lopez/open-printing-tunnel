@@ -60,7 +60,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import actions from '../../store/actions';
+	import actions from '../../vuex/actions';
 	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 

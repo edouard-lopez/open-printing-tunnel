@@ -35,8 +35,8 @@
 	import HeadingComponent from './heading.component.vue';
 	import PrinterComponent from './printers/printer.component.vue';
 
-	import actions from '../../store/actions';
-	import getters from '../../store/getters';
+	import actions from '../../vuex/actions';
+	import getters from '../../vuex/getters';
 	import logging from '../../services/logging.service';
 	import optboxesService from '../../services/optboxes.service';
 	import printersService from '../../services/printers.service';

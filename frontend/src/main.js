@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n';
-import App from './app';
+
+import App from './components/app';
 import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ContainersPage from './pages/containers/containers';
@@ -13,6 +14,11 @@ import SettingsPage from './pages/settings';
 import './services/array.polyfill';
 import auth from './services/auth.service';
 import locales from './locales';
+
+new Vue({
+	el: '#app',
+	render: h => h(App)
+});
 
 Vue.use(VueI18n);
 const browserLanguage = (navigator.language || navigator.browserLanguage).split('-')[0];
@@ -77,4 +83,4 @@ router.redirect({
 	'*': '/'
 });
 
-router.start(App, 'app');
+router.start(App, '#app');

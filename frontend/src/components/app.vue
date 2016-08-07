@@ -1,8 +1,8 @@
 <style lang="css">
-	@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-	@import '../node_modules/font-awesome/css/font-awesome.min.css';
-	@import '../node_modules/notie/dist/notie.css';
-	@import '../node_modules/hint.css/hint.min.css';
+	@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+	@import '../../node_modules/font-awesome/css/font-awesome.min.css';
+	@import '../../node_modules/notie/dist/notie.css';
+	@import '../../node_modules/hint.css/hint.min.css';
 
 
 	* {
@@ -74,9 +74,9 @@
 </template>
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/bootstrap.js';
-	import Sidebar from './components/sidebar';
-	import auth from './services/auth.service';
-	import store from './store/store';
+	import Sidebar from './sidebar';
+	import auth from '../services/auth.service';
+	import store from '../vuex/store';
 
 	export default {
 		data() {

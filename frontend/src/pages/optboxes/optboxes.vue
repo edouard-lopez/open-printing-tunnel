@@ -41,8 +41,8 @@
 	import LogsComponent from './logs/logs.component.vue';
 	import OptboxComponent from './optbox.component.vue';
 
-	import actions from '../../store/actions';
-	import getters from '../../store/getters';
+	import actions from '../../vuex/actions';
+	import getters from '../../vuex/getters';
 	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
