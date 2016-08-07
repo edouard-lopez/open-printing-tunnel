@@ -345,6 +345,22 @@ class ParserTestCase(unittest.TestCase):
             ]
         }, )
 
+    def test_parse_add_printer(self):
+        stdout = [
+            "Adding channel\u2026",
+            "L *:9104:6.7.8.9:9100 -1 # Ricoh Aficio MPC300\tadded"
+        ]
+
+        response = parser.add_printer(stdout)
+
+        self.assertDictEqual(response, {
+            'id': -1,
+            'forward': 'normal',
+            'listening_port': 9104,
+            'destination_port': 9100,
+            'hostname': '6.7.8.9',
+            'description': 'Ricoh Aficio MPC300\tadded'
+        })
 
 if __name__ == '__main__':
     unittest.main()

@@ -14,7 +14,9 @@ def add_printer(optbox, hostname, description=''):
                'NAME=' + optbox,
                'PRINTER=' + hostname,
                'DESC=' + description]
-    return shell.execute(command)
+    response = shell.execute(command)
+    response['output'] = parser.add_printer(response['output'])
+    return response
 
 
 def list_printers(optbox=''):

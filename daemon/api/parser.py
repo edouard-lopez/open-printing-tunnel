@@ -138,7 +138,7 @@ def forward_rule(line):
     forward = 'normal' if fields[0] == 'L' else 'reverse'
 
     return {
-        'id': int(fields[2]),
+        'id': int(fields[2]) if fields[2] != '#' else -1,
         'forward': forward,
         'listening_port': int(rule[1]),
         'hostname': rule[2],
@@ -151,8 +151,9 @@ def list_printers(lines, optbox):
     response = {
         'optbox': optbox,
         'channels': list_channels(lines, optbox)
-        }
+    }
     return response
+
 
 def list_all_printers(lines):
     response = []
@@ -166,6 +167,7 @@ def list_all_printers(lines):
             response[index]['channels'].append(forward_rule(line))
 
     return response
+
 
 def list_channels(lines, printer):
     channels = []
@@ -186,3 +188,13 @@ def is_forward_rule(line):
     parser = re.compile(r'^(L|R) \*')
 
     return bool(parser.search(line))
+
+
+def add_printer(lines):
+    response = {}
+
+    for line in lines:
+        if is_forward_rule(line):
+            response = forward_rule(line)
+
+    return response

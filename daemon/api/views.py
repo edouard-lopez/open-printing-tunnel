@@ -97,11 +97,9 @@ class Printers(Resource):
         if validators.is_valid_host(hostname):
             response = mast_utils.add_printer(optbox, hostname)
             return {
-                       'success': response['success'],
                        'optbox': optbox,
-                       'description': description,
-                       'hostname': hostname,
                        'output': response['output'],
+                       'success': response['success'],
                    }, 201 if response['success'] else 500
 
 
