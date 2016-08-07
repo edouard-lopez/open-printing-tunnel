@@ -17,8 +17,7 @@
 			</div>
 			<div id="optbox-{{optbox.id}}" class="panel-collapse collapse in" role="tabpanel"
 				 aria-labelledby="optbox-{{optbox.hostname}}">
-				<div v-for="printer in optboxesList[optbox.id].printers || []">
-				<!--<div v-for="printer in printersList">-->
+				<div v-for="printer in printersList">
 					<printer :printer="printer" :optbox="optbox"></printer>
 				</div>
 				<div class="text-xs-center">
@@ -64,6 +63,9 @@
 		ready() {
 			this.getPrinters(this.optbox);
 		},
+		computed: {
+			printersList() { return this.optboxesList[this.optbox.id].printers || [] }
+		},
 		methods: {
 			getPrinters(optbox) {
 				printers.get({optbox_id: optbox.id}).then(response => {
@@ -80,7 +82,6 @@
 			},
 			getters: {
 				optboxesList: getters.retrieveOptboxes
-//				printersList: getters.getPrintersList
 			}
 		}
 	}
