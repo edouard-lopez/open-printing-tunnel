@@ -4,7 +4,7 @@
 	}
 </style>
 <template>
-	<div class="row btn-toolbar" id="{{ optbox.id }}-{{ printer.hostnane }}"
+	<div class="row btn-toolbar" id="{{ optbox.id }}-id:{{ printer.id }}"
 		 role="toolbar" aria-label="Toolbar with button groups">
 		<div class="col-md-8" role="group" aria-label="Actions publiques">
 			<a href="http://{{printer.hostname}}">{{ printer.hostname }}</a>:
@@ -44,11 +44,11 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
+	import actions from '../../../vuex/actions';
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
-	const printers = resource('printers', {delete: '/daemon/optboxes/${optbox_id}/${resource}/${printer_id}'}
-	);
+	const printers = resource('printers', {delete: '/daemon/optboxes/${optbox_id}/${resource}/${printer_id}'});
 
 	export default {
 		data() {
@@ -58,21 +58,23 @@
 			printer: {type: Object, required: true},
 			optbox: {type: Object, required: true}
 		},
-		ready(){ },
+		ready(){
+		},
 		methods: {
-			remove(printer_id) {
-				printers.delete({optbox_id: this.optbox.id, printer_id: printer_id}).then((response) => {
-					this.$dispatch('printer-deleted', response.data);
-				logging.success(this.$t('optboxes.remove.succeed'));
-			}).catch((err) => {
+			remove(printerId) {
+				printers.delete({optbox_id: this.optbox.id, printer_id: printerId}).then((response) => {
+					this.removePrinter(response.data);
+					logging.success(this.$t('optboxes.remove.succeed'));
+				}).catch((err) => {
 					console.log('deletion failed', err);
-				logging.error(this.$t('optboxes.delete.failed'))
-			})
-				;
+					logging.error(this.$t('optboxes.delete.failed'))
+				});
 			}
 		},
-//		getters: {
-//			printer
-//		}
+		vuex: {
+			actions: {
+				removePrinter: actions.removePrinter,
+			},
+		}
 	}
 </script>

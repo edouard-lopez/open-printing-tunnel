@@ -9,8 +9,24 @@ Vue.config.debug = true
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
-	count: 0,
-	optboxes: {},
+	optboxes: {
+		/*
+		'akema': {
+			hostname: "192.168.2.23",
+			id: "akema",
+			printers: [
+				{
+					description: "bureau",
+					destination_port: 9100,
+					forward: "normal",
+					hostname: "1.2.3.4",
+					id: 0,
+					listening_port: 9102
+				}
+			]
+		}
+		*/
+	}
 };
 
 

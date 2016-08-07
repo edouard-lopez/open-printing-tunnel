@@ -13,32 +13,6 @@ test('should find optbox index in list', t => {
 	t.is(optboxIndex, 2);
 });
 
-test('should add \'channels\' array on first printer', t => {
-	const optboxes = [{id: 'akema'}, {id: 'coaxis'}];
-	const printer = {id: 1, hostname: '1.2.3.4'};
-	var optboxIndex = -1;
-
-	optboxesService.insertPrinter(optboxes, 'coaxis', printer);
-
-	t.is(optboxes.length, 2);
-	t.deepEqual(optboxes[1], {
-		id: 'coaxis',
-		channels: [{id: 1, hostname: '1.2.3.4'}]
-	});
-});
-
-test('should insert a printer into the matching optbox', t => {
-	const optboxes = [
-		{id: 'akema'},
-		{id: 'coaxis', channels: []}];
-	const printer = {id: 1, hostname: '1.2.3.4'};
-
-	optboxesService.insertPrinter(optboxes, 'coaxis', printer);
-
-	t.is(optboxes.length, 2);
-	t.deepEqual(optboxes[1], {id: 'coaxis', channels: [{id: 1, hostname: '1.2.3.4'}]});
-});
-
 test('should remove optbox from list', t => {
 	const optboxes = [{id: 'akema'}, {id: 'coaxis'}, {id: 'github'}];
 

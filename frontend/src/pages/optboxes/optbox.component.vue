@@ -38,11 +38,6 @@
 	import actions from '../../vuex/actions';
 	import getters from '../../vuex/getters';
 	import logging from '../../services/logging.service';
-	import optboxesService from '../../services/optboxes.service';
-	import printersService from '../../services/printers.service';
-	import resource from 'pilou';
-
-	const printers = resource('printers', {get: '/daemon/optboxes/${optbox_id}/${resource}/'});
 
 	export default{
 		data(){
@@ -60,25 +55,18 @@
 			'printer': PrinterComponent,
 			'heading': HeadingComponent,
 		},
-		ready() {
-			this.getPrinters(this.optbox);
+		created() {
+			this.getPrinters(this.optbox.id);
 		},
 		computed: {
-			printersList() { return this.optboxesList[this.optbox.id].printers || [] }
-		},
-		methods: {
-			getPrinters(optbox) {
-				printers.get({optbox_id: optbox.id}).then(response => {
-					this.setPrinters(response.data.optbox, response.data.output.channels);
-				}).catch((err) => {
-					console.error(err);
-					logging.error(this.$t('optboxes.get.failed'))
-				});
-			},
+			printersList() {
+				return this.optboxesList[this.optbox.id].printers || []
+			}
 		},
 		vuex: {
 			actions: {
 				setPrinters: actions.setPrinters,
+				getPrinters: actions.getPrinters,
 			},
 			getters: {
 				optboxesList: getters.retrieveOptboxes

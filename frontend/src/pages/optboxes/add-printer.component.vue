@@ -92,10 +92,11 @@
 				this.formSubmitted = true;
 
 				printers.create(this.printer).then((response) => {
-					this.insertPrinter(response.data);
+					response.data.output['optbox'] = response.data.optbox;
+					this.getPrinters(response.data.optbox);
+
 					$('#printer-modal-' + response.data.optbox).modal('hide');
 					this.formSubmitted = false;
-					this.$dispatch('printer-created', response.data);
 				}).catch((err) => {
 					console.log(err);
 					this.formSubmitted = false;
@@ -114,7 +115,7 @@
 		},
 		vuex: {
 			actions: {
-				insertPrinter: actions.insertPrinter,
+				getPrinters: actions.getPrinters,
 			}
 		}
 	};
