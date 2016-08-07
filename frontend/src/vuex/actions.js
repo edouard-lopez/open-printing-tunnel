@@ -9,7 +9,7 @@ export default {
 			dispatch('setPrinters', response.data.optbox, response.data.output.channels);
 		}).catch((err) => {
 			console.error(err);
-			logging.error(this.$t('optboxes.get.failed'))
+			logging.error(this.$t('printers.get.failed'))
 		});
 	},
 	setOptboxes({dispatch}, optboxes) {

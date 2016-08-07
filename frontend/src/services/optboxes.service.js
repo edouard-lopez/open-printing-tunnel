@@ -5,6 +5,11 @@ export default {
 	getIndex(optboxes, optboxId) {
 		return optboxes.findIndex(current => current.id === optboxId)
 	},
+	setPrinters(optboxes, optboxId, printers) {
+		var index = this.getIndex(optboxes, optboxId);
+		console.log('setPrinters', optboxId, index, optboxes[index], printers);
+		optboxes[index] = {...optboxes[index], printers: printers }
+	},
 	remove(optboxes, optbox) {
 		const index = optboxes.findIndex(current => current.id === optbox.id);
 		if (index !== -1) {

@@ -2,9 +2,7 @@ import optboxesService from '../services/optboxes.service';
 
 export default {
 	setOptboxes(state, optboxes) {
-		for (var optbox of optboxes) {
-			state.optboxes[optbox.id] = optbox;
-		}
+		state.optboxes = optboxes;
 	},
 	// todo
 	// insertOptbox(state, optbox) {
@@ -14,11 +12,12 @@ export default {
 		optboxesService.remove(state.optboxes, optbox);
 	},
 	setPrinters(state, optboxId, printers) {
-		state.optboxes[optboxId].printers = printers || [];
+		optboxesService.setPrinters(state.optboxes, optboxId, printers)
+	},
+	insertPrinter({dispatch}, printer) {
+		dispatch('insertPrinter', printer);
+	},
+	removePrinter(state, printer) {
+		printersService.remove(state.optboxes[printer.optbox].printers, printer);
 	}
-	//,
-	// todo
-	// removePrinter(state, printer) {
-	// 	printersService.remove(state.printers, printer);
-	// }
 };

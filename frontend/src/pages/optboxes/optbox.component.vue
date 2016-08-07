@@ -39,9 +39,13 @@
 	import getters from '../../vuex/getters';
 	import logging from '../../services/logging.service';
 
+import optboxesService from '../../services/optboxes.service';
+
 	export default{
 		data(){
-			return {}
+			return {
+				printersList: []
+			}
 		},
 		props: {
 			optbox: {
@@ -55,22 +59,16 @@
 			'printer': PrinterComponent,
 			'heading': HeadingComponent,
 		},
-		created() {
-			this.getPrinters(this.optbox.id);
-		},
+		created() { this.getPrinters(this.optbox.id); },
 		computed: {
 			printersList() {
-				return this.optboxesList[this.optbox.id].printers || []
+				var index = optboxesService.getIndex(this.optboxesList, this.optbox.id);
+				return this.optboxesList[index].printers
 			}
 		},
 		vuex: {
-			actions: {
-				setPrinters: actions.setPrinters,
-				getPrinters: actions.getPrinters,
-			},
-			getters: {
-				optboxesList: getters.retrieveOptboxes
-			}
+			actions: { getPrinters: actions.getPrinters,},
+			getters: { optboxesList: getters.retrieveOptboxes}
 		}
 	}
 

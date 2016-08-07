@@ -4,14 +4,14 @@ import mutations from './mutations';
 import createLogger from '../middlewares/logger'
 
 Vue.use(Vuex);
-Vue.config.debug = true
+Vue.config.debug = true;
 
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
-	optboxes: {
-		/*
-		'akema': {
+	optboxes:[]
+		/**
+		 {
 			hostname: "192.168.2.23",
 			id: "akema",
 			printers: [
@@ -25,8 +25,7 @@ const state = {
 				}
 			]
 		}
-		*/
-	}
+		 */
 };
 
 
