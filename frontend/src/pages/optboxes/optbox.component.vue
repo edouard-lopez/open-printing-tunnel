@@ -17,7 +17,8 @@
 			</div>
 			<div id="optbox-{{optbox.id}}" class="panel-collapse collapse in" role="tabpanel"
 				 aria-labelledby="optbox-{{optbox.hostname}}">
-				<div v-for="printer in printers">
+				<div v-for="printer in optboxesList[optbox.id].printers || []">
+				<!--<div v-for="printer in printersList">-->
 					<printer :printer="printer" :optbox="optbox"></printer>
 				</div>
 				<div class="text-xs-center">
@@ -46,9 +47,7 @@
 
 	export default{
 		data(){
-			return {
-				printers: []
-			}
+			return {}
 		},
 		props: {
 			optbox: {
@@ -68,17 +67,21 @@
 		methods: {
 			getPrinters(optbox) {
 				printers.get({optbox_id: optbox.id}).then(response => {
-					this.printers = response.data.output[0].channels;
+					this.setPrinters(response.data.optbox, response.data.output.channels);
+				}).catch((err) => {
+					console.error(err);
+					logging.error(this.$t('optboxes.get.failed'))
 				});
-			}
-		},
-		events: {
-			'printer-created': (printer) => {
-				console.info('printer-created');
-				console.log(printer);
-				this.getPrinters(printer.optbox);
 			},
-			'printer-deleted': (printer) => { printersService.remove(this.printers, printer.id) }
+		},
+		vuex: {
+			actions: {
+				setPrinters: actions.setPrinters,
+			},
+			getters: {
+				optboxesList: getters.retrieveOptboxes
+//				printersList: getters.getPrintersList
+			}
 		}
 	}
 

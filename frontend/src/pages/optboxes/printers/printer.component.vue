@@ -7,13 +7,17 @@
 	<div class="row btn-toolbar" id="{{ optbox.id }}-{{ printer.hostnane }}"
 		 role="toolbar" aria-label="Toolbar with button groups">
 		<div class="col-md-8" role="group" aria-label="Actions publiques">
-			<a href="http://{{printer.hostname}}">{{ printer.hostname }}</a>
-			<span>on port <abbr class="port" title="{{printer.forward}}">
-				<span class="listening">{{ printer.listening_port }}</span>
-				<span class="destination">{{ printer.destination_port }}</span>
-			</abbr>
+			<a href="http://{{printer.hostname}}">{{ printer.hostname }}</a>:
+			<span class="">
+				<span class="port listening">{{ printer.listening_port }}</span>
+				<span class="forward">
+					<i class="fa fa-long-arrow-right" v-if="printer.forward=='normal'"></i>
+					<i class="fa fa-long-arrow-left" v-if="printer.forward=='reverse'"></i>
+				</span>
+				<span class="port destination">{{ printer.destination_port }}</span>
 			</span>
-			<span class="description text-muted">{{ printer.description }}</span>
+			<small class="forward text-muted">({{printer.forward}} forwarding)</small>
+			<i class="description text-muted">{{ printer.description }}</i>
 		</div>
 		<div class="col-md-4">
 			<ul class="btn-toolbar">
@@ -43,7 +47,7 @@
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
-	const printer = resource('printers', { delete: '/daemon/optboxes/${optbox_id}/${resource}/${printer_id}'}
+	const printers = resource('printers', {delete: '/daemon/optboxes/${optbox_id}/${resource}/${printer_id}'}
 	);
 
 	export default {
@@ -54,16 +58,21 @@
 			printer: {type: Object, required: true},
 			optbox: {type: Object, required: true}
 		},
+		ready(){ },
 		methods: {
 			remove(printer_id) {
-				printer.delete({optbox_id: this.optbox.id, printer_id: printer_id}).then((response) => {
+				printers.delete({optbox_id: this.optbox.id, printer_id: printer_id}).then((response) => {
 					this.$dispatch('printer-deleted', response.data);
-					logging.success(this.$t('optboxes.remove.succeed'));
-				}).catch((err) => {
+				logging.success(this.$t('optboxes.remove.succeed'));
+			}).catch((err) => {
 					console.log('deletion failed', err);
-					logging.error(this.$t('optboxes.delete.failed'))
-				});
+				logging.error(this.$t('optboxes.delete.failed'))
+			})
+				;
 			}
-		}
+		},
+//		getters: {
+//			printer
+//		}
 	}
 </script>

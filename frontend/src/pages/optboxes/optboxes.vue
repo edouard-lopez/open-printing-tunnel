@@ -18,7 +18,7 @@
 
 					<div class="row">
 						<div id="accordion" role="tablist" aria-multiselectable="true">
-							<div v-for="optbox in optboxes" class="panel panel-default">
+							<div v-for="optbox in optboxesList" class="panel panel-default">
 								<optbox :optbox="optbox"></optbox>
 							</div>
 						</div>
@@ -55,7 +55,7 @@
 				no_optbox_message: 'loading…'
 			};
 		},
-		ready(){
+		created(){
 			this.getOptboxes();
 		},
 		components: {
@@ -69,6 +69,7 @@
 					this.setOptboxes(response.data.output);
 				}).catch(() => {
 					this.no_optbox_message = 'there is no optbox';
+					logging.error(this.$t('optboxes.get.failed'))
 				});
 			}
 		},
@@ -82,7 +83,7 @@
 				setOptboxes: actions.setOptboxes,
 			},
 			getters: {
-				optboxes: getters.retrieveOptboxes
+				optboxesList: getters.retrieveOptboxes
 			}
 		}
 	}

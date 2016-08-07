@@ -14,7 +14,6 @@ export default {
 		optboxesService.remove(state.optboxes, optbox);
 	},
 	setPrinters(state, optboxId, printers) {
-		console.log('setPrinters', optboxId, printers)
 		state.optboxes[optboxId].printers = printers || [];
 	}
 	//,

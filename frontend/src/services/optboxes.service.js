@@ -2,6 +2,19 @@ import axios from 'axios';
 
 export default {
 	localStorage: null,
+	getIndex(optboxes, optboxId) {
+		return optboxes.findIndex(current => current.id === optboxId)
+	},
+	insertPrinter(optboxes, optboxId, printer) {
+		const optboxIndex = this.getIndex(optboxes, optboxId);
+		if (optboxIndex !== -1) {
+			if (typeof optboxes[optboxIndex].channels === 'undefined') {
+				optboxes[optboxIndex].channels = [printer];
+			} else {
+				optboxes[optboxIndex].channels.push(printer);
+			}
+		}
+	},
 	remove(optboxes, optbox) {
 		const index = optboxes.findIndex(current => current.id === optbox.id);
 		if (index !== -1) {

@@ -91,17 +91,16 @@
 			addPrinter(){
 				this.formSubmitted = true;
 
-				printers.create(this.printer)
-						.then((response) => {
-							$('#printer-modal-' + response.data.optbox).modal('hide');
-							this.formSubmitted = false;
-							this.$dispatch('PrinterCreated');
-						})
-						.catch((err) => {
-							console.log(err)
-							this.formSubmitted = false;
-							logging.error('Impossible d\'ajouter l\'imprimante');
-						});
+				printers.create(this.printer).then((response) => {
+					this.insertPrinter(response.data);
+					$('#printer-modal-' + response.data.optbox).modal('hide');
+					this.formSubmitted = false;
+					this.$dispatch('printer-created', response.data);
+				}).catch((err) => {
+					console.log(err);
+					this.formSubmitted = false;
+					logging.error('Impossible d\'ajouter l\'imprimante');
+				});
 			},
 		},
 		computed: {
@@ -113,6 +112,11 @@
 				);
 			}
 		},
+		vuex: {
+			actions: {
+				insertPrinter: actions.insertPrinter,
+			}
+		}
 	};
 </script>
 
