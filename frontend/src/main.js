@@ -9,6 +9,8 @@ import ContainerPage from './pages/containers/container.details';
 import OptboxesPage from './pages/optboxes/optboxes';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
+
+import './services/array.polyfill';
 import auth from './services/auth.service';
 import locales from './locales';
 
