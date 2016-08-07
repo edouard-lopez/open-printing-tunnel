@@ -147,27 +147,25 @@ def forward_rule(line):
     }
 
 
-def list_printers(lines, optbox=''):
-    response = []
-
-    if optbox:
-        response = [
-            {
-                'optbox': optbox,
-                'channels': list_channels(lines, optbox)
-            }
-        ]
-    else:
-        for line in lines:
-            if not is_forward_rule(line):
-                optbox = line
-                response.append({'optbox': line, 'channels': []})
-            else:
-                index = find_optbox(response, optbox)
-                response[index]['channels'].append(forward_rule(line))
-
+def list_printers(lines, optbox):
+    response = {
+        'optbox': optbox,
+        'channels': list_channels(lines, optbox)
+        }
     return response
 
+def list_all_printers(lines):
+    response = []
+
+    for line in lines:
+        if not is_forward_rule(line):
+            optbox = line
+            response.append({'optbox': line, 'channels': []})
+        else:
+            index = find_optbox(response, optbox)
+            response[index]['channels'].append(forward_rule(line))
+
+    return response
 
 def list_channels(lines, printer):
     channels = []

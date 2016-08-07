@@ -223,25 +223,50 @@ class ParserTestCase(unittest.TestCase):
             "R *:3389:10.48.50.7:3389          3     # PC maison"
         ]
 
-        response = parser.list_printers(stdout)
+        response = parser.list_all_printers(stdout)
 
         self.assertEqual(len(response), 2)
         self.assertListEqual(response, [
             {
                 'optbox': '3W',
                 'channels': [
-                    {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48',
-                     'description': 'Samsung ML3710'},
-                    {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47',
-                     'description': 'Ricoh Aficio MPC300'},
+                    {
+                        'id': 0,
+                        'forward': 'normal',
+                        'listening_port': 9102,
+                        'destination_port': 9100,
+                        'hostname': '10.100.7.48',
+                        'description': 'Samsung ML3710'
+                    },
+                    {
+                        'id': 1,
+                        'forward': 'normal',
+                        'listening_port': 9103,
+                        'destination_port': 9100,
+                        'hostname': '10.100.7.47',
+                        'description': 'Ricoh Aficio MPC300'
+                    },
                 ]
             },
             {
                 'optbox': 'Akema',
                 'channels': [
-                    {'id': 0, 'forward': 'reverse', 'port': 22, 'hostname': 'localhost',
-                     'description': 'Revers forward for use ssh git.coaxis.com at home'},
-                    {'id': 3, 'forward': 'reverse', 'port': 3389, 'hostname': '10.48.50.7', 'description': 'PC maison'}
+                    {
+                        'id': 0,
+                        'forward': 'reverse',
+                        'listening_port': 22,
+                        'destination_port': 22,
+                        'hostname': 'localhost',
+                        'description': 'Revers forward for use ssh git.coaxis.com at home'
+                    },
+                    {
+                        'id': 3,
+                        'forward': 'reverse',
+                        'listening_port': 3389,
+                        'destination_port': 3389,
+                        'hostname': '10.48.50.7',
+                        'description': 'PC maison'
+                    }
                 ]
             }
         ])
@@ -263,9 +288,22 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertEqual(len(channels), 2)
         self.assertListEqual(channels, [
-            {'id': 0, 'forward': 'normal', 'port': 9102, 'hostname': '10.100.7.48', 'description': 'Samsung ML3710'},
-            {'id': 1, 'forward': 'normal', 'port': 9103, 'hostname': '10.100.7.47',
-             'description': 'Ricoh Aficio MPC300'},
+            {
+                'id': 0,
+                'forward': 'normal',
+                'listening_port': 9102,
+                'destination_port': 9100,
+                'hostname': '10.100.7.48',
+                'description': 'Samsung ML3710'
+            },
+            {
+                'id': 1,
+                'forward': 'normal',
+                'listening_port': 9103,
+                'destination_port': 9100,
+                'hostname': '10.100.7.47',
+                'description': 'Ricoh Aficio MPC300'
+            },
         ]
                              )
 
@@ -275,6 +313,37 @@ class ParserTestCase(unittest.TestCase):
         channels = parser.list_channels(stdout, 'Akema')
 
         self.assertListEqual(channels, [])
+
+    def test_parse_list_a_printer_channels(self):
+        stdout = [
+            "L *:9102:10.100.7.48:9100         0     # Samsung ML3710",
+            "L *:9103:10.100.7.47:9100         1     # Ricoh Aficio MPC300",
+        ]
+
+        response = parser.list_printers(stdout, '3W')
+
+        self.assertEqual(len(response), 2)
+        self.assertDictEqual(response, {
+            'optbox': '3W',
+            'channels': [
+                {
+                    'id': 0,
+                    'forward': 'normal',
+                    'listening_port': 9102,
+                    'destination_port': 9100,
+                    'hostname': '10.100.7.48',
+                    'description': 'Samsung ML3710'
+                },
+                {
+                    'id': 1,
+                    'forward': 'normal',
+                    'listening_port': 9103,
+                    'destination_port': 9100,
+                    'hostname': '10.100.7.47',
+                    'description': 'Ricoh Aficio MPC300'
+                },
+            ]
+        }, )
 
 
 if __name__ == '__main__':
