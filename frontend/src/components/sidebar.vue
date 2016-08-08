@@ -60,12 +60,6 @@
 	<div class="sidebar">
 		<ul class="sidebar-menu main">
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/optboxes/', activeClass: 'active' }" class="sidebar-link" title="Boîtiers">
-					<i class="fa fa-print"></i>
-					<span class="sr-only">Imprimantes</span>
-				</a>
-			</li>
-			<li class="sidebar-item" v-link-active v-if="user.is_admin">
 				<a v-link="{ path: '/containers/', activeClass: 'active' }" class="sidebar-link" title="Conteneurs">
 					<i class="fa fa-cube"></i>
 					<span class="sr-only">Conteneurs</span>
@@ -93,16 +87,6 @@
 	import logging from '../services/logging.service';
 
 	export default {
-		data() {
-			return {
-				user: {}
-			};
-		},
-		ready(){
-			auth.getUser().then(user => {
-				this.user = user;
-			});
-		},
 		methods: {
 			logout(){
 				auth.logout();

@@ -36,7 +36,15 @@
 									   placeholder="10.0.0.2" v-model="container.ip"/>
 							</fieldset>
 							<fieldset class="form-group">
-								<label for="description">Description <span class="text-danger">*</span></label>
+								<label for="description">Client <span class="text-danger">*</span></label>
+								<select class="form-control" v-model="container.company_id">
+									<option v-for="company in companies" v-bind:value="company.id">
+										{{ company.name }}
+									</option>
+								</select>
+							</fieldset>
+							<fieldset class="form-group">
+								<label for="description">Description</label>
 
 								<input type="text" class="form-control" id="description"
 									   placeholder="Description" v-model="container.description"/>
@@ -65,14 +73,19 @@
 	export default {
 		data() {
 			return {
+				companies: [],
 				container: {
 					subnet: '',
 					gateway: '',
 					ip: '',
-					description: ''
+					description: '',
+					company_id: null
 				},
 				formSubmitted: false
 			};
+		},
+		props: {
+			companies: {}
 		},
 		methods: {
 			createContainer(){

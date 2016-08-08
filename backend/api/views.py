@@ -48,7 +48,7 @@ class UserViewSet(viewsets.ViewSet):
 
 class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CompanySerializer
-    permission_classes = (permissions.IsAuthenticated, IsTechnician,)
+    permission_classes = (permissions.IsAdminUser,)
 
     def get_queryset(self):
         return models.Company.objects.all()
@@ -73,7 +73,7 @@ class MastContainerViewSet(viewsets.ModelViewSet):
         employee = services.get_employee(request.user)
 
         container = container_services.pop_new_container({
-            'company_id': str(get_company(employee).id),
+            'company_id': request.data.get('company_id'),
             'subnet': request.data.get('subnet'),
             'gateway': request.data.get('gateway'),
             'ip': request.data.get('ip'),
@@ -84,6 +84,7 @@ class MastContainerViewSet(viewsets.ModelViewSet):
         container_obj = container_services.save_infos({
             'user': employee,
             'container': container,
+            'company_id': request.data.get('company_id'),
             'description': request.data.get('description'),
         })
 

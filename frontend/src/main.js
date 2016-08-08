@@ -65,7 +65,7 @@ router.beforeEach(transition => {
 	auth.checkAuth()
 		.then(() => {
 			if (transition.to.path === '/') {
-				transition.redirect('/optboxes/');
+				transition.redirect('/containers/');
 			} else {
 				transition.next();
 			}

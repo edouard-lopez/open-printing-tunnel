@@ -16,7 +16,7 @@ class ContainersTestCase(APITestCase):
 
     def test_create_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'company_id': 'fe234e',
+        network = container_services.create_network(data={'company_id': str(self.company.id),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
@@ -24,7 +24,7 @@ class ContainersTestCase(APITestCase):
         self.docker_api.remove_network(network.get('Id'))
 
     def test_network_use_macvlan_driver(self):
-        network = container_services.create_network(data={'company_id': 'fe234e',
+        network = container_services.create_network(data={'company_id': str(self.company.id),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
@@ -33,11 +33,11 @@ class ContainersTestCase(APITestCase):
 
     def test_create_existing_network_return_old_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'company_id': 'fe234e',
+        network = container_services.create_network(data={'company_id': str(self.company.id),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
-        network2 = container_services.create_network(data={'company_id': 'fe234e',
+        network2 = container_services.create_network(data={'company_id': str(self.company.id),
                                                            'subnet': '10.48.0.0/16',
                                                            'gateway': '10.48.0.200'},
                                                      docker_client=self.docker_api)
@@ -57,9 +57,12 @@ class ContainersTestCase(APITestCase):
     def test_can_save_infos(self):
         container = {'Id': '9959ea03-685b-4437-ab49-c5d0a28b15e8'}
 
-        container_services.save_infos({'user': self.employee,
-                                       'container': container,
-                                       'description': 'blabla'})
+        container_services.save_infos({
+            'user': self.employee,
+            'company_id': str(self.company.id),
+            'container': container,
+            'description': 'blabla'
+        })
         containers = models.MastContainer.objects.all()
 
         self.assertEqual(len(containers), 1)

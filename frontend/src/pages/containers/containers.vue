@@ -30,7 +30,7 @@
 							</h2>
 						</div>
 						<div class="col-md-4 text-xs-right">
-							<add-container-button></add-container-button>
+							<add-container-button :companies.sync="companies"></add-container-button>
 						</div>
 					</div>
 					<div class="row">
@@ -150,6 +150,10 @@
 
 	import logging from '../../services/logging.service';
 
+	import Resource from 'pilou';
+
+	const companies = Resource('companies');
+
 	Containers.localStorage = localStorage;
 	export default {
 		data() {
@@ -167,6 +171,7 @@
 				no_container_message: 'There is no container.',
 				selectAll: false,
 				selected: [],
+				companies: []
 			};
 		},
 		events: {
@@ -176,12 +181,18 @@
 		},
 		ready(){
 			this.getContainers();
+			this.getCompanies();
 		},
 		components: {
 			OrderingArrow,
 			'add-container-button': AddContainerButton
 		},
 		methods: {
+			getCompanies(){
+				return companies.all().then(response => {
+					this.companies = response.data.results;
+				});
+			},
 			getContainers(limit = this.limit, offset = this.offset, search = this.search, ordering = this.ordering){
 				return Containers.all(limit, offset, search, ordering).then(response => {
 					this.containers = response.data.results;
