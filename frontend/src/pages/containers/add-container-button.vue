@@ -3,7 +3,7 @@
 		<button type="button" class="btn btn-success" data-toggle="modal"
 				data-target="#newContainerModal">
 			<i class="fa fa-plus-circle"></i>
-			Ajouter un conteneur
+			Ajouter un boitier
 		</button>
 		<div class="modal fade" id="newContainerModal" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
@@ -73,7 +73,6 @@
 	export default {
 		data() {
 			return {
-				companies: [],
 				container: {
 					subnet: '',
 					gateway: '',

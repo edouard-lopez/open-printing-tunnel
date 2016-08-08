@@ -7,7 +7,6 @@ import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ContainersPage from './pages/containers/containers';
 import ContainerPage from './pages/containers/container.details';
-import OptboxesPage from './pages/optboxes/optboxes';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 
@@ -50,11 +49,8 @@ router.map({
 		authRequired: true
 	},
 	'/containers/:id': {
+		name: 'containers',
 		component: ContainerPage,
-		authRequired: true
-	},
-	'/optboxes/': {
-		component: OptboxesPage,
 		authRequired: true
 	}
 });

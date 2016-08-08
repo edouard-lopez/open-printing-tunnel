@@ -5,7 +5,7 @@
 				<div class="card card-block">
 					<div class="row">
 						<div class="col-md-12">
-							<h3>Conteneurs</h3>
+							<h3>Boitiers Optbox</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -15,7 +15,7 @@
                                     <span class="input-group-addon" id="search-addon">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </span>
-									<input type="text" class="form-control" placeholder="search"
+									<input type="text" class="form-control" placeholder="recherche"
 										   v-model="search" aria-describedby="search-addon"
 										   @keyup="filter(search) | debounce 500">
 								</div>
@@ -24,7 +24,7 @@
 						<div class="col-md-4">
 							<h2>
                                 <span class="label label-info">
-                                    <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} conteneur<span
+                                    <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} boitier<span
 										v-if="containers.length>1">s</span>
                                 </span>
 							</h2>
@@ -39,20 +39,8 @@
 								<thead class="thead-inverse">
 								<tr>
 									<th @click="sort('name')">
-										Nom
+										Id
 										<ordering-arrow column="name" :sorting="sorting" :ordering="ordering">
-										</ordering-arrow>
-									</th>
-									<th @click="sort('adresse')">
-										Adresse
-										<ordering-arrow column="adresse" :sorting="sorting"
-														:ordering="ordering">
-										</ordering-arrow>
-									</th>
-									<th @click="sort('status')">
-										Status
-										<ordering-arrow column="status" :sorting="sorting"
-														:ordering="ordering">
 										</ordering-arrow>
 									</th>
 									<th @click="sort('company')">
@@ -80,24 +68,9 @@
 								</tr>
 								<tr v-for="container in containers">
 									<td>
-										<a @click="openContainer(container.id)">
-											{{ container.infos.name }}
+										<a v-link="{ name: 'containers', params: { id: container.id }}">
+											{{ container.id }}
 										</a>
-									</td>
-									<td>
-										<a @click="openContainer(container.id)">
-											{{ container.infos.ipAddress }}
-										</a>
-									</td>
-									<td>
-										<span class="label"
-											  v-bind:class="{
-											  'label-danger': container.infos.status=='exited' || container.infos.status=='dead',
-											  'label-warning': container.infos.status=='paused' || container.infos.status=='restarting',
-											  'label-success': container.infos.status=='running' || container.infos.status=='created', }">
-											{{ container.infos.status }}
-										</span>
-
 									</td>
 									<td>
 										{{ container.company.name }}

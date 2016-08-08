@@ -54,7 +54,7 @@
                 auth.login(this.user)
                         .then(()=> {
                             logging.success(this.$t('login.welcome'));
-                            this.$router.go('/optboxes/');
+                            this.$router.go('/containers/');
                         })
                         .catch(() => {
                             logging.error(this.$t('login.credentialsInvalids'));
