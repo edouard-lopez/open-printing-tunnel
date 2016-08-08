@@ -77,17 +77,6 @@ class ContainersTestCase(APITestCase):
                                            'description': 'blabla'
                                            })
 
-    def test_can_get_container_infos(self):
-        container_data = mock.get_one_container_data()
-
-        infos = container_services.get_container_dict(container_data)
-
-        self.assertIsNotNone(infos['id'])
-        self.assertIsNotNone(infos['name'])
-        self.assertIsNotNone(infos['status'])
-        self.assertIsNotNone(infos['gateway'])
-        self.assertIsNotNone(infos['ipAddress'])
-
     def test_can_get_container_network_infos(self):
         container_data = mock.get_one_container_data()
 

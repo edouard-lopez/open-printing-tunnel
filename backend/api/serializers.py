@@ -20,7 +20,10 @@ class RemoteNodeSerializer(serializers.ModelSerializer):
 
 
 class MastContainerSerializer(serializers.ModelSerializer):
+    infos = serializers.ReadOnlyField()
     company = CompanySerializer()
 
     class Meta:
         model = models.MastContainer
+        fields = ('id', 'description', 'company', 'container_id', 'infos',)
+        read_only_fields = ('company', 'container_id', 'infos',)

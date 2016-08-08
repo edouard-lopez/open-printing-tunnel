@@ -3,14 +3,12 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="card">
-					<div class="card-header">
-						<b>{{container.id}}</b>
-						<span class="pull-xs-right">{{ container.created | moment }}</span>
-					</div>
+					<h5 class="card-header">
+						<i class="fa fa-print" aria-hidden="true"></i> Imprimantes
+					</h5>
 					<div class="card-block">
 						<p class="card-text">
-							{{container.error_message}}
-							<pre>{{container.infos | json 4 }}</pre>
+
 						</p>
 					</div>
 				</div>
@@ -22,16 +20,15 @@
 						Status
 					</h5>
 					<div class="card-block">
-						<p class="card-text">
-                            <span class="label label-lg"
+						<h3>
+							<span class="tag tag-lg"
 								  v-bind:class="{
-								  'label-danger': container.infos.status=='exited' || container.infos.status=='dead',
-								  'label-warning': container.infos.status=='paused' || container.infos.status=='restarting',
-								  'label-success': container.infos.status=='running' || container.infos.status=='created', }"
-							>
-                                {{container.infos.status }}
+								  'tag-danger': container.container_info.State.Status=='exited' || container.container_info.State.Status=='dead',
+								  'tag-warning': container.container_info.State.Status=='paused' || container.container_info.State.Status=='restarting',
+								  'tag-success': container.container_info.State.Status=='running' || container.container_info.State.Status=='created', }">
+                                {{container.container_info.State.Status }}
 							</span>
-						</p>
+						</h3>
 					</div>
 				</div>
 				<div class="card">
@@ -42,6 +39,22 @@
 					<div class="card-block">
 						<p class="card-text">
 							{{ container.company.name }}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="card">
+					<h6 class="card-header">
+						<i class="fa fa-info-circle" aria-hidden="true"></i> Conteneur id : {{container.id}}
+						<span class="pull-xs-right">{{ container.created | moment }}</span>
+					</h6>
+					<div class="card-block">
+						<p class="card-text">
+							{{container.error_message}}
+						<pre>{{container.container_info | json 4 }}</pre>
 						</p>
 					</div>
 				</div>

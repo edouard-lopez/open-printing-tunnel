@@ -95,3 +95,10 @@ class MastContainerViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         container_services.destroy(instance.container_id)
         instance.delete()
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        new_data = serializer.data
+        new_data['container_info'] = docker_api.inspect_container(instance.container_id)
+        return Response(new_data)

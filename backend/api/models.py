@@ -112,10 +112,3 @@ class MastContainer(DateMixin):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='mast_containers')
     container_id = models.TextField(verbose_name='container system config',
                                     help_text='Detailled information about container')
-
-    # def infos(self):
-    #     import docker
-    #     docker_api = docker.Client(base_url='unix://var/run/docker.sock')
-    #     container_data = docker_api.inspect_container(self.container_id)
-    #
-    #     return container_services.get_container_dict(container_data)

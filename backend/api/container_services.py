@@ -52,14 +52,6 @@ def save_infos(data):
     return container_obj
 
 
-def get_container_dict(container_data):
-    return {
-        'id': container_data.get('Id'),
-        'name': container_data.get('Name'),
-        'status': container_data.get('State').get('Status'),
-        'gateway': get_container_gateway(container_data),
-        'ipAddress': get_container_ipaddress(container_data),
-    }
 
 
 def destroy(container_id):
