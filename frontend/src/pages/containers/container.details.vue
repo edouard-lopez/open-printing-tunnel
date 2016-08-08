@@ -41,7 +41,7 @@
 					</h5>
 					<div class="card-block">
 						<p class="card-text">
-							{{ container.company }}
+							{{ container.company.name }}
 						</p>
 					</div>
 				</div>

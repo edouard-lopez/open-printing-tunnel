@@ -21,6 +21,7 @@ class RemoteNodeSerializer(serializers.ModelSerializer):
 
 class MastContainerSerializer(serializers.ModelSerializer):
     infos = serializers.ReadOnlyField()
+    company = CompanySerializer()
 
     class Meta:
         model = models.MastContainer

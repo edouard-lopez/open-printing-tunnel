@@ -100,7 +100,7 @@
 
 									</td>
 									<td>
-										{{ container.company }}
+										{{ container.company.name }}
 									</td>
 									<td>
 										{{ container.description }}
