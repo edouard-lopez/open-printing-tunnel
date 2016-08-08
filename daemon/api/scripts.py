@@ -13,15 +13,19 @@ def render(filename, data):
     return template.render(data)
 
 
-def prepare_data(site_id, printers, site_host):
+def prepare_site_install_data(site_id, printers, site_host):
     data = []
 
     for printer in printers:
-        data.append({
-            'port': printer.get('listening_port'),
-            'vps': site_host,
-            'imp': printer.get('hostname'),
-            'name': site_id
-        })
+        data.append(prepare_printer_install_data(site_id, printer, site_host))
 
     return data
+
+
+def prepare_printer_install_data(site_id, printer, site_host):
+    return {
+        'port': printer.get('listening_port'),
+        'vps': site_host,
+        'imp': printer.get('hostname'),
+        'name': site_id
+    }

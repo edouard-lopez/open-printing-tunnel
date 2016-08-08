@@ -1,5 +1,6 @@
 import unittest
 
+import mast_utils
 from daemon.api import scripts
 
 
@@ -36,8 +37,29 @@ class TemplateTestCase(unittest.TestCase):
         self.assertRegex(content, '1.2.3.4')
         self.assertEqual(content.count('-h akema.opt'), 3)
 
-    def test_can_prepare_data_for_replacement(self):
-        payload = [
+    def test_can_prepare_printer_install_data(self):
+        printer = {
+            'id': 0,
+            'forward': 'normal',
+            'listening_port': 9102,
+            'destination_port': 9100,
+            'hostname': '10.100.7.48',
+            'description': 'Samsung ML3710'
+        }
+
+        site_id = 'akema'
+        site_host = 'akema.coaxis.opt'
+        data = scripts.prepare_printer_install_data(site_id, printer, site_host)
+
+        self.assertDictEqual(data, {
+            'port': 9102,
+            'vps': 'akema.coaxis.opt',
+            'imp': '10.100.7.48',
+            'name': 'akema'
+        })
+
+    def test_can_prepare_site_install_data(self):
+        printers = [
             {
                 'id': 0,
                 'forward': 'normal',
@@ -57,7 +79,7 @@ class TemplateTestCase(unittest.TestCase):
         ]
         site_id = 'akema'
         site_host = 'akema.coaxis.opt'
-        data = scripts.prepare_data(site_id, payload, site_host)
+        data = scripts.prepare_site_install_data(site_id, printers, site_host)
 
         self.assertEqual(len(data), 2)
         self.assertListEqual(data, [
@@ -74,3 +96,33 @@ class TemplateTestCase(unittest.TestCase):
                 'name': 'akema'
             },
         ])
+
+    def test_can_return_printer_from_list(self):
+        printers = [
+            {
+                'id': 0,
+                'forward': 'normal',
+                'listening_port': 9102,
+                'destination_port': 9100,
+                'hostname': '10.100.7.48',
+                'description': 'Samsung ML3710'
+            },
+            {
+                'id': 1,
+                'forward': 'normal',
+                'listening_port': 9103,
+                'destination_port': 9100,
+                'hostname': '10.100.7.47',
+                'description': 'Ricoh Aficio MPC300'
+            },
+        ]
+        printer = mast_utils.get_printer(printers, id=1)
+
+        self.assertDictEqual(printer, {
+            'id': 1,
+            'forward': 'normal',
+            'listening_port': 9103,
+            'destination_port': 9100,
+            'hostname': '10.100.7.47',
+            'description': 'Ricoh Aficio MPC300'
+        }, )

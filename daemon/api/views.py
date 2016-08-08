@@ -143,18 +143,24 @@ class Logs(Resource):
                }, 200 if response['success'] else 500
 
 
-
-class OptboxInstallScript(Resource):
-    def get(self, optbox_id):
-        if not optbox_id:
+class PrinterInstallScript(Resource):
+    def get(self, site_id, printer_id):
+        if not site_id or not printer_id:
             abort(400)
 
-        filename = 'site.bat.j2'
+        filename = 'printer.bat.j2'
         site_host = request.headers['Host']
-        printers = mast_utils.list_printers(optbox_id)
-        data = scripts.prepare_data(optbox_id, printers['output']['channels'], site_host)
 
-        script = scripts.render(filename, {'sites': data})
+        printers = mast_utils.list_printers(site_id)['output']['channels']
+        printer = mast_utils.get_printer(printers, printer_id)
+        data = scripts.prepare_printer_install_data(site_id, printer, site_host)
+        script = scripts.render(filename, data)
+
+        return Response(script,
+                        mimetype='application/bat',
+                        headers={"Content-Disposition": "attachment; filename={}-port-{}-{}.bat"
+                        .format(site_id, printer['listening_port'], printer['description'])}
+                        )
 
 
 class SiteInstallScript(Resource):
@@ -164,10 +170,11 @@ class SiteInstallScript(Resource):
 
         filename = 'site.bat.j2'
         site_host = request.headers['Host']
-        printers = mast_utils.list_printers(site_id)
-        data = scripts.prepare_data(site_id, printers['output']['channels'], site_host)
 
+        printers = mast_utils.list_printers(site_id)['output']['channels']
+        data = scripts.prepare_site_install_data(site_id, printers, site_host)
         script = scripts.render(filename, {'sites': data})
+
         return Response(script,
                         mimetype='application/bat',
                         headers={"Content-Disposition": "attachment; filename={}.bat".format(site_id)})

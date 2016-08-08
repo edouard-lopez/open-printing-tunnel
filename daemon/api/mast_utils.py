@@ -58,3 +58,9 @@ def add_optbox(name, hostname):
 def remove_optbox(name):
     command = [makefile, 'remove-host', 'NAME=' + name]
     return shell.execute(command)
+
+
+def get_printer(printers, id):
+    for printer in printers:
+        if printer['id'] == id:
+            return printer
