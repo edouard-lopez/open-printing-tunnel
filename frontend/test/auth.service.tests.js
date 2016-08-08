@@ -28,9 +28,15 @@ test('should throw error if bad request', t => {
 });
 
 test('should get user info', t => {
-	nock('http://localhost/').get('/api/auth/me/').reply(200, {email: user.email});
+	nock('http://localhost/').get('/api/users/me/').reply(200, {
+		email: 'admin@akema.fr',
+		is_admin: true,
+		id: 1,
+		is_authenticated: true,
+		is_technician: true
+	});
 	return auth.getUser().then(u => {
-		t.is(u.email, user.email);
+		t.is(u.email, 'admin@akema.fr');
 	});
 });
 

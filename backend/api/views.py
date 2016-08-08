@@ -13,16 +13,18 @@ docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 logger = logging.getLogger(__name__)
 
 
-class AuthViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ViewSet):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
     def list(request, format=None):
         if request.user.is_authenticated():
+            employee = get_employee(request.user)
             user = {
                 'id': request.user.id,
                 'email': request.user.email,
                 'is_admin': request.user.is_staff,
+                'is_technician': employee.is_technician,
                 'is_authenticated': True
             }
         else:
@@ -33,9 +35,7 @@ class AuthViewSet(viewsets.ViewSet):
                 'is_authenticated': False
             }
 
-        return Response({
-            'user': user
-        })
+        return Response(user)
 
     @staticmethod
     def post(request):

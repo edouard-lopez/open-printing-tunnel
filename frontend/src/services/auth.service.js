@@ -21,7 +21,7 @@ export default {
 	},
 	getUser() {
 		const config = this.getRequestConfig();
-		return axios.get('/api/auth/me/', config).then(response => {
+		return axios.get('/api/users/me/', config).then(response => {
 			Object.assign(this.user, response.data);
 			return this.user;
 		});
