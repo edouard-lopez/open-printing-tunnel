@@ -12,7 +12,7 @@ from daemon.api import mast_utils
 from daemon.api import validators
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, prefix='/daemon')
 
 logger = logging.getLogger(__name__)
 

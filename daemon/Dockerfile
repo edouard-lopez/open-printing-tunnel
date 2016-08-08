@@ -97,7 +97,7 @@ COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 COPY proxy-web/mime.types /etc/nginx/mime.types
 COPY proxy-web/conf.d /etc/nginx/conf.d/
-EXPOSE 80 443
+EXPOSE 80
 
 # Flask
 RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \

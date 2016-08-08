@@ -1,19 +1,5 @@
 version: '2'
 services:
-  daemon:
-    build: ./daemon
-    image: coaxisopt_daemon
-    ports:
-      - "5000:5000"
-      - "80:80"
-    volumes:
-      - config:/etc/mast
-    volumes_from:
-      - backend
-      - frontend
-    links:
-      - backend
-      - frontend
   backend:
     build: ./backend
     volumes:
@@ -26,6 +12,16 @@ services:
     build: ./frontend
     ports:
      - "8080:8080"
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes_from:
+      - backend
+    links:
+      - backend
+      - frontend
 
 volumes:
   database:

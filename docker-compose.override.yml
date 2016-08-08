@@ -7,13 +7,6 @@ services:
     environment:
       - DEFAULT_INTERFACE=wlp4s0
     command: python manage.py runserver 0.0.0.0:8000
-  daemon:
-    environment:
-      - FLASK_APP=/daemon/api/views.py
-      - FLASK_DEBUG=1
-    volumes:
-      - ./daemon/api:/daemon/api
-    command: supervisord -c /etc/supervisor/conf.d/dev.conf
   frontend:
     volumes:
       - ./frontend:/frontend
