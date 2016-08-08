@@ -7,9 +7,9 @@ from flask_restful import Resource, Api, abort
 from slugify import slugify
 
 import scripts
+from daemon.api import daemon
 from daemon.api import mast_utils
 from daemon.api import validators
-from daemon.api import daemon
 
 app = Flask(__name__)
 api = Api(app)
@@ -146,14 +146,31 @@ class Logs(Resource):
 
 class OptboxInstallScript(Resource):
     def get(self, optbox_id):
+        if not optbox_id:
+            abort(400)
+
         filename = 'site.bat.j2'
-        
         site_host = request.headers['Host']
         printers = mast_utils.list_printers(optbox_id)
         data = scripts.prepare_data(optbox_id, printers['output']['channels'], site_host)
 
         script = scripts.render(filename, {'sites': data})
-        return Response(script, mimetype='text/plain')
+
+
+class SiteInstallScript(Resource):
+    def get(self, site_id):
+        if not site_id:
+            abort(400)
+
+        filename = 'site.bat.j2'
+        site_host = request.headers['Host']
+        printers = mast_utils.list_printers(site_id)
+        data = scripts.prepare_data(site_id, printers['output']['channels'], site_host)
+
+        script = scripts.render(filename, {'sites': data})
+        return Response(script,
+                        mimetype='application/bat',
+                        headers={"Content-Disposition": "attachment; filename={}.bat".format(site_id)})
 
 
 api.add_resource(Root, '/')
@@ -166,7 +183,8 @@ api.add_resource(Printers, '/printers/')
 api.add_resource(PrintersGet, '/optboxes/<string:optbox_id>/printers/')
 api.add_resource(Printer, '/optboxes/<string:optbox_id>/printers/<int:printer_id>')
 api.add_resource(Logs, '/logs/')
-api.add_resource(OptboxInstallScript, '/scripts/<string:optbox_id>')
+api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>')
+api.add_resource(SiteInstallScript, '/scripts/<string:site_id>')
 
 if __name__ == "__main__":
     app.run()

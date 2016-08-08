@@ -55,9 +55,9 @@ class TemplateTestCase(unittest.TestCase):
                 'description': 'Ricoh Aficio MPC300'
             },
         ]
-        optbox = 'akema'
+        site_id = 'akema'
         site_host = 'akema.coaxis.opt'
-        data = scripts.prepare_data(optbox, payload, site_host)
+        data = scripts.prepare_data(site_id, payload, site_host)
 
         self.assertEqual(len(data), 2)
         self.assertListEqual(data, [

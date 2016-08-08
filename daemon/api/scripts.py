@@ -13,7 +13,7 @@ def render(filename, data):
     return template.render(data)
 
 
-def prepare_data(optbox, printers, site_host):
+def prepare_data(site_id, printers, site_host):
     data = []
 
     for printer in printers:
@@ -21,7 +21,7 @@ def prepare_data(optbox, printers, site_host):
             'port': printer.get('listening_port'),
             'vps': site_host,
             'imp': printer.get('hostname'),
-            'name': optbox
+            'name': site_id
         })
 
     return data
