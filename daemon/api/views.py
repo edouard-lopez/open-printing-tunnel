@@ -1,10 +1,12 @@
 import logging
 
 from flask import Flask
+from flask import Response
 from flask import request
 from flask_restful import Resource, Api, abort
 from slugify import slugify
 
+import scripts
 from daemon.api import mast_utils
 from daemon.api import validators
 from daemon.api import daemon
@@ -31,7 +33,6 @@ class Optboxes(Resource):
                }, 200 if response['success'] else 500
 
     def post(self):
-        logger.debug(request.json)
         if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
             abort(400)
 
@@ -142,6 +143,19 @@ class Logs(Resource):
                }, 200 if response['success'] else 500
 
 
+
+class OptboxInstallScript(Resource):
+    def get(self, optbox_id):
+        filename = 'site.bat.j2'
+        
+        site_host = request.headers['Host']
+        printers = mast_utils.list_printers(optbox_id)
+        data = scripts.prepare_data(optbox_id, printers['output']['channels'], site_host)
+
+        script = scripts.render(filename, {'sites': data})
+        return Response(script, mimetype='text/plain')
+
+
 api.add_resource(Root, '/')
 # todo: api.add_resource(AddBulkPrinters, '/optboxes/add-bulk-channels/')
 # todo: api.add_resource(CopyLogs, '/optboxes/copy-logs/')
@@ -152,6 +166,7 @@ api.add_resource(Printers, '/printers/')
 api.add_resource(PrintersGet, '/optboxes/<string:optbox_id>/printers/')
 api.add_resource(Printer, '/optboxes/<string:optbox_id>/printers/<int:printer_id>')
 api.add_resource(Logs, '/logs/')
+api.add_resource(OptboxInstallScript, '/scripts/<string:optbox_id>')
 
 if __name__ == "__main__":
     app.run()
