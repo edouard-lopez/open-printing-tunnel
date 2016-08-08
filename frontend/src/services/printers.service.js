@@ -2,12 +2,10 @@ import axios from 'axios';
 
 export default {
 	localStorage: null,
-	remove(printers, printer) {
-		console.log('service', printers, printer);
-		const index = printers.findIndex(current => current.id === printer.id);
-		if (index !== -1) {
-			return printers.splice(index, 1);
-		}
+	remove(printers, printerId) {
+		return printers.filter(printer => {
+			return printer.id !== printerId;
+		});
 	},
 	getRequestConfig() {
 		const token = this.localStorage.getItem('token');

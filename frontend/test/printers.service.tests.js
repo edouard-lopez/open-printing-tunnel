@@ -1,17 +1,17 @@
 import test from 'ava';
 import nock from 'nock';
 
-import '../src/services/array';
+import '../src/services/array.polyfill';
 import printersService from '../src/services/printers.service';
 import {storageMock, printersGetAll, printerGetOne} from './_helpers';
 
 test('should remove printer from list', t => {
 	const printers = [{id: 4}, {id: 5}, {id: 15}];
 
-	printersService.remove(printers, 5);
+	const newPrinters = printersService.remove(printers, 5);
 
-	t.is(printers.length, 2);
-	t.deepEqual(printers, [{id: 4}, {id: 15}]);
+	t.is(newPrinters.length, 2);
+	t.deepEqual(newPrinters, [{id: 4}, {id: 15}]);
 });
 
 printersService.localStorage = storageMock();
