@@ -21,9 +21,9 @@
                                v-model="user.password" name="passwordField"
                                placeholder="{{ $t('login.PasswordPlaceholder') }}">
                     </fieldset>
-                    <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-primary btn-block">{{
-                        $t('login.SignIn') }}
-                    </button>
+                    <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-primary btn-block">
+						{{ $t('login.SignIn') }}
+					</button>
                     <fieldset class="form-group p-t-1">
                         <a v-link="{ path: '/register/'}"><u>{{ $t('login.orRegister') }}</u></a>
                     </fieldset>
