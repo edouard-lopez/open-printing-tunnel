@@ -1,0 +1,5 @@
+{% for printer in sites %}
+# {{ printer.name }} :
+cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\prnport.vbs -a -o raw -h {{ printer.vps }} -r "GZ_{{ printer.vps }}:{{ printer.port }}_{{ printer.imp }}" -n {{ printer.port }}
+cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\prnport.vbs -a -o raw -h {{ printer.imp }} -r "DIRECT_{{ printer.imp }}"
+{% endfor %}
