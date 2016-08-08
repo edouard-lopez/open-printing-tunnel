@@ -67,7 +67,7 @@
 														:ordering="ordering">
 										</ordering-arrow>
 									</th>
-									<th>
+									<th class="text-xs-right">
 										Actions
 									</th>
 								</tr>
@@ -105,7 +105,7 @@
 									<td>
 										{{ container.description }}
 									</td>
-									<td>
+									<td class="text-xs-right">
 										<span class="btn btn-sm btn-danger" title="delete"
 											  @click="deleteContainer(container)">
 											<i class="fa fa-trash"></i>
