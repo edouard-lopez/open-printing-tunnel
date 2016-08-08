@@ -4,7 +4,7 @@ RUN mkdir -p /frontend
 WORKDIR /frontend
 
 COPY package.json /frontend/
-RUN npm install
+RUN npm install --production
 
 COPY . /frontend
 
