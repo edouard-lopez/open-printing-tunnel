@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from rest_framework.test import APITestCase, APIClient
 
 import api.services
-from api.permissions import IsAdmin
+from api.permissions import IsTechnician
 from api.tests import factories
 
 
@@ -18,10 +18,10 @@ class PermissionsApiTestCase(APITestCase):
         employee = factories.EmployeeFactory(user=self.user)
         self.request.user = employee.user
 
-        self.assertEqual(IsAdmin.has_object_permission(self, self.request, None, None), False)
+        self.assertEqual(IsTechnician.has_object_permission(self, self.request, None, None), False)
 
     def test_technician_employee_have_privileges(self):
         technician = factories.TechnicianFactory(user=self.user)
         self.request.user = technician.user
 
-        self.assertEqual(IsAdmin.has_object_permission(self, self.request, None, None), True)
+        self.assertEqual(IsTechnician.has_object_permission(self, self.request, None, None), True)

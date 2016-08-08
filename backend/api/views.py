@@ -6,7 +6,7 @@ from rest_framework import status, permissions, viewsets
 from rest_framework.response import Response
 
 from api import models, serializers, services, container_services
-from api.permissions import IsAdmin
+from api.permissions import IsTechnician
 from api.services import get_company, get_employee
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
@@ -48,7 +48,7 @@ class UserViewSet(viewsets.ViewSet):
 
 class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CompanySerializer
-    permission_classes = (permissions.IsAuthenticated, IsAdmin,)
+    permission_classes = (permissions.IsAuthenticated, IsTechnician,)
 
     def get_queryset(self):
         return models.Company.objects.all()
@@ -56,7 +56,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 class RemoteNodeViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RemoteNodeSerializer
-    permission_classes = (permissions.IsAuthenticated, IsAdmin,)
+    permission_classes = (permissions.IsAuthenticated, IsTechnician,)
 
     def get_queryset(self):
         for container in docker_api.containers():
@@ -67,7 +67,7 @@ class RemoteNodeViewSet(viewsets.ModelViewSet):
 class MastContainerViewSet(viewsets.ModelViewSet):
     queryset = models.MastContainer.objects.all()
     serializer_class = serializers.MastContainerSerializer
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAdminUser,)
 
     def create(self, request, *args, **kwargs):
         employee = services.get_employee(request.user)
