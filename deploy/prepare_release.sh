@@ -1,22 +1,25 @@
 #!/bin/bash
 
-set -e
-
 echo "prepare release"
 cd ..
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml rm -f
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-echo "run tests"
-docker exec coaxisopt_frontend_1  npm run test
-docker exec coaxisopt_backend_1 python manage.py test
 
-echo "build frontend"
-cd frontend
-npm run build
+echo "build dev docker compose"
+docker-compose stop
+docker-compose rm -f
+docker-compose pull
+docker-compose build
+docker-compose up -d
 
-cd ..
+echo "install dev dependencies"
+docker exec opt_frontend_1 npm install
+
+echo "run test"
+docker exec opt_frontend_1 npm run test
+docker exec opt_backend_1 python manage.py test
+
+echo "run build"
+docker exec opt_frontend_1 npm run build
+sudo chown -R $USER:$USER .
+
 git status
 cd deploy
