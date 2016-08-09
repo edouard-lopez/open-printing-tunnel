@@ -71,7 +71,13 @@
 										{{ client.description }}
 									</td>
 									<td class="text-xs-right">
-										<delete :promise="deleteClient" class="btn-sm" :object="client"></delete>
+										<delete :promise="deleteClient" :object="client"
+												class="btn-sm">
+											<span slot="title">Supprimer le client</span>
+											<span slot="body">Confirmer la suppression du client et des tunnels associés.</span>
+											<span slot="in-progress">Suppression en cours</span>
+											<span slot="action">Supprimer le client</span>
+										</delete>
 									</td>
 								</tr>
 								</tbody>

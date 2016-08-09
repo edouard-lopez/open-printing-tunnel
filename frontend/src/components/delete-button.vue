@@ -4,7 +4,7 @@
 				data-toggle="modal"
 				data-target="#delete-button-modal">
 			<i class="fa fa-trash"></i>
-			<span v-if="label">{{label}}</span>
+			<slot name="label"></slot>
 		</button>
 		<div class="modal fade" id="delete-button-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
@@ -14,18 +14,20 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="action-label">Supprimer le client</h4>
+						<h4 class="modal-title" id="action-label">
+							<slot name="title"></slot>
+						</h4>
 					</div>
 					<div class="modal-body">
-						<p>Confirmer la suppression du client et des tunnels associés.</p>
+						<slot name="body"></slot>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-link text-danger" v-on:click="confirm()">
 							<span v-if="pending">
 								<i class="fa fa-spinner fa-pulse fa-fw"></i>
-								Suppression du client
+								<slot name="in-progress"></slot>
 							</span>
-							<span v-else>Supprimer le client</span>
+							<span v-else><slot name="action"></slot></span>
 						</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">
 							Annuler
@@ -46,7 +48,6 @@
 		props: {
 			promise: {type: Function},
 			object: {type: Object, required: true},
-			label: {type: String},
 			class: {type: String}
 		},
 		methods: {
