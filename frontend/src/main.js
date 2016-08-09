@@ -8,7 +8,7 @@ import LoginPage from './pages/login';
 import ClientsPage from './pages/clients/clients';
 import ClientPage from './pages/clients/client';
 import SitesPage from './pages/sites/sites';
-import SitePage from './pages/sites/site';
+import SitePage from './pages/sites/site.component';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 
