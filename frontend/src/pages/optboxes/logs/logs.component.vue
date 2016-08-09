@@ -61,7 +61,6 @@
 
 <script type="text/ecmascript-6">
 	import Optboxes from '../../../services/optboxes.service';
-	import Printers from '../../../services/printers.service';
 
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
