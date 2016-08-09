@@ -60,9 +60,9 @@
 	<div class="sidebar">
 		<ul class="sidebar-menu main">
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/containers/', activeClass: 'active' }" class="sidebar-link" title="Conteneurs">
-					<i class="fa fa-cube"></i>
-					<span class="sr-only">Conteneurs</span>
+				<a v-link="{ path: '/clients/', activeClass: 'active' }" class="sidebar-link" title="Clients">
+					<i class="fa fa-users"></i>
+					<span class="sr-only">Clients</span>
 				</a>
 			</li>
 		</ul>

@@ -68,6 +68,8 @@ class MastContainerViewSet(viewsets.ModelViewSet):
     queryset = models.MastContainer.objects.all()
     serializer_class = serializers.MastContainerSerializer
     permission_classes = (permissions.IsAdminUser,)
+    search_fields = ('id', 'description', 'company__name', 'container_id',)
+    ordering_fields = ('description', 'company__name',)
 
     def create(self, request, *args, **kwargs):
         employee = services.get_employee(request.user)

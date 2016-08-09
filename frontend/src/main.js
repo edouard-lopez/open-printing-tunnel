@@ -6,6 +6,7 @@ import App from './components/app';
 import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ContainersPage from './pages/containers/containers';
+import ClientsPage from './pages/clients/clients';
 import ContainerPage from './pages/containers/container.details';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
@@ -44,6 +45,15 @@ router.map({
 		component: SettingsPage,
 		authRequired: true
 	},
+	'/clients/': {
+		component: ClientsPage,
+		authRequired: true
+	},
+	'/clients/:id': {
+		name: 'clients',
+		component: ContainerPage,
+		authRequired: true
+	},
 	'/containers/': {
 		component: ContainersPage,
 		authRequired: true
@@ -61,7 +71,7 @@ router.beforeEach(transition => {
 	auth.checkAuth()
 		.then(() => {
 			if (transition.to.path === '/') {
-				transition.redirect('/containers/');
+				transition.redirect('/clients/');
 			} else {
 				transition.next();
 			}
