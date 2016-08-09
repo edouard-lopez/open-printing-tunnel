@@ -11,7 +11,7 @@ class ParserTestCase(unittest.TestCase):
             'Akema                              88.116.12.46'
         ]
 
-        parsed_response = parser.list_optboxes(stdout)
+        parsed_response = parser.list_sites(stdout)
 
         self.assertDictEqual(parsed_response[0], {'id': '3W', 'hostname': '10.100.7.49'})
         self.assertDictEqual(parsed_response[1], {'id': 'Akema', 'hostname': '88.116.12.46'})

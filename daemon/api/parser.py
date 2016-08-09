@@ -4,7 +4,7 @@ import re
 logger = logging.getLogger(__name__)
 
 
-def list_optboxes(lines):
+def list_sites(lines):
     parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
     response = []
     for line in lines:

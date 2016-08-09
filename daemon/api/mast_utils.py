@@ -38,10 +38,10 @@ def remove_printer(optbox, printer_id):
     return shell.execute(command)
 
 
-def list_optboxes():
+def list_sites():
     command = [makefile, 'list-hosts']
     response = shell.execute(command)
-    response['output'] = parser.list_optboxes(response['output'])
+    response['output'] = parser.list_sites(response['output'])
     return response
 
 

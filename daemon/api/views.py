@@ -24,9 +24,9 @@ class Root(Resource):
         }
 
 
-class Optboxes(Resource):
+class Sites(Resource):
     def get(self):
-        response = mast_utils.list_optboxes()
+        response = mast_utils.list_sites()
         return {
                    'success': response['success'],
                    'output': response['output'],
@@ -36,14 +36,14 @@ class Optboxes(Resource):
         if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
             abort(400)
 
-        optbox_id = slugify(request.json['name'])
+        site_id = slugify(request.json['name'])
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_optbox(optbox_id, hostname)
+            response = mast_utils.add_optbox(site_id, hostname)
             return {
                        'success': response['success'],
                        'output': response['output'],
-                       'id': optbox_id,
+                       'id': site_id,
                        'hostname': hostname,
                    }, 201 if response['success'] else 500
 
@@ -144,6 +144,7 @@ class Logs(Resource):
 
 
 class PrinterInstallScript(Resource):
+    # todo: change to post
     def get(self, site_id, printer_id):
         if not site_id or not printer_id:
             abort(400)
@@ -164,6 +165,7 @@ class PrinterInstallScript(Resource):
 
 
 class SiteInstallScript(Resource):
+    # todo: change to post
     def get(self, site_id):
         if not site_id:
             abort(400)
@@ -184,7 +186,7 @@ api.add_resource(Root, '/')
 # todo: api.add_resource(AddBulkPrinters, '/optboxes/add-bulk-channels/')
 # todo: api.add_resource(CopyLogs, '/optboxes/copy-logs/')
 # todo: api.add_resource(Link, '/optboxes/link/')
-api.add_resource(Optboxes, '/optboxes/')
+api.add_resource(Sites, '/sites/')
 api.add_resource(Optbox, '/optboxes/<string:optbox_id>')
 api.add_resource(Printers, '/printers/')
 api.add_resource(PrintersGet, '/optboxes/<string:optbox_id>/printers/')
