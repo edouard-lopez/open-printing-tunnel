@@ -5,13 +5,10 @@ import VueI18n from 'vue-i18n';
 import App from './components/app';
 import LandingPage from './pages/index';
 import LoginPage from './pages/login';
-import ContainersPage from './pages/containers/containers';
 import ClientsPage from './pages/clients/clients';
 import ClientPage from './pages/clients/client';
 import SitesPage from './pages/sites/sites';
 import SitePage from './pages/sites/site';
-import ContainerPage from './pages/containers/container.details';
-import SitesPage from './pages/sites/sites';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 
