@@ -19,7 +19,8 @@ def pop_new_container(data, docker_client=None):
     container = docker_api.create_container(
         image=image_name,
         hostname=data.get('hostname'),
-        command='tail -f /dev/null',
+        ports=[80, 5000],
+        host_config=docker_api.create_host_config(port_bindings={80: 80, 5000: 5000}),
         networking_config=get_network_config(data, docker_client)
     )
     docker_api.start(container=(container.get('Id')))
@@ -50,8 +51,6 @@ def save_infos(data):
     )
 
     return container_obj
-
-
 
 
 def destroy(container_id):
