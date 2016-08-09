@@ -1,7 +1,7 @@
 import unittest
 
 import mast_utils
-from daemon.api import scripts
+import scripts
 
 
 class TemplateTestCase(unittest.TestCase):

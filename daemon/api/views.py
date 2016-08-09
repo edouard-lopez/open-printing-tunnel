@@ -7,9 +7,9 @@ from flask_restful import Resource, Api, abort
 from slugify import slugify
 
 import scripts
-from daemon.api import daemon
-from daemon.api import mast_utils
-from daemon.api import validators
+import daemon
+import mast_utils
+import validators
 
 app = Flask(__name__)
 api = Api(app, prefix='/daemon')
