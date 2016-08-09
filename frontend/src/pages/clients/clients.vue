@@ -75,6 +75,7 @@
 											  @click="deleteClient(client)">
 											<i class="fa fa-trash"></i>
 										</span>
+										<delete event-name="deleteClient" class="btn-sm" :object="client"></delete>
 									</td>
 								</tr>
 								</tbody>
@@ -112,6 +113,7 @@
 	// todo rename services/containers.service
 	import ClientService from '../../services/containers.service';
 	import AddClientButton from './add-client-button';
+	import DeleteButton from '../../components/delete-button.vue';
 
 	import logging from '../../services/logging.service';
 
@@ -144,11 +146,15 @@
 			this.getCompanies();
 		},
 		components: {
-			'add-client-button': AddClientButton
+			'add-client-button': AddClientButton,
+			'delete': DeleteButton
 		},
 		events: {
 			clientCreated() {
 				this.getClients();
+			},
+			deleteClient(client) {
+				console.log('delete', client)
 			}
 		},
 		methods: {
