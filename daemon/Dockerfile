@@ -105,9 +105,10 @@ RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends 
     python3-venv \
     supervisor
 WORKDIR /daemon
-COPY ./ /daemon
 COPY requirements.txt ./
-RUN python3 -m pip install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+COPY ./ /daemon
 
 RUN cd /opt/mast/ && make install
 

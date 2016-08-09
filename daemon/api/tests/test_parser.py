@@ -1,7 +1,6 @@
 import unittest
 
 import parser
-import shell
 
 
 class ParserTestCase(unittest.TestCase):
