@@ -21,7 +21,11 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-link text-danger" v-on:click="confirm()">
-							Supprimer le client
+							<span v-if="pending">
+								<i class="fa fa-spinner fa-pulse fa-fw"></i>
+								Suppression du client
+							</span>
+							<span v-else>Supprimer le client</span>
 						</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">
 							Annuler
@@ -34,15 +38,23 @@
 </template>
 <script type="text/ecmascript-6">
 	export default {
+		data() {
+			return {
+				pending: false
+			}
+		},
 		props: {
-			'event-name': {type: String, required: true},
+			promise: {type: Function},
 			object: {type: Object, required: true},
 			label: {type: String},
 			class: {type: String}
 		},
 		methods: {
 			confirm() {
-				this.$dispatch(this.eventName, this.object);
+				this.pending = true;
+				this.promise(this.object).then(function() {
+					$('#delete-button-modal').modal('hide');
+				});
 			}
 		},
 		events: {

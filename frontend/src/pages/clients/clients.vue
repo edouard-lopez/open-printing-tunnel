@@ -71,11 +71,7 @@
 										{{ client.description }}
 									</td>
 									<td class="text-xs-right">
-										<span class="btn btn-sm btn-danger" title="delete"
-											  @click="deleteClient(client)">
-											<i class="fa fa-trash"></i>
-										</span>
-										<delete event-name="deleteClient" class="btn-sm" :object="client"></delete>
+										<delete :promise="deleteClient" class="btn-sm" :object="client"></delete>
 									</td>
 								</tr>
 								</tbody>
@@ -154,7 +150,7 @@
 				this.getClients();
 			},
 			deleteClient(client) {
-				console.log('delete', client)
+				this.deleteClient(client);
 			}
 		},
 		methods: {
@@ -203,7 +199,7 @@
 				this.$router.go(`/clients/${id}/`);
 			},
 			deleteClient(client){
-				ClientService.delete(client).then(() => {
+				return ClientService.delete(client).then(() => {
 					logging.success('Client supprimé avec succès');
 					this.getClients();
 				}).catch(() => {
