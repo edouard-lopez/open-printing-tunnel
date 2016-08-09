@@ -1,5 +1,7 @@
 <style>
-
+	.expandable {
+		cursor: pointer;
+	}
 </style>
 <template>
 	<div class="row">

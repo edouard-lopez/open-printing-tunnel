@@ -1,8 +1,4 @@
 <style>
-	.expandable {
-		cursor: pointer;
-	}
-
 	.btn-toolbar {
 		margin-bottom: 0;
 	}
