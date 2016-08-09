@@ -117,9 +117,9 @@
 
 	import logging from '../../services/logging.service';
 
-	import Resource from 'pilou';
+	import http from 'services/http.service';
 
-	const companies = Resource('companies');
+	const companies = http('companies', localStorage);
 
 	ClientService.localStorage = localStorage;
 	export default {
