@@ -48,7 +48,7 @@
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
-	const printers = resource('printers', {delete: '/daemon/sites/${site_id}/${resource}/${printer_id}'});
+	const printers = resource('printers', {delete: '/api/sites/${site_id}/${resource}/${printer_id}'});
 
 	export default {
 		data() {

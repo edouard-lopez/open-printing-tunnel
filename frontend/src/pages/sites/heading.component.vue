@@ -91,9 +91,9 @@
 	import resource from 'pilou';
 
 	const sites = resource('sites', {
-		all: '/daemon/${resource}/${site_id}/',
-		update: '/daemon/${resource}/${site_id}/',
-		delete: '/daemon/${resource}/${site_id}/'
+		all: '/api/${resource}/${site_id}/',
+		update: '/api/${resource}/${site_id}/',
+		delete: '/api/${resource}/${site_id}/'
 	});
 
 

@@ -51,7 +51,7 @@
 	import printersService from '../../services/printers.service';
 	import resource from 'pilou';
 
-	const printers = resource('printers', {create: '/daemon/${resource}/'});
+	const printers = resource('printers', {create: '/api/${resource}/'});
 
 	export default {
 		data() {

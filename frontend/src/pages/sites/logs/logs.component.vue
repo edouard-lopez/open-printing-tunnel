@@ -65,8 +65,8 @@
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
-	const printers = resource('printers', { all: '/daemon/${resource}/'});
-	const sites = resource('sites', { all: '/daemon/${resource}/${name}'});
+	const printers = resource('printers', { all: '/api/${resource}/'});
+	const sites = resource('sites', { all: '/api/${resource}/${name}'});
 
 	export default {
 		data() {

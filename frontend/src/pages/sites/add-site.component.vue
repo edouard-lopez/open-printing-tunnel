@@ -48,7 +48,7 @@
 	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
-	const sites = resource('sites', {create: '/daemon/${resource}/'});
+	const sites = resource('sites', {create: '/api/${resource}/'});
 
 	export default {
 		data() {

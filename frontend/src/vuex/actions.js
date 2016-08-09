@@ -1,6 +1,6 @@
 import resource from 'pilou';
 import logging from '../services/logging.service';
-const printers = resource('printers', {get: '/daemon/sites/${site_id}/${resource}/'});
+const printers = resource('printers', {get: '/api/sites/${site_id}/${resource}/'});
 
 export default {
 	getPrinters({dispatch}, siteId) {
