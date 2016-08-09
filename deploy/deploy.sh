@@ -24,9 +24,14 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml rm -f
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-cd ..
 
 mkdir -p sources
 mv $ARCHIVE sources
 
+
+cd daemon
+docker build -t coaxisopt_daemon .
 docker rmi $(docker images -f "dangling=true" -q)
+cd ..
+
+cd ..
