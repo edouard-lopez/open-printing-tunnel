@@ -8,6 +8,7 @@ import LoginPage from './pages/login';
 import ContainersPage from './pages/containers/containers';
 import ClientsPage from './pages/clients/clients';
 import ClientPage from './pages/clients/client';
+import SitesPage from './pages/sites/sites';
 import SitePage from './pages/sites/site';
 import ContainerPage from './pages/containers/container.details';
 import SitesPage from './pages/sites/sites';
@@ -57,18 +58,13 @@ router.map({
 		component: ClientPage,
 		authRequired: true
 	},
+	'/sites/': {
+		component: SitesPage,
+		authRequired: true
+	},
 	'/sites/:id': {
 		name: 'sites',
 		component: SitePage,
-		authRequired: true
-	},
-	'/containers/': {
-		component: ContainersPage,
-		authRequired: true
-	},
-	'/containers/:id': {
-		name: 'containers',
-		component: ContainerPage,
 		authRequired: true
 	},
 	'/optboxes/': {

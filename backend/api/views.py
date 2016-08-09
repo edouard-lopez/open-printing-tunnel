@@ -109,3 +109,21 @@ class MastContainerViewSet(viewsets.ModelViewSet):
             {'hostname': '10.48.7.14', 'id': '3W'}
         ]
         return Response(new_data)
+
+
+class SitesViewSet(viewsets.ViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def list(request, format=None):
+        employee = get_employee(request.user)
+
+        container = models.MastContainer.objects.filter(company=employee.companies.first()).first()
+        if container:
+            docker_inspect = docker_api.inspect_container(container.container_id)
+            network_info = list(docker_inspect['NetworkSettings']['Networks'].values())[0]
+            container_ip = network_info['IPAddress']
+        return Response({'sites': [
+            {'hostname': '10.100.7.14', 'id': '3W'},
+            {'hostname': '10.48.7.14', 'id': '3W'}
+        ]})

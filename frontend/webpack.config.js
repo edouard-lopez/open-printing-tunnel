@@ -1,50 +1,25 @@
-var path = require('path');
-var webpack = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
-	entry: './src/main.js',
+	context: __dirname + '/src',
+	entry: './main.js',
 	output: {
-		path: path.resolve(__dirname, './dist'),
+		path: __dirname + './dist',
 		publicPath: '/dist/',
 		filename: 'build.js'
 	},
 	resolve: {
 		extensions: ['', '.js', '.vue'],
-		fallback: [path.join(__dirname, 'node_modules')],
-		alias: {
-			src: path.resolve(__dirname, './src')
-		}
-	},
-	resolveLoader: {
-		root: path.join(__dirname, 'node_modules')
+		modulesDirectories: ["node_modules", "src"]
 	},
 	module: {
 		loaders: [
-			{
-				test: /\.vue$/,
-				loader: 'vue'
-			},
-			{
-				test: /\.js$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/
-			},
-			{
-				test: /\.json$/,
-				loader: 'json-loader'
-			},
-			{
-				test: /\.html$/,
-				loader: 'vue-html'
-			},
-			{
-				test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
-				loader: 'url-loader',
-				query: {
-					limit: 10000,
-					name: '[name].[ext]?[hash]'
-				}
-			}
+			{test: /\.vue$/, loader: 'vue-loader'},
+			{test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ['es2015']}},
+			{test: /\.css$/, loader: 'style-loader!css-loader'},
+			{test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'},
+			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff"},
+			{test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
 		]
 	},
 	plugins: [
@@ -55,16 +30,11 @@ module.exports = {
 			'window.Tether': 'tether'
 		})
 	],
-	devServer: {
-		historyApiFallback: true,
-		noInfo: true
-	},
 	devtool: '#eval-source-map'
 };
 
 if (process.env.NODE_ENV === 'production') {
 	module.exports.devtool = '#source-map';
-	// http://vuejs.github.io/vue-loader/workflow/production.html
 	module.exports.plugins = (module.exports.plugins || []).concat([
 		new webpack.DefinePlugin({
 			'process.env': {

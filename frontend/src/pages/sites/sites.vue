@@ -1,4 +1,5 @@
 <template>
+<<<<<<< 41f5c70c8a8cd1684ada104402a2bf60cd18d1e1
 	<div id="sites-page">
 		<div class="row">
 			<div class="col-lg-12">
@@ -32,11 +33,19 @@
 					<logs></logs>
 				</div>
 			</div>
+=======
+	<div>
+		<div class="row">
+			Sites
+
+			<pre>{{sites | json 4}}</pre>
+>>>>>>> add sites pages
 		</div>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
+<<<<<<< 41f5c70c8a8cd1684ada104402a2bf60cd18d1e1
 	import AddSiteButtonComponent from './add-site.component.vue';
 	import LogsComponent from './logs/logs.component.vue';
 	import SiteComponent from './site.component.vue';
@@ -48,10 +57,19 @@
 
 	const sites = resource('sites', {all: '/daemon/${resource}/'});
 
+=======
+	import logging from 'services/logging.service';
+	import resources from 'pilou';
+
+	import http from 'services/http.service';
+
+	const sites = http('sites', localStorage);
+>>>>>>> add sites pages
 
 	export default {
 		data() {
 			return {
+<<<<<<< 41f5c70c8a8cd1684ada104402a2bf60cd18d1e1
 				no_site_message: 'loading…'
 			};
 		},
@@ -87,4 +105,20 @@
 			}
 		}
 	}
+=======
+				sites: null
+			};
+		},
+		ready(){
+			this.getSites();
+		},
+		methods: {
+			getSites(){
+				sites.all().then(response => {
+					this.sites = response.data;
+				})
+			}
+		}
+	};
+>>>>>>> add sites pages
 </script>

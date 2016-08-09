@@ -65,6 +65,12 @@
 					<span class="sr-only">Clients</span>
 				</a>
 			</li>
+			<li class="sidebar-item" v-link-active>
+				<a v-link="{ path: '/sites/', activeClass: 'active' }" class="sidebar-link" title="Sites">
+					<i class="fa fa-sitemap" aria-hidden="true"></i>
+					<span class="sr-only">Sites</span>
+				</a>
+			</li>
 		</ul>
 		<ul class="sidebar-menu settings">
 			<li class="sidebar-item" v-link-active>
