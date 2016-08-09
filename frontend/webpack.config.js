@@ -1,10 +1,11 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
 	context: __dirname + '/src',
 	entry: './main.js',
 	output: {
-		path: __dirname + './dist',
+		path: __dirname + '/dist',
 		publicPath: '/dist/',
 		filename: 'build.js'
 	},
