@@ -3,8 +3,8 @@ import requests
 
 def get_sites(container_ip, site_id=None):
     if not site_id:
-        resource = 'https://{}/sites/'.format(container_ip)
+        resource = 'http://{}:5000/sites/'.format(container_ip)
     else:
-        resource = 'https://{}/sites/{}'.format(container_ip, site_id)
+        resource = 'http://{}:5000/sites/{}'.format(container_ip, site_id)
 
     return requests.get(resource)
