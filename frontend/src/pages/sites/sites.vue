@@ -1,35 +1,50 @@
+<style scoped>
+	.table thead th, .table td, .table th {
+		border: none;
+	}
+</style>
 <template>
-	<div>
+	<div id="container-page">
 		<div class="row">
-			Sites
-
-			<pre>{{sites | json 4}}</pre>
+			<div class="col-md-12">
+				<div class="card">
+					<h5 class="card-header">
+						<i class="fa fa-map-marker" aria-hidden="true"></i> Sites
+					</h5>
+					<div class="card-block">
+						<div v-for="site in sites">
+							<site :site="site"></site>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
-	import logging from 'services/logging.service';
-	import resources from 'pilou';
-
 	import http from 'services/http.service';
+	import Site from './site.component';
 
-	const sites = http('sites', localStorage);
-
+	const SitesService = http('sites', localStorage);
 	export default {
 		data() {
 			return {
-				sites: null
+				sites: []
 			};
 		},
 		ready(){
 			this.getSites();
 		},
+		components: {
+			'site': Site
+		},
 		methods: {
 			getSites(){
-				sites.all().then(response => {
+				return SitesService.all().then(response => {
+					console.log(response.data);
 					this.sites = response.data;
-				})
+				});
 			}
 		}
 	};

@@ -123,7 +123,7 @@ class SitesViewSet(viewsets.ViewSet):
             docker_inspect = docker_api.inspect_container(container.container_id)
             network_info = list(docker_inspect['NetworkSettings']['Networks'].values())[0]
             container_ip = network_info['IPAddress']
-        return Response({'sites': [
+        return Response([
             {'hostname': '10.100.7.14', 'id': '3W'},
             {'hostname': '10.48.7.14', 'id': '3W'}
-        ]})
+        ])

@@ -30,10 +30,10 @@
 	</div>
 </template>
 <script>
-	import AddPrinterButtonComponent from './add-printer.component.vue';
-	import AddPrintersButtonComponent from './add-printers.component.vue';
-	import HeadingComponent from './heading.component.vue';
-	import PrinterComponent from './printers/printer.component.vue';
+	import AddPrinterButtonComponent from './add-printer.component';
+	import AddPrintersButtonComponent from './add-printers.component';
+	import HeadingComponent from './heading.component';
+	import PrinterComponent from './printers/printer.component';
 
 	import actions from '../../vuex/actions';
 	import getters from '../../vuex/getters';
@@ -51,7 +51,7 @@ import sitesService from '../../services/sites.service';
 			site: {
 				type: Object,
 				required: true
-			},
+			}
 		},
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
