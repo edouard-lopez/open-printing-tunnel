@@ -1,15 +1,14 @@
-import logging from '../services/logging.service';
 import resource from 'pilou';
-const sites = resource('sites', {all: '/daemon/${resource}/'});
+import logging from '../services/logging.service';
 const printers = resource('printers', {get: '/daemon/sites/${site_id}/${resource}/'});
 
 export default {
 	getPrinters({dispatch}, siteId) {
 		printers.get({site_id: siteId}).then(response => {
 			dispatch('setPrinters', response.data.site, response.data.output.channels);
-		}).catch((err) => {
+		}).catch(err => {
 			console.error(err);
-			logging.error(this.$t('printers.get.failed'))
+			logging.error(this.$t('printers.get.failed'));
 		});
 	},
 	setSites({dispatch}, sites) {
@@ -25,7 +24,6 @@ export default {
 		dispatch('setPrinters', siteId, printers);
 	},
 	removePrinter({dispatch}, printer) {
-		console.log('dispatch', printer)
 		dispatch('removeSite', printer);
 	}
 };

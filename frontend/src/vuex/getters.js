@@ -3,6 +3,6 @@ export default {
 		return state.sites;
 	},
 	retrievePrinters(state, siteId) {
-		return state.sites[siteId].printer ;
-	},
+		return state.sites[siteId].printer;
+	}
 };
