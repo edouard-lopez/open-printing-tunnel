@@ -1,6 +1,9 @@
 version: '2'
 
 services:
+  daemon:
+      build: ./daemon
+      image: coaxisopt_daemon
   backend:
     volumes:
       - ./backend:/backend
