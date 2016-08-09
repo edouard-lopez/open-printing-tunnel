@@ -30,6 +30,7 @@
 							</h2>
 						</div>
 						<div class="col-md-4 text-xs-right">
+							<add-client-button :companies.sync="companies"></add-client-button>
 						</div>
 					</div>
 					<div class="row">
@@ -37,22 +38,14 @@
 							<table class="table table-hover table-sm">
 								<thead class="thead-inverse">
 								<tr>
-									<th @click="sort('name')">
+									<th>
 										Id
-										<ordering-arrow column="name" :sorting="sorting" :ordering="ordering">
-										</ordering-arrow>
 									</th>
-									<th @click="sort('company')">
+									<th>
 										Société
-										<ordering-arrow column="company" :sorting="sorting"
-														:ordering="ordering">
-										</ordering-arrow>
 									</th>
-									<th @click="sort('description')">
+									<th>
 										Description
-										<ordering-arrow column="description" :sorting="sorting"
-														:ordering="ordering">
-										</ordering-arrow>
 									</th>
 									<th class="text-xs-right">
 										Actions
@@ -118,7 +111,7 @@
 <script type="text/ecmascript-6">
 	// todo rename services/containers.service
 	import ClientService from '../../services/containers.service';
-	import OrderingArrow from '../../components/ordering-arrow';
+	import AddClientButton from './add-client-button';
 
 	import logging from '../../services/logging.service';
 
@@ -151,7 +144,12 @@
 			this.getCompanies();
 		},
 		components: {
-			OrderingArrow
+			'add-client-button': AddClientButton
+		},
+		events: {
+			clientCreated() {
+				this.getClients();
+			}
 		},
 		methods: {
 			getCompanies(){

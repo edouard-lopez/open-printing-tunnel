@@ -7,6 +7,8 @@ import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ContainersPage from './pages/containers/containers';
 import ClientsPage from './pages/clients/clients';
+import ClientPage from './pages/clients/client';
+import SitePage from './pages/sites/site';
 import ContainerPage from './pages/containers/container.details';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
@@ -51,7 +53,12 @@ router.map({
 	},
 	'/clients/:id': {
 		name: 'clients',
-		component: ContainerPage,
+		component: ClientPage,
+		authRequired: true
+	},
+	'/sites/:id': {
+		name: 'sites',
+		component: SitePage,
 		authRequired: true
 	},
 	'/containers/': {

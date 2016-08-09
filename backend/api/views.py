@@ -103,4 +103,9 @@ class MastContainerViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         new_data = serializer.data
         new_data['container_info'] = docker_api.inspect_container(instance.container_id)
+        # todo get it from daemon container
+        new_data['sites'] = [
+            {'hostname': '10.100.7.14', 'id': '3W'},
+            {'hostname': '10.48.7.14', 'id': '3W'}
+        ]
         return Response(new_data)
