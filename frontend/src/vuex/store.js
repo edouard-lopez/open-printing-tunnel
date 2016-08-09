@@ -9,7 +9,7 @@ Vue.config.debug = true;
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
-	optboxes:[]
+	sites:[]
 		/**
 		 {
 			hostname: "192.168.2.23",

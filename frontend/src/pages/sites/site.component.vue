@@ -8,21 +8,21 @@
 	}
 </style>
 <template>
-	<div id="accordion-{{optbox.id}}" role="tablist" aria-multiselectable="true">
+	<div id="accordion-{{site.id}}" role="tablist" aria-multiselectable="true">
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab">
 				<h6 class="panel-title">
-					<heading :optbox="optbox"></heading>
+					<heading :site="site"></heading>
 				</h6>
 			</div>
-			<div id="optbox-{{optbox.id}}" class="panel-collapse collapse in" role="tabpanel"
-				 aria-labelledby="optbox-{{optbox.hostname}}">
+			<div id="site-{{site.id}}" class="panel-collapse collapse in" role="tabpanel"
+				 aria-labelledby="site-{{site.hostname}}">
 				<div v-for="printer in printersList">
-					<printer :printer="printer" :optbox="optbox"></printer>
+					<printer :printer="printer" :site="site"></printer>
 				</div>
 				<div class="text-xs-center">
-					<add-printer-button :boitier="optbox" label="Ajouter une imprimante"></add-printer-button>
-					<add-printers-button :boitier="optbox" label="Ajouter des imprimantes"></add-printers-button>
+					<add-printer-button :boitier="site" label="Ajouter une imprimante"></add-printer-button>
+					<add-printers-button :boitier="site" label="Ajouter des imprimantes"></add-printers-button>
 				</div>
 				<br>
 			</div>
@@ -39,7 +39,7 @@
 	import getters from '../../vuex/getters';
 	import logging from '../../services/logging.service';
 
-import optboxesService from '../../services/optboxes.service';
+import sitesService from '../../services/sites.service';
 
 	export default{
 		data(){
@@ -48,7 +48,7 @@ import optboxesService from '../../services/optboxes.service';
 			}
 		},
 		props: {
-			optbox: {
+			site: {
 				type: Object,
 				required: true
 			},
@@ -59,16 +59,16 @@ import optboxesService from '../../services/optboxes.service';
 			'printer': PrinterComponent,
 			'heading': HeadingComponent,
 		},
-		created() { this.getPrinters(this.optbox.id); },
+		created() { this.getPrinters(this.site.id); },
 		computed: {
 			printersList() {
-				var index = optboxesService.getIndex(this.optboxesList, this.optbox.id);
-				return this.optboxesList[index].printers
+				var index = sitesService.getIndex(this.sitesList, this.site.id);
+				return this.sitesList[index].printers
 			}
 		},
 		vuex: {
 			actions: { getPrinters: actions.getPrinters,},
-			getters: { optboxesList: getters.retrieveOptboxes}
+			getters: { sitesList: getters.retrieveSites}
 		}
 	}
 

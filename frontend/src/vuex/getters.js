@@ -1,8 +1,8 @@
 export default {
-	retrieveOptboxes(state) {
-		return state.optboxes;
+	retrieveSites(state) {
+		return state.sites;
 	},
-	retrievePrinters(state, optboxId) {
-		return state.optboxes[optboxId].printer ;
+	retrievePrinters(state, siteId) {
+		return state.sites[siteId].printer ;
 	},
 };

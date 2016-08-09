@@ -39,7 +39,7 @@ class Sites(Resource):
         site_id = slugify(request.json['name'])
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_optbox(site_id, hostname)
+            response = mast_utils.add_site(site_id, hostname)
             return {
                        'success': response['success'],
                        'output': response['output'],
@@ -48,87 +48,87 @@ class Sites(Resource):
                    }, 201 if response['success'] else 500
 
 
-class Optbox(Resource):
-    def put(self, optbox_id):
+class Site(Resource):
+    def put(self, site_id):
         if not request.json or not validators.has_all(request.json, ['action']):
             abort(400)
 
-        optbox_id = slugify(optbox_id)
+        site_id = slugify(site_id)
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
-        response = getattr(daemon, action)(optbox_id)
+        response = getattr(daemon, action)(site_id)
         return {
                    'success': response['success'],
-                   'id': optbox_id,
+                   'id': site_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
-    def delete(self, optbox_id):
-        if not optbox_id:
+    def delete(self, site_id):
+        if not site_id:
             abort(400)
 
-        optbox_id = slugify(optbox_id)
-        response = mast_utils.remove_optbox(optbox_id)
+        site_id = slugify(site_id)
+        response = mast_utils.remove_site(site_id)
         return {
                    'success': response['success'],
-                   'id': optbox_id,
+                   'id': site_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
 
 class Printers(Resource):
     def get(self):
-        optbox = '__all__'
+        site = '__all__'
         response = mast_utils.list_printers()
 
         return {
                    'success': response['success'],
-                   'optbox': optbox,
+                   'site': site,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
     def post(self):
-        if not request.json or not validators.has_all(request.json, ['optbox', 'hostname', 'description']):
+        if not request.json or not validators.has_all(request.json, ['site', 'hostname', 'description']):
             abort(400)
 
-        optbox = slugify(request.json['optbox'])
+        site = slugify(request.json['site'])
         hostname = request.json['hostname']
         description = request.json['description']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_printer(optbox, hostname)
+            response = mast_utils.add_printer(site, hostname)
             return {
-                       'optbox': optbox,
+                       'site': site,
                        'output': response['output'],
                        'success': response['success'],
                    }, 201 if response['success'] else 500
 
 
 class PrintersGet(Resource):
-    def get(self, optbox_id=None):
-        if optbox_id is None:
+    def get(self, site_id=None):
+        if site_id is None:
             abort(400)
-        optbox_id = slugify(optbox_id)
-        response = mast_utils.list_printers(optbox_id)
+        site_id = slugify(site_id)
+        response = mast_utils.list_printers(site_id)
 
         return {
                    'success': response['success'],
-                   'optbox': optbox_id,
+                   'site': site_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
 
 
 class Printer(Resource):
-    def delete(self, optbox_id=None, printer_id=None):
-        app.logger.debug(optbox_id, printer_id)
-        if optbox_id is None or printer_id is None:  # printer_id can have value of 0
+    def delete(self, site_id=None, printer_id=None):
+        app.logger.debug(site_id, printer_id)
+        if site_id is None or printer_id is None:  # printer_id can have value of 0
             abort(400)
 
-        optbox_id = slugify(optbox_id)
-        response = mast_utils.remove_printer(optbox_id, printer_id)
+        site_id = slugify(site_id)
+        response = mast_utils.remove_printer(site_id, printer_id)
         return {
                    'success': response['success'],
-                   'optbox': optbox_id,
+                   'site': site_id,
                    'id': printer_id,
                    'output': response['output'],
                }, 200 if response['success'] else 500
@@ -183,14 +183,14 @@ class SiteInstallScript(Resource):
 
 
 api.add_resource(Root, '/')
-# todo: api.add_resource(AddBulkPrinters, '/optboxes/add-bulk-channels/')
-# todo: api.add_resource(CopyLogs, '/optboxes/copy-logs/')
-# todo: api.add_resource(Link, '/optboxes/link/')
+# todo: api.add_resource(AddBulkPrinters, '/sites/add-bulk-channels/')
+# todo: api.add_resource(CopyLogs, '/sites/copy-logs/')
+# todo: api.add_resource(Link, '/sites/link/')
 api.add_resource(Sites, '/sites/')
-api.add_resource(Optbox, '/optboxes/<string:optbox_id>')
+api.add_resource(Site, '/sites/<string:site_id>')
 api.add_resource(Printers, '/printers/')
-api.add_resource(PrintersGet, '/optboxes/<string:optbox_id>/printers/')
-api.add_resource(Printer, '/optboxes/<string:optbox_id>/printers/<int:printer_id>')
+api.add_resource(PrintersGet, '/sites/<string:site_id>/printers/')
+api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>')
 api.add_resource(Logs, '/logs/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>')

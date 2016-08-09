@@ -4,7 +4,7 @@
 	}
 </style>
 <template>
-	<div class="row btn-toolbar" id="{{ optbox.id }}-id:{{ printer.id }}"
+	<div class="row btn-toolbar" id="{{ site.id }}-id:{{ printer.id }}"
 		 role="toolbar" aria-label="Toolbar with button groups">
 		<div class="col-md-8" role="group" aria-label="Actions publiques">
 			<a href="http://{{printer.hostname}}">{{ printer.hostname }}</a>:
@@ -34,7 +34,7 @@
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
-							@click="link(optbox.id)"
+							@click="link(site.id)"
 					>
 						<i class="fa fa-comment"> </i>
 					</button>
@@ -48,7 +48,7 @@
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
-	const printers = resource('printers', {delete: '/daemon/optboxes/${optbox_id}/${resource}/${printer_id}'});
+	const printers = resource('printers', {delete: '/daemon/sites/${site_id}/${resource}/${printer_id}'});
 
 	export default {
 		data() {
@@ -56,18 +56,18 @@
 		},
 		props: {
 			printer: {type: Object, required: true},
-			optbox: {type: Object, required: true}
+			site: {type: Object, required: true}
 		},
 		ready(){
 		},
 		methods: {
 			remove(printerId) {
-				printers.delete({optbox_id: this.optbox.id, printer_id: printerId}).then((response) => {
+				printers.delete({site_id: this.site.id, printer_id: printerId}).then((response) => {
 					this.removePrinter(response.data);
-					logging.success(this.$t('optboxes.remove.succeed'));
+					logging.success(this.$t('sites.remove.succeed'));
 				}).catch((err) => {
 					console.log('deletion failed', err);
-					logging.error(this.$t('optboxes.delete.failed'))
+					logging.error(this.$t('sites.delete.failed'))
 				});
 			}
 		},

@@ -8,12 +8,12 @@
 			role="button"
 			class="btn btn-success btn-action hide-btn-content hint--top {{class}}"
 			data-toggle="modal"
-			data-target="#printer-modal-{{printer.optbox}}"
+			data-target="#printer-modal-{{printer.site}}"
 	>
 		<i class="fa fa-plus-circle"> </i>
 		<span v-if="label">{{label}}</span>
 	</button>
-	<div class="modal fade" id="printer-modal-{{printer.optbox}}"
+	<div class="modal fade" id="printer-modal-{{printer.site}}"
 		 tabindex="-1"
 		 role="dialog"
 		 aria-labelledby="action-label"
@@ -29,9 +29,9 @@
 				<form @submit="addPrinter()">
 					<div class="modal-body">
 						<fieldset class="form-group">
-							<label for="optbox">Nom du boîtier<span class="text-danger">*</span></label>
+							<label for="site">Nom du boîtier<span class="text-danger">*</span></label>
 
-							<input type="text" disabled class="form-control" id="optbox" v-model="printer.optbox"/>
+							<input type="text" disabled class="form-control" id="site" v-model="printer.site"/>
 						</fieldset>
 						<fieldset class="form-group">
 							<label for="hostname">Adresse de l'imprimante<span class="text-danger">*</span></label>
@@ -70,14 +70,14 @@
 		data() {
 			return {
 				printer: {
-					optbox: '',
+					site: '',
 					hostname: ''
 				},
 				formSubmitted: false
 			};
 		},
 		created() {
-			this.printer.optbox = this.boitier.id
+			this.printer.site = this.boitier.id
 		},
 		props: {
 			boitier: {
@@ -92,10 +92,10 @@
 				this.formSubmitted = true;
 
 				printers.create(this.printer).then((response) => {
-					response.data.output['optbox'] = response.data.optbox;
-					this.getPrinters(response.data.optbox);
+					response.data.output['site'] = response.data.site;
+					this.getPrinters(response.data.site);
 
-					$('#printer-modal-' + response.data.optbox).modal('hide');
+					$('#printer-modal-' + response.data.site).modal('hide');
 					this.formSubmitted = false;
 				}).catch((err) => {
 					console.log(err);
@@ -107,7 +107,7 @@
 		computed: {
 			formIsValid(){
 				return !!(
-						this.printer.optbox
+						this.printer.site
 						&& this.printer.hostname
 						&& !this.formSubmitted
 				);

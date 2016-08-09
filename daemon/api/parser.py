@@ -74,7 +74,7 @@ def start(lines, id):
         elif state == 'failed':
             response['status'] = 'stopped'
 
-        response['pid'] = start_get_optbox_pid(lines[2])
+        response['pid'] = start_get_site_pid(lines[2])
 
     return response
 
@@ -86,7 +86,7 @@ def detect_start_state(line):
     return state
 
 
-def start_get_optbox_pid(line):
+def start_get_site_pid(line):
     parser = re.compile(r'(?P<pid>\d+$)')
 
     pid = parser.search(line).group(1)
@@ -103,13 +103,13 @@ def stop(lines, id):
     elif state == 'failed':
         response['status'] = 'stopped'
 
-    response['pid'] = stop_get_optbox_pid(lines[1])
+    response['pid'] = stop_get_site_pid(lines[1])
 
     return response
 
 
-def stop_get_optbox_pid(line):
-    return start_get_optbox_pid(line)
+def stop_get_site_pid(line):
+    return start_get_site_pid(line)
 
 
 def detect_stop_state(line):
@@ -126,7 +126,7 @@ def restart(lines, id):
     if state == 'done':
         response['status'] = 'restarted'
 
-    response['pid'] = start_get_optbox_pid(lines[-1])
+    response['pid'] = start_get_site_pid(lines[-1])
 
     return response
 
@@ -147,10 +147,10 @@ def forward_rule(line):
     }
 
 
-def list_printers(lines, optbox):
+def list_printers(lines, site):
     response = {
-        'optbox': optbox,
-        'channels': list_channels(lines, optbox)
+        'site': site,
+        'channels': list_channels(lines, site)
     }
     return response
 
@@ -160,10 +160,10 @@ def list_all_printers(lines):
 
     for line in lines:
         if not is_forward_rule(line):
-            optbox = line
-            response.append({'optbox': line, 'channels': []})
+            site = line
+            response.append({'site': line, 'channels': []})
         else:
-            index = find_optbox(response, optbox)
+            index = find_site(response, site)
             response[index]['channels'].append(forward_rule(line))
 
     return response
@@ -178,9 +178,9 @@ def list_channels(lines, printer):
     return channels
 
 
-def find_optbox(response, id):
+def find_site(response, id):
     for i, host in enumerate(response):
-        if host['optbox'] == id:
+        if host['site'] == id:
             return i
 
 

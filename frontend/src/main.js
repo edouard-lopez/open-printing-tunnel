@@ -10,6 +10,7 @@ import ClientsPage from './pages/clients/clients';
 import ClientPage from './pages/clients/client';
 import SitePage from './pages/sites/site';
 import ContainerPage from './pages/containers/container.details';
+import SitesPage from './pages/sites/sites';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 
@@ -68,6 +69,10 @@ router.map({
 	'/containers/:id': {
 		name: 'containers',
 		component: ContainerPage,
+		authRequired: true
+	},
+	'/optboxes/': {
+		component: SitesPage,
 		authRequired: true
 	}
 });

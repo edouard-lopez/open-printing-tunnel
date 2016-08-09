@@ -33,7 +33,7 @@
 					<button title="Status" role="button"
 							class="btn btn-warning btn-sm btn-action hide-btn-content hint--top"
 							aria-label="Lister les boitiers"
-							@click="getOptboxes()"
+							@click="getSites()"
 					>
 						<i class="fa fa-cube"> </i>
 					</button>
@@ -60,13 +60,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import Optboxes from '../../../services/optboxes.service';
+	import Sites from '../../../services/sites.service';
 
 	import logging from '../../../services/logging.service';
 	import resource from 'pilou';
 
 	const printers = resource('printers', { all: '/daemon/${resource}/'});
-	const optboxes = resource('optboxes', { all: '/daemon/${resource}/${name}'});
+	const sites = resource('sites', { all: '/daemon/${resource}/${name}'});
 
 	export default {
 		data() {
@@ -79,8 +79,8 @@
 			};
 		},
 		methods: {
-			getOptboxes(){
-				optboxes.all().then((response)=> {
+			getSites(){
+				sites.all().then((response)=> {
 					this.data = response.data;
 					this.stdout = response.data.output;
 				}).catch(err => {

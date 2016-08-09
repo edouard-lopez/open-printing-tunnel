@@ -100,13 +100,13 @@ class ParserTestCase(unittest.TestCase):
         status = parser.detect_start_state(stdout[1])
         self.assertEqual(status, 'failed')
 
-    def test_parse_start_optbox_pid(self):
+    def test_parse_start_site_pid(self):
         line = "starting tunnel                        done  pid 26348"
-        pid = parser.start_get_optbox_pid(line)
+        pid = parser.start_get_site_pid(line)
         self.assertEqual(pid, 26348)
 
         line = "starting tunnel  failed\tempty pid: 26348"
-        pid = parser.start_get_optbox_pid(line)
+        pid = parser.start_get_site_pid(line)
         self.assertEqual(pid, 26348)
 
     def test_parse_stop(self):
@@ -143,13 +143,13 @@ class ParserTestCase(unittest.TestCase):
         status = parser.detect_stop_state(stdout[1])
         self.assertEqual(status, 'failed')
 
-    def test_parse_stop_optbox_pid(self):
+    def test_parse_stop_site_pid(self):
         line = "stoping tunnel                         done  pid 26149"
-        pid = parser.stop_get_optbox_pid(line)
+        pid = parser.stop_get_site_pid(line)
         self.assertEqual(pid, 26149)
 
         line = "stopping tunnel  failed\tempty pid: 26149"
-        pid = parser.stop_get_optbox_pid(line)
+        pid = parser.stop_get_site_pid(line)
         self.assertEqual(pid, 26149)
 
     def test_parse_restart(self):
@@ -170,11 +170,11 @@ class ParserTestCase(unittest.TestCase):
         })
 
     def test_detect_channel_forward_rules(self):
-        optbox = "3W"
+        site = "3W"
         forward = "L *:9102:10.100.7.48:9100         0     # Samsung ML3710"
         reverse = "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home"
 
-        is_rule = parser.is_forward_rule(optbox)
+        is_rule = parser.is_forward_rule(site)
         self.assertEqual(is_rule, False)
         is_rule = parser.is_forward_rule(forward)
         self.assertEqual(is_rule, True)
@@ -228,7 +228,7 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual(len(response), 2)
         self.assertListEqual(response, [
             {
-                'optbox': '3W',
+                'site': '3W',
                 'channels': [
                     {
                         'id': 0,
@@ -249,7 +249,7 @@ class ParserTestCase(unittest.TestCase):
                 ]
             },
             {
-                'optbox': 'Akema',
+                'site': 'Akema',
                 'channels': [
                     {
                         'id': 0,
@@ -271,12 +271,12 @@ class ParserTestCase(unittest.TestCase):
             }
         ])
 
-    def test_get_optbox_dict(self):
-        response = [{'optbox': '3W'}, {'optbox': 'Akema'}]
+    def test_get_site_dict(self):
+        response = [{'site': '3W'}, {'site': 'Akema'}]
 
-        index = parser.find_optbox(response, 'Akema')
+        index = parser.find_site(response, 'Akema')
 
-        self.assertDictEqual(response[index], {'optbox': 'Akema'})
+        self.assertDictEqual(response[index], {'site': 'Akema'})
 
     def test_parse_a_printer_s_channels(self):
         stdout = [
@@ -324,7 +324,7 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertEqual(len(response), 2)
         self.assertDictEqual(response, {
-            'optbox': '3W',
+            'site': '3W',
             'channels': [
                 {
                     'id': 0,

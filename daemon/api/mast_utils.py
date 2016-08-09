@@ -9,9 +9,9 @@ daemon = '/etc/init.d/mast'
 makefile = '/usr/sbin/mast-utils'
 
 
-def add_printer(optbox, hostname, description=''):
+def add_printer(site, hostname, description=''):
     command = [makefile, 'add-channel',
-               'NAME=' + optbox,
+               'NAME=' + site,
                'PRINTER=' + hostname,
                'DESC=' + description]
     response = shell.execute(command)
@@ -19,21 +19,21 @@ def add_printer(optbox, hostname, description=''):
     return response
 
 
-def list_printers(optbox=''):
+def list_printers(site=''):
     command = [makefile, 'list-channels']
-    if optbox:
-        command.append(' NAME=' + optbox)
+    if site:
+        command.append(' NAME=' + site)
 
     response = shell.execute(command)
-    response['output'] = parser.list_printers(response['output'], optbox)
+    response['output'] = parser.list_printers(response['output'], site)
 
     return response
 
 
-def remove_printer(optbox, printer_id):
+def remove_printer(site, printer_id):
     command = [makefile, 'remove-channel',
                'ID=' + str(printer_id),
-               'NAME=' + optbox
+               'NAME=' + site
                ]
     return shell.execute(command)
 
@@ -45,7 +45,7 @@ def list_sites():
     return response
 
 
-def add_optbox(name, hostname):
+def add_site(name, hostname):
     command = [makefile, 'add-host',
                'NAME=' + name,
                'REMOTE_HOST=' + hostname,
@@ -55,7 +55,7 @@ def add_optbox(name, hostname):
     return shell.execute(command)
 
 
-def remove_optbox(name):
+def remove_site(name):
     command = [makefile, 'remove-host', 'NAME=' + name]
     return shell.execute(command)
 

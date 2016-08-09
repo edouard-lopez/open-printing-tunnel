@@ -3,11 +3,11 @@
 			role="button"
 			class="btn btn-primary btn-action hide-btn-content hint--top"
 			data-toggle="modal"
-			data-target="#printers-modal-{{printers.optboxName}}">
+			data-target="#printers-modal-{{printers.siteName}}">
 		<i class="fa fa-plus-circle"></i>
 		<span v-if="label">{{label}}</span>
 	</button>
-	<div class="modal fade" id="printers-modal-{{printers.optboxName}}"
+	<div class="modal fade" id="printers-modal-{{printers.siteName}}"
 		 tabindex="-1"
 		 role="dialog"
 		 aria-labelledby="action-label"
@@ -23,9 +23,9 @@
 				<form @submit="addPrinters()">
 					<div class="modal-body">
 						<fieldset class="form-group">
-							<label for="optboxName">Nom du boîtier<span class="text-danger">*</span></label>
+							<label for="siteName">Nom du boîtier<span class="text-danger">*</span></label>
 
-							<input type="text" disabled class="form-control" id="optboxName" v-model="printers.optboxName"/>
+							<input type="text" disabled class="form-control" id="siteName" v-model="printers.siteName"/>
 						</fieldset>
 						<fieldset class="form-group">
 							<label for="hostnames">Adresses des imprimantes<span class="text-danger">*</span></label>
@@ -57,14 +57,14 @@
 		data() {
 			return {
 				printers: {
-					optboxName: '',
+					siteName: '',
 					hostnames: ''
 				},
 				formSubmitted: false
 			};
 		},
 		created() {
-			this.printers.optboxName = this.boitier.id
+			this.printers.siteName = this.boitier.id
 		},
 		props: {
 			boitier: {
@@ -83,7 +83,7 @@
 		computed: {
 			formIsValid(){
 				return !!(
-						this.printers.optboxName
+						this.printers.siteName
 						&& this.printers.hostnames
 						&& !this.formSubmitted
 				);

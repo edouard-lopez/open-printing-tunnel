@@ -56,26 +56,26 @@ export {containersGetAll};
 const containersGetOne = JSON.parse(JSON.stringify(containersGetAll.results[0]));
 export {containersGetOne};
 
-const optboxesGetAll = {
+const sitesGetAll = {
 	results: [
 		{
-			id: 'Bordeaux',
-			hostname: 'bordeaux.opt'
+			id: 'bordeaux',
+			hostname: '10.0.0.1'
 		},
 		{
-			id: 'Marmande',
-			hostname: 'marmande.opt'
+			id: 'marmande',
+			hostname: '10.0.0.2'
 		},
 		{
-			id: 'Cestas',
-			hostname: 'cestas.opt'
+			id: 'cestas',
+			hostname: '10.0.0.3'
 		}
 	]
 };
-export {optboxesGetAll};
+export {sitesGetAll};
 
-const optboxGetOne = JSON.parse(JSON.stringify(optboxesGetAll.results[0]));
-export {optboxGetOne};
+const siteGetOne = JSON.parse(JSON.stringify(sitesGetAll.results[0]));
+export {siteGetOne};
 
 
 const printersGetAll = {

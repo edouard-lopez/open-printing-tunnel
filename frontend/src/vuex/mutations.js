@@ -1,23 +1,23 @@
-import optboxesService from '../services/optboxes.service';
+import sitesService from '../services/sites.service';
 
 export default {
-	setOptboxes(state, optboxes) {
-		state.optboxes = optboxes;
+	setSites(state, sites) {
+		state.sites = sites;
 	},
 	// todo
-	// insertOptbox(state, optbox) {
-	// 	state.optboxes.push(optbox);
+	// insertSite(state, site) {
+	// 	state.sites.push(site);
 	// },
-	removeOptbox(state, optbox) {
-		optboxesService.remove(state.optboxes, optbox);
+	removeSite(state, site) {
+		sitesService.remove(state.sites, site);
 	},
-	setPrinters(state, optboxId, printers) {
-		optboxesService.setPrinters(state.optboxes, optboxId, printers)
+	setPrinters(state, siteId, printers) {
+		sitesService.setPrinters(state.sites, siteId, printers)
 	},
 	insertPrinter({dispatch}, printer) {
 		dispatch('insertPrinter', printer);
 	},
 	removePrinter(state, printer) {
-		printersService.remove(state.optboxes[printer.optbox].printers, printer);
+		printersService.remove(state.sites[printer.site].printers, printer);
 	}
 };

@@ -6,17 +6,17 @@
 		<div class="col-md-6 expandable"
 			 data-toggle="collapse"
 			 aria-expanded="false"
-			 aria-controls="optbox-{{optbox.id}}"
-			 data-target="#optbox-{{optbox.id}}"
+			 aria-controls="site-{{site.id}}"
+			 data-target="#site-{{site.id}}"
 		>
 			<span class="hint--top-right" aria-label="Tooltip on top">
 				<i class="tunnel-status fa fa-check text-muted"> </i>
 			</span>
 			<span class="tunnel-name">
-				<b>{{optbox.id}}</b>
+				<b>{{site.id}}</b>
 			</span>
 			<span class="divider"> – </span>
-			<span class="tunnel-fqdn text-muted">{{optbox.hostname}}</span>
+			<span class="tunnel-fqdn text-muted">{{site.hostname}}</span>
 		</div>
 		<div class="col-md-6">
 			<ul class="btn-toolbar" role="toolbar"
@@ -26,7 +26,7 @@
 					<button aria-label="Supprimer cet *hôte*"
 							role="button"
 							class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
-							@click="remove(optbox.id)"
+							@click="remove(site.id)"
 					>
 						<i class="fa fa-trash-o text-danger"> </i>
 					</button>
@@ -36,21 +36,21 @@
 					<button aria-label="Redémarrer"
 							role="button"
 							class="btn btn-warning btn-sm btn-action restart hide-btn-content hint--top"
-							@click="restart(optbox.id)"
+							@click="restart(site.id)"
 					>
 						<i class="fa fa-refresh"> </i>
 					</button>
 					<button aria-label="Démarrer"
 							role="button"
 							class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
-							@click="start(optbox.id)"
+							@click="start(site.id)"
 					>
 						<i class="fa fa-play"> </i>
 					</button>
 					<button aria-label="Arrêter"
 							role="button"
 							class="btn btn-danger btn-sm btn-action hide-btn-content hint--top"
-							@click="stop(optbox.id)"
+							@click="stop(site.id)"
 					>
 						<i class="fa fa-stop"> </i>
 					</button>
@@ -59,22 +59,22 @@
 					<button aria-label="Status"
 							role="button"
 							class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
-							@click="status(optbox.id)"
+							@click="status(site.id)"
 					>
 						<i class="fa fa-info"> </i>
 					</button>
-					<add-printer-button :boitier="optbox" class="btn-sm"></add-printer-button>
+					<add-printer-button :boitier="site" class="btn-sm"></add-printer-button>
 					<button aria-label="Ajouter des *canaux* par lot"
 							role="button"
 							class="btn btn-primary btn-sm btn-action hide-btn-content hint--top"
-							@click="add_bulk_channels(optbox.id)"
+							@click="add_bulk_channels(site.id)"
 					>
 						<i class="fa fa-print"> </i>
 					</button>
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
-							@click="link(optbox.id)"
+							@click="link(site.id)"
 					>
 						<i class="fa fa-comment"> </i>
 					</button>
@@ -90,10 +90,10 @@
 	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
-	const optboxes = resource('optboxes', {
-		all: '/daemon/${resource}/${optbox_id}',
-		update: '/daemon/${resource}/${optbox_id}',
-		delete: '/daemon/${resource}/${optbox_id}'
+	const sites = resource('sites', {
+		all: '/daemon/${resource}/${site_id}/',
+		update: '/daemon/${resource}/${site_id}/',
+		delete: '/daemon/${resource}/${site_id}/'
 	});
 
 
@@ -105,48 +105,48 @@
 			'add-printer-button': AddPrinterButtonComponent
 		},
 		props: {
-			optbox: {
+			site: {
 				type: Object,
 				required: true
 			},
 		},
 		methods: {
-			status(optbox_id) {
-				optboxes.update({optbox_id: optbox_id}, {action: 'status'}).then(response => {
+			status(site_id) {
+				sites.update({site_id: site_id}, {action: 'status'}).then(response => {
 					this.$dispatch('log-response', response.data);
 				});
 			},
-			start(optbox_id) {
-				optboxes.update({optbox_id: optbox_id}, {action: 'start'}).then(response => {
+			start(site_id) {
+				sites.update({site_id: site_id}, {action: 'start'}).then(response => {
 					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('optboxes.start.succeed'));
+					logging.success(this.$t('sites.start.succeed'));
 				}).catch(() => {
-					logging.error(this.$t('optboxes.start.failed'))
+					logging.error(this.$t('sites.start.failed'))
 				});
 			},
-			stop(optbox_id) {
-				optboxes.update({optbox_id: optbox_id}, {action: 'stop'}).then(response => {
+			stop(site_id) {
+				sites.update({site_id: site_id}, {action: 'stop'}).then(response => {
 					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('optboxes.stop.succeed'));
+					logging.success(this.$t('sites.stop.succeed'));
 				}).catch(() => {
-					logging.error(this.$t('optboxes.stop.failed'))
+					logging.error(this.$t('sites.stop.failed'))
 				});
 			},
-			restart(optbox_id) {
-				optboxes.update({optbox_id: optbox_id}, {action: 'restart'}).then(response => {
+			restart(site_id) {
+				sites.update({site_id: site_id}, {action: 'restart'}).then(response => {
 					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('optboxes.restart.succeed'));
+					logging.success(this.$t('sites.restart.succeed'));
 				}).catch(() => {
-					logging.error(this.$t('optboxes.restart.failed'))
+					logging.error(this.$t('sites.restart.failed'))
 				});
 			},
-			remove(optbox_id) {
-				optboxes.delete({optbox_id: optbox_id}).then((response) => {
-					this.removeOptbox(response.data);
-					logging.success(this.$t('optboxes.remove.succeed'));
+			remove(site_id) {
+				sites.delete({site_id: site_id}).then((response) => {
+					this.removeSite(response.data);
+					logging.success(this.$t('sites.remove.succeed'));
 				}).catch((err) => {
 					console.log('deletion failed', err);
-					logging.error(this.$t('optboxes.delete.failed'))
+					logging.error(this.$t('sites.delete.failed'))
 				});
 			},
 			link(name) {
@@ -155,7 +155,7 @@
 		},
 		vuex: {
 			actions: {
-				removeOptbox: actions.removeOptbox,
+				removeSite: actions.removeSite,
 			}
 		}
 	}
