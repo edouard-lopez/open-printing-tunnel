@@ -105,11 +105,11 @@ RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends 
     gunicorn \
     python3-venv \
     supervisor
-WORKDIR /daemon
+WORKDIR /api
 COPY requirements.txt ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-COPY ./ /daemon
+COPY ./api /api
 EXPOSE 5000
 
 
@@ -147,9 +147,9 @@ RUN buildDeps='xz-utils' \
 RUN mkdir -p /frontend
 WORKDIR /frontend
 
-COPY /frontend/package.json /frontend/
+COPY ./frontend/package.json /frontend/
 RUN npm install --production
-COPY ./frontend/ /frontend
+COPY ./frontend /frontend
 EXPOSE 8080
 
 

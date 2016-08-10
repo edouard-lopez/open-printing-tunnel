@@ -28,10 +28,10 @@ run:
 		/usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
 
 rebuild: build
-build: clean
+build: remove
 	docker build -t coaxisopt_daemon ./
 
-clean:
+remove:
 	docker rm --force daemon || true
 
-restart: clean run
+restart: remove run
