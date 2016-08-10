@@ -100,6 +100,19 @@ COPY proxy-web/conf.d /etc/nginx/conf.d/
 EXPOSE 80
 
 
+# FLASK API
+RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+    gunicorn \
+    python3-venv \
+    supervisor
+WORKDIR /daemon
+COPY requirements.txt ./
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+COPY ./ /daemon
+EXPOSE 5000
+
+
 # FRONTEND
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -138,20 +151,6 @@ COPY /frontend/package.json /frontend/
 RUN npm install --production
 COPY ./frontend/ /frontend
 EXPOSE 8080
-
-
-# FLASK API
-RUN apt-get update && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
-    gunicorn \
-    python3-venv \
-    supervisor
-WORKDIR /daemon
-COPY requirements.txt ./
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-COPY ./ /daemon
-EXPOSE 5000
-
 
 
 RUN cd /opt/mast/ && make install
