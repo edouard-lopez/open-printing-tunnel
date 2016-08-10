@@ -21,13 +21,17 @@ run:
 		-p 80:80 \
 		-p 8080:8080 \
 		-p 5000:5000 \
-		-v $$(pwd)/frontend:/frontend \
+		-v "$$(pwd)"/api:/daemon/api \
+		-v "$$(pwd)"/frontend:/frontend \
 		-v node_modules:/frontend/node_modules \
 		coaxisopt_daemon:latest \
 		/usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
 
 rebuild: build
-build:
-	docker rm --force  daemon || true \
-	&& docker build -t coaxisopt_daemon ./
+build: clean
+	docker build -t coaxisopt_daemon ./
 
+clean:
+	docker rm --force daemon || true
+
+restart: clean run
