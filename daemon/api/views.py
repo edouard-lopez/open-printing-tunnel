@@ -196,4 +196,4 @@ api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
