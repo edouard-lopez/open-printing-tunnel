@@ -1,0 +1,86 @@
+{
+  "name": "frontend",
+  "author": "Edouard Lopez <edouard@akema.fr>",
+  "scripts": {
+    "start": "NODE_ENV=production node server.js",
+    "dev": "npm install && webpack-dev-server --inline --hot --host 0.0.0.0",
+    "build": "rm -rf dist/ && NODE_ENV=production webpack --progress --hide-modules",
+    "test": "ava test --require babel-core/register && xo"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "ava": "^0.15.2",
+    "axios": "^0.12.0",
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-plugin-transform-runtime": "^6.0.0",
+    "babel-preset-es2015": "^6.0.0",
+    "babel-preset-stage-2": "^6.0.0",
+    "babel-runtime": "^6.0.0",
+    "bootstrap": "^4.0.0-alpha.3",
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.9.0",
+    "font-awesome": "^4.6.3",
+    "hint.css": "^2.3.2",
+    "jquery": "^3.0.0",
+    "json-loader": "^0.5.4",
+    "moment": "^2.13.0",
+    "nock": "^8.0.0",
+    "node-localstorage": "^1.3.0",
+    "node-sass": "^3.7.0",
+    "notie": "^3.9.1",
+    "pilou": "0.0.3",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "tether": "^1.3.3",
+    "url-loader": "^0.5.7",
+    "vue": "^1.0.26",
+    "vue-hot-reload-api": "^1.2.3",
+    "vue-html-loader": "^1.0.0",
+    "vue-i18n": "^4.0.1",
+    "vue-loader": "^8.2.1",
+    "vue-router": "^0.7.13",
+    "vue-style-loader": "^1.0.0",
+    "vuex": "^1.0.0-rc.2",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.0",
+    "xo": "^0.16.0"
+  },
+  "xo": {
+    "esnext": true,
+    "envs": [
+      "browser"
+    ],
+    "rules": {
+      "import/newline-after-import": 0
+    },
+    "ignores": [
+      "webpack.config.js",
+      "server.js",
+      "src/services/array.js",
+      "test/_helpers.js"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "test/**/*.js"
+        ],
+        "rules": {
+          "max-lines": 0
+        }
+      }
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ],
+    "comments": false
+  }
+}
