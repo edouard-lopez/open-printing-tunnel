@@ -6,9 +6,8 @@ import App from './components/app';
 import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ClientsPage from './pages/clients/clients';
-import ClientPage from './pages/clients/client';
-import SitesPage from './pages/sites/sites';
-import SitePage from './pages/sites/site.component';
+import DaemonsPage from './pages/daemons/daemons';
+import DaemonPage from './pages/daemons/daemon.details';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 
@@ -50,22 +49,13 @@ router.map({
 		component: ClientsPage,
 		authRequired: true
 	},
-	'/clients/:id': {
-		name: 'clients',
-		component: ClientPage,
+	'/daemons/': {
+		component: DaemonsPage,
 		authRequired: true
 	},
-	'/sites/': {
-		component: SitesPage,
-		authRequired: true
-	},
-	'/sites/:id': {
-		name: 'sites',
-		component: SitePage,
-		authRequired: true
-	},
-	'/optboxes/': {
-		component: SitesPage,
+	'/daemons/:id': {
+		name: 'daemons',
+		component: DaemonPage,
 		authRequired: true
 	}
 });

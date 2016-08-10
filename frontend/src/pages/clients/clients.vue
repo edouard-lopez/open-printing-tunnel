@@ -42,7 +42,7 @@
 										Id
 									</th>
 									<th>
-										Société
+										Nom
 									</th>
 									<th class="text-xs-right">
 										Actions
@@ -57,9 +57,7 @@
 								</tr>
 								<tr v-for="client in clients">
 									<td>
-										<a v-link="{ name: 'clients', params: { id: client.id }}">
-											{{ client.id }}
-										</a>
+										{{ client.id }}
 									</td>
 									<td>
 										{{ client.name }}
@@ -107,9 +105,9 @@
 <script type="text/ecmascript-6">
 	// todo rename services/containers.service
 	import AddClientButton from './add-client-button';
-	import DeleteButton from '../../components/delete-button';
+	import DeleteButton from 'components/delete-button';
 	import HTTP from 'services/http.service';
-	import Logging from '../../services/logging.service';
+	import Logging from 'services/logging.service';
 
 	const ClientsService = HTTP('clients', localStorage);
 

@@ -12,11 +12,11 @@ class ContainersTestCase(APITestCase):
     def setUp(self):
         self.docker_api = docker.Client(base_url='unix://var/run/docker.sock')
         self.client = factories.ClientFactory(name='Akema')
-        self.employee = factories.EmployeeFactory(companies=[self.client])
+        self.employee = factories.EmployeeFactory(clients=[self.client])
 
     def test_create_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'company_id': str(self.client.id),
+        network = container_services.create_network(data={'client_id': str(self.client.id),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
@@ -24,7 +24,7 @@ class ContainersTestCase(APITestCase):
         self.docker_api.remove_network(network.get('Id'))
 
     def test_network_use_macvlan_driver(self):
-        network = container_services.create_network(data={'company_id': str(self.client.id),
+        network = container_services.create_network(data={'client_id': str(self.client.id),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
@@ -33,11 +33,11 @@ class ContainersTestCase(APITestCase):
 
     def test_create_existing_network_return_old_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'company_id': str(self.client.id),
+        network = container_services.create_network(data={'client_id': str(self.client.id),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
-        network2 = container_services.create_network(data={'company_id': str(self.client.id),
+        network2 = container_services.create_network(data={'client_id': str(self.client.id),
                                                            'subnet': '10.48.0.0/16',
                                                            'gateway': '10.48.0.200'},
                                                      docker_client=self.docker_api)
@@ -46,36 +46,13 @@ class ContainersTestCase(APITestCase):
         self.docker_api.remove_network(network.get('Id'))
 
     def test_create_network_create_bridge_base_on_shorten_client_id(self):
-        network = container_services.create_network(data={'company_id': 'fe234e12dc',
+        network = container_services.create_network(data={'client_id': 'fe234e12dc',
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
         bridge_name = self.docker_api.inspect_network(network.get('Id')).get('Name')
         self.assertEqual('opt_network_fe234e', bridge_name)
         self.docker_api.remove_network(network.get('Id'))
-
-    def test_can_save_infos(self):
-        container = {'Id': '9959ea03-685b-4437-ab49-c5d0a28b15e8'}
-
-        container_services.save_infos({
-            'user': self.employee,
-            'company_id': str(self.client.id),
-            'container': container,
-            'description': 'blabla'
-        })
-        containers = models.Daemon.objects.all()
-
-        self.assertEqual(len(containers), 1)
-
-    def test_can_not_save_infos_when_employee_has_no_company(self):
-        container = {'Id': '9959ea03-685b-4437-ab49-c5d0a28b15e8'}
-        self.orphan_employee = factories.EmployeeFactory(companies=[])
-
-        with self.assertRaises(AttributeError):
-            container_services.save_infos({'user': self.orphan_employee,
-                                           'container': container,
-                                           'description': 'blabla'
-                                           })
 
     def test_can_get_container_network_infos(self):
         container_data = mock.get_one_container_data()

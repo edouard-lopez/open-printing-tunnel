@@ -7,7 +7,7 @@ from api.tests import factories
 
 class EmployeeApiTestCase(APITestCase):
     def setUp(self):
-        self.company = factories.ClientFactory(name='Akema')
+        self.client = factories.ClientFactory(name='Akema')
         self.user = factories.UserFactory()
         self.technician = factories.TechnicianFactory(user=self.user)
 

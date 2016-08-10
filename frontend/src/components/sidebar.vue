@@ -66,9 +66,9 @@
 				</a>
 			</li>
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/containers/', activeClass: 'active' }" class="sidebar-link" title="Containers">
+				<a v-link="{ path: '/daemons/', activeClass: 'active' }" class="sidebar-link" title="Daemons">
 					<i class="fa fa-sitemap" aria-hidden="true"></i>
-					<span class="sr-only">Containers</span>
+					<span class="sr-only">Daemons</span>
 				</a>
 			</li>
 		</ul>

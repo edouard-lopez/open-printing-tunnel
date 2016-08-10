@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate
 from rest_framework import status, permissions, viewsets
 from rest_framework.response import Response
 
-from api import models, serializers, services, container_services
-from api.permissions import IsTechnician
-from api.services import get_company, get_employee
+from api import container_services
+from api import models, serializers
+from api.services import get_employee
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 logger = logging.getLogger(__name__)
@@ -58,41 +58,31 @@ class DaemonsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DaemonSerializer
     permission_classes = (permissions.IsAdminUser,)
 
-    # def create(self, request, *args, **kwargs):
-    #     employee = services.get_employee(request.user)
-    #
-    #     container = container_services.pop_new_container({
-    #         'company_id': request.data.get('company_id'),
-    #         'subnet': request.data.get('subnet'),
-    #         'gateway': request.data.get('gateway'),
-    #         'ip': request.data.get('ip'),
-    #         'hostname': request.data.get('hostname'),
-    #         'labels': request.data.get('labels')
-    #     }, docker_api)
-    #
-    #     container_obj = container_services.save_infos({
-    #         'user': employee,
-    #         'container': container,
-    #         'company_id': request.data.get('company_id'),
-    #         'description': request.data.get('description'),
-    #     })
-    #
-    #     if container_obj:
-    #         return Response(status=status.HTTP_201_CREATED)
-    #     return Response(status=status.HTTP_400_BAD_REQUEST)
-    #
-    # def perform_destroy(self, instance):
-    #     container_services.destroy(instance.container_id)
-    #     instance.delete()
-    #
-    # def retrieve(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance)
-    #     new_data = serializer.data
-    #     new_data['container_info'] = docker_api.inspect_container(instance.container_id)
-    #     # todo get it from daemon container
-    #     new_data['sites'] = [
-    #         {'hostname': '10.100.7.14', 'id': '3W'},
-    #         {'hostname': '10.48.7.14', 'id': '3W'}
-    #     ]
-    #     return Response(new_data)
+    def create(self, request, *args, **kwargs):
+        data = {
+            "ip": request.data.get('ip'),
+            "subnet": request.data.get('subnet'),
+            "gateway": request.data.get('gateway'),
+            "vlan": request.data.get('vlan'),
+            "hostname": request.data.get('hostname'),
+            "client_id": request.data.get('client_id')
+        }
+        try:
+            container = container_services.pop_new_container(data, docker_api)
+            data['container_id'] = container.get('Id')
+            models.Daemon.objects.create(**data)
+        except Exception as e:
+            logger.exception(e)
+            return Response(status=status.HTTP_400_BAD_REQUEST, exception=e)
+        return Response(status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        new_data = serializer.data
+        new_data['container_info'] = docker_api.inspect_container(instance.container_id)
+        return Response(new_data)
+
+    def perform_destroy(self, instance):
+        container_services.destroy(instance.container_id)
+        instance.delete()

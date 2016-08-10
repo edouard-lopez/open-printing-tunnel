@@ -28,13 +28,13 @@ class EmployeeFactory(factory.DjangoModelFactory):
     is_technician = False
 
     @factory.post_generation
-    def companies(self, create, extracted, **kwargs):
+    def clients(self, create, extracted, **kwargs):
         if not create:  # Simple build, do nothing.
             return
 
         if extracted:  # A list of objects were passed in, use them
-            for company in extracted:
-                self.companies.add(company)
+            for client in extracted:
+                self.clients.add(client)
 
 
 class TechnicianFactory(EmployeeFactory):

@@ -1,15 +1,13 @@
 from django.test import RequestFactory
-from rest_framework.request import Request
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase
 
-import api.services
 from api.permissions import IsTechnician
 from api.tests import factories
 
 
 class PermissionsApiTestCase(APITestCase):
     def setUp(self):
-        self.company = factories.ClientFactory(name='Akema')
+        self.client = factories.ClientFactory(name='Akema')
         self.user = factories.UserFactory()
         self.factory = RequestFactory()
         self.request = self.factory.get('/')

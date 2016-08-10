@@ -1,16 +1,16 @@
 <template>
-	<div id="containers-page">
+	<div id="daemons-page">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card card-block">
 					<div class="row">
 						<div class="col-md-12">
-							<h3>Boitiers Optbox</h3>
+							<h3>Daemons</h3>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">
-							<div id="searchContainers">
+							<div id="searchDaemons">
 								<div class="input-group">
                                     <span class="input-group-addon" id="search-addon">
                                         <i class="fa fa-search" aria-hidden="true"></i>
@@ -24,13 +24,13 @@
 						<div class="col-md-4">
 							<h2>
                                 <span class="label label-info">
-                                    <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} boitier<span
-										v-if="containers.length>1">s</span>
+                                    <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} daemon<span
+										v-if="daemons.length>1">s</span>
                                 </span>
 							</h2>
 						</div>
 						<div class="col-md-4 text-xs-right">
-							<add-container-button :companies.sync="companies"></add-container-button>
+							<add-daemon-button></add-daemon-button>
 						</div>
 					</div>
 					<div class="row">
@@ -38,22 +38,26 @@
 							<table class="table table-hover table-sm">
 								<thead class="thead-inverse">
 								<tr>
-									<th @click="sort('name')">
-										Id
-										<ordering-arrow column="name" :sorting="sorting" :ordering="ordering">
-										</ordering-arrow>
+									<th>
+										ID
 									</th>
-									<th @click="sort('company')">
-										Société
-										<ordering-arrow column="company" :sorting="sorting"
-														:ordering="ordering">
-										</ordering-arrow>
+									<th>
+										IP
 									</th>
-									<th @click="sort('description')">
-										Description
-										<ordering-arrow column="description" :sorting="sorting"
-														:ordering="ordering">
-										</ordering-arrow>
+									<th>
+										Subnet
+									</th>
+									<th>
+										Gateway
+									</th>
+									<th>
+										Vlan
+									</th>
+									<th>
+										Hostname
+									</th>
+									<th>
+										Client
 									</th>
 									<th class="text-xs-right">
 										Actions
@@ -61,28 +65,40 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr v-show="!containers.length">
+								<tr v-show="!daemons.length">
 									<td colspan="6">
-										{{ no_container_message }}
+										{{ no_daemon_message }}
 									</td>
 								</tr>
-								<tr v-for="container in containers">
+								<tr v-for="daemon in daemons">
 									<td>
-										<a v-link="{ name: 'containers', params: { id: container.id }}">
-											{{ container.id }}
-										</a>
+										{{ daemon.id }}
 									</td>
 									<td>
-										{{ container.company.name }}
+										{{ daemon.ip }}
 									</td>
 									<td>
-										{{ container.description }}
+										{{ daemon.subnet }}
+									</td>
+									<td>
+										{{ daemon.gateway }}
+									</td>
+									<td>
+										{{ daemon.vlan }}
+									</td>
+									<td>
+										<a v-bind:href="daemon.hostname" target="_blank">{{ daemon.hostname }}</a>
+									</td>
+									<td>
+										{{ daemon.client.name }}
 									</td>
 									<td class="text-xs-right">
-										<span class="btn btn-sm btn-danger" title="delete"
-											  @click="deleteContainer(container)">
-											<i class="fa fa-trash"></i>
-										</span>
+										<delete :promise="deleteDaemon" :object="daemon" class="btn-sm">
+											<span slot="title">Supprimer le daemon</span>
+											<span slot="body">Confirmer la suppression du daemon et des tunnels associés.</span>
+											<span slot="in-progress">Suppression en cours</span>
+											<span slot="action">Supprimer le daemon</span>
+										</delete>
 									</td>
 								</tr>
 								</tbody>
@@ -94,7 +110,7 @@
 							<div class="col-xs-4 text-xs-left">
 								<button class="btn btn-primary btn-sm" v-if="count > limit"
 										:disabled="(currentPage===1)"
-										@click="getNextContainers()">
+										@click="getNext()">
 									previous
 								</button>
 							</div>
@@ -104,7 +120,7 @@
 							<div class="col-xs-4 text-xs-right">
 								<button class="btn btn-primary btn-sm" v-if="count > limit"
 										:disabled="(currentPage*limit >= count)"
-										@click="getPreviousContainers()">
+										@click="getPrevious()">
 									next
 								</button>
 							</div>
@@ -117,78 +133,72 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import AddContainerButton from './add-container-button';
-	import Containers from '../../services/containers.service';
-	import OrderingArrow from '../../components/ordering-arrow';
+	// todo rename services/containers.service
+	import AddDaemonButton from './add-daemon-button';
+	import DeleteButton from 'components/delete-button';
+	import HTTP from 'services/http.service';
+	import Logging from 'services/logging.service';
 
-	import logging from '../../services/logging.service';
+	const DaemonsService = HTTP('daemons', localStorage);
 
-	import Resource from 'pilou';
-
-	const companies = Resource('companies');
-
-	Containers.localStorage = localStorage;
 	export default {
 		data() {
 			return {
 				limit: 100,
 				offset: 0,
 				currentPage: 1,
-				containers: [],
 				selectedEntry: null,
 				numberPages: 1,
 				count: 0,
 				sorting: 'asc',
 				ordering: '-created',
 				search: '',
-				no_container_message: 'There is no container.',
+				no_daemon_message: 'There is no daemon.',
 				selectAll: false,
 				selected: [],
-				companies: []
+				daemons: []
 			};
 		},
-		events: {
-			containerCreated() {
-				this.getContainers();
-			}
-		},
 		ready(){
-			this.getContainers();
-			this.getCompanies();
+			this.getDaemons();
 		},
 		components: {
-			OrderingArrow,
-			'add-container-button': AddContainerButton
+			'add-daemon-button': AddDaemonButton,
+			'delete': DeleteButton
+		},
+		events: {
+			daemonCreated() {
+				this.getDaemons();
+			},
+			deleteDaemon(daemon) {
+				this.deleteDaemon(daemon);
+			}
 		},
 		methods: {
-			getCompanies(){
-				return companies.all().then(response => {
-					this.companies = response.data.results;
-				});
-			},
-			getContainers(limit = this.limit, offset = this.offset, search = this.search, ordering = this.ordering){
-				return Containers.all(limit, offset, search, ordering).then(response => {
-					this.containers = response.data.results;
+			getDaemons(limit = this.limit, offset = this.offset, search = this.search, ordering = this.ordering){
+				const params = {limit, offset, search, ordering};
+				return DaemonsService.all(params).then(response => {
+					this.daemons = response.data.results;
 					this.count = response.data.count;
 					this.numberPages = Math.ceil(this.count / this.limit);
-				})
+				});
 			},
-			getPreviousContainers() {
+			getPrevious() {
 				this.currentPage += 1;
 				this.offset = (this.currentPage - 1) * this.limit;
-				this.getContainers();
+				this.getDaemons();
 			},
-			getNextContainers() {
+			getNext() {
 				this.currentPage -= 1;
 				this.offset = (this.currentPage - 1) * this.limit;
-				this.getContainers();
+				this.getDaemons();
 			},
 			filter(query){
 				this.currentPage = 1;
 				this.offset = 0;
-				this.getContainers(this.limit, this.offset, query).then(()=> {
+				this.getDaemons(this.limit, this.offset, query).then(()=> {
 					if (this.count == 0) {
-						this.no_container_message = 'there is no container matching your search'
+						this.no_daemon_message = 'il n\'y a aucun daemon correspondant à votre recherche'
 					}
 				});
 			},
@@ -200,20 +210,15 @@
 					this.sorting = 'asc';
 					this.ordering = `-${field}`;
 				}
-				this.getContainers();
+				this.getDaemons();
 			},
-			openContainer(id){
-				this.$router.go(`/containers/${id}/`);
-			},
-			deleteContainer(container){
-				Containers.delete(container)
-						.then(() => {
-							logging.success(this.$t('containers.delete.succeed'));
-							this.getContainers();
-						})
-						.catch(() => {
-							logging.error(this.$t('containers.delete.failed'))
-						});
+			deleteDaemon(daemon){
+				return DaemonsService.delete(daemon).then(() => {
+					Logging.success('Daemon supprimé avec succès');
+					this.getDaemons();
+				}).catch(() => {
+					Logging.error('Impossible de supprimer ce daemon pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
+				});
 			}
 		}
 	};

@@ -9,9 +9,9 @@ class ClientSerializer(serializers.ModelSerializer):
 
 class DaemonSerializer(serializers.ModelSerializer):
     container_info = serializers.ReadOnlyField()
-    company = ClientSerializer()
+    client = ClientSerializer(read_only=True)
 
     class Meta:
         model = models.Daemon
-        fields = ('id', 'ip', 'subnet', 'gateway', 'vlan', 'hostname', 'company', 'container_id', 'container_info',)
-        read_only_fields = ('id', 'company', 'container_id', 'container_info',)
+        fields = ('id', 'ip', 'subnet', 'gateway', 'vlan', 'hostname', 'client', 'container_id', 'container_info',)
+        read_only_fields = ('id', 'container_id', 'container_info',)
