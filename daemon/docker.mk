@@ -21,7 +21,7 @@ run:
 		-p 80:80 \
 		-p 8080:8080 \
 		-p 5000:5000 \
-		-v "$$(pwd)"/api:/daemon/api \
+		-v "$$(pwd)"/api:/api \
 		-v "$$(pwd)"/frontend:/frontend \
 		-v node_modules:/frontend/node_modules \
 		coaxisopt_daemon:latest \
