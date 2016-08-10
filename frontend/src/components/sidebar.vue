@@ -74,12 +74,6 @@
 		</ul>
 		<ul class="sidebar-menu settings">
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/settings/', activeClass: 'active' }" class="sidebar-link" title="Settings">
-					<i class="fa fa-cog"></i>
-					<span class="sr-only">Settings</span>
-				</a>
-			</li>
-			<li class="sidebar-item" v-link-active>
 				<a v-link="{ path: '/logout/' }" class="sidebar-link" @click.stop.prevent="logout()" title="Sign-out">
 					<i class="fa fa-sign-out"></i>
 					<span class="sr-only">Signout</span>
