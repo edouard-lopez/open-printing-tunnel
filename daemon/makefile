@@ -230,7 +230,8 @@ add-host: deploy-key
 		fi; \
 		safe_name="$$(echo "${NAME}" | iconv -t ASCII//TRANSLIT | sed -e 's/[^A-Za-z0-9._-]/-/g')"; \
 		cp ${CONFIG_DIR}/{template,"$${safe_name}"}; \
-		sed -i 's/{{HOST}}/${REMOTE_HOST}/g' "${CONFIG_DIR}/$${safe_name}"; \
+		sed -i 's/{{HOST}}/${REMOTE_HOST}/g' "${CONFIG_DIR}/$${safe_name}" \
+		&& printf "\t%-50s%s\t%s\n" $$'$(call INFO,${NAME})' $$'$(call VALUE, ${REMOTE_HOST})' $$'$(call SUCCESS,added)'; \
 		while ${INTERACTIVE} && true; do \
 			read -p "$(shell printf "\tEditing…\t%s? [y/N]\n" $$'$(call VALUE,${CONFIG_DIR}/$${safe_name})' )" yn; \
 			case $$yn in \
