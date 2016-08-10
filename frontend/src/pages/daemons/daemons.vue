@@ -72,7 +72,9 @@
 								</tr>
 								<tr v-for="daemon in daemons">
 									<td>
-										{{ daemon.id }}
+										<a v-link="{ name: 'daemons', params: { id: daemon.id }}">
+											{{ daemon.id }}
+										</a>
 									</td>
 									<td>
 										{{ daemon.ip }}

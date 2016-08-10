@@ -3,6 +3,7 @@ import logging
 import docker
 from django.contrib.auth import login, authenticate
 from rest_framework import status, permissions, viewsets
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from api import container_services
@@ -73,7 +74,7 @@ class DaemonsViewSet(viewsets.ModelViewSet):
             models.Daemon.objects.create(**data)
         except Exception as e:
             logger.exception(e)
-            return Response(status=status.HTTP_400_BAD_REQUEST, exception=e)
+            raise ValidationError(str(e))
         return Response(status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):

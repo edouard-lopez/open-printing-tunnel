@@ -55,13 +55,16 @@
 								<input type="url" class="form-control" id="hostname"
 									   placeholder="Hostname" v-model="daemon.hostname"/>
 							</fieldset>
+							<div class="alert alert-danger" role="alert" v-if="error_message">
+								{{error_message}}
+							</div>
 						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+						<div class="modal-footer text-xs-left">
 							<button type="submit" class="btn btn-primary" :disabled="!formIsValid">
 								<span v-if="!formSubmitted">Créer</span>
 								<span v-else><i class="fa fa-spinner fa-pulse fa-fw"></i> Création en cours</span>
 							</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
 						</div>
 					</form>
 				</div>
@@ -88,7 +91,8 @@
 					client_id: null,
 					vlan: null
 				},
-				formSubmitted: false
+				formSubmitted: false,
+				error_message: ''
 			};
 		},
 		ready(){
@@ -109,9 +113,11 @@
 							this.formSubmitted = false;
 							this.$dispatch('daemonCreated');
 						})
-						.catch(() => {
+						.catch(request => {
 							this.formSubmitted = false;
 							Logging.error('Impossible de créer un daemon');
+							this.error_message = request.response.data[0];
+							console.log(request.response.data[0])
 						});
 			}
 		},
