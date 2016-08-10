@@ -21,3 +21,4 @@ git archive -o $FILENAME HEAD
 mv $FILENAME deploy
 
 cd deploy
+echo "$FILENAME"  # so we can chain method

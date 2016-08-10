@@ -1,3 +1,4 @@
+
 # OPT
 
 **OPT** stands for _**Open Printing Tunnel**_ is  a solution to compress printing stream from `TSE` instance to a remote printers.
@@ -22,6 +23,19 @@ For the host system we recommend **Debian-based** OS, other distribution are not
 * Debian `6.0+` or Ubuntu-server `16.04+` ;
 * `docker` `≥1.12` ;
 * `docker-compose` `≥1.7.0`;
+
+## Production
+
+### Installation
+
+From developer computer, run:
+
+    $ cd frontend/
+    $ npm run build
+    $ cd ../deploy/
+    $ archive="$(./create_archive.sh | tail -n 1)"
+    $ ./send_archive.sh "$archive"
+    
 
 ## Development
 
