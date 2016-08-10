@@ -4,9 +4,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import FieldDoesNotExist
 
-import api
 from api import models
-from api.forms import CompanyForm
+from api import forms as opt_forms
 from api.models import MyUser
 
 
@@ -65,13 +64,13 @@ class MyUserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-class CompanyAdmin(admin.ModelAdmin):
+class ClientAdmin(admin.ModelAdmin):
     list_display = ('id', 'name',)
     ordering = ('name',)
 
     def to_field_allowed(self, request, to_field):
         """see: https://www.lasolution.be/blog/related-manytomanyfield-django-admin-site-continued.html"""
-        rv = super(CompanyAdmin, self).to_field_allowed(request, to_field)
+        rv = super(ClientAdmin, self).to_field_allowed(request, to_field)
         if not rv:
             opts = self.model._meta
             try:
@@ -82,7 +81,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    form = api.forms.CompanyForm  # https://www.lasolution.be/blog/related-manytomanyfield-django-admin-site.html
+    form = opt_forms.CompanyForm  # https://www.lasolution.be/blog/related-manytomanyfield-django-admin-site.html
 
     list_display = ('id', 'user', 'is_technician', '_company')
     ordering = ('user',)
@@ -94,12 +93,13 @@ class EmployeeAdmin(admin.ModelAdmin):
         return ",".join([company.name for company in instance.companies.all()])
 
 
-class MastContainerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description', 'company',)
-    ordering = ('company',)
+class DaemonAdmin(admin.ModelAdmin):
+
+    list_display = ('id', 'ip', 'subnet', 'gateway', 'vlan', 'hostname',)
+    ordering = ('client',)
 
 
 admin.site.register(MyUser, MyUserAdmin)
-admin.site.register(models.Company, CompanyAdmin)
+admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Employee, EmployeeAdmin)
-admin.site.register(models.MastContainer, MastContainerAdmin)
+admin.site.register(models.Daemon, DaemonAdmin)

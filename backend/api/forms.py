@@ -1,11 +1,11 @@
 from django import forms
 
-from api.models import Company
+from api.models import Client
 
 
 class CompanyForm(forms.ModelForm):
     companies = forms.ModelMultipleChoiceField(
-        Company.objects.all(),
+        Client.objects.all(),
         required=False,
     )
 

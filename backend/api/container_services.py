@@ -39,12 +39,12 @@ def get_network_config(data, docker_client):
 def save_infos(data):
     container = data.get('container')
     company_id = data.get('company_id')
-    company = models.Company.objects.filter(id=company_id).first()
+    company = models.Client.objects.filter(id=company_id).first()
     if not company:
         raise AttributeError('company with {company_id} does not exist'.format(company_id=company_id))
     description = data.get('description')
 
-    container_obj = models.MastContainer.objects.create(
+    container_obj = models.Daemon.objects.create(
         container_id=container.get('Id'),
         company=company,
         description=description

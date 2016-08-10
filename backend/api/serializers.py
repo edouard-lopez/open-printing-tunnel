@@ -1,29 +1,17 @@
-import json
-
+from api import models
 from rest_framework import serializers
-from rest_framework.renderers import JSONRenderer
-
-from api import models, container_services
 
 
-class CompanySerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Company
+        model = models.Client
 
 
-class RemoteNodeSerializer(serializers.ModelSerializer):
-    company = serializers.CharField(read_only=True)
+class DaemonSerializer(serializers.ModelSerializer):
+    container_info = serializers.ReadOnlyField()
+    company = ClientSerializer()
 
     class Meta:
-        model = models.RemoteNode
-        read_only_fields = ('company ', 'created', 'modified')
-
-
-class MastContainerSerializer(serializers.ModelSerializer):
-    infos = serializers.ReadOnlyField()
-    company = CompanySerializer()
-
-    class Meta:
-        model = models.MastContainer
-        fields = ('id', 'description', 'company', 'container_id', 'infos',)
-        read_only_fields = ('company', 'container_id', 'infos',)
+        model = models.Daemon
+        fields = ('id', 'ip', 'subnet', 'gateway', 'vlan', 'hostname', 'company', 'container_id', 'container_info',)
+        read_only_fields = ('id', 'company', 'container_id', 'container_info',)

@@ -5,11 +5,9 @@ from rest_framework.routers import DefaultRouter
 from api import views
 
 router = DefaultRouter()
-router.register(r'remote-nodes', views.RemoteNodeViewSet, base_name='remote-nodes')
 router.register(r'clients', views.ClientsViewSet, base_name='clients')
-router.register(r'containers', views.MastContainerViewSet, base_name='containers')
-router.register(r'sites', views.SitesViewSet, base_name='sites')
-router.register(r'users/me', views.UserViewSet, base_name='users')
+router.register(r'daemons', views.DaemonsViewSet, base_name='daemons')
+router.register(r'users/me', views.UserMeViewSet, base_name='me')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

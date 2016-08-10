@@ -6,7 +6,7 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.db.models.signals import post_save
 
-from api import container_services
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class MyUserManager(BaseUserManager):
@@ -89,26 +89,21 @@ def create_employee(sender, **kwargs):
 post_save.connect(create_employee, sender=MyUser)
 
 
-class Company(DateMixin):
+class Client(DateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    employees = models.ManyToManyField(Employee, blank=True, related_name='companies')
+    employees = models.ManyToManyField(Employee, blank=True, related_name='clients')
 
     def __str__(self):
         return self.name
 
 
-class RemoteNode(DateMixin):
-    """A remote node i.e. OPT-box"""
-    name = models.CharField(max_length=255, verbose_name='node\'s name', help_text='Headquarter office or a branch')
-    address = models.GenericIPAddressField(help_text='node IPv4 or IPv6 address')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='printers')
-
-
-class MastContainer(DateMixin):
-    """MAST (Multi Auto-SSH Tunnel daemon docker"""
+class Daemon(DateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.TextField(blank=True, verbose_name='site location', help_text='Headquarter office or a branch')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='mast_containers')
-    container_id = models.TextField(verbose_name='container system config',
-                                    help_text='Detailled information about container')
+    ip = models.CharField(max_length=255, null=True, blank=True)
+    subnet = models.CharField(max_length=255, null=True, blank=True)
+    gateway = models.CharField(max_length=255, null=True, blank=True)
+    vlan = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(4094)])
+    hostname = models.CharField(max_length=255, null=True, blank=True)
+    container_id = models.CharField(max_length=255, null=True, blank=True)
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, blank=True)

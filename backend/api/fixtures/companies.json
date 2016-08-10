@@ -1,6 +1,6 @@
 [
   {
-    "model": "api.company",
+    "model": "api.client",
     "pk": "0d8dbbf3-73f4-49ab-a550-22c1fca93439",
     "fields": {
       "created": "2016-06-28T16:07:11.733Z",
@@ -9,7 +9,7 @@
     }
   },
   {
-    "model": "api.company",
+    "model": "api.client",
     "pk": "96da4115-9578-4272-acb9-de32283d4574",
     "fields": {
       "created": "2016-06-28T16:07:29.737Z",
