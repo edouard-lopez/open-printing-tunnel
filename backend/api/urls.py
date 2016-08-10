@@ -6,7 +6,7 @@ from api import views
 
 router = DefaultRouter()
 router.register(r'remote-nodes', views.RemoteNodeViewSet, base_name='remote-nodes')
-router.register(r'companies', views.CompanyViewSet, base_name='companies')
+router.register(r'clients', views.ClientsViewSet, base_name='clients')
 router.register(r'containers', views.MastContainerViewSet, base_name='containers')
 router.register(r'sites', views.SitesViewSet, base_name='sites')
 router.register(r'users/me', views.UserViewSet, base_name='users')

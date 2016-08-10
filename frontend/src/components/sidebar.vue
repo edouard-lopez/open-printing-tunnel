@@ -66,9 +66,9 @@
 				</a>
 			</li>
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/sites/', activeClass: 'active' }" class="sidebar-link" title="Sites">
-					<i class="fa fa-map-marker" aria-hidden="true"></i>
-					<span class="sr-only">Sites</span>
+				<a v-link="{ path: '/containers/', activeClass: 'active' }" class="sidebar-link" title="Containers">
+					<i class="fa fa-sitemap" aria-hidden="true"></i>
+					<span class="sr-only">Containers</span>
 				</a>
 			</li>
 		</ul>

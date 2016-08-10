@@ -57,11 +57,6 @@
 					$('#delete-button-modal').modal('hide');
 				});
 			}
-		},
-		events: {
-			'deleted': (status) => {
-				this.actionCompleted = status;
-			}
 		}
 	}
 </script>

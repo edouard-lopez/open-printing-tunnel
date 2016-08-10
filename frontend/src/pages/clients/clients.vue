@@ -30,7 +30,7 @@
 							</h2>
 						</div>
 						<div class="col-md-4 text-xs-right">
-							<add-client-button :companies.sync="companies"></add-client-button>
+							<add-client-button></add-client-button>
 						</div>
 					</div>
 					<div class="row">
@@ -43,9 +43,6 @@
 									</th>
 									<th>
 										Société
-									</th>
-									<th>
-										Description
 									</th>
 									<th class="text-xs-right">
 										Actions
@@ -65,14 +62,10 @@
 										</a>
 									</td>
 									<td>
-										{{ client.company.name }}
-									</td>
-									<td>
-										{{ client.description }}
+										{{ client.name }}
 									</td>
 									<td class="text-xs-right">
-										<delete :promise="deleteClient" :object="client"
-												class="btn-sm">
+										<delete :promise="deleteClient" :object="client" class="btn-sm">
 											<span slot="title">Supprimer le client</span>
 											<span slot="body">Confirmer la suppression du client et des tunnels associés.</span>
 											<span slot="in-progress">Suppression en cours</span>
@@ -113,24 +106,19 @@
 
 <script type="text/ecmascript-6">
 	// todo rename services/containers.service
-	import ClientService from '../../services/containers.service';
 	import AddClientButton from './add-client-button';
-	import DeleteButton from '../../components/delete-button.vue';
+	import DeleteButton from '../../components/delete-button';
+	import HTTP from 'services/http.service';
+	import Logging from '../../services/logging.service';
 
-	import logging from '../../services/logging.service';
+	const ClientsService = HTTP('clients', localStorage);
 
-	import http from 'services/http.service';
-
-	const companies = http('companies', localStorage);
-
-	ClientService.localStorage = localStorage;
 	export default {
 		data() {
 			return {
 				limit: 100,
 				offset: 0,
 				currentPage: 1,
-				clients: [],
 				selectedEntry: null,
 				numberPages: 1,
 				count: 0,
@@ -140,12 +128,11 @@
 				no_client_message: 'There is no client.',
 				selectAll: false,
 				selected: [],
-				companies: []
+				clients: []
 			};
 		},
 		ready(){
 			this.getClients();
-			this.getCompanies();
 		},
 		components: {
 			'add-client-button': AddClientButton,
@@ -160,17 +147,13 @@
 			}
 		},
 		methods: {
-			getCompanies(){
-				return companies.all().then(response => {
-					this.companies = response.data.results;
-				});
-			},
 			getClients(limit = this.limit, offset = this.offset, search = this.search, ordering = this.ordering){
-				return ClientService.all(limit, offset, search, ordering).then(response => {
+				const params = {limit, offset, search, ordering};
+				return ClientsService.all(params).then(response => {
 					this.clients = response.data.results;
 					this.count = response.data.count;
 					this.numberPages = Math.ceil(this.count / this.limit);
-				})
+				});
 			},
 			getPrevious() {
 				this.currentPage += 1;
@@ -201,15 +184,12 @@
 				}
 				this.getClients();
 			},
-			openClient(id){
-				this.$router.go(`/clients/${id}/`);
-			},
 			deleteClient(client){
-				return ClientService.delete(client).then(() => {
-					logging.success('Client supprimé avec succès');
+				return ClientsService.delete(client).then(() => {
+					Logging.success('Client supprimé avec succès');
 					this.getClients();
 				}).catch(() => {
-					logging.error('Impossible de supprimer ce client pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
+					Logging.error('Impossible de supprimer ce client pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
 				});
 			}
 		}

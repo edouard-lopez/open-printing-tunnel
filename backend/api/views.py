@@ -46,9 +46,10 @@ class UserViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
-class CompanyViewSet(viewsets.ModelViewSet):
+class ClientsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CompanySerializer
     permission_classes = (permissions.IsAdminUser,)
+    search_fields = ('id', 'name',)
 
     def get_queryset(self):
         return models.Company.objects.all()
