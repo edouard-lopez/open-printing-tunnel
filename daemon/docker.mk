@@ -6,7 +6,7 @@
 #	./docker.mk
 #   or
 #	./docker.mk build
-    then
+#	then
 #	./docker.mk run
 
 
@@ -26,6 +26,7 @@ run:
 		coaxisopt_daemon:latest \
 		/usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
 
+rebuild: build
 build:
 	docker rm --force  daemon || true \
 	&& docker build -t coaxisopt_daemon ./
