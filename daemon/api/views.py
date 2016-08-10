@@ -31,10 +31,10 @@ class Sites(Resource):
         return response, 200 if response['cmd']['exit_status'] else 500
 
     def post(self):
-        if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
+        if not request.json or not validators.has_all(request.json, ['id', 'hostname']):
             abort(400)
 
-        site_id = slugify(request.json['name'])
+        site_id = slugify(request.json['id'])
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
             response = mast_utils.add_site(site_id, hostname)
