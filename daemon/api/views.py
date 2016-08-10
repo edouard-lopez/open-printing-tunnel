@@ -20,17 +20,15 @@ logger = logging.getLogger(__name__)
 class Root(Resource):
     def get(self):
         return {
-            'output': 'nothing here'
+            'results': None
         }
 
 
 class Sites(Resource):
     def get(self):
         response = mast_utils.list_sites()
-        return {
-                   'success': response['success'],
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+
+        return response, 200 if response['cmd']['exit_status'] else 500
 
     def post(self):
         if not request.json or not validators.has_all(request.json, ['name', 'hostname']):
@@ -40,12 +38,11 @@ class Sites(Resource):
         hostname = request.json['hostname']
         if validators.is_valid_host(hostname):
             response = mast_utils.add_site(site_id, hostname)
-            return {
-                       'success': response['success'],
-                       'output': response['output'],
-                       'id': site_id,
-                       'hostname': hostname,
-                   }, 201 if response['success'] else 500
+            response.update({
+                'id': site_id, 'hostname': hostname
+            })
+
+            return response, 201 if response['cmd']['exit_status'] else 500
 
 
 class Site(Resource):
@@ -58,11 +55,11 @@ class Site(Resource):
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
         response = getattr(daemon, action)(site_id)
-        return {
-                   'success': response['success'],
-                   'id': site_id,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+        response.update({
+            'id': site_id
+        })
+
+        return response, 200 if response['cmd']['exit_status'] else 500
 
     def delete(self, site_id):
         if not site_id:
@@ -70,23 +67,22 @@ class Site(Resource):
 
         site_id = slugify(site_id)
         response = mast_utils.remove_site(site_id)
-        return {
-                   'success': response['success'],
-                   'id': site_id,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+        response = response.update({
+            'id': site_id,
+        })
+
+        return response, 200 if response['cmd']['exit_status'] else 500
 
 
 class Printers(Resource):
     def get(self):
         site = '__all__'
         response = mast_utils.list_printers()
+        response.update({
+            'site': site,
+        })
 
-        return {
-                   'success': response['success'],
-                   'site': site,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+        return response, 200 if response['cmd']['exit_status'] else 500
 
     def post(self):
         if not request.json or not validators.has_all(request.json, ['site', 'hostname', 'description']):
@@ -97,25 +93,27 @@ class Printers(Resource):
         description = request.json['description']
         if validators.is_valid_host(hostname):
             response = mast_utils.add_printer(site, hostname)
-            return {
-                       'site': site,
-                       'output': response['output'],
-                       'success': response['success'],
-                   }, 201 if response['success'] else 500
+            response = response.update({
+                'site': site,
+                'hostname': hostname,
+                'description': description,
+            })
+
+            return response, 201 if response['cmd']['exit_status'] else 500
 
 
 class PrintersGet(Resource):
     def get(self, site_id=None):
         if site_id is None:
             abort(400)
+
         site_id = slugify(site_id)
         response = mast_utils.list_printers(site_id)
+        response.update({
+            'site': site_id,
+        })
 
-        return {
-                   'success': response['success'],
-                   'site': site_id,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+        return response, 200 if response['cmd']['exit_status'] else 500
 
 
 class Printer(Resource):
@@ -126,21 +124,19 @@ class Printer(Resource):
 
         site_id = slugify(site_id)
         response = mast_utils.remove_printer(site_id, printer_id)
-        return {
-                   'success': response['success'],
-                   'site': site_id,
-                   'id': printer_id,
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+        response = response.update({
+            'site': site_id,
+            'id': printer_id,
+        })
+
+        return response, 200 if response['cmd']['exit_status'] else 500
 
 
 class Logs(Resource):
     def get(self):
         response = mast_utils.list_logs()
-        return {
-                   'success': response['success'],
-                   'output': response['output'],
-               }, 200 if response['success'] else 500
+
+        return response, 200 if response['cmd']['exit_status'] else 500
 
 
 class PrinterInstallScript(Resource):
@@ -152,7 +148,7 @@ class PrinterInstallScript(Resource):
         filename = 'printer.bat.j2'
         site_host = request.headers['Host']
 
-        printers = mast_utils.list_printers(site_id)['output']['channels']
+        printers = mast_utils.list_printers(site_id)['results']['channels']
         printer = mast_utils.get_printer(printers, printer_id)
         data = scripts.prepare_printer_install_data(site_id, printer, site_host)
         script = scripts.render(filename, data)
@@ -173,7 +169,7 @@ class SiteInstallScript(Resource):
         filename = 'site.bat.j2'
         site_host = request.headers['Host']
 
-        printers = mast_utils.list_printers(site_id)['output']['channels']
+        printers = mast_utils.list_printers(site_id)['results']['channels']
         data = scripts.prepare_site_install_data(site_id, printers, site_host)
         script = scripts.render(filename, {'sites': data})
 

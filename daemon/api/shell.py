@@ -5,16 +5,26 @@ import subprocess
 def execute(command):
     try:
         stdout = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8').splitlines()
-        return {
-            'success': True,
-            'output': clean_response(stdout)
+        response = {
+            'cmd': {
+                'raw': stdout,
+                'exit_status': True
+            }
         }
+        response.update({'results': clean_response(stdout)})
+
+        return response
     except subprocess.CalledProcessError as e:
         stdout = e.output.decode('utf-8').splitlines()
-        return {
-            'success': False,
-            'output': clean_response(stdout)
+        response = {
+            'cmd': {
+                'raw': stdout,
+                'exit_status': False
+            }
         }
+        response.update({'results': clean_response(stdout)})
+
+        return response
 
 
 def escape_ansi(line):
@@ -28,5 +38,3 @@ def clean_response(lines):
         if line:
             cleaned_response.append(escape_ansi(line.strip()))
     return cleaned_response
-
-

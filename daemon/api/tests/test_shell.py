@@ -7,16 +7,16 @@ import shell
 class ShellTestCase(unittest.TestCase):
     def test_can_execute_command(self):
         response = shell.execute(['echo', 'test'])
-        self.assertEqual(response['success'], True)
-        self.assertEqual(response['output'], ['test'])
+        self.assertEqual(response['cmd']['exit_status'], True)
+        self.assertEqual(response['results'], ['test'])
 
     def test_can_return_results_as_array(self):
         response = shell.execute(['printf', 'a\nb'])
-        self.assertEqual(len(response['output']), 2)
+        self.assertEqual(len(response['results']), 2)
 
     def test_return_std_err(self):
         response = shell.execute(["ls", "non_existent_file"])
-        self.assertEqual(response['output'], ['ls: cannot access \'non_existent_file\': No such file or directory'])
+        self.assertEqual(response['results'], ['ls: cannot access \'non_existent_file\': No such file or directory'])
 
     def test_remove_ansi_escape_sequence(self):
         line = '\t\u001b[0;35mBlabla\u001b[0m                                  \u001b[0;36m172.18.0.2\u001b[0m'

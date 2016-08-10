@@ -15,7 +15,7 @@ def add_printer(site, hostname, description=''):
                'PRINTER=' + hostname,
                'DESC=' + description]
     response = shell.execute(command)
-    response['output'] = parser.add_printer(response['output'])
+    response['results'] = parser.add_printer(response['results'])
     return response
 
 
@@ -25,7 +25,7 @@ def list_printers(site=''):
         command.append(' NAME=' + site)
 
     response = shell.execute(command)
-    response['output'] = parser.list_printers(response['output'], site)
+    response['results'] = parser.list_printers(response['results'], site)
 
     return response
 
@@ -41,7 +41,7 @@ def remove_printer(site, printer_id):
 def list_sites():
     command = [makefile, 'list-hosts']
     response = shell.execute(command)
-    response['output'] = parser.list_sites(response['output'])
+    response['results'] = parser.list_sites(response['results'])
     return response
 
 
