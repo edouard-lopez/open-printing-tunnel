@@ -3,7 +3,7 @@
 		<button type="button" class="btn btn-success" data-toggle="modal"
 				data-target="#site-modal">
 			<i class="fa fa-plus-circle"></i>
-			Ajouter un boitier
+			Ajouter un site
 		</button>
 		<div class="modal fade" id="site-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
@@ -13,12 +13,12 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="action-label">Créer un boitier</h4>
+						<h4 class="modal-title" id="action-label">Créer un site</h4>
 					</div>
 					<div class="modal-body">
 						<form @submit="createSite()">
 							<fieldset class="form-group">
-								<label for="name">Nom du boitier <span class="text-danger">*</span></label>
+								<label for="name">Nom du site <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="name"
 									   placeholder="ex. client-un" v-model="site.id"/>
@@ -73,7 +73,7 @@
 						.catch(() => {
 							console.log(err);
 							this.formSubmitted = false;
-							logging.error('Impossible d\'ajouter le boitier');
+							logging.error('Impossible d\'ajouter le site');
 						});
 			}
 
