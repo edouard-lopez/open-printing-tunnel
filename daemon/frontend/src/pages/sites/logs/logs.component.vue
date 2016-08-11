@@ -45,6 +45,9 @@
 	import logging from 'services/logging.service';
 
 	export default {
+		data() {
+			return {stdout: {}};
+		},
 		events: {
 			'log-response': function (response) {
 				if (!Array.isArray(response.results)) {
