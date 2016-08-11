@@ -79,8 +79,9 @@ class ParserTestCase(unittest.TestCase):
         response = parser.start(stdout, 'Akema')
 
         self.assertDictEqual(response, {
+            'help': 'no channels',
             'id': 'Akema',
-            'status': 'no channels',
+            'status': 'empty',
         })
 
     def test_detect_start_state(self):

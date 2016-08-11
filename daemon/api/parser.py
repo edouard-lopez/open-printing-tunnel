@@ -85,11 +85,8 @@ def start(lines, id):
         response['help'] = 'no channels'
     else:
         state = detect_start_state(lines[2])
-        if state == 'done':
-            response['status'] = 'started'
-        elif state == 'failed':
-            response['status'] = 'stopped'
 
+        response['status'] = 'started' if state == 'done' else 'stopped'
         response['pid'] = start_get_site_pid(lines[2])
 
     return response
@@ -124,7 +121,7 @@ def stop(lines, id):
     response = {'id': id}
 
     state = detect_stop_state(lines[1])
-    response['status'] = state
+    response['status'] = 'stopped' if state == 'done' else state
     response['pid'] = stop_get_site_pid(lines[1])
 
     return response

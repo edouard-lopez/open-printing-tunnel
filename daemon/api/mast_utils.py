@@ -5,7 +5,6 @@ import shell
 
 logger = logging.getLogger(__name__)
 
-daemon = '/etc/init.d/mast'
 makefile = '/usr/sbin/mast-utils'
 
 
