@@ -152,6 +152,7 @@ RUN npm install --production
 COPY ./frontend /frontend
 EXPOSE 8080
 
+VOLUME ["/etc/mast"]
 
 RUN cd /opt/mast/ && make install
 COPY config/ /etc/supervisor/conf.d
