@@ -8,11 +8,13 @@ def list_sites(lines):
     parser = re.compile(r'[\s]*(?P<id>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
     response = []
     for line in lines:
-        data = parser.search(line).groupdict()
-        response.append({
-            'id': data['id'],
-            'hostname': data['hostname'],
-        })
+        matches = parser.search(line)
+        if matches:
+            data = matches.groupdict()
+            response.append({
+                'id': data['id'],
+                'hostname': data['hostname'],
+            })
 
     return response
 
@@ -29,11 +31,15 @@ def status(lines, id=None):
 
     return response
 
+
 def detect_status_state(line):
     parser = re.compile(r'\s*(?P<state>on(?=\s+pid)|off(?=\s+))')
+    matches = parser.search(line)
 
-    data = parser.search(line).groupdict()
-    state = data['state']
+    if matches:
+        data = matches.groupdict()
+        state = data['state']
+
     return state
 
 
@@ -42,13 +48,16 @@ def status_is_on(lines):
         r'\s*(?P<id>\w+):autossh\s+(?P<state>on)\s+pid:\s+(?P<pid>[\d]+).*uptime:\s+(?P<uptime>[\d\-:]+)')
     response = []
     for line in lines:
-        data = parser.search(line).groupdict()
-        response.append({
-            'id': data['id'],
-            'state': data['state'],
-            'pid': int(data['pid']),
-            'uptime': data['uptime'],
-        })
+        matches = parser.search(line)
+        if matches:
+            data = matches.groupdict()
+            response.append({
+                'id': data['id'],
+                'state': data['state'],
+                'pid': int(data['pid']),
+                'uptime': data['uptime'],
+            })
+
         return response
 
 
@@ -56,12 +65,14 @@ def status_is_off(lines):
     parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<state>[^\s]+)[\s]*(?P<help>[^\n\t]+)')
     response = []
     for line in lines:
-        data = parser.search(line).groupdict()
-        response.append({
-            'id': data['id'],
-            'state': data['state'],
-            'help': data['help'],
-        })
+        matches = parser.search(line)
+        if matches:
+            data = matches.groupdict()
+            response.append({
+                'id': data['id'],
+                'state': data['state'],
+                'help': data['help'],
+            })
 
     return response
 
@@ -84,18 +95,26 @@ def start(lines, id):
 
 
 def detect_start_state(line):
+    state = None
     parser = re.compile(r'\s*(?P<state>done(?=\s+pid)|failed(?=\s+empty))')
+    matches = parser.search(line)
 
-    data = parser.search(line).groupdict()
-    state = data['state']
+    if matches:
+        data = matches.groupdict()
+        state = data['state']
+
     return state
 
 
 def start_get_site_pid(line):
+    pid = None
     parser = re.compile(r'(?P<pid>\d+$)')
+    matches = parser.search(line)
 
-    data = parser.search(line).groupdict()
-    pid = int(data['pid'])
+    if matches:
+        data = matches.groupdict()
+        if data['pid']:
+            pid = int(data['pid'])
 
     return pid
 
@@ -119,21 +138,28 @@ def stop_get_site_pid(line):
 
 
 def detect_stop_state(line):
+    state = None
     parser = re.compile(r'\s*(?P<state>skipped(?=\s+already)|done(?=\s+pid)|failed(?=\s+empty))')
+    matches = parser.search(line)
 
-    data = parser.search(line).groupdict()
-    state = data['state']
+    if matches:
+        data = matches.groupdict()
+        state = data['state']
+
     return state
 
 
 def restart(lines, id):
     response = {'id': id}
 
-    state = detect_start_state(lines[-1])
-    if state == 'done':
-        response['status'] = 'restarted'
+    last_line = lines[-1]
+    restarting_line = lines[1]
+    print(last_line)
+    state = detect_stop_state(restarting_line)
 
-    response['pid'] = start_get_site_pid(lines[-1])
+    response['status'] = 'restarted' if state == 'done' else state
+
+    response['pid'] = start_get_site_pid(last_line)
 
     return response
 

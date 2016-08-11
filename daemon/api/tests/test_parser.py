@@ -168,6 +168,21 @@ class ParserTestCase(unittest.TestCase):
             'pid': 26453,
         })
 
+    def test_parse_restart_site_without_printers(self):
+        stdout = [
+            "Stopping mast akema",
+            "restarting tunnel                  skipped     already stopped",
+            "ForwardPort array                   empty       no value in /etc/mast/akema"
+        ]
+
+        response = parser.restart(stdout, 'akema')
+
+        self.assertDictEqual(response, {
+            'id': 'akema',
+            'status': 'skipped',
+            'pid': None,
+        })
+
     def test_detect_channel_forward_rules(self):
         site = "3W"
         forward = "L *:9102:10.100.7.48:9100         0     # Samsung ML3710"
