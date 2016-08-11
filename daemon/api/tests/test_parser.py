@@ -237,38 +237,41 @@ class ParserTestCase(unittest.TestCase):
         response = output_parser.list_all_printers(stdout)
 
         self.assertEqual(len(response), 2)
-        self.assertEqual(response[0]['id'], '3W')
-        self.assertEqual(response[0]['hostname'], '10.100.7.49')
-        self.assertListEqual(response[0]['channels'], [
-            {
-                'id': 0,
-                'hostname': '10.100.7.48',
-                'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
-                'description': 'Samsung ML3710'
-            },
-            {
-                'id': 1,
-                'hostname': '10.100.7.47',
-                'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
-                'description': 'Ricoh Aficio MPC300'
-            },
-        ])
-        self.assertEqual(response[1]['id'], 'Akema')
-        self.assertEqual(response[1]['hostname'], '88.116.12.46')
-        self.assertListEqual(response[1]['channels'], [
-            {
-                'id': 0,
-                'hostname': 'localhost',
-                'ports': {'forward': 'local', 'listen': 22, 'send': 22},
-                'description': 'Revers forward for use ssh git.coaxis.com at home'
-            },
-            {
-                'id': 3,
-                'hostname': '10.48.50.7',
-                'ports': {'forward': 'local', 'listen': 3389, 'send': 3389},
-                'description': 'PC maison'
-            }
-        ])
+        self.assertCountEqual(response, [{
+            'id': '3W',
+            'hostname': '10.100.7.49',
+            'channels': [
+                {
+                    'id': 0,
+                    'hostname': '10.100.7.48',
+                    'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
+                    'description': 'Samsung ML3710'
+                },
+                {
+                    'id': 1,
+                    'hostname': '10.100.7.47',
+                    'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
+                    'description': 'Ricoh Aficio MPC300'
+                },
+            ]
+        }, {
+            'id': 'Akema',
+            'hostname': '88.116.12.46',
+            'channels': [
+                {
+                    'id': 0,
+                    'hostname': 'localhost',
+                    'ports': {'forward': 'local', 'listen': 22, 'send': 22},
+                    'description': 'Revers forward for use ssh git.coaxis.com at home'
+                },
+                {
+                    'id': 3,
+                    'hostname': '10.48.50.7',
+                    'ports': {'forward': 'local', 'listen': 3389, 'send': 3389},
+                    'description': 'PC maison'
+                }
+            ]
+        }])
 
     def test_parse_list_all_printers_from_a_single_site_without_channels(self):
         stdout = [
