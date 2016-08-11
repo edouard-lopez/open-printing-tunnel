@@ -18,9 +18,9 @@
 					<div class="modal-body">
 						<form @submit="createSite()">
 							<fieldset class="form-group">
-								<label for="name">Nom du site <span class="text-danger">*</span></label>
+								<label for="id">Nom du site <span class="text-danger">*</span></label>
 
-								<input type="text" class="form-control" id="name"
+								<input type="text" class="form-control" id="id"
 									   placeholder="ex. client-un" v-model="site.id"/>
 							</fieldset>
 							<fieldset class="form-group">
@@ -45,16 +45,17 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from '../../services/logging.service';
+	import http from 'services/http.service';
+	import logging from 'services/logging.service';
 	import resource from 'pilou';
 
-	const sites = resource('sites', {create: '/api/${resource}/'});
+	const sites = http('sites', localStorage);
 
 	export default {
 		data() {
 			return {
 				site: {
-					name: '',
+					id: '',
 					hostname: ''
 				},
 				formSubmitted: false
@@ -64,11 +65,9 @@
 			createSite(){
 				this.formSubmitted = true;
 
-				sites.create(this.site)
-						.then(() => {
+				sites.create(this.site).then(() => {
 							$('#site-modal').modal('hide');
 							this.formSubmitted = false;
-							this.$dispatch('site-created', response.data);
 						})
 						.catch(() => {
 							console.log(err);

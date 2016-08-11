@@ -72,7 +72,7 @@
 		data() {
 			return {
 				data: {
-					'output': [],
+					'data': [],
 					'success': false
 				},
 				stdout: {}
@@ -82,7 +82,7 @@
 			getSites(){
 				sites.all().then((response)=> {
 					this.data = response.data;
-					this.stdout = response.data.output;
+					this.stdout = response.data.results;
 				}).catch(err => {
 					console.error(err)
 				});
@@ -90,7 +90,7 @@
 			getPrinters(){
 				printers.all().then((response)=> {
 					this.data = response.data;
-					this.stdout = response.data.output;
+					this.stdout = response.data.results;
 				}).catch(err => {
 					console.error(err)
 				});
@@ -98,7 +98,7 @@
 		},
 		events: {
 			'log-response': function (response) {
-				this.stdout = response.output;
+				this.stdout = response.results;
 			}
 		}
 	}

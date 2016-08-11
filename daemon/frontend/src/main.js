@@ -58,7 +58,6 @@ router.beforeEach(transition => {
 	if (transition.to.path === '/') {
 		transition.redirect('/sites/');
 	} else {
-		console.log('next')
 		transition.next();
 	}
 });

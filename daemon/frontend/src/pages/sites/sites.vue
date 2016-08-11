@@ -1,21 +1,39 @@
-<style scoped>
-	.table thead th, .table td, .table th {
-		border: none;
-	}
-</style>
 <template>
-	<div id="container-page">
+	<div id="sites-page">
 		<div class="row">
-			<div class="col-md-12">
-				<div class="card">
-					<h5 class="card-header">
-						<i class="fa fa-map-marker" aria-hidden="true"></i> Sites
-					</h5>
-					<div class="card-block">
-						<div v-for="site in sites">
-							<site :site="site"></site>
+			<div class="col-lg-12">
+				<div class="card card-block">
+					<div class="row">
+						<div class="col-md-12">
+							<h3>
+								<i class="fa fa-map-marker"></i>
+								Sites
+							</h3>
 						</div>
 					</div>
+					<div class="row" id="dashboard">
+						<span class="col-md-12 text-xs-right">
+							<add-site-button></add-site-button>
+						</span>
+					</div>
+
+					<br>
+
+					<div class="row">
+						<div id="accordion" role="tablist" aria-multiselectable="true">
+							<div v-for="site in sites" class="panel panel-default">
+								{{site}}
+								<site :site="site"></site>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card card-block">
+					<logs></logs>
 				</div>
 			</div>
 		</div>
@@ -24,27 +42,46 @@
 
 <script type="text/ecmascript-6">
 	import http from 'services/http.service';
-	import Site from './site.component';
+	import logging from 'services/logging.service';
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
 
-	const SitesService = http('sites', localStorage);
+	import SiteComponent from './site.component.vue'
+	import AddSiteButtonComponent from './add-site.component';
+	import LogsComponent from './logs/logs.component';
+
+	const sites = http('sites', localStorage);
+
 	export default {
-		data() {
-			return {
-				sites: []
-			};
-		},
 		ready(){
 			this.getSites();
 		},
 		components: {
-			'site': Site
+			'site': SiteComponent,
+			'add-site-button': AddSiteButtonComponent,
+			'logs': LogsComponent,
 		},
 		methods: {
-			getSites(){
-				return SitesService.all().then(response => {
-					console.log(response.data);
-					this.sites = response.data;
+			getSites() {
+				sites.all().then((response) => {
+					this.setSites(response.data.results);
+				}).catch(() => {
+					this.no_site_message = 'there is no site';
+					logging.error(this.$t('sites.get.failed'))
 				});
+			}
+		},
+		events: {
+			'log-response': function (message) {
+				this.$broadcast('log-response', message);
+			},
+		},
+		vuex: {
+			actions: {
+				setSites: actions.setSites,
+			},
+			getters: {
+				sites: getters.retrieveSites
 			}
 		}
 	};

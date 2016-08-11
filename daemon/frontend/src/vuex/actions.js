@@ -5,7 +5,7 @@ const printers = resource('printers', {get: '/api/sites/${site_id}/${resource}/'
 export default {
 	getPrinters({dispatch}, siteId) {
 		printers.get({site_id: siteId}).then(response => {
-			dispatch('setPrinters', response.data.site, response.data.output.channels);
+			dispatch('setPrinters', response.data.site, response.data.results.channels);
 		}).catch(err => {
 			console.error(err);
 			logging.error(this.$t('printers.get.failed'));

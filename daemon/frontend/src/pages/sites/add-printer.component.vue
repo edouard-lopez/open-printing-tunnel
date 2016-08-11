@@ -92,7 +92,7 @@
 				this.formSubmitted = true;
 
 				printers.create(this.printer).then((response) => {
-					response.data.output['site'] = response.data.site;
+					response.data.results['site'] = response.data.site;
 					this.getPrinters(response.data.site);
 
 					$('#printer-modal-' + response.data.site).modal('hide');
