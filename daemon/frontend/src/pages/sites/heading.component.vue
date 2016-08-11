@@ -73,7 +73,7 @@
 					>
 						<i class="fa fa-print"> </i>
 					</button>
-					<button aria-label="script d'installation d'imprimante"
+					<button v-if="has_printers()" aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
 							@click="link(site.id)"
@@ -88,21 +88,18 @@
 <script type="text/ecmascript-6">
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 
+	import http from 'services/http.service';
+	import FileSaver from 'file-saver';
 	import actions from '../../vuex/actions';
 	import logging from '../../services/logging.service';
 	import resource from 'pilou';
 
-	const sites = resource('sites', {
-		all: '/api/${resource}/${site_id}/',
-		update: '/api/${resource}/${site_id}/',
-		delete: '/api/${resource}/${site_id}/'
-	});
+	const sites = http('sites', localStorage);
+	const scripts = http('scripts', localStorage);
 
 
 	export default{
-		data(){
-			return {}
-		},
+		ready() {console.log(this.site.channels)},
 		components: {
 			'add-printer-button': AddPrinterButtonComponent
 		},
@@ -111,6 +108,9 @@
 				type: Object,
 				required: true
 			},
+		},
+		computed: {
+			has_printers: () => this.site.channels.length > 0
 		},
 		methods: {
 			status(site_id) {
@@ -151,8 +151,16 @@
 					logging.error(this.$t('sites.delete.failed'))
 				});
 			},
-			link(name) {
-				// todo
+			link(site_id) {
+				scripts.get({id: site_id}).then((response) => {
+					var filename = response.headers['content-disposition'].split('=')[1];
+					var blob = new Blob([response.data], {type: response.headers['content-type']});
+					FileSaver.saveAs(blob, filename);
+					logging.success(this.$t('scripts.creation.succeed'));
+				}).catch((err) => {
+					console.log('deletion failed', err);
+					logging.error(this.$t('scripts.creation.failed'))
+				});
 			}
 		},
 		vuex: {
