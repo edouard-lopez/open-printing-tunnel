@@ -10,7 +10,7 @@ daemon = '/etc/init.d/mast'
 
 def service(action, name):
     response = shell.execute([daemon, action, name])
-    response['results'] = getattr(parser, action)(response['results'])
+    response['results'] = getattr(parser, action)(response['results'], name)
     return response
 
 

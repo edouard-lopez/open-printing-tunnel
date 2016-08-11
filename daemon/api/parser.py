@@ -17,7 +17,7 @@ def list_sites(lines):
     return response
 
 
-def status(lines):
+def status(lines, id=None):
     for line in lines:
         state = detect_status_state(line)
         if state == 'on':
