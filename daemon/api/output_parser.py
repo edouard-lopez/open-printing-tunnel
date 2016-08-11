@@ -183,19 +183,20 @@ def list_printers(lines, site):
 
 
 def list_all_printers(lines):
-    response = []
-
+    sites = {}
+    site_id = None
     for line in lines:
-        site = line['id']
-        if not is_forward_rule(line):
-            line = list_sites([line])[0]
-            hostname = line['hostname']
-            response.append({'id': site, 'hostname': hostname, 'channels': []})
+        if is_forward_rule(line):
+            sites[site_id]['channels'].append(forward_rule(line))
         else:
-            index = find_site(response, site)
-            response[index]['channels'].append(forward_rule(line))
-
-    return response
+            site_info = list_sites([line])[0]
+            site_id = site_info['id']
+            sites[site_id] = {
+                'id': site_id,
+                'hostname': site_info['hostname'],
+                'channels': []
+            }
+    return list(sites.values())
 
 
 def list_channels(lines, printer):
