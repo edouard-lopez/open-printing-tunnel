@@ -16,6 +16,13 @@ api = Api(app, prefix='/api')
 
 logger = logging.getLogger(__name__)
 
+if not app.debug:
+    app.logger.addHandler(logging.StreamHandler())
+    app.logger.setLevel(logging.DEBUG)
+    logging.getLogger('gunicorn').setLevel(logging.DEBUG)
+    logging.getLogger('gunicorn.access').setLevel(logging.DEBUG)
+    logging.getLogger('gunicorn.error').setLevel(logging.DEBUG)
+
 
 class Root(Resource):
     def get(self):
