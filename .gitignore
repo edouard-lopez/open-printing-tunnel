@@ -110,3 +110,4 @@ ENV/
 .ropeproject
 node_modules/
 !frontend/dist/
+!daemon/frontend/dist/
