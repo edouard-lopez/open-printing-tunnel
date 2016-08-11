@@ -51,22 +51,18 @@
 		</h2>
 		<div class="row">
 			<div class="col-xs-12 highlight">
-				<pre class="stdout">
-					<samp v-for="line in stdout" class="line">{{line | json }}</samp>
-				</pre>
+				<pre class="stdout"><samp v-for="line in stdout" class="line">{{line | json }}</samp></pre>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
-	import Sites from '../../../services/sites.service';
+	import logging from 'services/logging.service';
+	import http from 'services/http.service';
 
-	import logging from '../../../services/logging.service';
-	import resource from 'pilou';
-
-	const printers = resource('printers', { all: '/api/${resource}/'});
-	const sites = resource('sites', { all: '/api/${resource}/${name}'});
+	const sites = http('sites', localStorage);
+	const printers = http('printers', localStorage);
 
 	export default {
 		data() {
@@ -98,6 +94,9 @@
 		},
 		events: {
 			'log-response': function (response) {
+				if (!Array.isArray(response.results)) {
+					response.results = [response.results];
+				}
 				this.stdout = response.results;
 			}
 		}
