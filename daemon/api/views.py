@@ -82,15 +82,6 @@ class Site(Resource):
 
 
 class Printers(Resource):
-    def get(self):
-        site = None  # all sites
-        response = mast_utils.list_printers(site)
-        response.update({
-            'site': site,
-        })
-
-        return response, 200 if response['cmd']['exit_status'] else 500
-
     def post(self):
         if not request.json or not validators.has_all(request.json, ['site', 'hostname', 'description']):
             abort(400)
@@ -107,20 +98,6 @@ class Printers(Resource):
             })
 
             return response, 201 if response['cmd']['exit_status'] else 500
-
-
-class PrintersGet(Resource):
-    def get(self, site_id=None):
-        if site_id is None:
-            abort(400)
-
-        site_id = slugify(site_id)
-        response = mast_utils.list_printers(site_id)
-        response.update({
-            'site': site_id,
-        })
-
-        return response, 200 if response['cmd']['exit_status'] else 500
 
 
 class Printer(Resource):
@@ -161,7 +138,6 @@ class PrinterInstallScript(Resource):
 
 
 class SiteInstallScript(Resource):
-    # todo: change to post
     def get(self, site_id):
         if not site_id:
             abort(400)
@@ -185,7 +161,6 @@ api.add_resource(Root, '/')
 api.add_resource(Sites, '/sites/')
 api.add_resource(Site, '/sites/<string:site_id>/')
 api.add_resource(Printers, '/printers/')
-api.add_resource(PrintersGet, '/sites/<string:site_id>/printers/')
 api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>/')
