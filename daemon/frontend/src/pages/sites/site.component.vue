@@ -16,7 +16,7 @@
 				<div v-for="printer in printers">
 					<printer :printer="printer" :site="site"></printer>
 				</div>
-				
+
 				<div class="text-xs-center">
 					<add-printer-button :boitier="site" label="Ajouter une imprimante"></add-printer-button>
 					<add-printers-button :boitier="site" label="Ajouter des imprimantes"></add-printers-button>
