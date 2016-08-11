@@ -186,9 +186,9 @@ def list_all_printers(lines):
     response = []
 
     for line in lines:
+        site = line['id']
         if not is_forward_rule(line):
             line = list_sites([line])[0]
-            site = line['id']
             hostname = line['hostname']
             response.append({'id': site, 'hostname': hostname, 'channels': []})
         else:

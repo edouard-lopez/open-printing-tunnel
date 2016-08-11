@@ -1,6 +1,6 @@
 import logging
 
-import parser
+import output_parser
 import shell
 
 logger = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ daemon = '/etc/init.d/mast'
 
 def service(action, name):
     response = shell.execute([daemon, action, name])
-    response['results'] = getattr(parser, action)(response['results'], name)
+    response['results'] = getattr(output_parser, action)(response['results'], name)
     return response
 
 

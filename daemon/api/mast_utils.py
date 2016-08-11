@@ -1,6 +1,6 @@
 import logging
 
-import parser
+import output_parser
 import shell
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ def add_printer(site, hostname, description=''):
                'PRINTER=' + hostname,
                'DESC=' + description]
     response = shell.execute(command)
-    response['results'] = parser.add_printer(response['results'])
+    response['results'] = output_parser.add_printer(response['results'])
     return response
 
 
@@ -22,7 +22,7 @@ def list_site_and_printers():
     command = [makefile, 'list-channels']
 
     response = shell.execute(command)
-    response['results'] = parser.list_all_printers(response['results'])
+    response['results'] = output_parser.list_all_printers(response['results'])
 
     return response
 
@@ -33,7 +33,7 @@ def list_printers(site):
         command.append(' NAME=' + site)
 
     response = shell.execute(command)
-    response['results'] = parser.list_printers(response['results'], site)
+    response['results'] = output_parser.list_printers(response['results'], site)
 
     return response
 
@@ -49,7 +49,7 @@ def remove_printer(site, printer_id):
 def list_sites():
     command = [makefile, 'list-hosts']
     response = shell.execute(command)
-    response['results'] = parser.list_sites(response['results'])
+    response['results'] = output_parser.list_sites(response['results'])
     return response
 
 
