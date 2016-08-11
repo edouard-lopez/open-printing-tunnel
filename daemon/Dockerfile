@@ -31,7 +31,7 @@ RUN apt-get update \
             whois \
             ca-certificates \
             nginx \
-            supervisor
+            supervisor \
 	&& rm -rf /var/lib/apt/lists/*
 
 # -------------------------------------------
