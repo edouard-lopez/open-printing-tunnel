@@ -25,13 +25,14 @@
 				aria-label="Toolbar with button groups">
 				<li class="btn-group" role="group"
 					aria-label="Actions non-réversibles">
-					<button aria-label="Supprimer cet *hôte*"
-							role="button"
-							class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
-							@click="remove(site.id)"
-					>
-						<i class="fa fa-trash-o text-danger"> </i>
-					</button>
+
+					<delete :promise="delete_site" :object="site" class="btn-sm">
+						<span slot="title">Supprimer ce site</span>
+						<span slot="body">Confirmer la suppression du site et des tunnels associés.</span>
+						<span slot="in-progress">Suppression en cours</span>
+						<span slot="action">Supprimer le site</span>
+					</delete>
+
 				</li>
 				<li class="btn-group" role="group"
 					aria-label="Actions d'administration">
@@ -87,6 +88,7 @@
 </template>
 <script type="text/ecmascript-6">
 	import AddPrinterButtonComponent from './add-printer.component.vue';
+	import DeleteButton from 'components/delete-button';
 
 	import http from 'services/http.service';
 	import FileSaver from 'file-saver';
@@ -101,7 +103,8 @@
 	export default{
 		ready() {console.log(this.site.channels)},
 		components: {
-			'add-printer-button': AddPrinterButtonComponent
+			'add-printer-button': AddPrinterButtonComponent,
+			'delete': DeleteButton
 		},
 		props: {
 			site: {
@@ -142,13 +145,12 @@
 					logging.error(this.$t('sites.restart.failed'))
 				});
 			},
-			remove(site_id) {
-				sites.delete({site_id: site_id}).then((response) => {
-					this.removeSite(response.data);
-					logging.success(this.$t('sites.remove.succeed'));
-				}).catch((err) => {
-					console.log('deletion failed', err);
-					logging.error(this.$t('sites.delete.failed'))
+			delete_site(site){
+				return sites.delete(site).then(() => {
+					logging.success('Daemon supprimé avec succès');
+					this.getSites();
+				}).catch(() => {
+					logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
 				});
 			},
 			link(site_id) {
@@ -163,8 +165,14 @@
 				});
 			}
 		},
+		events: {
+			delete_site(daemon) {
+				this.delete_site(daemon);
+			}
+		},
 		vuex: {
 			actions: {
+				getSites: actions.getSites,
 				removeSite: actions.removeSite,
 			}
 		}
