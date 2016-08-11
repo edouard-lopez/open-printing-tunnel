@@ -101,7 +101,6 @@
 
 
 	export default{
-		ready() {console.log(this.site.channels)},
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
 			'delete': DeleteButton
@@ -109,11 +108,12 @@
 		props: {
 			site: {
 				type: Object,
-				required: true
+				required: true,
+				default:{}
 			},
 		},
 		computed: {
-			has_printers: () => this.site.channels.length > 0
+			has_printers: function() { return this.site.channels.length > 0;}
 		},
 		methods: {
 			status(site_id) {
@@ -147,7 +147,7 @@
 			},
 			delete_site(site){
 				return sites.delete(site).then(() => {
-					logging.success('Daemon supprimé avec succès');
+					logging.success('Site supprimé avec succès');
 					this.getSites();
 				}).catch(() => {
 					logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
