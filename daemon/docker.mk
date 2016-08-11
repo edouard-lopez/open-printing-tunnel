@@ -15,7 +15,7 @@ SHELL := /bin/bash
 
 default: build run
 
-run:
+dev:
 	docker run -d \
 		--name daemon \
 		-p 80:80 \
@@ -35,3 +35,6 @@ remove:
 	docker rm --force daemon || true
 
 restart: remove run
+
+prod:
+	docker run -p 80:80 coaxisopt_daemon:latest
