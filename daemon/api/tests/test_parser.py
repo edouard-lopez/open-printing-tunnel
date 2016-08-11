@@ -210,10 +210,10 @@ class ParserTestCase(unittest.TestCase):
 
     def test_parse_list_all_printers_channels(self):
         stdout = [
-            "3W",
+            '3W                                     10.100.7.49',
             "L *:9102:10.100.7.48:9100         0     # Samsung ML3710",
             "L *:9103:10.100.7.47:9100         1     # Ricoh Aficio MPC300",
-            "Akema",
+            'Akema                              88.116.12.46',
             "R *:22:localhost:22               0     # Revers forward for use ssh git.coaxis.com at home",
             "R *:3389:10.48.50.7:3389          3     # PC maison"
         ]
@@ -222,19 +222,23 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertEqual(len(response), 2)
         self.assertEqual(response[0]['site'], '3W')
+        self.assertEqual(response[0]['hostname'], '10.100.7.49')
         self.assertListEqual(response[0]['channels'], [
             {
                 'id': 0,
+                'hostname': '10.100.7.48',
                 'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
                 'description': 'Samsung ML3710'
             },
             {
                 'id': 1,
+                'hostname': '10.100.7.47',
                 'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
                 'description': 'Ricoh Aficio MPC300'
             },
         ])
         self.assertEqual(response[1]['site'], 'Akema')
+        self.assertEqual(response[1]['hostname'], '88.116.12.46')
         self.assertListEqual(response[1]['channels'], [
             {
                 'id': 0,
@@ -244,10 +248,23 @@ class ParserTestCase(unittest.TestCase):
             },
             {
                 'id': 3,
+                'hostname': '10.48.50.7',
                 'ports': {'forward': 'local', 'listen': 3389, 'send': 3389},
                 'description': 'PC maison'
             }
         ])
+
+    def test_parse_list_all_printers_from_a_single_site_without_channels(self):
+        stdout = [
+            '        akema                                  192.168.2.231',
+        ]
+
+        response = parser.list_all_printers(stdout)
+
+        self.assertEqual(len(response), 1)
+        self.assertEqual(response[0]['site'], 'akema')
+        self.assertEqual(response[0]['hostname'], '192.168.2.231')
+        self.assertListEqual(response[0]['channels'], [])
 
     def test_get_site_dict(self):
         response = [{'site': '3W'}, {'site': 'Akema'}]

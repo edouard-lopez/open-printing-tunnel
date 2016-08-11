@@ -19,7 +19,16 @@ def add_printer(site, hostname, description=''):
     return response
 
 
-def list_printers(site=''):
+def list_site_and_printers():
+    command = [makefile, 'list-channels']
+
+    response = shell.execute(command)
+    response['results'] = parser.list_all_printers(response['results'])
+
+    return response
+
+
+def list_printers(site):
     command = [makefile, 'list-channels']
     if site:
         command.append(' NAME=' + site)

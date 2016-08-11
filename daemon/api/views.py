@@ -26,7 +26,7 @@ class Root(Resource):
 
 class Sites(Resource):
     def get(self):
-        response = mast_utils.list_sites()
+        response = mast_utils.list_site_and_printers()
 
         return response, 200 if response['cmd']['exit_status'] else 500
 
@@ -76,8 +76,8 @@ class Site(Resource):
 
 class Printers(Resource):
     def get(self):
-        site = '__all__'
-        response = mast_utils.list_printers()
+        site = None  # all sites
+        response = mast_utils.list_printers(site)
         response.update({
             'site': site,
         })

@@ -22,7 +22,6 @@
 					<div class="row">
 						<div id="accordion" role="tablist" aria-multiselectable="true">
 							<div v-for="site in sites" class="panel panel-default">
-								{{site}}
 								<site :site="site"></site>
 							</div>
 						</div>

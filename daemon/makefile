@@ -117,9 +117,12 @@ list-channels:
 		config=( "${CONFIG_DIR}"/* ); \
 	fi; \
 	for cfg in "$${config[@]}"; do \
-		fn="$$(basename "$$cfg")"; \
-		[[ $$fn == "template" ]] && continue; \
-		(( "$${#config[@]}" > 1 )) && printf "%-50s\n" $$'$(call INFO,'"$$fn"$$')'; \
+		host="$$(basename "$$cfg")"; \
+		[[ $$host == "template" ]] && continue; \
+		if (( "$${#config[@]}" > 1 )); then \
+			remoteHost="$$(grep RemoteHost "$$cfg" | tr -d ' \"' | cut -d '=' -f 2 )"; \
+			printf "\t%-50s%s\n" $$'$(call VALUE,'$$host$$')' $$'$(call INFO,'"$$remoteHost"$$')'; \
+		fi; \
 		source "$${cfg}"; \
 		for i in "$${!ForwardPort[@]}"; do \
 			rule="$$(echo $${ForwardPort[i]} | awk -F '#' '{print $$1}' | sed -e 's/^ *//' -e 's/ *$$//')"; \

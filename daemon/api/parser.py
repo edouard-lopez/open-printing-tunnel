@@ -5,13 +5,13 @@ logger = logging.getLogger(__name__)
 
 
 def list_sites(lines):
-    parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
+    parser = re.compile(r'[\s]*(?P<id>[^\s]+)[\s]*(?P<hostname>[^\n\t]+)')
     response = []
     for line in lines:
-        data = parser.search(line)
+        data = parser.search(line).groupdict()
         response.append({
-            'id': data.group(1),
-            'hostname': data.group(2),
+            'id': data['id'],
+            'hostname': data['hostname'],
         })
 
     return response
@@ -162,8 +162,10 @@ def list_all_printers(lines):
 
     for line in lines:
         if not is_forward_rule(line):
-            site = line
-            response.append({'site': line, 'channels': []})
+            line = list_sites([line])[0]
+            site = line['id']
+            hostname = line['hostname']
+            response.append({'site': site, 'hostname': hostname, 'channels': []})
         else:
             index = find_site(response, site)
             response[index]['channels'].append(forward_rule(line))
