@@ -139,13 +139,6 @@ class Printer(Resource):
         return response, 200 if response['cmd']['exit_status'] else 500
 
 
-class Logs(Resource):
-    def get(self):
-        response = mast_utils.list_logs()
-
-        return response, 200 if response['cmd']['exit_status'] else 500
-
-
 class PrinterInstallScript(Resource):
     # todo: change to post
     def get(self, site_id, printer_id):
@@ -194,7 +187,6 @@ api.add_resource(Site, '/sites/<string:site_id>/')
 api.add_resource(Printers, '/printers/')
 api.add_resource(PrintersGet, '/sites/<string:site_id>/printers/')
 api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
-api.add_resource(Logs, '/logs/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>/')
 
