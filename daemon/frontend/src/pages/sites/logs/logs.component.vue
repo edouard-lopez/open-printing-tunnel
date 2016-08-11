@@ -24,22 +24,6 @@
 				aria-label="Toolbar with button groups">
 				<li class="btn-group" role="group" aria-label="Actions publiques">
 					<button title="Status" role="button"
-							class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
-							aria-label="Lister les canaux"
-							@click="getPrinters()"
-					>
-						<i class="fa fa-print"> </i>
-					</button>
-					<button title="Status" role="button"
-							class="btn btn-warning btn-sm btn-action hide-btn-content hint--top"
-							aria-label="Lister les boitiers"
-							@click="getSites()"
-					>
-						<i class="fa fa-cube"> </i>
-					</button>
-				</li>
-				<li class="btn-group" role="group" aria-label="Actions publiques">
-					<button title="Status" role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top-left"
 							aria-label="Nettoyer le log"
 							@click="stdout=[]"
@@ -59,39 +43,8 @@
 
 <script type="text/ecmascript-6">
 	import logging from 'services/logging.service';
-	import http from 'services/http.service';
-
-	const sites = http('sites', localStorage);
-	const printers = http('printers', localStorage);
 
 	export default {
-		data() {
-			return {
-				data: {
-					'data': [],
-					'success': false
-				},
-				stdout: {}
-			};
-		},
-		methods: {
-			getSites(){
-				sites.all().then((response)=> {
-					this.data = response.data;
-					this.stdout = response.data.results;
-				}).catch(err => {
-					console.error(err)
-				});
-			},
-			getPrinters(){
-				printers.all().then((response)=> {
-					this.data = response.data;
-					this.stdout = response.data.results;
-				}).catch(err => {
-					console.error(err)
-				});
-			},
-		},
 		events: {
 			'log-response': function (response) {
 				if (!Array.isArray(response.results)) {
