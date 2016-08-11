@@ -145,11 +145,13 @@ class PrinterInstallScript(Resource):
         data = scripts.prepare_printer_install_data(site_id, printer, site_host)
         script = scripts.render(filename, data)
 
-        return Response(script,
-                        mimetype='application/bat',
-                        headers={"Content-Disposition": "attachment; filename={}-port-{}-{}.bat"
-                        .format(site_id, printer['listening_port'], printer['description'])}
-                        )
+        return Response(
+            script,
+            mimetype='application/bat',
+            headers={"Content-Disposition": "attachment; filename={}-port-{}-{}.bat".format(site_id,
+                                                                                            printer['listening_port'],
+                                                                                            printer['description'])}
+        )
 
 
 class SiteInstallScript(Resource):
