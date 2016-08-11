@@ -81,7 +81,8 @@ def start(lines, id):
     response = {'id': id}
 
     if 'ForwardPort array' in lines[0]:
-        response['status'] = 'no channels'
+        response['status'] = 'empty'
+        response['help'] = 'no channels'
     else:
         state = detect_start_state(lines[2])
         if state == 'done':
@@ -123,11 +124,7 @@ def stop(lines, id):
     response = {'id': id}
 
     state = detect_stop_state(lines[1])
-    if state == 'done' or state == 'skipped':
-        response['status'] = 'stopped'
-    elif state == 'failed':
-        response['status'] = 'stopped'
-
+    response['status'] = state
     response['pid'] = stop_get_site_pid(lines[1])
 
     return response
@@ -154,11 +151,9 @@ def restart(lines, id):
 
     last_line = lines[-1]
     restarting_line = lines[1]
-    print(last_line)
     state = detect_stop_state(restarting_line)
 
     response['status'] = 'restarted' if state == 'done' else state
-
     response['pid'] = start_get_site_pid(last_line)
 
     return response
