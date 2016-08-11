@@ -151,7 +151,7 @@ def forward_rule(line):
 
 def list_printers(lines, site):
     response = {
-        'site': site,
+        'id': site,
         'channels': list_channels(lines, site)
     }
     return response
@@ -184,7 +184,7 @@ def list_channels(lines, printer):
 
 def find_site(response, id):
     for i, host in enumerate(response):
-        if host['site'] == id:
+        if host['id'] == id:
             return i
 
 

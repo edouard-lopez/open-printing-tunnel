@@ -221,7 +221,7 @@ class ParserTestCase(unittest.TestCase):
         response = parser.list_all_printers(stdout)
 
         self.assertEqual(len(response), 2)
-        self.assertEqual(response[0]['site'], '3W')
+        self.assertEqual(response[0]['id'], '3W')
         self.assertEqual(response[0]['hostname'], '10.100.7.49')
         self.assertListEqual(response[0]['channels'], [
             {
@@ -237,7 +237,7 @@ class ParserTestCase(unittest.TestCase):
                 'description': 'Ricoh Aficio MPC300'
             },
         ])
-        self.assertEqual(response[1]['site'], 'Akema')
+        self.assertEqual(response[1]['id'], 'Akema')
         self.assertEqual(response[1]['hostname'], '88.116.12.46')
         self.assertListEqual(response[1]['channels'], [
             {
@@ -267,11 +267,11 @@ class ParserTestCase(unittest.TestCase):
         self.assertListEqual(response[0]['channels'], [])
 
     def test_get_site_dict(self):
-        response = [{'site': '3W'}, {'site': 'Akema'}]
+        response = [{'id': '3W'}, {'id': 'Akema'}]
 
         index = parser.find_site(response, 'Akema')
 
-        self.assertDictEqual(response[index], {'site': 'Akema'})
+        self.assertDictEqual(response[index], {'id': 'Akema'})
 
     def test_parse_a_printer_s_channels(self):
         stdout = [
@@ -315,7 +315,7 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertEqual(len(response), 2)
         self.assertDictEqual(response, {
-            'site': '3W',
+            'id': '3W',
             'channels': [
                 {
                     'id': 0,
