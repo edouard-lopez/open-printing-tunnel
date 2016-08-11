@@ -7,6 +7,7 @@ def execute(command):
         stdout = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8').splitlines()
         response = {
             'cmd': {
+                'command': " ".join(command),
                 'raw': stdout,
                 'exit_status': True
             }
