@@ -1,4 +1,4 @@
-FROM python:3.5.2
+FROM python:3.5
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
