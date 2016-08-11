@@ -47,7 +47,8 @@
 <script type="text/ecmascript-6">
 	import http from 'services/http.service';
 	import logging from 'services/logging.service';
-	import resource from 'pilou';
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
 
 	const sites = http('sites', localStorage);
 
@@ -66,20 +67,27 @@
 				this.formSubmitted = true;
 
 				sites.create(this.site).then(() => {
-							$('#site-modal').modal('hide');
-							this.formSubmitted = false;
-						})
-						.catch(() => {
-							console.log(err);
-							this.formSubmitted = false;
-							logging.error('Impossible d\'ajouter le site');
-						});
+					$('#site-modal').modal('hide');
+					this.formSubmitted = false;
+					this.getSites()
+				}).catch(() => {
+					console.log(err);
+					this.formSubmitted = false;
+					logging.error('Impossible d\'ajouter le site');
+				});
 			}
-
 		},
 		computed: {
 			formIsValid(){
 				return !!(this.site.id && this.site.hostname && !this.formSubmitted);
+			}
+		},
+		vuex: {
+			actions: {
+				getSites: actions.getSites,
+			},
+			getters: {
+				sites: getters.retrieveSites
 			}
 		}
 	};

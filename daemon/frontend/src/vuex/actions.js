@@ -1,8 +1,18 @@
-import resource from 'pilou';
+import http from 'services/http.service';
 import logging from '../services/logging.service';
-const printers = resource('printers', {get: '/api/sites/${site_id}/${resource}/'});
+
+const sites = http('sites', localStorage);
+const printers = http('printers', localStorage);
 
 export default {
+	getSites({dispatch}) {
+		sites.all().then((response) => {
+			dispatch('setSites', response.data.results);
+		}).catch(() => {
+			this.no_site_message = 'there is no site';
+			logging.error(this.$t('sites.get.failed'))
+		});
+	},
 	getPrinters({dispatch}, siteId) {
 		printers.get({site_id: siteId}).then(response => {
 			dispatch('setPrinters', response.data.site, response.data.results.channels);

@@ -60,16 +60,6 @@
 			'add-site-button': AddSiteButtonComponent,
 			'logs': LogsComponent,
 		},
-		methods: {
-			getSites() {
-				sites.all().then((response) => {
-					this.setSites(response.data.results);
-				}).catch(() => {
-					this.no_site_message = 'there is no site';
-					logging.error(this.$t('sites.get.failed'))
-				});
-			}
-		},
 		events: {
 			'log-response': function (message) {
 				this.$broadcast('log-response', message);
@@ -77,7 +67,7 @@
 		},
 		vuex: {
 			actions: {
-				setSites: actions.setSites,
+				getSites: actions.getSites,
 			},
 			getters: {
 				sites: getters.retrieveSites
