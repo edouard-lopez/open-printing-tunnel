@@ -13,9 +13,10 @@
 			</div>
 			<div id="site-{{site.id}}" class="panel-collapse collapse in" role="tabpanel"
 				 aria-labelledby="site-{{site.hostname}}">
-				<div v-for="printer in printersList">
+				<div v-for="printer in printers">
 					<printer :printer="printer" :site="site"></printer>
 				</div>
+				
 				<div class="text-xs-center">
 					<add-printer-button :boitier="site" label="Ajouter une imprimante"></add-printer-button>
 					<add-printers-button :boitier="site" label="Ajouter des imprimantes"></add-printers-button>
@@ -35,14 +36,9 @@
 	import getters from '../../vuex/getters';
 	import logging from '../../services/logging.service';
 
-import sitesService from '../../services/sites.service';
+	import sitesService from '../../services/sites.service';
 
 	export default{
-		data(){
-			return {
-				printersList: []
-			}
-		},
 		props: {
 			site: {
 				type: Object,
@@ -55,18 +51,10 @@ import sitesService from '../../services/sites.service';
 			'printer': PrinterComponent,
 			'heading': HeadingComponent,
 		},
-		created() { this.getPrinters(this.site.id); },
-		computed: {
-			printersList() {
-				var index = sitesService.getIndex(this.sitesList, this.site.id);
-				return this.sitesList[index].printers
-			}
-		},
-		vuex: {
-			actions: { getPrinters: actions.getPrinters,},
-			getters: { sitesList: getters.retrieveSites}
+		computed() {
+			this.printers = this.site.channels;
 		}
-	}
+ 	}
 
 
 </script>

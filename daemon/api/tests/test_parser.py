@@ -262,7 +262,7 @@ class ParserTestCase(unittest.TestCase):
         response = parser.list_all_printers(stdout)
 
         self.assertEqual(len(response), 1)
-        self.assertEqual(response[0]['site'], 'akema')
+        self.assertEqual(response[0]['id'], 'akema')
         self.assertEqual(response[0]['hostname'], '192.168.2.231')
         self.assertListEqual(response[0]['channels'], [])
 

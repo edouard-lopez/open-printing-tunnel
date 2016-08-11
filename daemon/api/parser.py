@@ -165,7 +165,7 @@ def list_all_printers(lines):
             line = list_sites([line])[0]
             site = line['id']
             hostname = line['hostname']
-            response.append({'site': site, 'hostname': hostname, 'channels': []})
+            response.append({'id': site, 'hostname': hostname, 'channels': []})
         else:
             index = find_site(response, site)
             response[index]['channels'].append(forward_rule(line))
