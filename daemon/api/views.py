@@ -89,9 +89,7 @@ class Site(Resource):
 
         site_id = slugify(site_id)
         response = mast_utils.remove_site(site_id)
-        response = response.update({
-            'id': site_id,
-        })
+        response['id'] = site_id
 
         return response, 200 if response['cmd']['exit_status'] else 500
 
