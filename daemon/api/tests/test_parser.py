@@ -190,24 +190,20 @@ class ParserTestCase(unittest.TestCase):
         rule3 = parser.forward_rule(line3)
 
         self.assertDictEqual(rule1, {
-            'id': 0, 'forward': 'normal',
-            'listening_port': 9102,
-            'destination_port': 9100,
+            'id': 0,
+            'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
             'hostname': '10.100.7.48',
             'description': 'Samsung ML3710'
         })
         self.assertDictEqual(rule2, {
-            'id': 1, 'forward': 'normal',
-            'listening_port': 9103,
-            'destination_port': 9100,
+            'id': 1,
+            'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
             'hostname': '10.100.7.47',
             'description': 'Ricoh Aficio MPC300'
         })
         self.assertDictEqual(rule3, {
             'id': 0,
-            'forward': 'reverse',
-            'listening_port': 22,
-            'destination_port': 22,
+            'ports': {'forward': 'local', 'listen': 22, 'send': 22},
             'hostname': 'localhost',
             'description': 'Revers forward for use ssh git.coaxis.com at home'
         })
@@ -225,48 +221,31 @@ class ParserTestCase(unittest.TestCase):
         response = parser.list_all_printers(stdout)
 
         self.assertEqual(len(response), 2)
-        self.assertListEqual(response, [
+        self.assertEqual(response[0]['site'], '3W')
+        self.assertListEqual(response[0]['channels'], [
             {
-                'site': '3W',
-                'channels': [
-                    {
-                        'id': 0,
-                        'forward': 'normal',
-                        'listening_port': 9102,
-                        'destination_port': 9100,
-                        'hostname': '10.100.7.48',
-                        'description': 'Samsung ML3710'
-                    },
-                    {
-                        'id': 1,
-                        'forward': 'normal',
-                        'listening_port': 9103,
-                        'destination_port': 9100,
-                        'hostname': '10.100.7.47',
-                        'description': 'Ricoh Aficio MPC300'
-                    },
-                ]
+                'id': 0,
+                'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
+                'description': 'Samsung ML3710'
             },
             {
-                'site': 'Akema',
-                'channels': [
-                    {
-                        'id': 0,
-                        'forward': 'reverse',
-                        'listening_port': 22,
-                        'destination_port': 22,
-                        'hostname': 'localhost',
-                        'description': 'Revers forward for use ssh git.coaxis.com at home'
-                    },
-                    {
-                        'id': 3,
-                        'forward': 'reverse',
-                        'listening_port': 3389,
-                        'destination_port': 3389,
-                        'hostname': '10.48.50.7',
-                        'description': 'PC maison'
-                    }
-                ]
+                'id': 1,
+                'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
+                'description': 'Ricoh Aficio MPC300'
+            },
+        ])
+        self.assertEqual(response[1]['site'], 'Akema')
+        self.assertListEqual(response[1]['channels'], [
+            {
+                'id': 0,
+                'hostname': 'localhost',
+                'ports': {'forward': 'local', 'listen': 22, 'send': 22},
+                'description': 'Revers forward for use ssh git.coaxis.com at home'
+            },
+            {
+                'id': 3,
+                'ports': {'forward': 'local', 'listen': 3389, 'send': 3389},
+                'description': 'PC maison'
             }
         ])
 
@@ -289,17 +268,13 @@ class ParserTestCase(unittest.TestCase):
         self.assertListEqual(channels, [
             {
                 'id': 0,
-                'forward': 'normal',
-                'listening_port': 9102,
-                'destination_port': 9100,
+                'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
                 'hostname': '10.100.7.48',
                 'description': 'Samsung ML3710'
             },
             {
                 'id': 1,
-                'forward': 'normal',
-                'listening_port': 9103,
-                'destination_port': 9100,
+                'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
                 'hostname': '10.100.7.47',
                 'description': 'Ricoh Aficio MPC300'
             },
@@ -327,17 +302,13 @@ class ParserTestCase(unittest.TestCase):
             'channels': [
                 {
                     'id': 0,
-                    'forward': 'normal',
-                    'listening_port': 9102,
-                    'destination_port': 9100,
+                    'ports': {'forward': 'remote', 'listen': 9102, 'send': 9100},
                     'hostname': '10.100.7.48',
                     'description': 'Samsung ML3710'
                 },
                 {
                     'id': 1,
-                    'forward': 'normal',
-                    'listening_port': 9103,
-                    'destination_port': 9100,
+                    'ports': {'forward': 'remote', 'listen': 9103, 'send': 9100},
                     'hostname': '10.100.7.47',
                     'description': 'Ricoh Aficio MPC300'
                 },
@@ -354,12 +325,11 @@ class ParserTestCase(unittest.TestCase):
 
         self.assertDictEqual(response, {
             'id': -1,
-            'forward': 'normal',
-            'listening_port': 9104,
-            'destination_port': 9100,
+            'ports': {'forward': 'remote', 'listen': 9104, 'send': 9100},
             'hostname': '6.7.8.9',
             'description': 'Ricoh Aficio MPC300\tadded'
         })
+
 
 if __name__ == '__main__':
     unittest.main()

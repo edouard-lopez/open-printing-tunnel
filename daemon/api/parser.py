@@ -135,14 +135,16 @@ def forward_rule(line):
     fields = line.split()
     rule = fields[1].split(':')
     description = line.split('#')[1].strip()
-    forward = 'normal' if fields[0] == 'L' else 'reverse'
+    forward = 'remote' if fields[0] == 'L' else 'local'
 
     return {
         'id': int(fields[2]) if fields[2] != '#' else -1,
-        'forward': forward,
-        'listening_port': int(rule[1]),
+        'ports': {
+            'forward': forward,
+            'listen': int(rule[1]),
+            'send': int(rule[3]),
+        },
         'hostname': rule[2],
-        'destination_port': int(rule[3]),
         'description': description
     }
 
