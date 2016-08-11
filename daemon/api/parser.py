@@ -18,18 +18,22 @@ def list_sites(lines):
 
 
 def status(lines, id=None):
+    response = []
+
     for line in lines:
         state = detect_status_state(line)
         if state == 'on':
-            return status_is_on(lines)
+            response = status_is_on(lines)
         elif state == 'off':
-            return status_is_off(lines)
+            response = status_is_off(lines)
 
+    return response
 
 def detect_status_state(line):
     parser = re.compile(r'\s*(?P<state>on(?=\s+pid)|off(?=\s+))')
 
-    state = parser.search(line).group(1)
+    data = parser.search(line).groupdict()
+    state = data['state']
     return state
 
 
@@ -38,25 +42,25 @@ def status_is_on(lines):
         r'\s*(?P<id>\w+):autossh\s+(?P<state>on)\s+pid:\s+(?P<pid>[\d]+).*uptime:\s+(?P<uptime>[\d\-:]+)')
     response = []
     for line in lines:
-        data = parser.search(line)
+        data = parser.search(line).groupdict()
         response.append({
-            'id': data.group(1),
-            'state': data.group(2),
-            'pid': int(data.group(3)),
-            'uptime': data.group(4),
+            'id': data['id'],
+            'state': data['state'],
+            'pid': int(data['pid']),
+            'uptime': data['uptime'],
         })
         return response
 
 
 def status_is_off(lines):
-    parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<status>[^\s]+)[\s]*(?P<help>[^\n\t]+)')
+    parser = re.compile(r'[\t]*(?P<id>[^\s]+)[\s]*(?P<state>[^\s]+)[\s]*(?P<help>[^\n\t]+)')
     response = []
     for line in lines:
-        data = parser.search(line)
+        data = parser.search(line).groupdict()
         response.append({
-            'id': data.group(1),
-            'state': data.group(2),
-            'help': data.group(3),
+            'id': data['id'],
+            'state': data['state'],
+            'help': data['help'],
         })
 
     return response
@@ -82,16 +86,18 @@ def start(lines, id):
 def detect_start_state(line):
     parser = re.compile(r'\s*(?P<state>done(?=\s+pid)|failed(?=\s+empty))')
 
-    state = parser.search(line).group(1)
+    data = parser.search(line).groupdict()
+    state = data['state']
     return state
 
 
 def start_get_site_pid(line):
     parser = re.compile(r'(?P<pid>\d+$)')
 
-    pid = parser.search(line).group(1)
+    data = parser.search(line).groupdict()
+    pid = int(data['pid'])
 
-    return int(pid)
+    return pid
 
 
 def stop(lines, id):
@@ -115,7 +121,8 @@ def stop_get_site_pid(line):
 def detect_stop_state(line):
     parser = re.compile(r'\s*(?P<state>skipped(?=\s+already)|done(?=\s+pid)|failed(?=\s+empty))')
 
-    state = parser.search(line).group(1)
+    data = parser.search(line).groupdict()
+    state = data['state']
     return state
 
 
