@@ -17,7 +17,7 @@ def pop_new_container(data, docker_client=None):
         image=image_name,
         hostname=data.get('hostname'),
         ports=[80, 5000],
-        host_config=docker_api.create_host_config(port_bindings={80: 80, 5000: 5000}),
+        host_config=docker_api.create_host_config(port_bindings={80: 80}),
         networking_config=get_network_config(data, docker_client)
     )
     docker_api.start(container=container.get('Id'))
