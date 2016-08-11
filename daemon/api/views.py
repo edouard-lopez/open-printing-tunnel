@@ -1,5 +1,6 @@
 import logging
 
+import sys
 from flask import Flask
 from flask import Response
 from flask import request
@@ -15,6 +16,20 @@ app = Flask(__name__)
 api = Api(app, prefix='/api')
 
 logger = logging.getLogger(__name__)
+
+
+def configure_logging():
+    root = logging.getLogger()
+    root.setLevel(logging.DEBUG)
+
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    root.addHandler(ch)
+
+
+configure_logging()
 
 if not app.debug:
     app.logger.addHandler(logging.StreamHandler())
