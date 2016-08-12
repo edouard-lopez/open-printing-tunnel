@@ -6,19 +6,22 @@
 <template>
 	<div class="row">
 		<div class="col-md-6 expandable"
-			 data-toggle="collapse"
-			 aria-expanded="false"
-			 aria-controls="site-{{site.id}}"
-			 data-target="#site-{{site.id}}"
 		>
 			<span class="hint--top-right" aria-label="Tooltip on top">
 				<i class="tunnel-status fa fa-check text-muted"> </i>
 			</span>
-			<span class="tunnel-name">
+			<span class="tunnel-name"
+				  data-toggle="collapse"
+				  aria-expanded="false"
+				  aria-controls="site-{{site.id}}"
+				  data-target="#site-{{site.id}}"
+			>
 				<b>{{site.id}}</b>
 			</span>
 			<span class="divider"> – </span>
-			<span class="tunnel-fqdn text-muted">{{site.hostname}}</span>
+			<a href="//{{site.hostname}}" class="tunnel-fqdn" target="_blank">
+				{{site.hostname}}
+			</a>
 		</div>
 		<div class="col-md-6">
 			<ul class="btn-toolbar" role="toolbar"
