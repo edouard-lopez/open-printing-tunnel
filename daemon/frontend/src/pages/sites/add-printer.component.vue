@@ -60,11 +60,13 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import actions from '../../vuex/actions';
-	import logging from '../../services/logging.service';
-	import resource from 'pilou';
+	import http from 'services/http.service';
+	import logging from 'services/logging.service';
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
 
-	const printers = resource('printers', {create: '/api/${resource}/'});
+	const printers = http('printers', localStorage);
+
 
 	export default {
 		data() {
@@ -77,10 +79,10 @@
 			};
 		},
 		created() {
-			this.printer.site = this.boitier.id
+			this.printer.site = this.site.id
 		},
 		props: {
-			boitier: {
+			site: {
 				type: Object,
 				required: true
 			},
@@ -92,9 +94,7 @@
 				this.formSubmitted = true;
 
 				printers.create(this.printer).then((response) => {
-					response.data.results['site'] = response.data.site;
-					this.getPrinters(response.data.site);
-
+					this.getSites();
 					$('#printer-modal-' + response.data.site).modal('hide');
 					this.formSubmitted = false;
 				}).catch((err) => {
@@ -115,8 +115,8 @@
 		},
 		vuex: {
 			actions: {
-				getPrinters: actions.getPrinters,
-			}
+				getSites: actions.getSites,
+			},
 		}
 	};
 </script>

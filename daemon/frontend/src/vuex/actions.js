@@ -24,9 +24,6 @@ export default {
 	setSites({dispatch}, sites) {
 		dispatch('setSites', sites);
 	},
-	// insertSite({dispatch}, site) {
-	// 	dispatch('insertSite', site);
-	// },
 	removeSite({dispatch}, site) {
 		dispatch('removeSite', site);
 	},

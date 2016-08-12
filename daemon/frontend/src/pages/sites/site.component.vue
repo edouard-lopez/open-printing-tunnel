@@ -18,8 +18,8 @@
 				</div>
 
 				<div class="text-xs-center">
-					<add-printer-button :boitier="site" label="Ajouter une imprimante"></add-printer-button>
-					<add-printers-button :boitier="site" label="Ajouter des imprimantes"></add-printers-button>
+					<add-printer-button :site="site" label="Ajouter une imprimante"></add-printer-button>
+					<add-printers-button :site="site" label="Ajouter des imprimantes"></add-printers-button>
 				</div>
 				<br>
 			</div>
@@ -49,12 +49,12 @@
 			'add-printer-button': AddPrinterButtonComponent,
 			'add-printers-button': AddPrintersButtonComponent,
 			'printer': PrinterComponent,
-			'heading': HeadingComponent,
+			'heading': HeadingComponent
 		},
-		computed() {
-			this.printers = this.site.channels;
+		computed: {
+			printers: function() { return this.site.channels; }
 		}
- 	}
+	}
 
 
 </script>

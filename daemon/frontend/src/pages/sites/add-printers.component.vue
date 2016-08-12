@@ -23,7 +23,7 @@
 				<form @submit="addPrinters()">
 					<div class="modal-body">
 						<fieldset class="form-group">
-							<label for="siteName">Nom du boîtier<span class="text-danger">*</span></label>
+							<label for="siteName">Nom du site<span class="text-danger">*</span></label>
 
 							<input type="text" disabled class="form-control" id="siteName" v-model="printers.siteName"/>
 						</fieldset>
@@ -64,10 +64,10 @@
 			};
 		},
 		created() {
-			this.printers.siteName = this.boitier.id
+			this.printers.siteName = this.site.id
 		},
 		props: {
-			boitier: {
+			site: {
 				type: Object,
 				required: true
 			},

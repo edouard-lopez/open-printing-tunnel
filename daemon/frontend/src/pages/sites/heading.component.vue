@@ -66,7 +66,7 @@
 					>
 						<i class="fa fa-info"> </i>
 					</button>
-					<add-printer-button :boitier="site" class="btn-sm"></add-printer-button>
+					<add-printer-button :site="site" class="btn-sm"></add-printer-button>
 					<button aria-label="Ajouter des *canaux* par lot"
 							role="button"
 							class="btn btn-primary btn-sm btn-action hide-btn-content hint--top"
@@ -74,7 +74,7 @@
 					>
 						<i class="fa fa-print"> </i>
 					</button>
-					<button v-if="has_printers()" aria-label="script d'installation d'imprimante"
+					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
 							@click="link(site.id)"
@@ -109,11 +109,13 @@
 			site: {
 				type: Object,
 				required: true,
-				default:{}
+				default: {}
 			},
 		},
 		computed: {
-			has_printers: function() { return this.site.channels.length > 0;}
+			has_printers: function () {
+				return this.site.channels.length > 0;
+			}
 		},
 		methods: {
 			status(site_id) {
