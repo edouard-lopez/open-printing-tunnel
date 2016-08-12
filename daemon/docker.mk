@@ -24,6 +24,7 @@ dev:
 		-v "$$(pwd)"/api:/api \
 		-v "$$(pwd)"/frontend:/frontend \
 		-v node_modules:/frontend/node_modules \
+		-v mast:/etc/mast \
 		coaxisopt_daemon:latest \
 		/usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
 
