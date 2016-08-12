@@ -104,7 +104,7 @@ class Printers(Resource):
         description = request.json['description']
         if validators.is_valid_host(hostname):
             response = mast_utils.add_printer(site, hostname, description)
-            response = response.update({
+            response.update({
                 'site': site,
                 'hostname': hostname,
                 'description': description,
@@ -121,7 +121,7 @@ class Printer(Resource):
 
         site_id = slugify(site_id)
         response = mast_utils.remove_printer(site_id, printer_id)
-        response = response.update({
+        response.update({
             'site': site_id,
             'id': printer_id,
         })
