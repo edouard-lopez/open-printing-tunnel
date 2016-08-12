@@ -68,10 +68,11 @@ class DaemonsViewSet(viewsets.ModelViewSet):
             "hostname": request.data.get('hostname'),
             "client_id": request.data.get('client_id')
         }
+        data_without_empty_value = dict((k, v) for k, v in data.items() if v)
         try:
-            container = container_services.pop_new_container(data, docker_api)
-            data['container_id'] = container.get('Id')
-            models.Daemon.objects.create(**data)
+            container = container_services.pop_new_container(data_without_empty_value, docker_api)
+            data_without_empty_value['container_id'] = container.get('Id')
+            models.Daemon.objects.create(**data_without_empty_value)
         except Exception as e:
             logger.exception(e)
             raise ValidationError(str(e))

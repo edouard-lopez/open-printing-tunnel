@@ -44,16 +44,16 @@
 									   placeholder="10.0.0.1" v-model="daemon.ip"/>
 							</fieldset>
 							<fieldset class="form-group">
-								<label for="vlanId">VLAN Id <span class="text-danger">*</span></label>
-
-								<input type="text" class="form-control" id="vlanId" required
-									   placeholder="100" v-model="daemon.vlan"/>
-							</fieldset>
-							<fieldset class="form-group">
 								<label for="hostname">Hostname <span class="text-danger">*</span></label>
 
 								<input type="url" class="form-control" id="hostname"
 									   placeholder="Hostname" v-model="daemon.hostname"/>
+							</fieldset>
+							<fieldset class="form-group">
+								<label for="vlanId">VLAN Id</label>
+
+								<input type="number" class="form-control" id="vlanId" placeholder="100"
+									   max="4094" min="1" v-model="daemon.vlan"/>
 							</fieldset>
 							<div class="alert alert-danger" role="alert" v-if="error_message">
 								{{error_message}}
@@ -126,7 +126,6 @@
 				return !!(this.daemon.ip
 				&& this.daemon.subnet
 				&& this.daemon.gateway
-				&& this.daemon.vlan
 				&& this.daemon.hostname
 				&& this.daemon.client_id
 				&& !this.formSubmitted);

@@ -1,5 +1,6 @@
 import docker
 import docker.errors
+from django.conf import settings
 
 from rest_framework.test import APITestCase
 
@@ -29,6 +30,26 @@ class ContainersTestCase(APITestCase):
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
         self.assertEqual('macvlan', self.docker_api.inspect_network(network.get('Id'))['Driver'])
+        self.docker_api.remove_network(network.get('Id'))
+
+    def test_network_use_custom_parent_interface_if_vlan_id(self):
+        network = container_services.create_network(data={'client_id': str(self.client.id),
+                                                          'subnet': '10.48.0.0/16',
+                                                          'vlan': 100,
+                                                          'gateway': '10.48.0.200'},
+                                                    docker_client=self.docker_api)
+        self.assertEqual('%s.100' % settings.DEFAULT_INTERFACE,
+                         self.docker_api.inspect_network(network.get('Id'))['Options']['parent'])
+        self.docker_api.remove_network(network.get('Id'))
+
+    def test_network_use_custom_parent_interface_if_not_vlan_id(self):
+        network = container_services.create_network(data={'client_id': str(self.client.id),
+                                                          'subnet': '10.48.0.0/16',
+                                                          'vlan': 0,
+                                                          'gateway': '10.48.0.200'},
+                                                    docker_client=self.docker_api)
+        self.assertEqual(settings.DEFAULT_INTERFACE,
+                         self.docker_api.inspect_network(network.get('Id'))['Options']['parent'])
         self.docker_api.remove_network(network.get('Id'))
 
     def test_create_existing_network_return_old_network(self):

@@ -44,6 +44,15 @@ def destroy(container_id):
         return docker_api.remove_container(container_id)
 
 
+def get_default_interface(data):
+    default_interface = settings.DEFAULT_INTERFACE
+    vlan = data.get('vlan')
+    logger.debug(data)
+    if vlan:
+        return '{interface}.{vlan_id}'.format(interface=default_interface, vlan_id=data.get('vlan'))
+    return default_interface
+
+
 def create_network(data, docker_client):
     network_name = "opt_network_%s" % data.get('client_id')[:6]
     for network in docker_client.networks():
@@ -56,7 +65,7 @@ def create_network(data, docker_client):
         network = docker_client.create_network(network_name,
                                                driver="macvlan",
                                                ipam=ipam_config,
-                                               options={"parent": settings.DEFAULT_INTERFACE})
+                                               options={"parent": get_default_interface(data)})
         return network
     except Exception as e:
         logger.exception(e)
