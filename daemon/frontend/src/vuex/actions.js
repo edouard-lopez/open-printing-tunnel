@@ -11,7 +11,7 @@ export default {
 			dispatch('setSites', response.data.results);
 		}).catch(() => {
 			this.no_site_message = 'there is no site';
-			logging.error('Échec de la récupération des sites')
+			logging.error('Échec de la récupération des sites.');
 		});
 	},
 	getPrinters({dispatch}, siteId) {
@@ -19,18 +19,29 @@ export default {
 			dispatch('setPrinters', response.data.site, response.data.results.channels);
 		}).catch(err => {
 			console.error(err);
-			logging.error('Échec de la récupération des imprimantes');
+			logging.error('Échec de la récupération des imprimantes.');
 		});
 	},
 	getPrinterScript({dispatch}, siteId, printerId)  {
-		console.log('action: getPrinterScript', printerId);
 		scripts.get(
 			{site_id: siteId, printer_id: printerId},
-			{url: '/api/${resource}/${site_id}/printers/${printer_id}/'}).then(response => {
-				console.log(response)
-		}).catch(err => {
-			console.error(err);
-			logging.error('Échec du téléchargement du script');
+			{url: '/api/${resource}/${site_id}/printers/${printer_id}/'})
+			.then(response => {
+				logging.success('Génération du script réussi.');
+				dispatch('saveFile', response);
+			})
+			.catch(err => {
+				console.error(err);
+				logging.error('Échec de la génération du script.');
+			});
+	},
+	getSiteScript({dispatch}, site_id) {
+		scripts.get({id: site_id}).then((response) => {
+			dispatch('saveFile', response);
+			logging.success('Génération du script réussi.');
+		}).catch((err) => {
+			console.log('deletion failed', err);
+			logging.error('Échec de la génération du script.');
 		});
 	},
 	setSites({dispatch}, sites) {

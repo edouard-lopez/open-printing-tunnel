@@ -35,7 +35,7 @@
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-sm btn-link btn-action hide-btn-content hint--top"
-							@click="getScript(site.id, printer.id)"
+							@click="getPrinterScript(site.id, printer.id)"
 					>
 						<i class="fa fa-file-o"> </i>
 					</button>
@@ -83,7 +83,7 @@
 		vuex: {
 			actions: {
 				removePrinter: actions.removePrinter,
-				getScript: actions.getPrinterScript,
+				getPrinterScript: actions.getPrinterScript,
 			},
 		}
 	}

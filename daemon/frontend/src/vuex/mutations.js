@@ -1,5 +1,7 @@
 import sitesService from '../services/sites.service';
 import printersService from '../services/printers.service';
+import FileSaver from 'file-saver';
+
 
 export default {
 	setSites(state, sites) {
@@ -20,5 +22,12 @@ export default {
 	},
 	removePrinter(state, printer) {
 		printersService.remove(state.sites[printer.site].printers, printer);
-	}
+	},
+	saveFile({dispatch}, response) {
+		var filename = response.headers['content-disposition'].split('=')[1];
+		console.log('saving: ', filename);
+		var blob = new Blob([response.data], {type: response.headers['content-type']});
+		FileSaver.saveAs(blob, filename);
+	},
+
 };

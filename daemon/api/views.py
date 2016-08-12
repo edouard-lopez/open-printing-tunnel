@@ -130,11 +130,7 @@ class Printer(Resource):
 
 
 class PrinterInstallScript(Resource):
-    # todo: change to post
     def get(self, site_id, printer_id):
-        if not site_id or not printer_id:
-            abort(400)
-
         filename = 'printer.bat.j2'
         site_host = request.headers['Host']
 
@@ -146,9 +142,12 @@ class PrinterInstallScript(Resource):
         return Response(
             script,
             mimetype='application/bat',
-            headers={"Content-Disposition": "attachment; filename={}-port-{}-{}.bat".format(site_id,
-                                                                                            printer['listening_port'],
-                                                                                            printer['description'])}
+            headers={"Content-Disposition": "attachment; filename={}-port-{}-{}.bat".format(
+                site_id,
+                printer['ports']['listen'],
+                printer['description']
+            )
+            }
         )
 
 
@@ -164,9 +163,11 @@ class SiteInstallScript(Resource):
         data = scripts.prepare_site_install_data(site_id, printers, site_host)
         script = scripts.render(filename, {'sites': data})
 
-        return Response(script,
-                        mimetype='application/bat',
-                        headers={"Content-Disposition": "attachment; filename={}.bat".format(site_id)})
+        return Response(
+            script,
+            mimetype='application/bat',
+            headers={"Content-Disposition": "attachment; filename={}.bat".format(site_id)}
+        )
 
 
 api.add_resource(Root, '/')

@@ -80,7 +80,7 @@
 					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-link btn-sm btn-action hide-btn-content hint--top"
-							@click="getScript(site.id)"
+							@click="getSiteScript(site.id)"
 					>
 						<i class="fa fa-file-o"> </i>
 					</button>
@@ -94,7 +94,6 @@
 	import DeleteButton from 'components/delete-button';
 
 	import http from 'services/http.service';
-	import FileSaver from 'file-saver';
 	import actions from '../../vuex/actions';
 	import logging from '../../services/logging.service';
 
@@ -157,17 +156,6 @@
 					logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
 				});
 			},
-			getScript(site_id) {
-				scripts.get({id: site_id}).then((response) => {
-					var filename = response.headers['content-disposition'].split('=')[1];
-					var blob = new Blob([response.data], {type: response.headers['content-type']});
-					FileSaver.saveAs(blob, filename);
-					logging.success(this.$t('scripts.creation.succeed'));
-				}).catch((err) => {
-					console.log('deletion failed', err);
-					logging.error(this.$t('scripts.creation.failed'))
-				});
-			}
 		},
 		events: {
 			delete_site(daemon) {
@@ -177,6 +165,7 @@
 		vuex: {
 			actions: {
 				getSites: actions.getSites,
+				getSiteScript: actions.getSiteScript,
 				removeSite: actions.removeSite,
 			}
 		}

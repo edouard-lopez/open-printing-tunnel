@@ -17,11 +17,13 @@ const state = {
         printers: [
             {
                 description: "bureau",
-                destination_port: 9100,
-                forward: "normal",
-                hostname: "1.2.3.4",
                 id: 0,
-                listening_port: 9102
+				hostname: "1.2.3.4",
+                ports: {
+					forward: "remote",
+					listen: 9102
+                	send: 9100,
+                }
             }
         ]
     }
