@@ -81,20 +81,19 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    form = opt_forms.CompanyForm  # https://www.lasolution.be/blog/related-manytomanyfield-django-admin-site.html
+    form = opt_forms.CompanyForm
 
-    list_display = ('id', 'user', 'is_technician', '_company')
+    list_display = ('id', 'user', 'is_technician', '_client')
     ordering = ('user',)
     fieldsets = (
-        (None, {'fields': ('user', 'is_technician', 'companies')}),
+        (None, {'fields': ('user', 'is_technician', 'clients')}),
     )
 
-    def _company(self, instance):
-        return ",".join([company.name for company in instance.companies.all()])
+    def _client(self, instance):
+        return ",".join([company.name for company in instance.clients.all()])
 
 
 class DaemonAdmin(admin.ModelAdmin):
-
     list_display = ('id', 'ip', 'subnet', 'gateway', 'vlan', 'hostname',)
     ordering = ('client',)
 
