@@ -11,12 +11,12 @@ logger = logging.getLogger(__name__)
 
 
 def pop_new_container(data, docker_client=None):
-    image_name = 'coaxisopt_daemon'
+    image_name = 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'
     docker_api.pull(image_name)
     container = docker_api.create_container(
         image=image_name,
         hostname=data.get('hostname'),
-        ports=[80, 5000],
+        ports=[80],
         host_config=docker_api.create_host_config(
             port_bindings={80: 80},
             restart_policy={"MaximumRetryCount": 0, "Name": "always"}
