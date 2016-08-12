@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 cd ..
-docker-compose build
+docker-compose -f docker-compose.prod.yml build
+cd daemon
+docker build -t coaxisopt_daemon .
+cd ..
 docker tag coaxisopt_daemon docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest
 docker tag coaxisopt_nginx docker.akema.fr:5000/coaxis/coaxisopt_nginx:latest
 docker tag coaxisopt_frontend docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest
