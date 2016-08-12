@@ -103,7 +103,7 @@ class Printers(Resource):
         hostname = request.json['hostname']
         description = request.json['description']
         if validators.is_valid_host(hostname):
-            response = mast_utils.add_printer(site, hostname)
+            response = mast_utils.add_printer(site, hostname, description)
             response = response.update({
                 'site': site,
                 'hostname': hostname,

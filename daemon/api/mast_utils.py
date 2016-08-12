@@ -1,4 +1,5 @@
 import logging
+import shlex
 
 import output_parser
 import shell
@@ -8,11 +9,11 @@ logger = logging.getLogger(__name__)
 makefile = '/usr/sbin/mast-utils'
 
 
-def add_printer(site, hostname, description=''):
+def add_printer(site, hostname, description=None):
     command = [makefile, 'add-channel',
                'NAME=' + site,
                'PRINTER=' + hostname,
-               'DESC=' + description]
+               'DESC=' + shlex.quote(description)]
     response = shell.execute(command)
     response['results'] = output_parser.add_printer(response['results'])
     return response
@@ -40,8 +41,8 @@ def list_printers(site):
 
 def remove_printer(site, printer_id):
     command = [makefile, 'remove-channel',
-               'ID=' + str(printer_id),
-               'NAME=' + site
+               'NAME=' + site,
+               'ID=' + str(printer_id)
                ]
     return shell.execute(command)
 
