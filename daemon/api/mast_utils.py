@@ -13,7 +13,7 @@ def add_printer(site, hostname, description=None):
     command = [makefile, 'add-channel',
                'NAME=' + site,
                'PRINTER=' + hostname,
-               'DESC=' + shlex.quote(description)]
+               'DESC=' + description]
     response = shell.execute(command)
     response['results'] = output_parser.add_printer(response['results'])
     return response
