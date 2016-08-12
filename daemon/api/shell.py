@@ -22,6 +22,8 @@ def execute(command):
         return response
     except subprocess.CalledProcessError as e:
         stdout = e.output.decode('utf-8').splitlines()
+        logger.debug(" ".join(command))
+
         response = {
             'cmd': {
                 'raw': stdout,
