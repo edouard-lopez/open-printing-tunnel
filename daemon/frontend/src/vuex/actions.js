@@ -3,6 +3,7 @@ import logging from '../services/logging.service';
 
 const sites = http('sites', localStorage);
 const printers = http('printers', localStorage);
+const scripts = http('scripts', localStorage);
 
 export default {
 	getSites({dispatch}) {
@@ -10,7 +11,7 @@ export default {
 			dispatch('setSites', response.data.results);
 		}).catch(() => {
 			this.no_site_message = 'there is no site';
-			logging.error(this.$t('sites.get.failed'))
+			logging.error('Échec de la récupération des sites')
 		});
 	},
 	getPrinters({dispatch}, siteId) {
@@ -18,7 +19,18 @@ export default {
 			dispatch('setPrinters', response.data.site, response.data.results.channels);
 		}).catch(err => {
 			console.error(err);
-			logging.error(this.$t('printers.get.failed'));
+			logging.error('Échec de la récupération des imprimantes');
+		});
+	},
+	getPrinterScript({dispatch}, siteId, printerId)  {
+		console.log('action: getPrinterScript', printerId);
+		scripts.get(
+			{site_id: siteId, printer_id: printerId},
+			{url: '/api/${resource}/${site_id}/printers/${printer_id}/'}).then(response => {
+				console.log(response)
+		}).catch(err => {
+			console.error(err);
+			logging.error('Échec du téléchargement du script');
 		});
 	},
 	setSites({dispatch}, sites) {

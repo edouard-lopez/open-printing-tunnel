@@ -76,10 +76,10 @@
 					</button>
 					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
-							class="btn btn-default btn-sm btn-action hide-btn-content hint--top"
-							@click="link(site.id)"
+							class="btn btn-link btn-sm btn-action hide-btn-content hint--top"
+							@click="getScript(site.id)"
 					>
-						<i class="fa fa-comment"> </i>
+						<i class="fa fa-file-o"> </i>
 					</button>
 				</li>
 			</ul>
@@ -94,7 +94,6 @@
 	import FileSaver from 'file-saver';
 	import actions from '../../vuex/actions';
 	import logging from '../../services/logging.service';
-	import resource from 'pilou';
 
 	const sites = http('sites', localStorage);
 	const scripts = http('scripts', localStorage);
@@ -155,7 +154,7 @@
 					logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
 				});
 			},
-			link(site_id) {
+			getScript(site_id) {
 				scripts.get({id: site_id}).then((response) => {
 					var filename = response.headers['content-disposition'].split('=')[1];
 					var blob = new Blob([response.data], {type: response.headers['content-type']});

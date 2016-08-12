@@ -63,7 +63,6 @@
 	import http from 'services/http.service';
 	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
-	import getters from 'vuex/getters';
 
 	const printers = http('printers', localStorage);
 
