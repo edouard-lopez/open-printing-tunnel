@@ -40,9 +40,11 @@ class TemplateTestCase(unittest.TestCase):
     def test_can_prepare_printer_install_data(self):
         printer = {
             'id': 0,
-            'forward': 'normal',
-            'listening_port': 9102,
-            'destination_port': 9100,
+            'ports': {
+                'forward': 'remote',
+                'listen': 9102,
+                'send': 9100,
+            },
             'hostname': '10.100.7.48',
             'description': 'Samsung ML3710'
         }
@@ -62,17 +64,21 @@ class TemplateTestCase(unittest.TestCase):
         printers = [
             {
                 'id': 0,
-                'forward': 'normal',
-                'listening_port': 9102,
-                'destination_port': 9100,
+                'ports': {
+                    'forward': 'remote',
+                    'listen': 9102,
+                    'send': 9100
+                },
                 'hostname': '10.100.7.48',
                 'description': 'Samsung ML3710'
             },
             {
                 'id': 1,
-                'forward': 'normal',
-                'listening_port': 9103,
-                'destination_port': 9100,
+                'ports': {
+                    'forward': 'remote',
+                    'listen': 9103,
+                    'send': 9100
+                },
                 'hostname': '10.100.7.47',
                 'description': 'Ricoh Aficio MPC300'
             },
@@ -101,17 +107,21 @@ class TemplateTestCase(unittest.TestCase):
         printers = [
             {
                 'id': 0,
-                'forward': 'normal',
-                'listening_port': 9102,
-                'destination_port': 9100,
+                'ports': {
+                    'forward': 'remote',
+                    'listen': 9102,
+                    'send': 9100
+                },
                 'hostname': '10.100.7.48',
                 'description': 'Samsung ML3710'
             },
             {
                 'id': 1,
-                'forward': 'normal',
-                'listening_port': 9103,
-                'destination_port': 9100,
+                'ports': {
+                    'forward': 'remote',
+                    'listen': 9103,
+                    'send': 9100
+                },
                 'hostname': '10.100.7.47',
                 'description': 'Ricoh Aficio MPC300'
             },
@@ -120,9 +130,11 @@ class TemplateTestCase(unittest.TestCase):
 
         self.assertDictEqual(printer, {
             'id': 1,
-            'forward': 'normal',
-            'listening_port': 9103,
-            'destination_port': 9100,
+            'ports': {
+                'forward': 'remote',
+                'listen': 9103,
+                'send': 9100
+            },
             'hostname': '10.100.7.47',
             'description': 'Ricoh Aficio MPC300'
         }, )

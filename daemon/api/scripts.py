@@ -24,7 +24,7 @@ def prepare_site_install_data(site_id, printers, site_host):
 
 def prepare_printer_install_data(site_id, printer, site_host):
     return {
-        'port': printer.get('listening_port'),
+        'port': printer['ports']['listen'],
         'vps': site_host,
         'imp': printer.get('hostname'),
         'name': site_id
