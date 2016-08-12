@@ -1,13 +1,15 @@
 #!/bin/bash
 
-if (( $# < 1 )); then
-  >&2 echo "Usage: source send_archive.sh opt-vX.X.X.zip [hostname]"
-  exit 1
-fi
+echo "Usage: ./send_archive.sh [USER@HOSTNAME] [SSH_PORT]"
 
-FILENAME="$1"
-SERVER_IP="${2:-192.168.2.231}"
-echo "send archive on the server"
-scp -P 2222 $FILENAME coaxis@"$SERVER_IP":/home/coaxis
-scp -P 2222 deploy.sh coaxis@"$SERVER_IP":/home/coaxis
-rm $FILENAME
+cd ..
+
+HOST="${1:-coaxis@192.168.2.231}"
+SSH_PORT="${2:-2222}"
+
+ssh -p $SSH_PORT $HOST 'mkdir -p ~/coaxisopt'
+scp -P $SSH_PORT docker-compose.prod.yml "$HOST":~/
+scp -P $SSH_PORT deploy/deploy.sh "$HOST":~/coaxisopt
+ssh -p $SSH_PORT $HOST 'mv docker-compose.prod.yml ~/coaxisopt/docker-compose.yml'
+
+cd deploy

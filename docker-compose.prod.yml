@@ -2,14 +2,31 @@ version: '2'
 services:
   backend:
     restart: always
+    image: docker.akema.fr:5000/coaxis/coaxisopt_backend:latest
+    container_name: coaxisopt_backend
     volumes:
       - backend:/backend
+    ports:
+      - "8000:8000"
     environment:
-      - DEFAULT_INTERFACE=ens192
+      - DEFAULT_INTERFACE
   frontend:
     restart: always
+    image: docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest
+    container_name: coaxisopt_frontend
+    ports:
+     - "8080:8080"
   nginx:
     restart: always
+    image: docker.akema.fr:5000/coaxis/coaxisopt_nginx:latest
+    container_name: coaxisopt_nginx
+    ports:
+      - "80:80"
+    volumes_from:
+      - backend
+    links:
+      - backend
+      - frontend
 volumes:
   backend:
   frontend:
