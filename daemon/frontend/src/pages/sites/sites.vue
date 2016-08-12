@@ -20,7 +20,7 @@
 					<br>
 
 					<div class="row">
-						<div id="accordion" role="tablist" aria-multiselectable="true">
+						<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
 							<div v-for="site in sites" class="panel panel-default">
 								<site :site="site"></site>
 							</div>
@@ -75,3 +75,8 @@
 		}
 	};
 </script>
+<style>
+	.striped .printer:nth-of-type(2n+1) {
+		background-color: hsla(0, 0%, 0%, 0.1);
+	}
+</style>

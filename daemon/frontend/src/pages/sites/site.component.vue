@@ -13,7 +13,7 @@
 			</div>
 			<div id="site-{{site.id}}" class="panel-collapse collapse in" role="tabpanel"
 				 aria-labelledby="site-{{site.hostname}}">
-				<div v-for="printer in printers">
+				<div class="printer" v-for="printer in printers">
 					<printer :printer="printer" :site="site"></printer>
 				</div>
 
