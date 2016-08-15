@@ -60,7 +60,7 @@ def add_site(name, hostname):
                'REMOTE_HOST=' + hostname,
                'INTERACTIVE=false'
                ]
-    logger.debug(name, hostname, command)
+    logger.debug(name, hostname, " ".join(command))
     return shell.execute(command)
 
 

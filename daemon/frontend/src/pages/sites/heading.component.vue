@@ -42,21 +42,21 @@
 					<button aria-label="Redémarrer"
 							role="button"
 							class="btn btn-warning btn-sm btn-action restart hide-btn-content hint--top"
-							@click="restart(site.id)"
+							@click="restart(site)"
 					>
 						<i class="fa fa-refresh"> </i>
 					</button>
 					<button aria-label="Démarrer"
 							role="button"
 							class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
-							@click="start(site.id)"
+							@click="start(site)"
 					>
 						<i class="fa fa-play"> </i>
 					</button>
 					<button aria-label="Arrêter"
 							role="button"
 							class="btn btn-danger btn-sm btn-action hide-btn-content hint--top"
-							@click="stop(site.id)"
+							@click="stop(site)"
 					>
 						<i class="fa fa-stop"> </i>
 					</button>
@@ -65,7 +65,7 @@
 					<button aria-label="Status"
 							role="button"
 							class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
-							@click="status(site.id)"
+							@click="status(site)"
 					>
 						<i class="fa fa-info"> </i>
 					</button>
@@ -98,7 +98,6 @@
 	import logging from '../../services/logging.service';
 
 	const sites = http('sites', localStorage);
-	const scripts = http('scripts', localStorage);
 
 
 	export default{
@@ -119,33 +118,37 @@
 			}
 		},
 		methods: {
-			status(site_id) {
-				sites.update({site_id: site_id}, {action: 'status'}).then(response => {
+			status(site) {
+				site['action'] = 'status';
+				sites.update(site).then(response => {
 					this.$dispatch('log-response', response.data);
 				});
 			},
-			start(site_id) {
-				sites.update({site_id: site_id}, {action: 'start'}).then(response => {
+			start(site) {
+				site['action'] = 'start';
+				sites.update(site).then(response => {
 					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('sites.start.succeed'));
+					logging.success(this.$t('Démarrage réussi.'));
 				}).catch(() => {
-					logging.error(this.$t('sites.start.failed'))
+					logging.error(this.$t('Échec du démarrage.'))
 				});
 			},
-			stop(site_id) {
-				sites.update({site_id: site_id}, {action: 'stop'}).then(response => {
+			stop(site) {
+				site['action'] = 'stop';
+				sites.update(site).then(response => {
 					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('sites.stop.succeed'));
+					logging.success(this.$t('Arrêt réussi.'));
 				}).catch(() => {
-					logging.error(this.$t('sites.stop.failed'))
+					logging.error(this.$t('Échec de l\'arrêt.'))
 				});
 			},
-			restart(site_id) {
-				sites.update({site_id: site_id}, {action: 'restart'}).then(response => {
+			restart(site) {
+				site['action'] = 'restart';
+				sites.update(site).then(response => {
 					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('sites.restart.succeed'));
+					logging.success(this.$t('Redémarrage réussi.'));
 				}).catch(() => {
-					logging.error(this.$t('sites.restart.failed'))
+					logging.error(this.$t('Échec du redémarrage.'))
 				});
 			},
 			delete_site(site){
@@ -156,11 +159,6 @@
 					logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
 				});
 			},
-		},
-		events: {
-			delete_site(daemon) {
-				this.delete_site(daemon);
-			}
 		},
 		vuex: {
 			actions: {
