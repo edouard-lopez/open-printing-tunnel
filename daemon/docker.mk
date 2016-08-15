@@ -12,28 +12,19 @@
 
 # force use of Bash
 SHELL := /bin/bash
+DOCKER_COMPOSE=docker-compose -f docker-compose.dev.yml
 
 default: build run
 
 dev:
-	docker run -d \
-		--name daemon \
-		-p 80:80 \
-		-p 8080:8080 \
-		-p 5000:5000 \
-		-v "$$(pwd)"/api:/api \
-		-v "$$(pwd)"/frontend:/frontend \
-		-v node_modules:/frontend/node_modules \
-		-v mast:/etc/mast \
-		coaxisopt_daemon:latest \
-		/usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
+	${DOCKER_COMPOSE} up -d
 
 rebuild: build
 build: remove
-	docker build -t coaxisopt_daemon ./
+	${DOCKER_COMPOSE} build
 
 remove:
-	docker rm --force daemon || true
+	${DOCKER_COMPOSE} rm --force coaxisopt_daemon || true
 
 restart: remove run
 

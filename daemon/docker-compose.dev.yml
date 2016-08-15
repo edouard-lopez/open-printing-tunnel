@@ -1,0 +1,28 @@
+version: '2'
+services:
+  daemon:
+    build: ./
+    image: coaxisopt_daemon
+    container_name: coaxisopt_daemon
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "5000:5000"
+    volumes:
+      - ./api:/api
+      - ./frontend:/frontend
+      - node_modules:/frontend/node_modules
+      - mast:/etc/mast
+    command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
+    links:
+      - optbox
+  optbox:
+    build: ./optbox
+    image: coaxis_optbox
+    container_name: coaxisopt_optbox
+    ports:
+      - "22:22"
+volumes:
+  daemon:
+  node_modules:
+  mast:
