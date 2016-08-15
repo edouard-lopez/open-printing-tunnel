@@ -1,9 +1,13 @@
+<style>
+	.btn-link .fa-trash-o:focus, .btn-link .fa-trash-o:hover { color: hsl(2, 64%, 48%); }
+	.btn-link .fa-trash-o { color: hsl(2, 64%, 58%) !important; }
+</style>
 <template>
 	<div id="delete-button">
 		<button type="button" class="btn btn-danger {{class}}"
 				data-toggle="modal"
 				data-target="#delete-button-modal">
-			<i class="fa fa-trash"></i>
+			<i class="fa fa-trash-o"></i>
 			<slot name="label"></slot>
 		</button>
 		<div class="modal fade" id="delete-button-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"

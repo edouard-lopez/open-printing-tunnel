@@ -29,7 +29,7 @@
 				<li class="btn-group" role="group"
 					aria-label="Actions non-réversibles">
 
-					<delete :promise="delete_site" :object="site" class="btn-sm">
+					<delete :promise="delete_site" :object="site" class="btn-sm btn-link">
 						<span slot="title">Supprimer ce site</span>
 						<span slot="body">Confirmer la suppression du site et des tunnels associés.</span>
 						<span slot="in-progress">Suppression en cours</span>
