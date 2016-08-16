@@ -41,15 +41,15 @@ router.map({
 		component: RegisterPage
 	},
 	'/settings/': {
-		component: SettingsPage,
+		component: SettingsPage
 	},
 	'/sites/': {
-		component: SitesPage,
+		component: SitesPage
 	},
 	'/sites/:id': {
 		name: 'sites',
-		component: SitePage,
-	},
+		component: SitePage
+	}
 });
 
 auth.localStorage = localStorage;
