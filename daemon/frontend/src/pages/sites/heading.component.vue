@@ -29,7 +29,7 @@
 				<li class="btn-group" role="group"
 					aria-label="Actions non-réversibles">
 
-					<delete :promise="delete_site" :object="site" class="btn-sm btn-link">
+					<delete :modal-id="printer-{{site.id}}" :promise="delete_site" :object="site" class="btn-sm btn-link">
 						<span slot="title">Supprimer ce site</span>
 						<span slot="body">Confirmer la suppression du site et des tunnels associés.</span>
 						<span slot="in-progress">Suppression en cours</span>
@@ -152,19 +152,14 @@
 				});
 			},
 			delete_site(site){
-				return sites.delete(site).then(() => {
-					logging.success('Site supprimé avec succès');
-					this.getSites();
-				}).catch(() => {
-					logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
-				});
+				return this.deleteSite(site);
 			},
 		},
 		vuex: {
 			actions: {
 				getSites: actions.getSites,
 				getSiteScript: actions.getSiteScript,
-				removeSite: actions.removeSite,
+				deleteSite: actions.deleteSite,
 			}
 		}
 	}

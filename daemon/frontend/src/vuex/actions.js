@@ -4,6 +4,7 @@ import logging from '../services/logging.service';
 const sites = http('sites', localStorage);
 const printers = http('printers', localStorage);
 const scripts = http('scripts', localStorage);
+import resource from 'pilou';
 
 export default {
 	getSites({dispatch}) {
@@ -53,6 +54,24 @@ export default {
 	setPrinters({dispatch}, siteId, printers) {
 		dispatch('setPrinters', siteId, printers);
 	},
+	deleteSite({dispatch}, site) {
+		return sites.delete(site).then(() => {
+			dispatch('getSites');
+			logging.success('Suppression du site réussie.');
+		}).catch(() => {
+			logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
+		});
+	},
+	deletePrinter({dispatch}, site, printer) {
+		const printers = resource('printers', {delete: '/api/sites/${site_id}/${resource}/${printer_id}/'});
+
+		return printers.delete({site_id: site.id, printer_id: printer.id}).then((response) => {
+			dispatch('getSites');
+			logging.success('Suppression de l\'imprimante réussie.');
+		}).catch((err) => {
+			console.log('deletion failed', err);
+			logging.error('Échec de la suppression !');
+		});
 	removePrinter({dispatch}, printer) {
 		dispatch('removeSite', printer);
 	}

@@ -22,15 +22,6 @@
 		</div>
 		<div class="col-md-2">
 			<ul class="btn-toolbar">
-				<li class="btn-group" role="group" aria-label="Actions non-réversibles">
-					<button aria-label="Supprimer cette *imprimante*"
-							role="button"
-							class="btn btn-link btn-sm btn-action hide-btn-content hint--top-left"
-							@click="remove(printer.id)"
-					>
-						<i class="fa fa-trash-o text-danger"> </i>
-					</button>
-				</li>
 				<li class="btn-group" role="group" aria-label="Actions d'administrations">
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
@@ -39,19 +30,28 @@
 					>
 						<i class="fa fa-file-o"> </i>
 					</button>
+					<delete :modal-id="printer-{{printer.id}}" :promise="delete_printer" :object="printer" class="btn-sm btn-link">
+						<span slot="label">test</span>
+						<span slot="title">Supprimer cette imprimante</span>
+						<span slot="body">Confirmer la suppression l'imprimante.</span>
+						<span slot="in-progress">Suppression en cours</span>
+						<span slot="action">Supprimer l'imprimante</span>
+					</delete>
 				</li>
 			</ul>
 		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import http from 'services/http.service';
+	import DeleteButton from 'components/delete-button';
+
 	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
 
-	const printers = http('printers', localStorage);
-
 	export default {
+		components: {
+			'delete': DeleteButton
+		},
 		data() {
 			return {};
 		},
@@ -68,21 +68,13 @@
 			}
 		},
 		methods: {
-			remove(printerId) {
-				printers.delete({site_id: this.site.id, printer_id: printerId}).then((response) => {
-					this.removePrinter(response.data);
-					logging.success('Imprimante supprimée correctement');
-				}
-			).catch((err) => {
-					console.log('deletion failed', err);
-					logging.error('Échec de la suppression !')
-				}
-			);
+			delete_printer(printer) {
+				return this.deletePrinter(this.site, printer);
 			}
 		},
 		vuex: {
 			actions: {
-				removePrinter: actions.removePrinter,
+				deletePrinter: actions.deletePrinter,
 				getPrinterScript: actions.getPrinterScript,
 			},
 		}

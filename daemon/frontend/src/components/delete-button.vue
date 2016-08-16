@@ -1,16 +1,22 @@
 <style>
-	.btn-link .fa-trash-o:focus, .btn-link .fa-trash-o:hover { color: hsl(2, 64%, 48%); }
-	.btn-link .fa-trash-o { color: hsl(2, 64%, 58%) !important; }
+	.btn-link .fa-trash-o:focus, .btn-link .fa-trash-o:hover {
+		color: hsl(2, 64%, 48%);
+	}
+
+	.btn-link .fa-trash-o {
+		color: hsl(2, 64%, 58%) !important;
+	}
 </style>
 <template>
-	<div id="delete-button">
+	<div id="delete-button-{{modalId}}">
 		<button type="button" class="btn btn-danger {{class}}"
 				data-toggle="modal"
-				data-target="#delete-button-modal">
+				data-target="#delete-button-modal-{{modalId}}">
 			<i class="fa fa-trash-o"></i>
 			<slot name="label"></slot>
 		</button>
-		<div class="modal fade" id="delete-button-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
+		<div class="modal fade" id="delete-button-modal-{{modalId}}" tabindex="-1" role="dialog"
+			 aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content text-xs-left">
@@ -50,6 +56,7 @@
 			}
 		},
 		props: {
+			modalId: {type: String, required: true},  // prevent modals collision
 			promise: {type: Function},
 			object: {type: Object, required: true},
 			class: {type: String}
@@ -57,14 +64,10 @@
 		methods: {
 			confirm() {
 				this.pending = true;
-				this.promise(this.object).then(function() {
-					$('#delete-button-modal').modal('hide');
+				let modalId = this.modalId;
+				this.promise(this.object).then(function () {
+					$('#delete-button-modal-' + modalId).modal('hide');
 				});
-			}
-		},
-		events: {
-			'deleted': (status) => {
-				this.actionCompleted = status;
 			}
 		}
 	}
