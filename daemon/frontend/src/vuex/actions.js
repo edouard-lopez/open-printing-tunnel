@@ -6,21 +6,14 @@ const printers = http('printers', localStorage);
 const scripts = http('scripts', localStorage);
 import resource from 'pilou';
 
+
 export default {
 	getSites({dispatch}) {
 		sites.all().then((response) => {
 			dispatch('setSites', response.data.results);
 		}).catch(() => {
 			this.no_site_message = 'there is no site';
-			logging.error('Échec de la récupération des sites.');
-		});
-	},
-	getPrinters({dispatch}, siteId) {
-		printers.get({site_id: siteId}).then(response => {
-			dispatch('setPrinters', response.data.site, response.data.results.channels);
-		}).catch(err => {
-			console.error(err);
-			logging.error('Échec de la récupération des imprimantes.');
+			logging.error('Échec de la récupération des sites !');
 		});
 	},
 	getPrinterScript({dispatch}, siteId, printerId)  {
@@ -33,7 +26,7 @@ export default {
 			})
 			.catch(err => {
 				console.error(err);
-				logging.error('Échec de la génération du script.');
+				logging.error('Échec de la génération du script !');
 			});
 	},
 	getSiteScript({dispatch}, site_id) {
@@ -42,14 +35,11 @@ export default {
 			logging.success('Génération du script réussi.');
 		}).catch((err) => {
 			console.log('deletion failed', err);
-			logging.error('Échec de la génération du script.');
+			logging.error('Échec de la génération du script !');
 		});
 	},
 	setSites({dispatch}, sites) {
 		dispatch('setSites', sites);
-	},
-	removeSite({dispatch}, site) {
-		dispatch('removeSite', site);
 	},
 	setPrinters({dispatch}, siteId, printers) {
 		dispatch('setPrinters', siteId, printers);
@@ -72,7 +62,5 @@ export default {
 			console.log('deletion failed', err);
 			logging.error('Échec de la suppression !');
 		});
-	removePrinter({dispatch}, printer) {
-		dispatch('removeSite', printer);
 	}
 };
