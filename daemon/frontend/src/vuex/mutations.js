@@ -10,6 +10,5 @@ export default {
 		console.log('saving: ', filename);
 		var blob = new Blob([response.data], {type: response.headers['content-type']});
 		FileSaver.saveAs(blob, filename);
-	},
-
+	}
 };

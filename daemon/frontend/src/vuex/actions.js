@@ -46,7 +46,6 @@ export default {
 	},
 	deleteSite({dispatch}, site) {
 		return sites.delete(site).then(() => {
-			dispatch('getSites');
 			logging.success('Suppression du site réussie.');
 		}).catch(() => {
 			logging.error('Impossible de supprimer ce site pour l\'instant. Retentez dans quelques instants ou contacter un administrateur')
@@ -56,7 +55,6 @@ export default {
 		const printers = resource('printers', {delete: '/api/sites/${site_id}/${resource}/${printer_id}/'});
 
 		return printers.delete({site_id: site.id, printer_id: printer.id}).then((response) => {
-			dispatch('getSites');
 			logging.success('Suppression de l\'imprimante réussie.');
 		}).catch((err) => {
 			console.log('deletion failed', err);

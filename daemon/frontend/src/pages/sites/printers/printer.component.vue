@@ -68,13 +68,16 @@
 		},
 		methods: {
 			delete_printer(printer) {
-				return this.deletePrinter(this.site, printer);
+				return this.deletePrinter(this.site, printer).then(response => {
+					this.getSites();
+				});
 			}
 		},
 		vuex: {
 			actions: {
 				deletePrinter: actions.deletePrinter,
 				getPrinterScript: actions.getPrinterScript,
+				getSites: actions.getSites,
 			},
 		}
 	}

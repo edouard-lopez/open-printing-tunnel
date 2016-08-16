@@ -148,7 +148,9 @@
 				});
 			},
 			delete_site(site){
-				return this.deleteSite(site);
+				return this.deleteSite(site).then(response => {
+					this.getSites();
+				});
 			},
 		},
 		vuex: {
