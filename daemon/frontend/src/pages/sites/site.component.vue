@@ -32,11 +32,9 @@
 	import HeadingComponent from './heading.component';
 	import PrinterComponent from './printers/printer.component';
 
-	import actions from '../../vuex/actions';
-	import getters from '../../vuex/getters';
-	import logging from '../../services/logging.service';
-
-	import sitesService from '../../services/sites.service';
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
+	import logging from 'services/logging.service';
 
 	export default{
 		props: {

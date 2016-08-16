@@ -33,8 +33,8 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import auth from '../services/auth.service';
-    import logging from '../services/logging.service';
+    import auth from 'services/auth.service';
+    import logging from 'services/logging.service';
 
     export default {
         data() {

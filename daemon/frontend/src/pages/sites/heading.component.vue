@@ -94,8 +94,8 @@
 	import DeleteButton from 'components/delete-button';
 
 	import http from 'services/http.service';
-	import actions from '../../vuex/actions';
-	import logging from '../../services/logging.service';
+	import actions from 'vuex/actions';
+	import logging from 'services/logging.service';
 
 	const sites = http('sites', localStorage);
 

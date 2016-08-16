@@ -47,8 +47,8 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from '../../services/logging.service';
-	import printersService from '../../services/printers.service';
+	import logging from 'services/logging.service';
+	import printersService from 'services/printers.service';
 	import resource from 'pilou';
 
 	const printers = resource('printers', {create: '/api/${resource}/'});

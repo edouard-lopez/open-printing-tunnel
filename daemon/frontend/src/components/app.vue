@@ -75,8 +75,8 @@
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/bootstrap.js';
 	import Sidebar from './sidebar';
-	import auth from '../services/auth.service';
-	import store from '../vuex/store';
+	import auth from 'services/auth.service';
+	import store from 'vuex/store';
 
 	export default {
 		data() {

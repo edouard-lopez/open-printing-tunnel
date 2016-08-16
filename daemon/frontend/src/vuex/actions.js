@@ -1,5 +1,5 @@
 import http from 'services/http.service';
-import logging from '../services/logging.service';
+import logging from 'services/logging.service';
 
 const sites = http('sites', localStorage);
 const printers = http('printers', localStorage);
