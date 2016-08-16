@@ -6,16 +6,20 @@
 	.btn-link .fa-trash-o {
 		color: hsl(2, 64%, 58%) !important;
 	}
+
+	.delete-button {
+		display: inline-block;
+	}
 </style>
 <template>
-	<div id="delete-button-{{modalId}}">
+	<div id="delete-button-{{object.id}}" class="delete-button">
 		<button type="button" class="btn btn-danger {{class}}"
 				data-toggle="modal"
-				data-target="#delete-button-modal-{{modalId}}">
+				data-target="#delete-button-modal-{{object.id}}">
 			<i class="fa fa-trash-o"></i>
 			<slot name="label"></slot>
 		</button>
-		<div class="modal fade" id="delete-button-modal-{{modalId}}" tabindex="-1" role="dialog"
+		<div class="modal fade" id="delete-button-modal-{{object.id}}" tabindex="-1" role="dialog"
 			 aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -56,7 +60,6 @@
 			}
 		},
 		props: {
-			modalId: {type: String, required: true},  // prevent modals collision
 			promise: {type: Function},
 			object: {type: Object, required: true},
 			class: {type: String}
@@ -64,9 +67,9 @@
 		methods: {
 			confirm() {
 				this.pending = true;
-				let modalId = this.modalId;
+				let id = this.object.id;
 				this.promise(this.object).then(function () {
-					$('#delete-button-modal-' + modalId).modal('hide');
+					$('#delete-button-modal-' + id).modal('hide');
 				});
 			}
 		}

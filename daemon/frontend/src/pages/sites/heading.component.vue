@@ -29,8 +29,8 @@
 				<li class="btn-group" role="group"
 					aria-label="Actions non-réversibles">
 
-					<delete :modal-id="printer-{{site.id}}" :promise="delete_site" :object="site" class="btn-sm btn-link">
-						<span slot="title">Supprimer ce site</span>
+					<delete :promise="delete_site" :object="site" class="btn-sm btn-link">
+						<span slot="title">Supprimer le site <var>{{site.id}}</var></span>
 						<span slot="body">Confirmer la suppression du site et des tunnels associés.</span>
 						<span slot="in-progress">Suppression en cours</span>
 						<span slot="action">Supprimer le site</span>
@@ -106,11 +106,7 @@
 			'delete': DeleteButton
 		},
 		props: {
-			site: {
-				type: Object,
-				required: true,
-				default: {}
-			},
+			site: {type: Object, required: true},
 		},
 		computed: {
 			has_printers: function () {

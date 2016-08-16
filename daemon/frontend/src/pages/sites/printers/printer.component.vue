@@ -30,9 +30,8 @@
 					>
 						<i class="fa fa-file-o"> </i>
 					</button>
-					<delete :modal-id="printer-{{printer.id}}" :promise="delete_printer" :object="printer" class="btn-sm btn-link">
-						<span slot="label">test</span>
-						<span slot="title">Supprimer cette imprimante</span>
+					<delete :promise="delete_printer" :object="printer" class="btn-sm btn-link">
+						<span slot="title">Supprimer l'imprimante <var>{{printer.hostname}}</var></span>
 						<span slot="body">Confirmer la suppression l'imprimante.</span>
 						<span slot="in-progress">Suppression en cours</span>
 						<span slot="action">Supprimer l'imprimante</span>
