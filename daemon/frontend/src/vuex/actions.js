@@ -1,6 +1,7 @@
 import http from 'services/http.service';
 import logging from 'services/logging.service';
 import resource from 'pilou';
+import FileSaver from 'file-saver';
 
 const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
@@ -13,27 +14,33 @@ export default {
 			logging.error('Échec de la récupération des sites !');
 		});
 	},
-	getPrinterScript({dispatch}, siteId, printerId) {
-		scripts.get(
-			{site_id: siteId, printer_id: printerId},
+	getPrinterScript({dispatch}, site, printer) {
+		return scripts.get(
+			{site_id: site.id, printer_id: printer.id},
 			{url: '/api/${resource}/${site_id}/printers/${printer_id}/'})
 			.then(response => {
 				logging.success('Génération du script réussi.');
-				dispatch('saveFile', response);
+				return response;
 			})
 			.catch(err => {
 				console.error(err);
 				logging.error('Échec de la génération du script !');
 			});
 	},
-	getSiteScript({dispatch}, site_id) {
-		scripts.get({id: site_id}).then(response => {
-			dispatch('saveFile', response);
+	getSiteScript({dispatch}, site) {
+		return scripts.get({id: site.id}).then(response => {
 			logging.success('Génération du script réussi.');
+			return response;
 		}).catch(err => {
-			console.log('deletion failed', err);
+			console.error('deletion failed', err);
 			logging.error('Échec de la génération du script !');
 		});
+	},
+	saveFile({dispatch}, response) {
+		const filename = response.headers['content-disposition'].split('=')[1];
+		console.info('saving: ', filename);
+		const blob = new Blob([response.data], {type: response.headers['content-type']});
+		FileSaver.saveAs(blob, filename);
 	},
 	setSites({dispatch}, sites) {
 		dispatch('setSites', sites);

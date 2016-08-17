@@ -26,7 +26,7 @@
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-sm btn-link btn-action hide-btn-content hint--top"
-							@click="getPrinterScript(site.id, printer.id)"
+							@click="getScript(site, printer)"
 					>
 						<i class="fa fa-file-o"> </i>
 					</button>
@@ -71,6 +71,16 @@
 				return this.deletePrinter(this.site, printer).then(response => {
 					this.getSites();
 				});
+			},
+			getScript(site, printer) {
+				this.getPrinterScript(site, printer)
+						.then(response => {
+							console.log(response)
+							this.saveFile(response);
+						})
+						.catch(err => {
+							console.error('Échec du téléchargement du script.', err);
+						})
 			}
 		},
 		vuex: {
@@ -78,6 +88,7 @@
 				deletePrinter: actions.deletePrinter,
 				getPrinterScript: actions.getPrinterScript,
 				getSites: actions.getSites,
+				saveFile: actions.saveFile
 			},
 		}
 	}

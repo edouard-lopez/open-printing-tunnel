@@ -80,7 +80,7 @@
 					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-link btn-sm btn-action hide-btn-content hint--top"
-							@click="getSiteScript(site.id)"
+							@click="getScript(site)"
 					>
 						<i class="fa fa-file-o"> </i>
 					</button>
@@ -114,21 +114,40 @@
 			}
 		},
 		methods: {
-			status(site) { this.siteStatus(site); },
-			start(site) { this.siteStart(site); },
-			stop(site) { this.siteStop(site); },
-			restart(site) { this.siteRestart(site); },
+			status(site) {
+				this.siteStatus(site);
+			},
+			start(site) {
+				this.siteStart(site);
+			},
+			stop(site) {
+				this.siteStop(site);
+			},
+			restart(site) {
+				this.siteRestart(site);
+			},
 			delete_site(site){
 				return this.deleteSite(site).then(response => {
 					this.getSites();
 				});
 			},
+			getScript(site) {
+				this.getSiteScript(site)
+						.then(response => {
+							console.log(response)
+							this.saveFile(response);
+						})
+						.catch(err => {
+							console.error('Échec du téléchargement du script.', err);
+						})
+			}
 		},
 		vuex: {
 			actions: {
 				getSites: actions.getSites,
 				getSiteScript: actions.getSiteScript,
 				deleteSite: actions.deleteSite,
+				saveFile: actions.saveFile,
 				siteStatus: actions.siteStatus,
 				siteStart: actions.siteStart,
 				siteStop: actions.siteStop,
