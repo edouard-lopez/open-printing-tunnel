@@ -3,7 +3,7 @@ export default {
 		state.sites = sites;
 	},
 	clearLog(state) {
-		let empty = [];
+		const empty = [];
 		state.log = empty;
 	},
 	logResponse(state, response) {

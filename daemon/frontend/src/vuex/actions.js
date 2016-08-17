@@ -12,7 +12,7 @@ export default {
 		return printers.create(printer).then(response => {
 			logging.success('Ajout de l\'imprimante réussi.');
 			return response;
-		}).catch((err) => {
+		}).catch(err => {
 			console.log('failed to add printer', err);
 			logging.error('Échec de l\'ajout de l\'imprimante !');
 		});
@@ -76,36 +76,36 @@ export default {
 		});
 	},
 	siteStatus({dispatch}, site) {
-		site['action'] = 'status';
+		site.action = 'status';
 		sites.update(site).then(response => {
 			dispatch('logResponse', response.data);
 		});
 	},
 	siteStart({dispatch}, site) {
-		site['action'] = 'start';
+		site.action = 'start';
 		sites.update(site).then(response => {
 			dispatch('logResponse', response.data);
-			logging.success(this.$t('Démarrage réussi.'));
+			logging.success('Démarrage réussi.');
 		}).catch(() => {
-			logging.error(this.$t('Échec du démarrage.'))
+			logging.error('Échec du démarrage.');
 		});
 	},
 	siteStop({dispatch}, site) {
-		site['action'] = 'stop';
+		site.action = 'stop';
 		sites.update(site).then(response => {
 			dispatch('logResponse', response.data);
-			logging.success(this.$t('Arrêt réussi.'));
+			logging.success('Arrêt réussi.');
 		}).catch(() => {
-			logging.error(this.$t('Échec de l\'arrêt.'))
+			logging.error('Échec de l\'arrêt.');
 		});
 	},
 	siteRestart({dispatch}, site) {
-		site['action'] = 'restart';
+		site.action = 'restart';
 		sites.update(site).then(response => {
 			dispatch('logResponse', response.data);
-			logging.success(this.$t('Redémarrage réussi.'));
+			logging.success('Redémarrage réussi.');
 		}).catch(() => {
-			logging.error(this.$t('Échec du redémarrage.'))
+			logging.error('Échec du redémarrage.');
 		});
 	},
 	clearLog({dispatch}) {
