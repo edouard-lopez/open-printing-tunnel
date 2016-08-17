@@ -61,13 +61,13 @@ export default {
 	siteStatus({dispatch}, site) {
 		site['action'] = 'status';
 		sites.update(site).then(response => {
-			dispatch('log-response', response.data);
+			dispatch('logResponse', response.data);
 		});
 	},
 	siteStart({dispatch}, site) {
 		site['action'] = 'start';
 		sites.update(site).then(response => {
-			dispatch('log-response', response.data);
+			dispatch('logResponse', response.data);
 			logging.success(this.$t('Démarrage réussi.'));
 		}).catch(() => {
 			logging.error(this.$t('Échec du démarrage.'))
@@ -76,7 +76,7 @@ export default {
 	siteStop({dispatch}, site) {
 		site['action'] = 'stop';
 		sites.update(site).then(response => {
-			dispatch('log-response', response.data);
+			dispatch('logResponse', response.data);
 			logging.success(this.$t('Arrêt réussi.'));
 		}).catch(() => {
 			logging.error(this.$t('Échec de l\'arrêt.'))
@@ -85,11 +85,19 @@ export default {
 	siteRestart({dispatch}, site) {
 		site['action'] = 'restart';
 		sites.update(site).then(response => {
-			dispatch('log-response', response.data);
+			dispatch('logResponse', response.data);
 			logging.success(this.$t('Redémarrage réussi.'));
 		}).catch(() => {
 			logging.error(this.$t('Échec du redémarrage.'))
 		});
 	},
-
+	clearLog({dispatch}) {
+		dispatch('clearLog');
+	},
+	logResponse({dispatch}, response) {
+		if (!Array.isArray(response.results)) {
+			response.results = [response.results];
+		}
+		dispatch('logResponse', response);
+	}
 };

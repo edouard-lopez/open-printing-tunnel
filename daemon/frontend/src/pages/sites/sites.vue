@@ -60,11 +60,6 @@
 			'add-site-button': AddSiteButtonComponent,
 			'logs': LogsComponent,
 		},
-		events: {
-			'log-response': function (message) {
-				this.$broadcast('log-response', message);
-			},
-		},
 		vuex: {
 			actions: {
 				getSites: actions.getSites,

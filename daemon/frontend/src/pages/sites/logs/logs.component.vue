@@ -26,7 +26,7 @@
 					<button title="Status" role="button"
 							class="btn btn-default btn-sm btn-action hide-btn-content hint--top-left"
 							aria-label="Nettoyer le log"
-							@click="stdout=[]"
+							@click="clear()"
 					>
 						<i class="fa fa-trash-o"> </i>
 					</button>
@@ -35,7 +35,7 @@
 		</h2>
 		<div class="row">
 			<div class="col-xs-12 highlight">
-				<pre class="stdout"><samp v-for="line in stdout" class="line">{{line | json }}</samp></pre>
+				<pre class="stdout"><samp v-for="line in log" class="line">{{line | json }}</samp></pre>
 			</div>
 		</div>
 	</div>
@@ -43,17 +43,16 @@
 
 <script type="text/ecmascript-6">
 	import logging from 'services/logging.service';
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
 
 	export default {
-		data() {
-			return {stdout: {}};
-		},
-		events: {
-			'log-response': function (response) {
-				if (!Array.isArray(response.results)) {
-					response.results = [response.results];
-				}
-				this.stdout = response.results;
+		vuex: {
+			actions: {
+				clear: actions.clearLog,
+			},
+			getters: {
+				log: getters.retrieveLog
 			}
 		}
 	}

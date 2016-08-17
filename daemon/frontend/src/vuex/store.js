@@ -9,9 +9,8 @@ Vue.config.debug = true;
 const debug = process.env.NODE_ENV !== 'production';
 
 const state = {
-	sites: []
-	/**
-	 {
+	sites: [
+		/** {
         hostname: "192.168.2.23",
         id: "akema",
         printers: [
@@ -26,8 +25,15 @@ const state = {
                 }
             }
         ]
-    }
-	 */
+    } */
+	],
+	log: [/*
+		 {
+			 "help": "service has not been started yet",
+			 "id": "akema",
+			 "state": "off"
+		 }
+	 */]
 };
 
 export default new Vuex.Store({
