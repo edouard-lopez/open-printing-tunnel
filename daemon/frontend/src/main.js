@@ -10,7 +10,6 @@ import SitePage from './pages/sites/site.component';
 import RegisterPage from './pages/register';
 import SettingsPage from './pages/settings';
 
-import './services/array.polyfill';
 import auth from './services/auth.service';
 import locales from './locales';
 
