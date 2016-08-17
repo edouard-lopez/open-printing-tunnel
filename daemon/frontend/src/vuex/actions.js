@@ -57,5 +57,39 @@ export default {
 			console.log('deletion failed', err);
 			logging.error('Échec de la suppression !');
 		});
-	}
+	},
+	siteStatus({dispatch}, site) {
+		site['action'] = 'status';
+		sites.update(site).then(response => {
+			dispatch('log-response', response.data);
+		});
+	},
+	siteStart({dispatch}, site) {
+		site['action'] = 'start';
+		sites.update(site).then(response => {
+			dispatch('log-response', response.data);
+			logging.success(this.$t('Démarrage réussi.'));
+		}).catch(() => {
+			logging.error(this.$t('Échec du démarrage.'))
+		});
+	},
+	siteStop({dispatch}, site) {
+		site['action'] = 'stop';
+		sites.update(site).then(response => {
+			dispatch('log-response', response.data);
+			logging.success(this.$t('Arrêt réussi.'));
+		}).catch(() => {
+			logging.error(this.$t('Échec de l\'arrêt.'))
+		});
+	},
+	siteRestart({dispatch}, site) {
+		site['action'] = 'restart';
+		sites.update(site).then(response => {
+			dispatch('log-response', response.data);
+			logging.success(this.$t('Redémarrage réussi.'));
+		}).catch(() => {
+			logging.error(this.$t('Échec du redémarrage.'))
+		});
+	},
+
 };

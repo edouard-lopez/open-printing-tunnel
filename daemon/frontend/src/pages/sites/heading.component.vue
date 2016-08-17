@@ -114,39 +114,10 @@
 			}
 		},
 		methods: {
-			status(site) {
-				site['action'] = 'status';
-				sites.update(site).then(response => {
-					this.$dispatch('log-response', response.data);
-				});
-			},
-			start(site) {
-				site['action'] = 'start';
-				sites.update(site).then(response => {
-					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('Démarrage réussi.'));
-				}).catch(() => {
-					logging.error(this.$t('Échec du démarrage.'))
-				});
-			},
-			stop(site) {
-				site['action'] = 'stop';
-				sites.update(site).then(response => {
-					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('Arrêt réussi.'));
-				}).catch(() => {
-					logging.error(this.$t('Échec de l\'arrêt.'))
-				});
-			},
-			restart(site) {
-				site['action'] = 'restart';
-				sites.update(site).then(response => {
-					this.$dispatch('log-response', response.data);
-					logging.success(this.$t('Redémarrage réussi.'));
-				}).catch(() => {
-					logging.error(this.$t('Échec du redémarrage.'))
-				});
-			},
+			status(site) { this.siteStatus(site); },
+			start(site) { this.siteStart(site); },
+			stop(site) { this.siteStop(site); },
+			restart(site) { this.siteRestart(site); },
 			delete_site(site){
 				return this.deleteSite(site).then(response => {
 					this.getSites();
@@ -158,6 +129,10 @@
 				getSites: actions.getSites,
 				getSiteScript: actions.getSiteScript,
 				deleteSite: actions.deleteSite,
+				siteStatus: actions.siteStatus,
+				siteStart: actions.siteStart,
+				siteStop: actions.siteStop,
+				siteRestart: actions.siteRestart,
 			}
 		}
 	}
