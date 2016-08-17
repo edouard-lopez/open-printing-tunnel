@@ -7,6 +7,7 @@ from flask import request
 from flask_restful import Resource, Api, abort
 from slugify import slugify
 
+import network_utils
 import scripts
 import daemon
 import mast_utils
@@ -170,16 +171,30 @@ class SiteInstallScript(Resource):
         )
 
 
+class Ping(Resource):
+    def get(self, site_id):
+        response = {}
+        
+        site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
+        response[site_id] = network_utils.ping(site_hostname)
+        printers = mast_utils.list_printers(site_id)['results']['channels']
+
+        for printer in printers:
+            hostname = printer['hostname']
+            ping = network_utils.ping(hostname)
+            response[site_id][hostname] = network_utils.ping(hostname)
+        return response
+
+
 api.add_resource(Root, '/')
-# todo: api.add_resource(AddBulkPrinters, '/sites/add-bulk-channels/')
 # todo: api.add_resource(CopyLogs, '/sites/copy-logs/')
-# todo: api.add_resource(Link, '/sites/link/')
 api.add_resource(Sites, '/sites/')
 api.add_resource(Site, '/sites/<string:site_id>/')
 api.add_resource(Printers, '/printers/')
 api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>/')
+api.add_resource(Ping, '/ping/<string:site_id>/')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

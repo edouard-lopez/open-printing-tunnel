@@ -228,3 +228,27 @@ def add_printer(lines):
             response = forward_rule(line)
 
     return response
+
+
+def ping(stdout):
+    response = {}
+    last_line = stdout[-1]
+
+    if '100% packet loss' in last_line:
+        response = {
+            'min': None,
+            'avg': None,
+            'max': None,
+            'mdev': None
+        }
+    else:
+        stats = last_line.split('=')[1]
+        data = stats.split('/')
+        response = {
+        'min': float(data[0]),
+        'avg': float(data[1]),
+        'max': float(data[2]),
+        'mdev': float(data[3].split()[0])
+    }
+
+    return response

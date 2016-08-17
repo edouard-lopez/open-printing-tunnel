@@ -7,9 +7,9 @@ logger = logging.getLogger(__name__)
 
 
 def execute(command):
+    logger.debug(" ".join(command))
     try:
         stdout = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8').splitlines()
-        logger.debug(" ".join(command))
 
         response = {
             'cmd': {
@@ -22,7 +22,6 @@ def execute(command):
         return response
     except subprocess.CalledProcessError as e:
         stdout = e.output.decode('utf-8').splitlines()
-        logger.debug(" ".join(command))
 
         response = {
             'cmd': {

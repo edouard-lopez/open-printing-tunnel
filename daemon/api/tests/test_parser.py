@@ -366,6 +366,39 @@ class ParserTestCase(unittest.TestCase):
             'description': 'Ricoh Aficio MPC300\tadded'
         })
 
+    def test_parse_ping(self):
+        stdout = [
+            "PING localhost (127.0.0.1) 56(84) bytes of data.",
+            "",
+            "--- localhost ping statistics ---",
+            "1 packets transmitted, 1 received, 0% packet loss, time 0ms",
+            "rtt min/avg/max/mdev = 27.883/37.883/57.883/0.000 ms"
+        ]
+
+        response = output_parser.ping(stdout)
+
+        self.assertDictEqual(response, {
+            'min': 27.883,
+            'avg': 37.883,
+            'max': 57.883,
+            'mdev': 0.0
+        })
+
+    def test_parse_ping_unreachable_host(self):
+        stdout = [
+            'PING 1.1.1.1 (1.1.1.1): 56 data bytes',
+            '--- 1.1.1.1 ping statistics ---',
+            '1 packets transmitted, 0 packets received, 100% packet loss'
+        ]
+
+        response = output_parser.ping(stdout)
+
+        self.assertDictEqual(response, {
+            'min': None,
+            'avg': None,
+            'max': None,
+            'mdev': None
+        })
 
 if __name__ == '__main__':
     unittest.main()
