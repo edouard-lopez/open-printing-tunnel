@@ -1,29 +1,37 @@
-# deployment
+# Deployment
 
-## connect to docker registry
+## Connect to docker registry
 
     docker login docker.akema.fr:5000
     # User: coaxis 
     # Password: <Akema LessPass Password coaxis.com>
 
-## send files to server
+## Prepare the release
 
-    ./send_archive.sh [USER@HOSTNAME] [SSH_PORT]
-    
-example
-    
-    ./send_archive.sh coaxis@192.168.2.231 2222
-    
-## deploy
+1. It is assumed that your `frontend` applications are **up-to-date and build**.
 
-connect to server
+        cd daemon/frontend/ && npm run build
+   
+1. Tag and push the new docker image to the repository:
 
-    ssh -p 2222 coaxis@192.168.2.231
+        cd deploy/ && ./tag_and_push_latest.sh
+
+## Send files to server
+
+You need to send the latest recipe and deployment script:
+ 
+    ./send_archive.sh
     
-move to coaxisopt folder
+## Deploy
 
-    cd coaxisopt
+1. connect to production server:
+
+        ssh -p 2222 coaxis@192.168.2.231
     
-run `./deploy.sh`    
+1. move to coaxisopt folder:
 
-    ./deploy.sh [DEFAULT_INTERFACE]
+        cd coaxisopt/
+    
+1. launch the deployment:    
+
+        ./deploy.sh
