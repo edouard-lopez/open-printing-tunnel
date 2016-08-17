@@ -70,13 +70,7 @@
 						<i class="fa fa-info"> </i>
 					</button>
 					<add-printer-button :site="site" class="btn-sm"></add-printer-button>
-					<button aria-label="Ajouter des *canaux* par lot"
-							role="button"
-							class="btn btn-primary btn-sm btn-action hide-btn-content hint--top"
-							@click="add_bulk_channels(site.id)"
-					>
-						<i class="fa fa-print"> </i>
-					</button>
+					<add-printers-button :site="site" class="btn-sm"></add-printers-button>
 					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-link btn-sm btn-action hide-btn-content hint--top"
@@ -91,6 +85,7 @@
 </template>
 <script type="text/ecmascript-6">
 	import AddPrinterButtonComponent from './add-printer.component.vue';
+	import AddPrintersButtonComponent from './add-printers.component.vue';
 	import DeleteButton from 'components/delete-button';
 
 	import http from 'services/http.service';
@@ -103,6 +98,7 @@
 	export default{
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
+			'add-printers-button': AddPrintersButtonComponent,
 			'delete': DeleteButton
 		},
 		props: {

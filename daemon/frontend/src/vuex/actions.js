@@ -5,8 +5,18 @@ import FileSaver from 'file-saver';
 
 const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
+const printers = http('printers', localStorage);
 
 export default {
+	addPrinter({dispatch}, printer) {
+		return printers.create(printer).then(response => {
+			logging.success('Ajout de l\'imprimante réussi.');
+			return response;
+		}).catch((err) => {
+			console.log('failed to add printer', err);
+			logging.error('Échec de l\'ajout de l\'imprimante !');
+		});
+	},
 	getSites({dispatch}) {
 		sites.all().then(response => {
 			dispatch('setSites', response.data.results);
@@ -16,8 +26,8 @@ export default {
 	},
 	getPrinterScript({dispatch}, site, printer) {
 		return scripts.get(
-			{site_id: site.id, printer_id: printer.id},
-			{url: '/api/${resource}/${site_id}/printers/${printer_id}/'})
+			{site: site.id, id: printer.id},
+			{url: '/api/${resource}/${site}/printers/${id}/'})
 			.then(response => {
 				logging.success('Génération du script réussi.');
 				return response;
@@ -56,9 +66,9 @@ export default {
 		});
 	},
 	deletePrinter({dispatch}, site, printer) {
-		const printers = resource('printers', {delete: '/api/sites/${site_id}/${resource}/${printer_id}/'});
+		const printers = resource('printers', {delete: '/api/sites/${site}/${resource}/${id}/'});
 
-		return printers.delete({site_id: site.id, printer_id: printer.id}).then(() => {
+		return printers.delete({site: site.id, id: printer.id}).then(() => {
 			logging.success('Suppression de l\'imprimante réussie.');
 		}).catch(err => {
 			console.log('deletion failed', err);

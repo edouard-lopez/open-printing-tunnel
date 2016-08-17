@@ -4,9 +4,9 @@ export default {
 			const fields = line.split('\t');
 
 			return {
-				DESC: fields[0],
-				PRINTER: fields[1],
-				PORT: fields[2] || null
+				description: fields[0],
+				hostname: fields[1],
+				port: fields[2] || null
 			};
 		}
 	},

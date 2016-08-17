@@ -1,10 +1,10 @@
 <template>
 	<button aria-label="Ajouter des imprimantes"
 			role="button"
-			class="btn btn-primary btn-action hide-btn-content hint--top"
+			class="btn btn-primary btn-action hide-btn-content hint--top {{class}}"
 			data-toggle="modal"
 			data-target="#printers-modal-{{printers.siteName}}">
-		<i class="fa fa-plus-circle"></i>
+		<i class="fa fa-print"></i>
 		<span v-if="label">{{label}}</span>
 	</button>
 	<div class="modal fade" id="printers-modal-{{printers.siteName}}"
@@ -20,7 +20,7 @@
 					</button>
 					<h4 class="modal-title" id="action-label">Ajouter des imprimante</h4>
 				</div>
-				<form @submit="addPrinters()">
+				<form @submit="addBulk()">
 					<div class="modal-body">
 						<fieldset class="form-group">
 							<label for="siteName">Nom du site<span class="text-danger">*</span></label>
@@ -30,12 +30,13 @@
 						<fieldset class="form-group">
 							<label for="hostnames">Adresses des imprimantes<span class="text-danger">*</span></label>
 
-							<textarea type="text" class="form-control" id="hostnames" v-model="printers.hostnames"></textarea>
+							<textarea rows="8" type="text" class="form-control" id="hostnames"
+									  v-model="printers.hostnames"></textarea>
 						</fieldset>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-						<button type="submit" class="btn btn-primary" v-on:click.stop.prevent="addPrinters"
+						<button type="submit" class="btn btn-primary" v-on:click.stop.prevent="addBulk"
 								:disabled="!formIsValid">
 							<span v-if="!formSubmitted">Créer</span>
 							<span v-else><i class="fa fa-spinner fa-pulse fa-fw"></i> Création en cours</span>
@@ -47,11 +48,8 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import logging from 'services/logging.service';
 	import printersService from 'services/printers.service';
-	import resource from 'pilou';
-
-	const printers = resource('printers', {create: '/api/${resource}/'});
+	import actions from 'vuex/actions';
 
 	export default {
 		data() {
@@ -71,14 +69,25 @@
 				type: Object,
 				required: true
 			},
-			label: {}
+			label: {},
+			class: {}
 		},
 		methods: {
-			addPrinters(){
+			addBulk(){
 				this.formSubmitted = true;
-				console.log(printersService.parsePrinters(this.printers.hostnames))
-				this.formSubmitted = false;
-			},
+				const printers = printersService.parsePrinters(this.printers.hostnames);
+				for (let printer of printers) {
+					printer['site'] = this.site.id;
+					this.addPrinter(printer).then(response => {
+						this.getSites();
+						$('#printers-modal-' + response.data.site).modal('hide');
+						this.formSubmitted = false;
+					}).catch((err) => {
+						console.err(err);
+						this.formSubmitted = false;
+					});
+				}
+			}
 		},
 		computed: {
 			formIsValid(){
@@ -89,6 +98,12 @@
 				);
 			}
 		},
+		vuex: {
+			actions: {
+				addPrinter: actions.addPrinter,
+				getSites: actions.getSites
+			}
+		}
 	};
 </script>
 

@@ -6,9 +6,9 @@ test('should parse a line', t => {
 	const parsedLine = printers.parseLine(line);
 
 	t.deepEqual(parsedLine, {
-		DESC: 'IMP RDC Couleur',
-		PRINTER: '10.100.12.21',
-		PORT: null
+		description: 'IMP RDC Couleur',
+		hostname: '10.100.12.21',
+		port: null
 	});
 });
 
@@ -18,14 +18,14 @@ test('should parse two lines', t => {
 
 	t.deepEqual(parsedLines, [
 		{
-			DESC: 'IMP RDC Couleur',
-			PRINTER: '10.100.12.21',
-			PORT: null
+			description: 'IMP RDC Couleur',
+			hostname: '10.100.12.21',
+			port: null
 		},
 		{
-			DESC: 'HP2055 Sylvie',
-			PRINTER: '10.100.12.25',
-			PORT: null
+			description: 'HP2055 Sylvie',
+			hostname: '10.100.12.25',
+			port: null
 		}
 	]);
 });
@@ -35,9 +35,9 @@ test('should parse port', t => {
 	const parsedLine = printers.parseLine(line);
 
 	t.deepEqual(parsedLine, {
-		DESC: 'Copieur Salle de reunion',
-		PRINTER: '10.100.12.24',
-		PORT: '9102'
+		description: 'Copieur Salle de reunion',
+		hostname: '10.100.12.24',
+		port: '9102'
 	});
 });
 

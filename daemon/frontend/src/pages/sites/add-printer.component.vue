@@ -26,7 +26,7 @@
 					</button>
 					<h4 class="modal-title" id="action-label">Ajouter une imprimante</h4>
 				</div>
-				<form @submit="addPrinter()">
+				<form @submit="add()">
 					<div class="modal-body">
 						<fieldset class="form-group">
 							<label for="site">Nom du boîtier<span class="text-danger">*</span></label>
@@ -48,7 +48,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-						<button type="submit" class="btn btn-primary" v-on:click.stop.prevent="addPrinter"
+						<button type="submit" class="btn btn-primary" v-on:click.stop.prevent="add"
 								:disabled="!formIsValid">
 							<span v-if="!formSubmitted">Créer</span>
 							<span v-else><i class="fa fa-spinner fa-pulse fa-fw"></i> Création en cours</span>
@@ -60,12 +60,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import http from 'services/http.service';
-	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
-
-	const printers = http('printers', localStorage);
-
 
 	export default {
 		data() {
@@ -89,19 +84,17 @@
 			class: {}
 		},
 		methods: {
-			addPrinter(){
+			add(){
 				this.formSubmitted = true;
-
-				printers.create(this.printer).then((response) => {
+				this.addPrinter(this.printer).then(response => {
 					this.getSites();
 					$('#printer-modal-' + response.data.site).modal('hide');
 					this.formSubmitted = false;
 				}).catch((err) => {
-					console.log(err);
+					console.err(err);
 					this.formSubmitted = false;
-					logging.error('Impossible d\'ajouter l\'imprimante');
 				});
-			},
+			}
 		},
 		computed: {
 			formIsValid(){
@@ -114,7 +107,8 @@
 		},
 		vuex: {
 			actions: {
-				getSites: actions.getSites,
+				addPrinter: actions.addPrinter,
+				getSites: actions.getSites
 			},
 		}
 	};
