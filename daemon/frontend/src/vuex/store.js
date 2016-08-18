@@ -28,12 +28,24 @@ const state = {
     } */
 	],
 	log: [/*
-		 {
-			 "help": "service has not been started yet",
-			 "id": "akema",
-			 "state": "off"
+	 {
+	 "help": "service has not been started yet",
+	 "id": "akema",
+	 "state": "off"
+	 }
+	 */],
+	pings: {
+		/*
+		 "akema": {
+		 "1.1.1.1": { "avg": null, "max": null, "mdev": null, "min": null },
+		 "1.2.3.4": { "avg": null, "max": null, "mdev": null, "min": null },
+		 "avg": null,
+		 "max": null,
+		 "mdev": null,
+		 "min": null
 		 }
-	 */]
+		 */
+	}
 };
 
 export default new Vuex.Store({

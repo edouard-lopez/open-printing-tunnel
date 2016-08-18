@@ -5,10 +5,9 @@
 </style>
 <template>
 	<div class="row">
-		<div class="col-md-6 expandable"
-		>
-			<span class="hint--top-right" aria-label="Tooltip on top">
-				<i class="tunnel-status fa fa-check text-muted"> </i>
+		<div class="col-md-6 expandable">
+			<span class="hint--top-right" aria-label="ping: {{avg}}ms | telnet: ">
+				<i class="tunnel-status fa {{networkIcon}}"> </i>
 			</span>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
@@ -90,10 +89,8 @@
 
 	import http from 'services/http.service';
 	import actions from 'vuex/actions';
+	import getters from "vuex/getters";
 	import logging from 'services/logging.service';
-
-	const sites = http('sites', localStorage);
-
 
 	export default{
 		components: {
@@ -101,12 +98,23 @@
 			'add-printers-button': AddPrintersButtonComponent,
 			'delete': DeleteButton
 		},
+		ready() {
+			this.watchNetwork(this.site);
+		},
 		props: {
 			site: {type: Object, required: true},
 		},
 		computed: {
+			avg: function () {
+				const ping = this.pings[this.site.id];
+				const avg = (typeof ping !== 'undefined') ? ping.avg : null;
+				return avg;
+			},
 			has_printers: function () {
 				return this.site.channels.length > 0;
+			},
+			networkIcon: function () {
+				return this.getNetworkIcon(this.site, this.pings);
 			}
 		},
 		methods: {
@@ -136,6 +144,9 @@
 						.catch(err => {
 							console.error('Échec du téléchargement du script.', err);
 						})
+			},
+			sitePing(site) {
+				return this.pings[site.id];
 			}
 		},
 		vuex: {
@@ -143,11 +154,17 @@
 				getSites: actions.getSites,
 				getSiteScript: actions.getSiteScript,
 				deleteSite: actions.deleteSite,
+				watchNetwork: actions.watchNetwork,
 				saveFile: actions.saveFile,
 				siteStatus: actions.siteStatus,
 				siteStart: actions.siteStart,
 				siteStop: actions.siteStop,
 				siteRestart: actions.siteRestart,
+				getNetworkIcon: actions.getNetworkIcon
+			},
+			getters: {
+				pings: getters.retrievePings,
+				printerPing: getters.retrievePrinterPing,
 			}
 		}
 	}
