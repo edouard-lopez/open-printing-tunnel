@@ -30,8 +30,10 @@
 						<fieldset class="form-group">
 							<label for="hostnames">Adresses des imprimantes<span class="text-danger">*</span></label>
 
-							<textarea rows="8" type="text" class="form-control" id="hostnames"
-									  v-model="printers.hostnames"></textarea>
+							<textarea class="form-control" id="hostnames" v-model="printers.hostnames"
+									  rows="8"
+									  placeholder="description    10.100.12.21    9105"
+							></textarea>
 						</fieldset>
 					</div>
 					<div class="modal-footer">
