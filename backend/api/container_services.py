@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import uuid
 
 import docker
 import docker.utils
@@ -26,6 +27,7 @@ def pop_new_container(data, docker_client=None):
 
 
 def get_network_config(data, docker_client):
+    data['uuid'] = uuid.uuid4()
     network = create_network(data, docker_client)
     network_name = docker_client.inspect_network(network.get('Id')).get('Name')
     network_info = dict()
@@ -52,10 +54,7 @@ def get_default_interface(data):
 
 
 def create_network(data, docker_client):
-    network_name = "opt_network_%s" % data.get('client_id')[:6]
-    for network in docker_client.networks():
-        if network.get('Name') == network_name:
-            return network
+    network_name = "opt_network_%s" % data.get('uuid')[:6]
 
     try:
         ipam_pool = docker.utils.create_ipam_pool(subnet=data.get('subnet'), gateway=data.get('gateway'))

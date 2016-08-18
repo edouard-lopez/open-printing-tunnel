@@ -1,10 +1,11 @@
+import uuid
+
 import docker
 import docker.errors
 from django.conf import settings
-
 from rest_framework.test import APITestCase
 
-from api import container_services, models
+from api import container_services
 from api.tests import factories
 from api.tests import mock
 
@@ -13,11 +14,12 @@ class ContainersTestCase(APITestCase):
     def setUp(self):
         self.docker_api = docker.Client(base_url='unix://var/run/docker.sock')
         self.client = factories.ClientFactory(name='Akema')
+        self.client.uuid = uuid.uuid4()
         self.employee = factories.EmployeeFactory(clients=[self.client])
 
     def test_create_network(self):
         number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'client_id': str(self.client.id),
+        network = container_services.create_network(data={'uuid': str(self.client.uuid),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
@@ -25,7 +27,7 @@ class ContainersTestCase(APITestCase):
         self.docker_api.remove_network(network.get('Id'))
 
     def test_network_use_macvlan_driver(self):
-        network = container_services.create_network(data={'client_id': str(self.client.id),
+        network = container_services.create_network(data={'uuid': str(self.client.uuid),
                                                           'subnet': '10.48.0.0/16',
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
@@ -33,7 +35,7 @@ class ContainersTestCase(APITestCase):
         self.docker_api.remove_network(network.get('Id'))
 
     def test_network_use_custom_parent_interface_if_vlan_id(self):
-        network = container_services.create_network(data={'client_id': str(self.client.id),
+        network = container_services.create_network(data={'uuid': str(self.client.uuid),
                                                           'subnet': '10.48.0.0/16',
                                                           'vlan': 100,
                                                           'gateway': '10.48.0.200'},
@@ -43,36 +45,13 @@ class ContainersTestCase(APITestCase):
         self.docker_api.remove_network(network.get('Id'))
 
     def test_network_use_custom_parent_interface_if_not_vlan_id(self):
-        network = container_services.create_network(data={'client_id': str(self.client.id),
+        network = container_services.create_network(data={'uuid': str(self.client.uuid),
                                                           'subnet': '10.48.0.0/16',
                                                           'vlan': 0,
                                                           'gateway': '10.48.0.200'},
                                                     docker_client=self.docker_api)
         self.assertEqual(settings.DEFAULT_INTERFACE,
                          self.docker_api.inspect_network(network.get('Id'))['Options']['parent'])
-        self.docker_api.remove_network(network.get('Id'))
-
-    def test_create_existing_network_return_old_network(self):
-        number_networks = len(self.docker_api.networks())
-        network = container_services.create_network(data={'client_id': str(self.client.id),
-                                                          'subnet': '10.48.0.0/16',
-                                                          'gateway': '10.48.0.200'},
-                                                    docker_client=self.docker_api)
-        network2 = container_services.create_network(data={'client_id': str(self.client.id),
-                                                           'subnet': '10.48.0.0/16',
-                                                           'gateway': '10.48.0.200'},
-                                                     docker_client=self.docker_api)
-        self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
-        self.assertEqual(network.get('Id'), network2.get('Id'))
-        self.docker_api.remove_network(network.get('Id'))
-
-    def test_create_network_create_bridge_base_on_shorten_client_id(self):
-        network = container_services.create_network(data={'client_id': 'fe234e12dc',
-                                                          'subnet': '10.48.0.0/16',
-                                                          'gateway': '10.48.0.200'},
-                                                    docker_client=self.docker_api)
-        bridge_name = self.docker_api.inspect_network(network.get('Id')).get('Name')
-        self.assertEqual('opt_network_fe234e', bridge_name)
         self.docker_api.remove_network(network.get('Id'))
 
     def test_can_get_container_network_infos(self):
