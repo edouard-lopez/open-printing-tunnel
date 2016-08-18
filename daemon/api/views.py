@@ -181,7 +181,6 @@ class Ping(Resource):
 
         for printer in printers:
             hostname = printer['hostname']
-            ping = network_utils.ping(hostname)
             response[site_id][hostname] = network_utils.ping(hostname)
         return response
 
