@@ -26,6 +26,12 @@
 								</select>
 							</fieldset>
 							<fieldset class="form-group">
+								<label for="containerIp">Container IP <span class="text-danger">*</span></label>
+
+								<input type="text" class="form-control" id="containerIp" required
+									   placeholder="10.0.0.1" v-model="daemon.ip"/>
+							</fieldset>
+							<fieldset class="form-group">
 								<label for="subnet">Subnet <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="subnet" required
@@ -36,12 +42,6 @@
 
 								<input type="text" class="form-control" id="gateway" required
 									   placeholder="10.0.0.254" v-model="daemon.gateway"/>
-							</fieldset>
-							<fieldset class="form-group">
-								<label for="containerIp">Container IP <span class="text-danger">*</span></label>
-
-								<input type="text" class="form-control" id="containerIp" required
-									   placeholder="10.0.0.1" v-model="daemon.ip"/>
 							</fieldset>
 							<fieldset class="form-group">
 								<label for="hostname">Hostname <span class="text-danger">*</span></label>
