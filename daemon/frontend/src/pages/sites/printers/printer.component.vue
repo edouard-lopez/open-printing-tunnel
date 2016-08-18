@@ -7,6 +7,7 @@
 	<div class="row btn-toolbar" id="{{ site.id }}-id:{{ printer.id }}"
 		 role="toolbar" aria-label="Toolbar with button groups">
 		<div class="col-md-6" role="group" aria-label="Actions publiques">
+			<network :ping="ping"></network>
 			<span class="description">{{ printer.description }}</span>
 		</div>
 		<div class="col-md-4">
@@ -43,16 +44,16 @@
 </template>
 <script type="text/ecmascript-6">
 	import DeleteButton from 'components/delete-button';
+	import Network from 'components/network';
 
 	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
+	import getters from "vuex/getters";
 
 	export default {
 		components: {
-			'delete': DeleteButton
-		},
-		data() {
-			return {};
+			'delete': DeleteButton,
+			'network': Network
 		},
 		props: {
 			printer: {type: Object, required: true},
@@ -64,6 +65,9 @@
 			},
 			from() {
 				return this.printer.ports.forward
+			},
+			ping() {
+				return this.pings[this.site.id][this.printer.hostname];
 			}
 		},
 		methods: {
@@ -88,8 +92,11 @@
 				deletePrinter: actions.deletePrinter,
 				getPrinterScript: actions.getPrinterScript,
 				getSites: actions.getSites,
-				saveFile: actions.saveFile
+				saveFile: actions.saveFile,
 			},
+			getters: {
+				pings: getters.retrievePings,
+			}
 		}
 	}
 </script>

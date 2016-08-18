@@ -8,7 +8,6 @@ const scripts = http('scripts', localStorage);
 const printers = http('printers', localStorage);
 const ping = http('ping', localStorage);
 
-
 export default {
 	addPrinter({dispatch}, printer) {
 		return printers.create(printer).then(response => {
@@ -125,22 +124,7 @@ export default {
 				dispatch('setPingData', response.data);
 			}).catch(err => {
 				console.error('Échec de la récupération des pings.', err);
-			})
-		}, 10*1000);
+			});
+		}, 15 * 1000);
 	},
-	getNetworkIcon({dispatch}, site, pings) {
-		let icon = 'fa-ellipsis text-muted';
-		const ping = pings[site.id];
-
-		if (typeof ping !== 'undefined') {
-			if (ping.avg > 0) {
-				icon = 'fa-check text-success';
-			}
-			else {
-				icon = 'fa-times text-danger';
-			}
-		}
-
-		return icon;
-	}
 };

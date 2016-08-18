@@ -6,9 +6,7 @@
 <template>
 	<div class="row">
 		<div class="col-md-6 expandable">
-			<span class="hint--top-right" aria-label="ping: {{avg}}ms | telnet: ">
-				<i class="tunnel-status fa {{networkIcon}}"> </i>
-			</span>
+			<network :ping="ping"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
 				  aria-expanded="false"
@@ -86,6 +84,7 @@
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 	import AddPrintersButtonComponent from './add-printers.component.vue';
 	import DeleteButton from 'components/delete-button';
+	import Network from 'components/network';
 
 	import http from 'services/http.service';
 	import actions from 'vuex/actions';
@@ -96,7 +95,8 @@
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
 			'add-printers-button': AddPrintersButtonComponent,
-			'delete': DeleteButton
+			'delete': DeleteButton,
+			'network': Network
 		},
 		ready() {
 			this.watchNetwork(this.site);
@@ -105,16 +105,11 @@
 			site: {type: Object, required: true},
 		},
 		computed: {
-			avg: function () {
-				const ping = this.pings[this.site.id];
-				const avg = (typeof ping !== 'undefined') ? ping.avg : null;
-				return avg;
-			},
 			has_printers: function () {
 				return this.site.channels.length > 0;
 			},
-			networkIcon: function () {
-				return this.getNetworkIcon(this.site, this.pings);
+			ping() {
+				return this.pings[this.site.id];
 			}
 		},
 		methods: {
@@ -145,9 +140,6 @@
 							console.error('Échec du téléchargement du script.', err);
 						})
 			},
-			sitePing(site) {
-				return this.pings[site.id];
-			}
 		},
 		vuex: {
 			actions: {
@@ -160,11 +152,9 @@
 				siteStart: actions.siteStart,
 				siteStop: actions.siteStop,
 				siteRestart: actions.siteRestart,
-				getNetworkIcon: actions.getNetworkIcon
 			},
 			getters: {
 				pings: getters.retrievePings,
-				printerPing: getters.retrievePrinterPing,
 			}
 		}
 	}

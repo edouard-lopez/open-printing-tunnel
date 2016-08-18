@@ -9,10 +9,9 @@ export default {
 		return state.pings;
 	},
 	retrieveSitePing(state, site) {
-		console.log(site)
-		return state.pings[site.id]
+		return state.pings[site.id];
 	},
-	retrievePrinterPing(state, site, printer) {
-		return state.pings[site.id][printer.id];
+	retrievePrinterPing(state, printer) {
+		return state.pings[printer.site][printer.hostname];
 	}
 };
