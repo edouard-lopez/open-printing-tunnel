@@ -74,6 +74,7 @@
 			delete_printer(printer) {
 				return this.deletePrinter(this.site, printer).then(response => {
 					this.getSites();
+					this.siteRestart(this.site);
 				});
 			},
 			getScript(site, printer) {
@@ -93,6 +94,7 @@
 				getPrinterScript: actions.getPrinterScript,
 				getSites: actions.getSites,
 				saveFile: actions.saveFile,
+				siteRestart: actions.siteRestart
 			},
 			getters: {
 				pings: getters.retrievePings,

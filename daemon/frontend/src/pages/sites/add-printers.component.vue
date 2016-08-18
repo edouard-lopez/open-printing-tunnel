@@ -82,6 +82,7 @@
 					printer['site'] = this.site.id;
 					this.addPrinter(printer).then(response => {
 						this.getSites();
+						this.siteRestart(this.site);
 						$('#printers-modal-' + response.data.site).modal('hide');
 						this.formSubmitted = false;
 					}).catch((err) => {
@@ -103,7 +104,8 @@
 		vuex: {
 			actions: {
 				addPrinter: actions.addPrinter,
-				getSites: actions.getSites
+				getSites: actions.getSites,
+				siteRestart: actions.siteRestart
 			}
 		}
 	};
