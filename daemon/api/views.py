@@ -1,16 +1,16 @@
 import logging
-
 import sys
+
 from flask import Flask
 from flask import Response
 from flask import request
 from flask_restful import Resource, Api, abort
 from slugify import slugify
 
-import network_utils
-import scripts_generators
 import daemon
 import mast_utils
+import network_utils
+import scripts_generators
 import validators
 
 app = Flask(__name__)
@@ -174,7 +174,7 @@ class SiteInstallScript(Resource):
 class Ping(Resource):
     def get(self, site_id):
         response = {}
-        
+
         site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
         response[site_id] = network_utils.ping(site_hostname)
         printers = mast_utils.list_printers(site_id)['results']['channels']
@@ -188,15 +188,13 @@ class Ping(Resource):
 
 class Telnet(Resource):
     def get(self, site_id):
-        response = {}
+        response = {'hello': None}
 
         site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
-        response[site_id] = network_utils.telnet(site_hostname, 22)
+        # # response[site_id] = network_utils.telnet(site_hostname, 22)
         printers = mast_utils.list_printers(site_id)['results']['channels']
+        response = network_utils.parellelize_telnet(site_hostname, printers)
 
-        for printer in printers:
-            hostname = printer['hostname']
-            response[site_id][hostname] = network_utils.telnet(hostname, 9100)
         return response
 
 
