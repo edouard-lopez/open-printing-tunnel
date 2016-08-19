@@ -9,9 +9,14 @@ logger = logging.getLogger(__name__)
 
 
 def ping(hostname):
-    command = ['ping', '-c', '1', '-w', '1', '-q', hostname]
+    command = ['ping', '-q', hostname,
+               '-w', '1',
+               '-W', '1',
+               '-i', '0.2'
+           ]
 
     response = shell.execute(command)
+
     return output_parser.ping(response['results'])
 
 
