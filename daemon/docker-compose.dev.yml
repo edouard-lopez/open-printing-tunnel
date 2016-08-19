@@ -13,7 +13,7 @@ services:
       - ./frontend:/frontend
       - node_modules:/frontend/node_modules
       - mast:/etc/mast
-      - bash_history:/root/.bash_history
+      - .bash_history:/root/
     command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
     links:
       - optbox
