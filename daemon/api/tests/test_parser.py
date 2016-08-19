@@ -385,6 +385,18 @@ class ParserTestCase(unittest.TestCase):
         })
 
     def test_parse_ping_unreachable_host(self):
+        stdout = ['ping: unknown host unreachable']
+
+        response = output_parser.ping(stdout)
+
+        self.assertDictEqual(response, {
+            'min': None,
+            'avg': None,
+            'max': None,
+            'mdev': None
+        })
+
+    def test_parse_ping_all_packets_lost(self):
         stdout = [
             'PING 1.1.1.1 (1.1.1.1): 56 data bytes',
             '--- 1.1.1.1 ping statistics ---',

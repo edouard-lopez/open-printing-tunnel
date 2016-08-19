@@ -234,7 +234,7 @@ def ping(stdout):
     response = {}
     last_line = stdout[-1]
 
-    if '100% packet loss' in last_line:
+    if '100% packet loss' in last_line or 'unknown host' in last_line:
         response = {
             'min': None,
             'avg': None,
