@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 
 def render(filename, data):
-    package_name = 'scripts'
+    package_name = 'scripts_generators'
     env = jinja2.Environment(loader=jinja2.PackageLoader(package_name, 'templates'))
 
     template = env.get_template(filename)
