@@ -8,7 +8,7 @@ from flask_restful import Resource, Api, abort
 from slugify import slugify
 
 import network_utils
-import scripts
+import scripts_generators
 import daemon
 import mast_utils
 import validators
@@ -137,8 +137,8 @@ class PrinterInstallScript(Resource):
 
         printers = mast_utils.list_printers(site_id)['results']['channels']
         printer = mast_utils.get_printer(printers, printer_id)
-        data = scripts.prepare_printer_install_data(site_id, printer, site_host)
-        script = scripts.render(filename, data)
+        data = scripts_generators.prepare_printer_install_data(site_id, printer, site_host)
+        script = scripts_generators.render(filename, data)
 
         return Response(
             script,
@@ -161,8 +161,8 @@ class SiteInstallScript(Resource):
         site_host = request.headers['Host']
 
         printers = mast_utils.list_printers(site_id)['results']['channels']
-        data = scripts.prepare_site_install_data(site_id, printers, site_host)
-        script = scripts.render(filename, {'sites': data})
+        data = scripts_generators.prepare_site_install_data(site_id, printers, site_host)
+        script = scripts_generators.render(filename, {'sites': data})
 
         return Response(
             script,

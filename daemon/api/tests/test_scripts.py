@@ -1,14 +1,14 @@
 import unittest
 
 import mast_utils
-import scripts
+import scripts_generators
 
 
-class TemplateTestCase(unittest.TestCase):
+class ScriptsGeneratorTestCase(unittest.TestCase):
     def test_can_generate_simple_file_from_template(self):
         filename = 'printer.bat.j2'
 
-        content = scripts.render(filename, {
+        content = scripts_generators.render(filename, {
             'vps': 'akema.opt',
             'imp': '1.2.3.4',
             'port': '9104',
@@ -27,7 +27,7 @@ class TemplateTestCase(unittest.TestCase):
     def test_can_generate_concatenation_of_scripts(self):
         filename = 'site.bat.j2'
 
-        content = scripts.render(filename, {'sites': [
+        content = scripts_generators.render(filename, {'sites': [
             {'vps': 'akema.opt', 'imp': '1.2.3.4', 'port': '9101', 'name': 'akema'},
             {'vps': 'akema.opt', 'imp': '1.2.3.5', 'port': '9102', 'name': 'akema'},
             {'vps': 'akema.opt', 'imp': '1.2.3.6', 'port': '9103', 'name': 'akema'}
@@ -51,7 +51,7 @@ class TemplateTestCase(unittest.TestCase):
 
         site_id = 'akema'
         site_host = 'akema.coaxis.opt'
-        data = scripts.prepare_printer_install_data(site_id, printer, site_host)
+        data = scripts_generators.prepare_printer_install_data(site_id, printer, site_host)
 
         self.assertDictEqual(data, {
             'port': 9102,
@@ -85,7 +85,7 @@ class TemplateTestCase(unittest.TestCase):
         ]
         site_id = 'akema'
         site_host = 'akema.coaxis.opt'
-        data = scripts.prepare_site_install_data(site_id, printers, site_host)
+        data = scripts_generators.prepare_site_install_data(site_id, printers, site_host)
 
         self.assertEqual(len(data), 2)
         self.assertListEqual(data, [
