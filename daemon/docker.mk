@@ -7,14 +7,14 @@
 #   or
 #	./docker.mk build
 #	then
-#	./docker.mk run
+#	./docker.mk dev
 
 
 # force use of Bash
 SHELL := /bin/bash
 DOCKER_COMPOSE=docker-compose -f docker-compose.dev.yml
 
-default: build run
+default: build dev
 
 dev:
 	${DOCKER_COMPOSE} up -d
@@ -26,7 +26,7 @@ build: remove
 remove:
 	${DOCKER_COMPOSE} rm --force coaxisopt_daemon || true
 
-restart: remove run
+restart: remove dev
 
 prod:
 	docker run -p 80:80 coaxisopt_daemon:latest
