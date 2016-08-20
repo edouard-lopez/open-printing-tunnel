@@ -38,17 +38,17 @@ def telnet(hostname=None, port=22, timeout=0.5, **kwargs):
     return {'telnet': delta}
 
 
-def collect(func, response, **kwargs):
+def collect(task, response, **kwargs):
     hostname = kwargs['hostname']
 
-    response[hostname] = func(**kwargs)
+    response[hostname] = task(**kwargs)
 
 
-def parellelize_telnet(site_id, printers, **kwargs):
+def parellelize(task, site_id, printers, **kwargs):
     response = {}
     kw = kwargs.copy()
     kw.update({'hostname': site_id})
-    collect(telnet, response, **kw)
+    collect(task, response, **kw)
 
     printers_response = {}
     threads = []
@@ -60,7 +60,7 @@ def parellelize_telnet(site_id, printers, **kwargs):
         threads.append(
             threading.Thread(
                 target=collect,
-                args=(telnet, printers_response),
+                args=(task, printers_response),
                 kwargs=kw
             )
         )

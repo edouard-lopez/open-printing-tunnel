@@ -173,28 +173,19 @@ class SiteInstallScript(Resource):
 
 class Ping(Resource):
     def get(self, site_id):
-        response = {}
-
         site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
-        response[site_id] = network_utils.ping(site_hostname)
         printers = mast_utils.list_printers(site_id)['results']['channels']
 
-        for printer in printers:
-            hostname = printer['hostname']
-            response[site_id][hostname] = network_utils.ping(hostname)
-
+        response = network_utils.parellelize(network_utils.ping, site_hostname, printers)
         return response
 
 
 class Telnet(Resource):
     def get(self, site_id):
-        response = {'hello': None}
-
         site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
-        # # response[site_id] = network_utils.telnet(site_hostname, 22)
         printers = mast_utils.list_printers(site_id)['results']['channels']
-        response = network_utils.parellelize_telnet(site_hostname, printers)
 
+        response = network_utils.parellelize(network_utils.telnet, site_hostname, printers)
         return response
 
 
