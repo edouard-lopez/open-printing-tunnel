@@ -8,10 +8,7 @@ export default {
 	retrievePings(state) {
 		return state.pings;
 	},
-	retrieveSitePing(state, site) {
-		return state.pings[site.id];
-	},
-	retrievePrinterPing(state, printer) {
-		return state.pings[printer.site][printer.hostname];
+	retrieveTelnets(state) {
+		return state.telnets;
 	}
 };

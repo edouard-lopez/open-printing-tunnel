@@ -6,7 +6,7 @@
 <template>
 	<div class="row">
 		<div class="col-md-6 expandable">
-			<network :ping="ping"></network>
+			<network :ping="ping" :telnet="telnet"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
 				  aria-expanded="false"
@@ -109,7 +109,22 @@
 				return this.site.channels.length > 0;
 			},
 			ping() {
-				return this.pings[this.site.id];
+				var data = null;
+
+				if (typeof this.pings !== 'undefined') {
+					data = this.pings[this.site.hostname];
+				}
+
+				return data;
+			},
+			telnet() {
+				var data = null;
+
+				if (typeof this.telnets !== 'undefined') {
+					data = this.telnets[this.site.hostname];
+				}
+
+				return data;
 			}
 		},
 		methods: {
@@ -133,7 +148,6 @@
 			getScript(site) {
 				this.getSiteScript(site)
 						.then(response => {
-							console.log(response)
 							this.saveFile(response);
 						})
 						.catch(err => {
@@ -155,6 +169,7 @@
 			},
 			getters: {
 				pings: getters.retrievePings,
+				telnets: getters.retrieveTelnets,
 			}
 		}
 	}

@@ -7,6 +7,7 @@ const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
 const printers = http('printers', localStorage);
 const ping = http('ping', localStorage);
+const telnet = http('telnet', localStorage);
 
 export default {
 	addPrinter({dispatch}, printer) {
@@ -124,6 +125,12 @@ export default {
 				dispatch('setPingData', response.data);
 			}).catch(err => {
 				console.error('Échec de la récupération des pings.', err);
+			});
+
+			telnet.get(site).then(response => {
+				dispatch('setTelnetData', response.data);
+			}).catch(err => {
+				console.error('Échec de la récupération des telnets.', err);
 			});
 		}, 15 * 1000);
 	},

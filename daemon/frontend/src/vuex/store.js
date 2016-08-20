@@ -43,7 +43,7 @@ const state = {
 		 }
 		 */
 	},
-	telnet: {
+	telnets: {
 		/**
 		 'akema': {
 			 '1.1.1.1': {'telnet': null},
