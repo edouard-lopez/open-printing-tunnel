@@ -60,3 +60,48 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
         self.assertGreater(response[site_hostname]['ping'], 0)
         self.assertGreater(response[site_hostname]['127.0.0.1']['ping'], 0)
+
+    def test_dict_merge(self):
+        pings = {
+            'akema': {
+                '1.1.1.1': {'ping': None},
+                '1.2.3.4': {'ping': None},
+                'ping': None,
+            },
+            'coaxis': {
+                '1.1.1.1': {'ping': None},
+                '8.8.8.8': {'ping': None},
+                'ping': None,
+            }
+        }
+        telnets = {
+            'akema': {
+                '1.1.1.1': {'telnet': None},
+                'telnet': None,
+            },
+            'coaxis': {
+                '1.1.1.1': {'telnet': None},
+                '1.2.3.4': {'telnet': None},
+                '8.8.8.8': {'telnet': None},
+                'telnet': None,
+            }
+        }
+
+        results = pings.copy()
+        network_utils.deep_merge(results, telnets)
+
+        self.assertDictEqual(results, {
+            'akema': {
+                '1.1.1.1': {'ping': None, 'telnet': None},
+                '1.2.3.4': {'ping': None},
+                'ping': None,
+                'telnet': None,
+            },
+            'coaxis': {
+                '1.1.1.1': {'ping': None, 'telnet': None},
+                '8.8.8.8': {'ping': None, 'telnet': None},
+                'ping': None,
+                '1.2.3.4': {'telnet': None},
+                'telnet': None,
+            }
+        })

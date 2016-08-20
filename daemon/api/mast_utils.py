@@ -47,7 +47,7 @@ def remove_printer(site, printer_id):
     return shell.execute(command)
 
 
-def list_sites(site):
+def list_sites(site=None):
     command = [makefile, 'list-hosts']
     if site:
         command.append(' NAME=' + site)
