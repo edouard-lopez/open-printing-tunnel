@@ -24,6 +24,7 @@ def fping(hostnames):
 
 
 def telnet(hostname=None, port=22, timeout=0.5, **kwargs):
+    logger.debug('hostname', hostname)
     start = timer()
     connection = socket.socket()
     connection.settimeout(timeout)
@@ -31,7 +32,7 @@ def telnet(hostname=None, port=22, timeout=0.5, **kwargs):
         connection.connect((hostname, port))
         end = timer()
         delta = end - start
-    except (socket.timeout, socket.gaierror) as error:
+    except:
         delta = None
     finally:
         connection.close()
