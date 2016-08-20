@@ -4,46 +4,6 @@ import network_utils
 
 
 class NetwrokUtilsTestCase(unittest.TestCase):
-    def test_ping_is_null_when_host_unreachable(self):
-        hostname = 'unreachable'
-
-        response = network_utils.ping(hostname)
-
-        self.assertDictEqual(response, {
-            'avg': None,
-            'max': None,
-            'mdev': None,
-            'min': None
-        })
-
-    def test_ping_reply_time_when_reachable(self):
-        hostname = '127.0.0.1'
-
-        response = network_utils.ping(hostname)
-
-        self.assertGreater(response['avg'], 0)
-
-    def test_ping_with_only_a_site(self):
-        site_hostname = 'localhost'
-        printers = []
-        response = {}
-
-        response = network_utils.parellelize(network_utils.ping, site_hostname, printers)
-
-        self.assertGreater(response[site_hostname]['avg'], 0)
-
-    def test_ping_with_printers(self):
-        site_hostname = 'localhost'
-        printers = [
-            {'hostname': '127.0.0.1', 'port': 22},
-            {'hostname': '0.0.0.0', 'port': 22},
-        ]
-
-        response = network_utils.parellelize(network_utils.ping, site_hostname, printers)
-
-        self.assertGreater(response[site_hostname]['avg'], 0)
-        self.assertGreater(response[site_hostname]['127.0.0.1']['avg'], 0)
-
     def test_telnet_is_null_when_host_unreachable(self):
         hostname = 'unreachable'
         response = {}
@@ -80,3 +40,23 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
         self.assertGreater(response[site_hostname]['telnet'], 0)
         self.assertGreater(response[site_hostname]['127.0.0.1']['telnet'], 0)
+
+    def test_fping_with_only_a_site(self):
+        site_hostname = 'localhost'
+        printers = []
+
+        response = network_utils.ping_site_and_printers(site_hostname, printers)
+
+        self.assertGreater(response[site_hostname]['ping'], 0)
+
+    def test_fping_site_with_printers(self):
+        site_hostname = 'localhost'
+        printers = [
+            {'hostname': '127.0.0.1', 'port': 22},
+            {'hostname': '127.0.1.1', 'port': 22},
+        ]
+
+        response = network_utils.ping_site_and_printers(site_hostname, printers)
+
+        self.assertGreater(response[site_hostname]['ping'], 0)
+        self.assertGreater(response[site_hostname]['127.0.0.1']['ping'], 0)

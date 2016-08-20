@@ -9,16 +9,18 @@ import shell
 logger = logging.getLogger(__name__)
 
 
-def ping(hostname):
-    command = ['ping', '-q', hostname,
-               '-w', '1',
-               '-W', '1',
-               '-i', '0.2'
+def fping(hostnames):
+    command = ['fping',
+               '-p', '100',
+               '-r', '0',
+               '-t', '300',
+               '-e',
                ]
+    command.extend(hostnames)
 
     response = shell.execute(command)
 
-    return output_parser.ping(response['results'])
+    return output_parser.fping(response['results'])
 
 
 def telnet(hostname=None, port=22, timeout=0.5, **kwargs):
@@ -30,7 +32,6 @@ def telnet(hostname=None, port=22, timeout=0.5, **kwargs):
         end = timer()
         delta = end - start
     except (socket.timeout, socket.gaierror) as error:
-        logger.debug('telnet error: ', error)
         delta = None
     finally:
         connection.close()
@@ -70,5 +71,16 @@ def parellelize(task, site_id, printers, **kwargs):
         thread.join()
 
     response[site_id].update(printers_response)
+
+    return response
+
+
+def ping_site_and_printers(site_hostname, printers):
+    hostnames = [site_hostname]
+    printers_hostnames = [printer['hostname'] for printer in printers]
+
+    response = fping([site_hostname])
+    if len(printers_hostnames) > 0:
+        response[site_hostname].update(fping(printers_hostnames))
 
     return response

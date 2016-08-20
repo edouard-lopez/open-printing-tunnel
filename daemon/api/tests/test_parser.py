@@ -366,53 +366,31 @@ class ParserTestCase(unittest.TestCase):
             'description': 'Ricoh Aficio MPC300\tadded'
         })
 
-    def test_parse_ping(self):
+    def test_parse_fping_replying_hosts(self):
         stdout = [
-            "PING localhost (127.0.0.1) 56(84) bytes of data.",
-            "",
-            "--- localhost ping statistics ---",
-            "1 packets transmitted, 1 received, 0% packet loss, time 0ms",
-            "rtt min/avg/max/mdev = 27.883/37.883/57.883/0.000 ms"
+            "216.58.208.253 is alive (96.1 ms)",
+            "216.58.208.254 is alive (88.4 ms)",
         ]
 
-        response = output_parser.ping(stdout)
+        response = output_parser.fping(stdout)
 
         self.assertDictEqual(response, {
-            'min': 27.883,
-            'avg': 37.883,
-            'max': 57.883,
-            'mdev': 0.0
+            '216.58.208.253':  {'ping': 96.1},
+            '216.58.208.254':  {'ping': 88.4}
         })
 
-    def test_parse_ping_unreachable_host(self):
-        stdout = ['ping: unknown host unreachable']
-
-        response = output_parser.ping(stdout)
-
-        self.assertDictEqual(response, {
-            'min': None,
-            'avg': None,
-            'max': None,
-            'mdev': None
-        })
-
-    def test_parse_ping_all_packets_lost(self):
+    def test_parse_fping_unreachable_hosts(self):
         stdout = [
-            'PING 1.1.1.1 (1.1.1.1): 56 data bytes',
-            '--- 1.1.1.1 ping statistics ---',
-            '1 packets transmitted, 0 packets received, 100% packet loss'
+            "216.58.208.3 is unreachable",
+            "216.58.208.4 is unreachable",
         ]
 
-        response = output_parser.ping(stdout)
+        response = output_parser.fping(stdout)
 
         self.assertDictEqual(response, {
-            'min': None,
-            'avg': None,
-            'max': None,
-            'mdev': None
+            '216.58.208.3': {'ping': None},
+            '216.58.208.4': {'ping': None}
         })
-
-
 
 if __name__ == '__main__':
     unittest.main()

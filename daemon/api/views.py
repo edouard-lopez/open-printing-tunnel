@@ -176,8 +176,7 @@ class Ping(Resource):
         site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
         printers = mast_utils.list_printers(site_id)['results']['channels']
 
-        response = network_utils.parellelize(network_utils.ping, site_hostname, printers)
-        return response
+        return network_utils.ping_site_and_printers(site_hostname, printers)
 
 
 class Telnet(Resource):

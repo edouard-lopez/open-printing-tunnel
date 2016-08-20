@@ -16,6 +16,7 @@ RUN apt-get update \
             bmon \
             dpkg \
             gawk \
+            fping \
             git \
             grep \
             htop \

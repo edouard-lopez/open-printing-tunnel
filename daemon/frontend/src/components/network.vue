@@ -1,5 +1,5 @@
 <template>
-	<span class="hint--top-right" aria-label="ping: {{ping.avg}}ms | telnet: ">
+	<span class="hint--top-right" aria-label="ping: {{ping.ping}}ms | telnet: ">
 				<i class="tunnel-status fa {{networkIcon}}"> </i>
 			</span>
 </template>
@@ -11,10 +11,7 @@
 				required: true,
 				default: function () {
 					return {
-						avg: null,
-						max: null,
-						mdev: null,
-						min: null
+						ping: null
 					}
 				}
 			},
@@ -24,7 +21,7 @@
 				let icon = 'fa-ellipsis text-muted';
 
 				if (typeof this.ping !== 'undefined') {
-					if (typeof this.ping.avg === 'number' && this.ping.avg > 0) {
+					if (typeof this.ping.ping === 'number' && this.ping.ping > 0) {
 						icon = 'fa-check text-success';
 					}
 					else {

@@ -230,25 +230,18 @@ def add_printer(lines):
     return response
 
 
-def ping(stdout):
+def fping(stdout):
     response = {}
-    last_line = stdout[-1]
 
-    if '100% packet loss' in last_line or 'unknown host' in last_line:
-        response = {
-            'min': None,
-            'avg': None,
-            'max': None,
-            'mdev': None
-        }
-    else:
-        stats = last_line.split('=')[1]
-        data = stats.split('/')
-        response = {
-        'min': float(data[0]),
-        'avg': float(data[1]),
-        'max': float(data[2]),
-        'mdev': float(data[3].split()[0])
-    }
+    for line in stdout:
+        if 'alive' in line:
+            parser = re.compile(r'(?P<hostname>[^\s]+).+\((?P<time>[\d.]+)\s')
+            matches = parser.search(line)
+            data = matches.groupdict()
+
+            response[data['hostname']] = {'ping': float(data['time'])}
+        else:
+            hostname = line.split()[0]
+            response[hostname] = {'ping': None}
 
     return response

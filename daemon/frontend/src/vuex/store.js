@@ -11,15 +11,15 @@ const debug = process.env.NODE_ENV !== 'production';
 const state = {
 	sites: [
 		/** {
-        hostname: "192.168.2.23",
-        id: "akema",
+        hostname: '192.168.2.23',
+        id: 'akema',
         printers: [
             {
-                description: "bureau",
+                description: 'bureau',
                 id: 0,
-				hostname: "1.2.3.4",
+				hostname: '1.2.3.4',
                 ports: {
-					forward: "remote",
+					forward: 'remote',
 					listen: 9102
                 	send: 9100,
                 }
@@ -29,20 +29,26 @@ const state = {
 	],
 	log: [/*
 	 {
-	 "help": "service has not been started yet",
-	 "id": "akema",
-	 "state": "off"
+	 'help': 'service has not been started yet',
+	 'id': 'akema',
+	 'state': 'off'
 	 }
 	 */],
 	pings: {
 		/*
-		 "akema": {
-		 "1.1.1.1": { "avg": null, "max": null, "mdev": null, "min": null },
-		 "1.2.3.4": { "avg": null, "max": null, "mdev": null, "min": null },
-		 "avg": null,
-		 "max": null,
-		 "mdev": null,
-		 "min": null
+		 'akema': {
+		 '1.1.1.1': { 'ping': null },
+		 '1.2.3.4': { 'ping': null },
+		 'ping': null,
+		 }
+		 */
+	},
+	telnet: {
+		/**
+		 'akema': {
+			 '1.1.1.1': {'telnet': null},
+			 '1.2.3.4': {'telnet': },
+			 'telnet': 0.00013
 		 }
 		 */
 	}
