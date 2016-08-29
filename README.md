@@ -13,7 +13,9 @@
     * [frontend/](./daemon/frontend): web interface to manage sites and printers (_add_, _remove_, _edit_, etc.) and check printers status ;
     * [optbox/](./daemon/optbox): development container to simulate remote device ;
     * [proxy-web/](./daemon/proxy-web): proxy requests to frontend or the API.
-* [deploy/](./deploy): scripts for project's deployment.
+* [deploy/](./deploy): scripts for project's deployment ;
+* [nginx/](./nginx): main server configuration to reach backend ;
+* ~~[webapp](./webapp)~~ **(deprecated)**: legacy application.
 
     
 ## Architecture
@@ -63,7 +65,7 @@ We are using a `docker-compose` to manage the various containers. See [how to do
 * **channels**: a port forwarding configuration from _datacenter_ to _printer_ (one per printer) ;
 * **clients**: company that require printing stream compression, may have several sites, each with one or many printers ;
 * **datacenter**: manages TSE instances for differents sites and clients, also manage the `OPT` instance ; 
-* **remote devices** or **site*s*: a machine at the customer location accessible through Internet by its IP address or FQDN. Each device can be connected to one or more printers locally to forward data streams ;
+* **remote devices** or **sites**: a machine at the customer location accessible through Internet by its IP address or FQDN. Each device can be connected to one or more printers locally to forward data streams ;
 * **tunnels**: an SSH's tunnel between the data-center and the remote machine. Can have one or more channels ;
 * **configuration** : are stored in each container in `/etc/mast/$site_id` while the `/etc/mast/` directory is a docker volume.
 
