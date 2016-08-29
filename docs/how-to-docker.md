@@ -25,25 +25,17 @@ docker-compose --version
 ```
 
 ## Usage
-
-### Configure DNS
-
-You need to edit [docker-compose.yml](../docker-compose.yml) file to change the value of the [`extra_hosts`](https://docs.docker.com/compose/compose-file/#extra-hosts) directive. Only the domain name should change and target the local loop (e.g. `127.0.0.1`): 
-
-    extra_hosts:
-      - "mon-client.opt:127.0.0.1"
-
     
 ### Entering in a `docker`
 
 You can enter in a `docker` container to explore it live:
 
-    docker exec -it coaxisopt_daemon_1 bash
+    docker exec -it coaxisopt_daemon bash
     
-Where _`coaxisopt_daemon_1`_ is the name of the container (see [`docker ps -a`](https://docs.docker.com/engine/reference/commandline/ps/))
+Where _`coaxisopt_daemon`_ is the name of the container (see [`docker ps -a`](https://docs.docker.com/engine/reference/commandline/ps/))
 
 #### Reading the logs
 
 We can use the above method to watch apache logs:
 
-    docker exec -it coaxisopt_daemon_1 bash -c 'tail -f /var/log/apache2/*'
+    docker exec -it coaxisopt_daemon bash -c 'tail -f /var/log/apache2/*'

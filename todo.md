@@ -1,3 +1,15 @@
+* grab site SSH port to customize telnet command
+* ~~PV recette~~
+
+* fixes
+    * [ ] unicode caractere in description?
+
+## Sprint #5
+
+* refonte architecture logiciel (clentsdeaemon)
+* Plug sites ;
+* Plug printer ;
+
 ## Sprint #5
 
 * Flask API
@@ -33,32 +45,6 @@ Coté hôte docker, il faut:
 
 ## Sprint #2
 
-### Glossaire
-
-* **interface admin** (ou `opt.coaxis.com`):
-    * interface d'administration pour les techniciens Coaxis et pour les admins clients ;
-    * l'indentification se fait pas email/mot de passe et donne accès au `back-office` et `front-office`.
-* **back-office**:
-    * accès restreint aux techniciens Coaxis ;
-    * permet la création des nouveaux clients (`docker`) ;
-    * accès `read-write` sur les fichiers de configuration SSH ;
-* **front-office**:
-    * accès restreint aux administrateurs client ;
-    * permet de gérer les imprimantes et les sites géographiques ;
-    * il est responsable de la gestion des _configurations SSH_ ;
-    * actions tunnels (`status`, `start`, etc.) ;
-    * infos état (serice, `telnet`, `ping`) ;
-* **configurations SSH** :
-    * elles sont stockées dans des volumes nommées accessible au `front-office`.
-* **docker-opt** contient :
-    * le daemon `mast` qui gère les tunnels (`restart`, `status`) ;
-    * trickle pour la compression ;
-    * un `nginx` qui proxy-pass les clients vers l'_interface admin_ ;
-    * accès `read-only` sur les fichiers de _configurations SSH_ ;
-    * accès `read-write` sur les logs (e.g. `apache`).
-* **volume partage**
-    * via un partage réseau (Samba, NFS, etc.) ;
-    * contient les configurations SSH (une part site).
 
 ### Scénario d'Usage
 
