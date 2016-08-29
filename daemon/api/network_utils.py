@@ -87,9 +87,6 @@ def ping_site_and_printers(site_hostname, printers):
     return response
 
 
-import collections
-
-
 def deep_merge(a, b, path=None):
     "merges b into a"
     if path is None: path = []

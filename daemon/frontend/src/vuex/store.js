@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createLogger from '../middlewares/logger';
-import mutations from './mutations';
+import Vue from "vue";
+import Vuex from "vuex";
+import createLogger from "../middlewares/logger";
+import mutations from "./mutations";
 
 Vue.use(Vuex);
 Vue.config.debug = true;
@@ -34,21 +34,20 @@ const state = {
 	 'state': 'off'
 	 }
 	 */],
-	pings: {
+	networks: {
 		/*
 		 'akema': {
-		 '1.1.1.1': { 'ping': null },
-		 '1.2.3.4': { 'ping': null },
-		 'ping': null,
-		 }
-		 */
-	},
-	telnets: {
-		/**
-		 'akema': {
-			 '1.1.1.1': {'telnet': null},
-			 '1.2.3.4': {'telnet': },
-			 'telnet': 0.00013
+		 '1.1.1.1': {'ping': None, 'telnet': None},
+		 '1.2.3.4': {'ping': None},
+		 'ping': None,
+		 'telnet': None,
+		 },
+		 'coaxis': {
+		 '1.1.1.1': {'ping': None, 'telnet': None},
+		 '8.8.8.8': {'ping': None, 'telnet': None},
+		 'ping': None,
+		 '1.2.3.4': {'telnet': None},
+		 'telnet': None,
 		 }
 		 */
 	}

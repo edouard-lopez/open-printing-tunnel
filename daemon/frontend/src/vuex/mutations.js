@@ -9,14 +9,9 @@ export default {
 	logResponse(state, response) {
 		state.log = response.results;
 	},
-	setPingData(state, data) {
-		const siteId = Object.keys(data)[0];
-		state.pings[siteId] = data[siteId];
-		state.pings = {...state.pings};  // prevent vuejs reactivity caveats
-	},
-	setTelnetData(state, data) {
-		const siteId = Object.keys(data)[0];
-		state.telnets[siteId] = data[siteId];
-		state.telnets = {...state.telnets};  // prevent vuejs reactivity caveats
+	setNetworksData(state, data) {
+		// const siteId = Object.keys(data)[0];
+		state.networks = data;
+		state.networks = {...state.networks};  // prevent vuejs reactivity caveats
 	}
 };

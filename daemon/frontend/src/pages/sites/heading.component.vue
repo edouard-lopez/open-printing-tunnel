@@ -6,7 +6,7 @@
 <template>
 	<div class="row">
 		<div class="col-md-6 expandable">
-			<network :ping="ping" :telnet="telnet"></network>
+			<network :device="device"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
 				  aria-expanded="false"
@@ -98,9 +98,6 @@
 			'delete': DeleteButton,
 			'network': Network
 		},
-		ready() {
-			this.watchNetwork(this.site);
-		},
 		props: {
 			site: {type: Object, required: true},
 		},
@@ -108,24 +105,15 @@
 			has_printers: function () {
 				return this.site.channels.length > 0;
 			},
-			ping() {
+			device() {
 				var data = null;
 
-				if (typeof this.pings !== 'undefined') {
-					data = this.pings[this.site.hostname];
+				if (typeof this.networks !== 'undefined') {
+					data = this.networks[this.site.hostname];
 				}
 
 				return data;
 			},
-			telnet() {
-				var data = null;
-
-				if (typeof this.telnets !== 'undefined') {
-					data = this.telnets[this.site.hostname];
-				}
-
-				return data;
-			}
 		},
 		methods: {
 			status(site) {
@@ -146,13 +134,11 @@
 				});
 			},
 			getScript(site) {
-				this.getSiteScript(site)
-						.then(response => {
-							this.saveFile(response);
-						})
-						.catch(err => {
-							console.error('Échec du téléchargement du script.', err);
-						})
+				this.getSiteScript(site).then(response => {
+					this.saveFile(response);
+				}).catch(err => {
+					console.error('Échec du téléchargement du script.', err);
+				})
 			},
 		},
 		vuex: {
@@ -160,7 +146,6 @@
 				getSites: actions.getSites,
 				getSiteScript: actions.getSiteScript,
 				deleteSite: actions.deleteSite,
-				watchNetwork: actions.watchNetwork,
 				saveFile: actions.saveFile,
 				siteStatus: actions.siteStatus,
 				siteStart: actions.siteStart,
@@ -168,8 +153,7 @@
 				siteRestart: actions.siteRestart,
 			},
 			getters: {
-				pings: getters.retrievePings,
-				telnets: getters.retrieveTelnets,
+				networks: getters.retrieveNetworks,
 			}
 		}
 	}

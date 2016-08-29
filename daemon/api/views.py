@@ -171,33 +171,15 @@ class SiteInstallScript(Resource):
         )
 
 
-class Ping(Resource):
-    def get(self, site_id):
-        site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
-        printers = mast_utils.list_printers(site_id)['results']['channels']
-
-        return network_utils.ping_site_and_printers(site_hostname, printers)
-
-
-class Telnet(Resource):
-    def get(self, site_id):
-        site_hostname = mast_utils.list_sites(site_id)['results'][0]['hostname']
-        printers = mast_utils.list_printers(site_id)['results']['channels']
-
-        response = network_utils.parellelize(network_utils.telnet, site_hostname, printers)
-        return response
-
-
 class Networks(Resource):
     def get(self):
         response, telnets, pings = {}, {}, {}
         sites = mast_utils.list_sites()['results']
-        site_hostnames = [site['id'] for site in sites]
 
-        for site_hostname in site_hostnames:
-            printers = mast_utils.list_printers(site_hostname)['results']['channels']
-            telnets[site_hostname] = network_utils.parellelize(network_utils.telnet, site_hostname, printers)
-            pings[site_hostname] = network_utils.ping_site_and_printers(site_hostname, printers)
+        for site in sites:
+            printers = mast_utils.list_printers(site['id'])['results']['channels']
+            telnets.update(network_utils.parellelize(network_utils.telnet, site['hostname'], printers))
+            pings.update(network_utils.ping_site_and_printers(site['hostname'], printers))
 
         response = pings.copy()
         network_utils.deep_merge(response, telnets)
@@ -205,15 +187,12 @@ class Networks(Resource):
 
 
 api.add_resource(Root, '/')
-# todo: api.add_resource(CopyLogs, '/sites/copy-logs/')
 api.add_resource(Sites, '/sites/')
 api.add_resource(Site, '/sites/<string:site_id>/')
 api.add_resource(Printers, '/printers/')
 api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>/')
-api.add_resource(Ping, '/ping/<string:site_id>/')
-api.add_resource(Telnet, '/telnet/<string:site_id>/')
 api.add_resource(Networks, '/networks/')
 
 if __name__ == "__main__":

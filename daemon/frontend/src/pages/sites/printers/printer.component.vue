@@ -7,7 +7,7 @@
 	<div class="row btn-toolbar" id="{{ site.id }}-id:{{ printer.id }}"
 		 role="toolbar" aria-label="Toolbar with button groups">
 		<div class="col-md-6" role="group" aria-label="Actions publiques">
-			<network :ping="ping" :telnet="telnet"></network>
+			<network :device="device"></network>
 			<span class="description">{{ printer.description }}</span>
 		</div>
 		<div class="col-md-4">
@@ -66,27 +66,15 @@
 			from() {
 				return this.printer.ports.forward
 			},
-//			ping() {
-//				return this.pings[this.site.id][this.printer.hostname];
-//			}
-			ping() {
-				var data = null;
+	device() {
+		var data = null;
 
-				if (typeof this.pings !== 'undefined' && typeof this.pings[this.site.hostname] !== 'undefined') {
-					data = this.pings[this.site.hostname][this.printer.hostname];
-				}
+		if (typeof this.networks !== 'undefined' && typeof this.networks[this.site.hostname] !== 'undefined') {
+			data = this.networks[this.site.hostname][this.printer.hostname];
+		}
 
-				return data;
-			},
-			telnet() {
-				var data = null;
-
-				if (typeof this.telnets !== 'undefined' && typeof this.telnets[this.site.hostname] !== 'undefined') {
-					data = this.telnets[this.site.hostname][this.printer.hostname];
-				}
-
-				return data;
-			}
+		return data;
+	},
 		},
 		methods: {
 			delete_printer(printer) {
@@ -114,8 +102,7 @@
 				siteRestart: actions.siteRestart
 			},
 			getters: {
-				pings: getters.retrievePings,
-				telnets: getters.retrieveTelnets,
+				networks: getters.retrieveNetworks,
 			}
 		}
 	}

@@ -40,7 +40,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import http from 'services/http.service';
 	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
 	import getters from 'vuex/getters';
@@ -49,11 +48,21 @@
 	import AddSiteButtonComponent from './add-site.component';
 	import LogsComponent from './logs/logs.component';
 
-	const sites = http('sites', localStorage);
-
 	export default {
 		ready(){
 			this.getSites();
+			this.probeNetwork();
+		},
+		computed: {
+			network() {
+				var data = null;
+
+				if (typeof this.networks !== 'undefined') {
+					data = this.networks[this.site.hostname];
+				}
+
+				return data;
+			},
 		},
 		components: {
 			'site': SiteComponent,
@@ -63,9 +72,10 @@
 		vuex: {
 			actions: {
 				getSites: actions.getSites,
+				probeNetwork: actions.probeNetwork,
 			},
 			getters: {
-				sites: getters.retrieveSites
+				sites: getters.retrieveSites,
 			}
 		}
 	};

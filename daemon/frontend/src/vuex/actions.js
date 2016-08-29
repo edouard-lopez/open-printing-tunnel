@@ -1,13 +1,12 @@
-import http from 'services/http.service';
-import logging from 'services/logging.service';
-import resource from 'pilou';
-import FileSaver from 'file-saver';
+import http from "services/http.service";
+import logging from "services/logging.service";
+import resource from "pilou";
+import FileSaver from "file-saver";
 
 const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
 const printers = http('printers', localStorage);
-const ping = http('ping', localStorage);
-const telnet = http('telnet', localStorage);
+const networks = http('networks', localStorage);
 
 export default {
 	addPrinter({dispatch}, printer) {
@@ -119,19 +118,16 @@ export default {
 		}
 		dispatch('logResponse', response);
 	},
-	watchNetwork({dispatch}, site) {
-		setInterval(() => {
-			ping.get(site).then(response => {
-				dispatch('setPingData', response.data);
+	probeNetwork({dispatch}) {
+		function sendProbe() {
+			networks.all().then(response => {
+				dispatch('setNetworksData', response.data);
 			}).catch(err => {
-				console.error('Échec de la récupération des pings.', err);
+				console.error('Échec de la récupération des networks.', err);
 			});
+		}
 
-			telnet.get(site).then(response => {
-				dispatch('setTelnetData', response.data);
-			}).catch(err => {
-				console.error('Échec de la récupération des telnets.', err);
-			});
-		}, 15 * 1000);
+		sendProbe();
+		setInterval(() => sendProbe(), 15 * 1000);
 	},
 };
