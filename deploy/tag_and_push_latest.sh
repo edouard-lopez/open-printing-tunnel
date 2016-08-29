@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd ..
-docker-compose -f docker-compose.prod.yml build
+docker-compose build
 cd daemon
 docker build -t coaxisopt_daemon .
 cd ..

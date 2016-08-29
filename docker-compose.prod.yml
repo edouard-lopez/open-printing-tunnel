@@ -3,7 +3,6 @@ services:
   backend:
     restart: always
     image: docker.akema.fr:5000/coaxis/coaxisopt_backend:latest
-    container_name: coaxisopt_backend
     volumes:
       - backend:/backend
       - /var/run/docker.sock:/var/run/docker.sock
@@ -14,13 +13,11 @@ services:
   frontend:
     restart: always
     image: docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest
-    container_name: coaxisopt_frontend
     ports:
      - "8080:8080"
   nginx:
     restart: always
     image: docker.akema.fr:5000/coaxis/coaxisopt_nginx:latest
-    container_name: coaxisopt_nginx
     ports:
       - "80:80"
     volumes_from:
