@@ -20,8 +20,17 @@
     
 ## Architecture
 
-![./docs/diagrams/architecture.png](./docs/diagrams/architecture.png)
 
+### Architecture Container Management
+
+![architecture container management](docs/architecture-container-management.svg)
+
+### Architecture OPT Container
+![architecture OPT-container](docs/architecture-OPT-container.svg.png)
+
+### Infrastructure evolution
+
+![./docs/diagrams/architecture.png](./docs/diagrams/architecture.png)
 
 ## Documentation
 
