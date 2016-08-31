@@ -4,7 +4,7 @@
 **OPT** stands for _Open Printing Tunnel_ is  a solution to compress printing stream from `TSE` instance to a remote printers.
 
 <p style="text-align: center">
-    <img src="./docs/screenshots/06.opt-management.png" style="width: 50%; border: thin solid #ccc;" alt="screenshot of printers management interface" />
+    <img src="./docs/screenshots/06.opt-management.png" style="width: 50%; " alt="screenshot of printers management interface" />
 </p>
 
 More screenshots in [./docs/screenshots/](./docs/screenshots/).
