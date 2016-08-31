@@ -29,7 +29,7 @@ More screenshots in [./docs/screenshots/](./docs/screenshots/).
 
 ### Architecture Container Management
 
-![architecture container management](docs/architecture-container-management.svg)
+![architecture container management](docs/architecture-container-management.png)
 
 ### Architecture OPT Container
 ![architecture OPT-container](docs/architecture-OPT-container.svg.png)
