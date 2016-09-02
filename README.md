@@ -21,7 +21,6 @@ More screenshots in [./docs/screenshots/](./docs/screenshots/).
     * [proxy-web/](./daemon/proxy-web): proxy requests to frontend or the API.
 * [deploy/](./deploy): scripts for project's deployment ;
 * [nginx/](./nginx): main server configuration to reach backend ;
-* ~~[webapp](./webapp)~~ **(deprecated)**: legacy application.
 
     
 ## Architecture
