@@ -26,18 +26,22 @@ More screenshots in [./docs/screenshots/](./docs/screenshots/).
     
 ## Architecture
 
+### Printing with OPT
 
-### Architecture Container Management
+![architecture printing through OPT](docs/diagrams/architecture-printing-through-OPT.png)
 
-![architecture-container-management](./docs/diagrams/architecture-container-management.png)
+### Containers Management
 
-### Architecture OPT Container
+![architecture container management](./docs/diagrams/architecture-container-management.png)
 
-![architecture-OPT-container](./docs/diagrams/architecture-OPT-container.png)
+### OPT Container
+
+![architecture OPT container](./docs/diagrams/architecture-OPT-container.png)
+
 
 ### Infrastructure evolution
 
-![architecture](./docs/diagrams/architecture.png)
+![architecture evolution](./docs/diagrams/architecture-evolution.png)
 
 ## Documentation
 

@@ -18,7 +18,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="architecture-container-management.svg"
-   inkscape:export-filename="/home/elopez/projects/coaxis-opt/docs/software-architecture.svg.png"
+   inkscape:export-filename="/home/elopez/projects/coaxis-opt/docs/diagrams/architecture-container-management.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <title
@@ -454,7 +454,7 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="1.015146"
-     inkscape:cx="316.92151"
+     inkscape:cx="130.74139"
      inkscape:cy="170.20108"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
