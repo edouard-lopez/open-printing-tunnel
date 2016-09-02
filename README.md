@@ -29,14 +29,15 @@ More screenshots in [./docs/screenshots/](./docs/screenshots/).
 
 ### Architecture Container Management
 
-![architecture container management](docs/architecture-container-management.png)
+![architecture-container-management](./docs/diagrams/architecture-container-management.png)
 
 ### Architecture OPT Container
-![architecture OPT-container](docs/architecture-OPT-container.svg.png)
+
+![architecture-OPT-container](./docs/diagrams/architecture-OPT-container.png)
 
 ### Infrastructure evolution
 
-![./docs/diagrams/architecture.png](./docs/diagrams/architecture.png)
+![architecture](./docs/diagrams/architecture.png)
 
 ## Documentation
 
