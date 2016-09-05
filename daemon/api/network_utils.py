@@ -23,7 +23,7 @@ def fping(hostnames):
     return output_parser.fping(response['results'])
 
 
-def telnet(hostname=None, port=22, timeout=0.5, **kwargs):
+def telnet(hostname=None, port=22, timeout=0.3, **kwargs):
     logger.debug('hostname', hostname)
     start = timer()
     connection = socket.socket()
