@@ -168,6 +168,7 @@ add-channel:
 		exit 1; \
 	fi
 
+	while [[ -a /tmp/ports ]]; do true; done  # waiting for lock to free
 	@grep --no-filename --only-matching --perl-regexp 'L[\s]+\*:([\d]+):' ${CONFIG_DIR}/* \
 		| cut --delimiter=':' -f 2 \
 		| sort --unique --numeric-sort \
