@@ -11,7 +11,7 @@
 			<span class="description">{{ printer.description }}</span>
 		</div>
 		<div class="col-md-4">
-			<a href="http://{{printer.hostname}}">{{ printer.hostname }}</a>
+			<a href="http://{{printer.hostname}}" target="_blank">{{ printer.hostname }}</a>
 			<small class="text-muted">
 				<span class="port listening">{{ printer.ports.listen }}</span>
 				<abbr class="forward hint--top" aria-label="forwarning {{from}}">
