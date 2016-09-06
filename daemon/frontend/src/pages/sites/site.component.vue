@@ -11,7 +11,7 @@
 					<heading :site="site"></heading>
 				</h6>
 			</div>
-			<div id="site-{{site.id}}" class="panel-collapse collapse in" role="tabpanel"
+			<div id="site-{{site.id}}" class="panel-collapse collapse" v-bind:class="expand" role="tabpanel"
 				 aria-labelledby="site-{{site.hostname}}">
 				<div class="printer" v-for="printer in printers">
 					<printer :printer="printer" :site="site"></printer>
@@ -41,7 +41,8 @@
 			site: {
 				type: Object,
 				required: true
-			}
+			},
+			index: {type: Number}
 		},
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
@@ -50,7 +51,13 @@
 			'heading': HeadingComponent
 		},
 		computed: {
-			printers: function() { return this.site.channels; }
+			printers: function() { return this.site.channels; },
+			expand: function () {
+				const expandClass = this.index === 0 ? 'in' : '';
+				console.log(expandClass);
+				return expandClass;
+			}
+//			expand: () => this.expand ? 'in' : ''
 		}
 	}
 

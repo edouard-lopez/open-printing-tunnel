@@ -5,7 +5,7 @@
 </style>
 <template>
 	<div class="row">
-		<div class="col-md-6 expandable">
+		<div class="col-md-3 expandable">
 			<network :device="device"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
@@ -20,7 +20,15 @@
 				{{site.hostname}}
 			</a>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-5 expandable"
+			 data-toggle="collapse"
+			 aria-expanded="false"
+			 aria-controls="site-{{site.id}}"
+			 data-target="#site-{{site.id}}"
+		>
+			<span class="invisible">expandable area</span>
+		</div>
+		<div class="col-md-4">
 			<ul class="btn-toolbar" role="toolbar"
 				aria-label="Toolbar with button groups">
 				<li class="btn-group" role="group"

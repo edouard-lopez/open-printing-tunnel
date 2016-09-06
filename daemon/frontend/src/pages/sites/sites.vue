@@ -21,8 +21,8 @@
 
 					<div class="row">
 						<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
-							<div v-for="site in sites" class="panel panel-default">
-								<site :site="site"></site>
+							<div v-for="(index, site) in sites" class="panel panel-default">
+								<site :site="site" :index="index"></site>
 							</div>
 						</div>
 					</div>
