@@ -162,7 +162,7 @@ class SiteInstallScript(Resource):
 
         printers = mast_utils.list_printers(site_id)['results']['channels']
         data = scripts_generators.prepare_site_install_data(site_id, printers, site_host)
-        script = scripts_generators.render(filename, {'sites': data})
+        script = scripts_generators.render(filename, {'printers': data})
 
         return Response(
             script,

@@ -9,11 +9,11 @@ class ScriptsGeneratorTestCase(unittest.TestCase):
         filename = 'printer.bat.j2'
 
         content = scripts_generators.render(filename, {
-            'vps': 'akema.opt',
-            'imp': '1.2.3.4',
+            'site_hostname': 'akema.opt',
+            'hostname': '1.2.3.4',
             'port': '9104',
             'site': 'akema.opt',
-            'name': 'akema',
+            'description': 'akema',
             'UTC': '2016-08-13 13:04:08'
         })
 
@@ -27,11 +27,12 @@ class ScriptsGeneratorTestCase(unittest.TestCase):
     def test_can_generate_concatenation_of_scripts(self):
         filename = 'site.bat.j2'
 
-        content = scripts_generators.render(filename, {'sites': [
-            {'vps': 'akema.opt', 'imp': '1.2.3.4', 'port': '9101', 'name': 'akema'},
-            {'vps': 'akema.opt', 'imp': '1.2.3.5', 'port': '9102', 'name': 'akema'},
-            {'vps': 'akema.opt', 'imp': '1.2.3.6', 'port': '9103', 'name': 'akema'}
-        ]})
+        content = scripts_generators.render(filename, {
+            'printers': [
+                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.4', 'port': '9101', 'site': 'akema', 'description': 'lorem ipsum'},
+                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.5', 'port': '9102', 'site': 'akema', 'description': 'lorem ipsum'},
+                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.6', 'port': '9103', 'site': 'akema', 'description': 'lorem ipsum'}
+            ]})
 
         self.assertRegex(content, 'akema.opt')
         self.assertRegex(content, '1.2.3.4')
@@ -55,9 +56,10 @@ class ScriptsGeneratorTestCase(unittest.TestCase):
 
         self.assertDictEqual(data, {
             'port': 9102,
-            'vps': 'akema.coaxis.opt',
-            'imp': '10.100.7.48',
-            'name': 'akema'
+            'site_hostname': 'akema.coaxis.opt',
+            'hostname': '10.100.7.48',
+            'site': 'akema',
+            'description': 'Samsung ML3710'
         })
 
     def test_can_prepare_site_install_data(self):
@@ -91,15 +93,17 @@ class ScriptsGeneratorTestCase(unittest.TestCase):
         self.assertListEqual(data, [
             {
                 'port': 9102,
-                'vps': 'akema.coaxis.opt',
-                'imp': '10.100.7.48',
-                'name': 'akema'
+                'site_hostname': 'akema.coaxis.opt',
+                'hostname': '10.100.7.48',
+                'site': 'akema',
+                'description': 'Samsung ML3710'
             },
             {
                 'port': 9103,
-                'vps': 'akema.coaxis.opt',
-                'imp': '10.100.7.47',
-                'name': 'akema'
+                'site_hostname': 'akema.coaxis.opt',
+                'hostname': '10.100.7.47',
+                'site': 'akema',
+                'description': 'Ricoh Aficio MPC300'
             },
         ])
 
