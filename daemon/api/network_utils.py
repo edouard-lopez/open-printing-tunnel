@@ -1,7 +1,6 @@
 import logging
 import socket
 import threading
-from timeit import default_timer as timer
 
 import output_parser
 import shell
@@ -24,20 +23,18 @@ def fping(hostnames):
 
 
 def telnet(hostname=None, port=22, timeout=0.3, **kwargs):
-    logger.debug('hostname', hostname)
-    start = timer()
+    logger.debug('telnet', str(hostname), port)
     connection = socket.socket()
     connection.settimeout(timeout)
     try:
         connection.connect((hostname, port))
-        end = timer()
-        delta = end - start
+        reachable = True
     except:
-        delta = None
+        reachable = False
     finally:
         connection.close()
 
-    return {'telnet': delta}
+    return {'telnet': reachable}
 
 
 def collect(task, response, **kwargs):
@@ -55,22 +52,18 @@ def parellelize(task, site_id, printers, **kwargs):
     printers_response = {}
     threads = []
     for printer in printers:
-        hostname = printer['hostname']
         kw = kwargs.copy()
-        kw.update({'hostname': hostname})
+        kw.update({
+            'hostname': (printer['hostname']),
+            'port': (printer['ports']['send'])
+        })
 
-        threads.append(
-            threading.Thread(
-                target=collect,
-                args=(task, printers_response),
-                kwargs=kw
-            )
-        )
+        thread = threading.Thread(target=collect, args=(task, printers_response), kwargs=kw)
+        threads.append(thread)
+        thread.start()
 
     for thread in threads:
-        thread.start()
         thread.join()
-
     response[site_id].update(printers_response)
 
     return response
