@@ -16,9 +16,10 @@
 </style>
 <template>
 	<div>
-		<h2 class="row" id="cnc">
+		<h3 class="row" id="cnc">
 						<span class="col-md-8">
-							Centre de Contrôle
+							<i class="fa fa-newspaper-o text-muted"></i>
+							Console
 						</span>
 			<ul class="btn-toolbar pull-right" role="toolbar"
 				aria-label="Toolbar with button groups">
@@ -32,7 +33,7 @@
 					</button>
 				</li>
 			</ul>
-		</h2>
+		</h3>
 		<div class="row">
 			<div class="col-xs-12 highlight">
 				<pre class="stdout"><samp v-for="line in log" class="line">{{line | json }}</samp></pre>

@@ -5,10 +5,10 @@
 				<div class="card card-block">
 					<div class="row">
 						<div class="col-md-12">
-							<h3>
-								<i class="fa fa-map-marker"></i>
+							<h2>
+								<i class="fa fa-map-marker text-danger"></i>
 								Sites
-							</h3>
+							</h2>
 						</div>
 					</div>
 					<div class="row" id="dashboard">
