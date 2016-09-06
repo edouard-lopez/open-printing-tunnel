@@ -1,12 +1,14 @@
 <template>
 	<span class="ping hint--top-right" aria-label="ping: {{ device.ping | currency '' 2 }} ms">
-		<i class="tunnel-status fa {{ device.ping | networkIcon 'ping' }}"> </i>
+		<i class="tunnel-status fa {{ device.ping | icon 'ping' }}"> </i>
 	</span>
-	<span class="telnet hint--top-right" aria-label="telnet: {{ device.telnet | currency '' 2 }} ms">
-		<i class="tunnel-status fa {{ device.telnet | networkIcon 'telnet' }}"> </i>
+	<span class="telnet hint--top-right" aria-label="telnet: {{ device.telnet | reachable }}">
+		<i class="tunnel-status fa {{ device.telnet | icon 'telnet' }}"> </i>
 	</span>
 </template>
 <script type="text/ecmascript-6">
+	import network from './network.filter';
+
 	export default {
 		props: {
 			device: {
@@ -21,19 +23,8 @@
 			},
 		},
 		filters: {
-			networkIcon: function (probe, type) {
-//				let icon = 'fa-pulsing fa-fw text-warning';
-				let icon = 'fa-warning text-warning';
-
-				if (type == 'ping' && probe > 0) {
-					icon = 'fa-check text-success';
-				}
-				else if (type == 'telnet' && probe > 0) {
-					icon = 'fa-check text-primary';
-				}
-
-				return icon;
-			}
+			icon: network.icon,
+			reachable: network.reachable
 		}
 	}
 </script>
