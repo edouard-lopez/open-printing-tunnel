@@ -2,7 +2,7 @@
 
 export default function createLogger({
 	collapsed = true,
-	transformer = state => state,
+	transformer = state => state, // eslint-disable-line no-unused-vars
 	mutationTransformer = mut => mut
 } = {}) {
 	return {

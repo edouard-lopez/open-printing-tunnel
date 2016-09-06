@@ -13,6 +13,7 @@ import SettingsPage from './pages/settings';
 import auth from './services/auth.service';
 import locales from './locales';
 
+// eslint-disable-next-line no-new
 new Vue({
 	el: '#app',
 	render: h => h(App)

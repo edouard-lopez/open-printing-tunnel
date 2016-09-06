@@ -1,13 +1,14 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import createLogger from "../middlewares/logger";
-import mutations from "./mutations";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import createLogger from '../middlewares/logger';
+import mutations from './mutations';
 
 Vue.use(Vuex);
 Vue.config.debug = true;
 
 const debug = process.env.NODE_ENV !== 'production';
 
+// eslint-disable-next-line no-unused-vars
 const state = {
 	sites: [
 		/** {

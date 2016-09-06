@@ -1,7 +1,7 @@
-import http from "services/http.service";
-import logging from "services/logging.service";
-import resource from "pilou";
-import FileSaver from "file-saver";
+import http from 'services/http.service'; // eslint-disable-line import/no-extraneous-dependencies
+import logging from 'services/logging.service'; // eslint-disable-line import/no-extraneous-dependencies
+import resource from 'pilou';
+import FileSaver from 'file-saver';
 
 const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
@@ -129,5 +129,5 @@ export default {
 
 		sendProbe();
 		setInterval(() => sendProbe(), 15 * 1000);
-	},
+	}
 };

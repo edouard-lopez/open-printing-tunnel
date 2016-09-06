@@ -5,7 +5,7 @@
     "start": "NODE_ENV=production node server.js",
     "dev": "npm install && webpack-dev-server --inline --hot --host 0.0.0.0",
     "build": "rm -rf dist/ && NODE_ENV=production webpack --progress --hide-modules",
-    "test": "ava test --require babel-core/register && xo"
+    "test": "xo && ava test --require babel-core/register"
   },
   "dependencies": {
     "express": "^4.13.4"
