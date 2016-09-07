@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase, APIClient
 
-import api.services
 from api import models
+from api import services
 from api.tests import factories
 
 
@@ -15,7 +15,7 @@ class EmployeeApiTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_get_employee(self):
-        employee = api.services.get_employee(self.user)
+        employee = services.get_employee(self.user)
 
         self.assertTrue(employee.is_technician)
 
@@ -26,3 +26,9 @@ class EmployeeApiTestCase(APITestCase):
         self.assertEqual(original_nb_of_users + 1, models.Employee.objects.count())
         self.assertEqual(user.employee, models.Employee.objects.filter(user__email='email@example.org').first())
         user.delete()
+
+    def test_user_is_technician(self):
+        employee = factories.EmployeeFactory()
+        self.assertEqual(services.is_technician(employee.user), False)
+        self.assertEqual(services.is_technician(self.technician.user), True)
+

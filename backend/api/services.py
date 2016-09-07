@@ -11,3 +11,6 @@ def get_employee(user):
 
 def get_company(employee):
     return employee.companies.first()
+
+def is_technician(user):
+    return get_employee(user).is_technician
