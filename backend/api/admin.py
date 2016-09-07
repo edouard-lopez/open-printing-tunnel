@@ -1,12 +1,17 @@
+import logging
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import FieldDoesNotExist
+from django.utils import html
 
 from api import models
 from api import forms as opt_forms
 from api.models import MyUser
+
+logger = logging.getLogger(__name__)
 
 
 class UserCreationForm(forms.ModelForm):
@@ -81,16 +86,22 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    form = opt_forms.CompanyForm
+    form = opt_forms.ClientForm
 
-    list_display = ('id', 'user', 'is_technician', '_client')
+    list_display = ('id', 'user', 'is_technician', '_clients')
     ordering = ('user',)
     fieldsets = (
         (None, {'fields': ('user', 'is_technician', 'clients')}),
     )
+    readonly_fields = ('_clients',)
 
-    def _client(self, instance):
-        return ",".join([company.name for company in instance.clients.all()])
+    def _clients(self, instance):
+        logger.debug(instance)
+        links = html.format_html_join(
+            ', ', '<a href="/admin/api/client/{}/">{}</a>',
+            ((company.id, company.name) for company in instance.clients.all())
+        )
+        return links
 
 
 class DaemonAdmin(admin.ModelAdmin):
