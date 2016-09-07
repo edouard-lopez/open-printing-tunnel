@@ -8,5 +8,5 @@ cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\Prndrvr.vbs -a -m 
 # Creation de l’objet imprimante
 cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\Prnmngr.vbs -a -p "{{ description }}" -r "GZ_{{ site_hostname }}:{{ port }}_{{ hostname }}" -m "MS Publisher Color Printer"
 # ajout des infos : emplacement et commentaire
-cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\Prncnfg.vbs -t -p "{{ description }}" -l "{{ site }}" -m "GZ par tunnel SSH ({{ UTC }}), {{ hostname }} par le canal {{ port }}"
+cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\Prncnfg.vbs -t -p "{{ description }}" -l "{{ site }}" -m "GZ par tunnel SSH ({{ datetime }}), {{ hostname }} par le canal {{ port }}"
 control printers

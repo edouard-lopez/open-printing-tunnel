@@ -1,5 +1,6 @@
 import logging
 import sys
+from datetime import datetime
 
 from flask import Flask
 from flask import Response
@@ -134,10 +135,11 @@ class PrinterInstallScript(Resource):
     def get(self, site_id, printer_id):
         filename = 'printer.bat.j2'
         site_host = request.headers['Host']
+        now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 
         printers = mast_utils.list_printers(site_id)['results']['channels']
         printer = mast_utils.get_printer(printers, printer_id)
-        data = scripts_generators.prepare_printer_install_data(site_id, printer, site_host)
+        data = scripts_generators.prepare_printer_install_data(site_id, printer, site_host, now)
         script = scripts_generators.render(filename, data)
 
         return Response(
@@ -159,9 +161,10 @@ class SiteInstallScript(Resource):
 
         filename = 'site.bat.j2'
         site_host = request.headers['Host']
+        now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 
         printers = mast_utils.list_printers(site_id)['results']['channels']
-        data = scripts_generators.prepare_site_install_data(site_id, printers, site_host)
+        data = scripts_generators.prepare_site_install_data(site_id, printers, site_host, now)
         script = scripts_generators.render(filename, {'printers': data})
 
         return Response(
