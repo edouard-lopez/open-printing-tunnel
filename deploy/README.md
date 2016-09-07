@@ -14,7 +14,7 @@
    
 1. Tag and push the new docker image to the repository:
 
-        cd deploy/ && ./tag_and_push_latest.sh
+        cd deploy/ && ./tag_and_push.sh
 
 ## Send files to server
 
