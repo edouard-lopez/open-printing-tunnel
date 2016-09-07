@@ -39,3 +39,10 @@ class EmployeeFactory(factory.DjangoModelFactory):
 
 class TechnicianFactory(EmployeeFactory):
     is_technician = True
+
+
+class DaemonFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.Daemon
+
+    client = factory.SubFactory(ClientFactory)

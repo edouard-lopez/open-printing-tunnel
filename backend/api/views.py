@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from api import container_services
 from api import models, serializers
+from api import services
 from api.services import get_employee
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
@@ -48,10 +49,14 @@ class UserMeViewSet(viewsets.ViewSet):
 
 
 class ClientsViewSet(viewsets.ModelViewSet):
-    queryset = models.Client.objects.all()
     serializer_class = serializers.ClientSerializer
     permission_classes = (permissions.IsAdminUser,)
     search_fields = ('id', 'name',)
+
+    def list(self, request, *args, **kwargs):
+        self.queryset = services.get_clients(self.request.user)
+
+        return super(ClientsViewSet, self).list(request, *args, **kwargs)
 
 
 class DaemonsViewSet(viewsets.ModelViewSet):

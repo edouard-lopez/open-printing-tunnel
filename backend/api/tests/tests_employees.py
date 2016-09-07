@@ -11,8 +11,8 @@ class EmployeeApiTestCase(APITestCase):
         self.user = factories.UserFactory()
         self.technician = factories.TechnicianFactory(user=self.user)
 
-        self.client = APIClient()
-        self.client.force_authenticate(user=self.user)
+        self.api_client = APIClient()
+        self.api_client.force_authenticate(user=self.user)
 
     def test_get_employee(self):
         employee = services.get_employee(self.user)
@@ -31,4 +31,22 @@ class EmployeeApiTestCase(APITestCase):
         employee = factories.EmployeeFactory()
         self.assertEqual(services.is_technician(employee.user), False)
         self.assertEqual(services.is_technician(self.technician.user), True)
+
+    def test_get_employee_clients(self):
+        employee_client = factories.ClientFactory(name='Coaxis')
+        employee = factories.EmployeeFactory(clients=[employee_client])
+
+        clients = services.get_clients(employee.user)
+
+        self.assertListEqual(list(clients), [employee_client])
+
+    def test_get_employee_daemons(self):
+        employee_client = factories.ClientFactory(name='Coaxis')
+        employee = factories.EmployeeFactory(clients=[employee_client])
+        employee_daemon = factories.DaemonFactory(client=employee_client)
+        not_his_daemon = factories.DaemonFactory(client=self.client)
+
+        daemons = services.get_daemons(employee.user)
+
+        self.assertListEqual(list(daemons), [employee_daemon])
 
