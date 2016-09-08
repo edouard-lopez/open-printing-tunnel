@@ -29,11 +29,26 @@ More screenshots in [./docs/screenshots/](./docs/screenshots/).
 
 ![architecture printing through OPT](docs/diagrams/architecture-printing-through-OPT.png)
 
-### Containers Management
+## Admin
+
+Administrators use the Django admin to:
+* create and manage _clients_ ;
+* manage _employees_ and their permissions to control _daemons_ ; 
+
+### Back-office: Containers Management
+
+Technician employees use the back-office to:
+
+* create and manage _daemons_' container ;
 
 ![architecture container management](./docs/diagrams/architecture-container-management.png)
 
-### OPT Container
+### Front-office: OPT Container
+
+Employees use front-office to:
+
+* create and manage _sites_ ;
+* create and manage _printers_' tunnel ;
 
 ![architecture OPT container](./docs/diagrams/architecture-OPT-container.png)
 
