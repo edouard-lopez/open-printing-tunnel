@@ -62,6 +62,7 @@ class ClientsViewSet(viewsets.ModelViewSet):
         creator = services.get_employee(self.request.user)
         serializer.save(employees=[creator.id])
 
+
 class NetworksViewSet(viewsets.ViewSet):
     permission_classes = (permissions.IsAdminUser,)
 
@@ -71,6 +72,7 @@ class NetworksViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         docker_api.remove_network(pk)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class DaemonsViewSet(viewsets.ModelViewSet):

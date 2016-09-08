@@ -22,7 +22,7 @@
 									<th class="text-xs-center">
 										Gateway
 									</th>
-									<th>
+									<th class="text-xs-center">
 										Interface.Vlan Id
 									</th>
 									<th class="text-xs-right">
@@ -46,11 +46,12 @@
 									<td class="text-xs-center">
 										{{network.IPAM.Config[0].Gateway}}
 									</td>
-									<td class="text-xs-right">
+									<td class="text-xs-center">
 										{{network.Options.parent}}
 									</td>
 									<td class="text-xs-right">
-										<delete :promise="deleteNetwork" :object="network" class="btn-sm">
+										<delete :promise="deleteNetwork" :object="network" class="btn-sm"
+												v-show="isEmptyNetwork(network)">
 											<span slot="title">Supprimer le réseau</span>
 											<span slot="body">Confirmer la suppression du réseau.</span>
 											<span slot="in-progress">Suppression en cours</span>
@@ -83,11 +84,7 @@
 			};
 		},
 		ready(){
-			this.getNetworks().then(()=> {
-				if (this.count == 0) {
-					this.no_network_message = 'il n\'y a pas de réseau'
-				}
-			});
+			this.getNetworks();
 		},
 		events: {
 			deleteNetwork(network) {
@@ -110,7 +107,13 @@
 				return Networks.all().then(response => {
 					this.networks = response.data;
 					this.count = response.data.length;
+					if (this.count == 0) {
+						this.no_network_message = 'il n\'y a pas de réseau'
+					}
 				});
+			},
+			isEmptyNetwork(network){
+				return Object.keys(network.Containers).length === 0
 			}
 		}
 	};
