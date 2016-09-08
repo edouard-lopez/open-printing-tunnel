@@ -26,6 +26,12 @@ class ContainersTestCase(APITestCase):
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.docker_api.remove_network(network.get('Id'))
 
+    def test_filter_network_return_only_opt_network(self):
+        networks = [{"Name": "host", }, {"Name": "none", }, {"Name": "bridge", }, {"Name": "opt_default", },
+                    {"Name": "opt_network_azertyuiop", }]
+        filtered_networks = container_services.filter_opt_networks(networks)
+        self.assertListEqual([{"Name": "opt_network_azertyuiop"}], filtered_networks)
+
     def test_network_use_macvlan_driver(self):
         network = container_services.create_network(data={'uuid': str(self.client.uuid),
                                                           'subnet': '10.48.0.0/16',

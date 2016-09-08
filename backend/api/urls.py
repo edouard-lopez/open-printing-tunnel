@@ -6,6 +6,7 @@ from api import views
 
 router = DefaultRouter()
 router.register(r'clients', views.ClientsViewSet, base_name='clients')
+router.register(r'networks', views.NetworksViewSet, base_name='networks')
 router.register(r'daemons', views.DaemonsViewSet, base_name='daemons')
 router.register(r'users/me', views.UserMeViewSet, base_name='me')
 

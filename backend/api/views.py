@@ -59,6 +59,17 @@ class ClientsViewSet(viewsets.ModelViewSet):
         return super(ClientsViewSet, self).list(request, *args, **kwargs)
 
 
+class NetworksViewSet(viewsets.ViewSet):
+    permission_classes = (permissions.IsAdminUser,)
+
+    @staticmethod
+    def list(request, format=None):
+        return Response(container_services.filter_opt_networks(docker_api.networks()))
+
+    def destroy(self, request, pk=None):
+        docker_api.remove_network(pk)
+
+
 class DaemonsViewSet(viewsets.ModelViewSet):
     queryset = models.Daemon.objects.all()
     serializer_class = serializers.DaemonSerializer

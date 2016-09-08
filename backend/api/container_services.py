@@ -81,3 +81,12 @@ def get_container_ipaddress(container_data):
 
 def get_container_gateway(container_data):
     return get_container_network_infos(container_data).get('Gateway')
+
+
+def filter_opt_networks(networks):
+    filtered_networks = []
+    for network in networks:
+        if network['Name'].startswith('opt_network_'):
+            filtered_networks.append(network)
+    return filtered_networks
+
