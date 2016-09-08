@@ -27,7 +27,7 @@ def pop_new_container(data, docker_client=None):
 
 
 def get_network_config(data, docker_client):
-    data['uuid'] = uuid.uuid4()
+    data['uuid'] = str(uuid.uuid4())
     network = create_network(data, docker_client)
     network_name = docker_client.inspect_network(network.get('Id')).get('Name')
     network_info = dict()
