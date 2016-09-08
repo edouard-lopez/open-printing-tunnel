@@ -98,6 +98,7 @@ class Client(DateMixin):
         return self.name
 
 
+
 class Daemon(DateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ip = models.CharField(max_length=255, null=True, blank=True)

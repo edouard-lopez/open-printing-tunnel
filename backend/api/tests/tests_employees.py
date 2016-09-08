@@ -49,4 +49,3 @@ class EmployeeApiTestCase(APITestCase):
         daemons = services.get_daemons(employee.user)
 
         self.assertListEqual(list(daemons), [employee_daemon])
-

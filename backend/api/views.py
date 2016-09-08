@@ -58,6 +58,9 @@ class ClientsViewSet(viewsets.ModelViewSet):
 
         return super(ClientsViewSet, self).list(request, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        creator = services.get_employee(self.request.user)
+        serializer.save(employees=[creator.id])
 
 class NetworksViewSet(viewsets.ViewSet):
     permission_classes = (permissions.IsAdminUser,)
