@@ -80,3 +80,19 @@ class ContainersTestCase(APITestCase):
         gateway = container_services.get_container_gateway(container_data)
 
         self.assertEqual(gateway, '10.0.0.1')
+
+    def test_get_network_config(self):
+        number_networks = len(self.docker_api.networks())
+        network_config = container_services.get_network_config(
+            data={
+                'ip': '10.49.0.1',
+                'subnet': '10.49.0.0/16',
+                'gateway': '10.49.0.201',
+                'vlan': 101
+            },
+            docker_client=self.docker_api
+        )
+        network_id = list(network_config.get('EndpointsConfig').keys())[0]
+
+        self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
+        self.docker_api.remove_network(network_id)
