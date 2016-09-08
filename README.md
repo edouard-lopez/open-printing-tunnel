@@ -43,6 +43,15 @@ Technician employees use the back-office to:
 
 ![architecture container management](./docs/diagrams/architecture-container-management.png)
 
+#### Permissions
+
+| User               | Clients        | Daemons                  | Networks            | Admin                     | Description                  |
+| -----------------: | :------------: | :----------------------: | :-----------------: | :-----------------------: | -----------------            |
+| `anonymous`        | -              | -                        | -                   | -                         |                              |
+| `employee`         | -              | -                        | -                   | -                         |                              |
+| `technician`       | ✔              | ✔                        | -                   | -                         | flag to enable on `employee` |
+| `admin`            | ✔              | ✔                        | ✔                   | ✔                         |                              |
+
 ### Front-office: OPT Container
 
 Employees use front-office to:

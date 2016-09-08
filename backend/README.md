@@ -1,14 +1,3 @@
-
-## Features
-
-* liste des sites (basé sur les fichiers de conf) et leur état (en couleur) ;
-* ajout / suppression de site-tunnel ;
-* liste des imps par site (basé sur les fichiers de conf) ;
-* ajout / suppression d'imprimante par site-tunnel ;
-* la mise en forme et le style graphique pour ces pages sera réduite au minimum ;
-* le code sera ouvert et documenté. ;
-* l'ensemble devra être packagé pour une mise en place facile.
-
 ## Development setup
 
 Refer to the [main project documetation for a quick introduction to virtualenv](../README.md) in Python.

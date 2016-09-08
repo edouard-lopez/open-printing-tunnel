@@ -6,10 +6,10 @@ from rest_framework import status, permissions, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
+from api import permissions as app_permissions
 from api import container_services
 from api import models, serializers
 from api import services
-from api.services import get_employee
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
 logger = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ class UserMeViewSet(viewsets.ViewSet):
 
 class ClientsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ClientSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (app_permissions.IsTechnician,)
     search_fields = ('id', 'name',)
 
     def list(self, request, *args, **kwargs):
@@ -78,7 +78,7 @@ class NetworksViewSet(viewsets.ViewSet):
 class DaemonsViewSet(viewsets.ModelViewSet):
     queryset = models.Daemon.objects.all()
     serializer_class = serializers.DaemonSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (app_permissions.IsTechnician,)
 
     def create(self, request, *args, **kwargs):
         data = {
