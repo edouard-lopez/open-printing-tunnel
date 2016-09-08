@@ -10,8 +10,13 @@ def get_employee(user):
 
 
 def get_clients(user):
-    employee = get_employee(user)
-    return employee.clients.all()
+    if user.is_admin:
+        clients = models.Client.objects.all()
+    else:
+        employee = get_employee(user)
+        clients = employee.clients.all()
+
+    return clients
 
 
 def is_technician(user):

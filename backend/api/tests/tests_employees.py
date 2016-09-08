@@ -32,7 +32,16 @@ class EmployeeApiTestCase(APITestCase):
         self.assertEqual(services.is_technician(employee.user), False)
         self.assertEqual(services.is_technician(self.technician.user), True)
 
-    def test_get_employee_clients(self):
+    def test_admin_get_all_clients(self):
+        employee_client = factories.ClientFactory(name='Coaxis')
+        admin = factories.EmployeeFactory(clients=[employee_client])
+        admin.user.is_admin=True
+
+        clients = services.get_clients(admin.user)
+
+        self.assertCountEqual(list(clients), [employee_client, self.client])
+
+    def test_employee_get_only_his_clients(self):
         employee_client = factories.ClientFactory(name='Coaxis')
         employee = factories.EmployeeFactory(clients=[employee_client])
 
