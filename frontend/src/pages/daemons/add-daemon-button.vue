@@ -46,7 +46,7 @@
 							<fieldset class="form-group">
 								<label for="hostname">Hostname <span class="text-danger">*</span></label>
 
-								<input type="url" class="form-control" id="hostname"
+								<input type="text" class="form-control" id="hostname"
 									   placeholder="Hostname" v-model="daemon.hostname"/>
 							</fieldset>
 							<fieldset class="form-group">
