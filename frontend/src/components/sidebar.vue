@@ -66,8 +66,14 @@
 				</a>
 			</li>
 			<li class="sidebar-item" v-link-active>
-				<a v-link="{ path: '/daemons/', activeClass: 'active' }" class="sidebar-link" title="Daemons">
+				<a v-link="{ path: '/networks/', activeClass: 'active' }" class="sidebar-link" title="Networks">
 					<i class="fa fa-sitemap" aria-hidden="true"></i>
+					<span class="sr-only">Networks</span>
+				</a>
+			</li>
+			<li class="sidebar-item" v-link-active>
+				<a v-link="{ path: '/daemons/', activeClass: 'active' }" class="sidebar-link" title="Daemons">
+					<i class="fa fa-cubes" aria-hidden="true"></i>
 					<span class="sr-only">Daemons</span>
 				</a>
 			</li>

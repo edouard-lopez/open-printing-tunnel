@@ -6,6 +6,7 @@ import App from './components/app';
 import LandingPage from './pages/index';
 import LoginPage from './pages/login';
 import ClientsPage from './pages/clients/clients';
+import NetworksPage from './pages/networks/networks';
 import DaemonsPage from './pages/daemons/daemons';
 import DaemonPage from './pages/daemons/daemon.details';
 import RegisterPage from './pages/register';
@@ -47,6 +48,10 @@ router.map({
 	},
 	'/clients/': {
 		component: ClientsPage,
+		authRequired: true
+	},
+	'/networks/': {
+		component: NetworksPage,
 		authRequired: true
 	},
 	'/daemons/': {
