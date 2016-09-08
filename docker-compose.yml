@@ -5,7 +5,6 @@ services:
     image: coaxisopt_backend
     container_name: coaxisopt_backend
     volumes:
-      - database:/backend/database
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8000:8000"

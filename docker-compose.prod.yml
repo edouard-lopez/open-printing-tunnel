@@ -3,8 +3,8 @@ services:
   backend:
     restart: always
     image: docker.akema.fr:5000/coaxis/coaxisopt_backend:latest
-    volumes:
-      - backend:/backend
+      - sqlite:/backend/database
+      - www:/backend/www
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8000:8000"
@@ -26,5 +26,6 @@ services:
       - backend
       - frontend
 volumes:
-  backend:
+  sqlite:
+  www:
   frontend:
