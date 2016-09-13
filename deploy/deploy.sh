@@ -1,22 +1,16 @@
 #!/bin/bash
-echo "Usage: ./deploy.sh [TAG [DEFAULT_INTERFACE]]"
+echo "Usage: ./deploy.sh [DEFAULT_INTERFACE [TAG]"
 
-DEFAULT_INTERFACE="${2:-ens192}"
+DEFAULT_INTERFACE="${1:-ens192}"
+TAG="${2:-latest}"
+
 export DEFAULT_INTERFACE
 export COMPOSE_HTTP_TIMEOUT=600
 
-docker_tags=(
-    'latest'
-    "$1"
-)
 
 function pull_images() {
-    declare -a tags=("${!1}")
-
     docker-compose pull
-    for tag in ${tags[@]}; do
-        docker pull docker.akema.fr:5000/coaxis/coaxisopt_daemon:"$tag"
-    done
+    docker pull docker.akema.fr:5000/coaxis/coaxisopt_daemon:"$TAG"
 }
 
 function clean_images() {
@@ -28,7 +22,6 @@ function restart() {
     docker-compose up -d
 }
 
-# see http://stackoverflow.com/a/4017175/802365 and http://stackoverflow.com/a/6828383/802365
-pull_images docker_tags[@]
+pull_images
 restart
 clean_images
