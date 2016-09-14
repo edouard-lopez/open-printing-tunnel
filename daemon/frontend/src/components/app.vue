@@ -1,3 +1,21 @@
+<template>
+	<div class="app">
+		<div class="content">
+			<div class="container">
+				<router-view></router-view>
+			</div>
+		</div>
+	</div>
+</template>
+<script type="text/ecmascript-6">
+	import 'bootstrap/dist/js/bootstrap.js';
+	import auth from 'services/auth.service';
+	import store from 'vuex/store';
+
+	export default {
+		store
+	};
+</script>
 <style lang="css">
 	@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 	@import '../../node_modules/font-awesome/css/font-awesome.min.css';
@@ -21,18 +39,6 @@
 
 	}
 
-	.white-link {
-		color: #ffffff;
-		text-decoration: underline;
-
-	}
-
-	.white-link:hover {
-		color: #ffffff;
-		text-decoration: none;
-
-	}
-
 	.app {
 		height: 100%;
 		display: flex;
@@ -46,11 +52,7 @@
 
 	}
 
-	.content.no-sidebar {
-		padding: 0;
-	}
-
-	.content.no-sidebar .container {
+	.container {
 		padding-top: 3rem;
 	}
 
@@ -62,33 +64,3 @@
 		}
 	}
 </style>
-<template>
-	<div class="app">
-		<div class="sidebar-wrapper" v-show="user.authenticated">
-			<sidebar></sidebar>
-		</div>
-		<div class="content" v-bind:class="{ 'no-sidebar': !user.authenticated }">
-			<div class="container">
-				<router-view></router-view>
-			</div>
-		</div>
-	</div>
-</template>
-<script type="text/ecmascript-6">
-	import 'bootstrap/dist/js/bootstrap.js';
-	import Sidebar from './sidebar';
-	import auth from 'services/auth.service';
-	import store from 'vuex/store';
-
-	export default {
-		data() {
-			return {
-				user: auth.user
-			};
-		},
-		components: {
-			Sidebar
-		},
-		store
-	};
-</script>

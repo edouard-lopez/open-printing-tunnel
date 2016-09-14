@@ -4,11 +4,8 @@ import VueI18n from 'vue-i18n';
 
 import App from './components/app';
 import LandingPage from './pages/index';
-import LoginPage from './pages/login';
 import SitesPage from './pages/sites/sites';
 import SitePage from './pages/sites/site.component';
-import RegisterPage from './pages/register';
-import SettingsPage from './pages/settings';
 
 import auth from './services/auth.service';
 import locales from './locales';
@@ -33,15 +30,6 @@ const router = new VueRouter();
 router.map({
 	'/': {
 		component: LandingPage
-	},
-	'/login/': {
-		component: LoginPage
-	},
-	'/register/': {
-		component: RegisterPage
-	},
-	'/settings/': {
-		component: SettingsPage
 	},
 	'/sites/': {
 		component: SitesPage
