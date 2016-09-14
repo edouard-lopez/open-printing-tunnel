@@ -4,7 +4,6 @@
 	@import '../../node_modules/notie/dist/notie.css';
 	@import '../../node_modules/hint.css/hint.min.css';
 
-
 	* {
 		border-radius: 0 !important;
 
@@ -47,9 +46,12 @@
 
 	}
 
-	.content.no-sidebar, .content.no-sidebar .container-fluid {
+	.content.no-sidebar {
 		padding: 0;
+	}
 
+	.content.no-sidebar .container {
+		padding-top: 3rem;
 	}
 
 	@media (min-width: 48em) {
@@ -66,7 +68,7 @@
 			<sidebar></sidebar>
 		</div>
 		<div class="content" v-bind:class="{ 'no-sidebar': !user.authenticated }">
-			<div class="container-fluid">
+			<div class="container">
 				<router-view></router-view>
 			</div>
 		</div>
