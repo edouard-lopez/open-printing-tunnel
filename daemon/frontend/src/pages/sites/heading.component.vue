@@ -5,7 +5,7 @@
 </style>
 <template>
 	<div class="row">
-		<div class="col-md-3 expandable">
+		<div class="col-xs-6 col-md-5 expandable">
 			<network :device="device"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
@@ -20,7 +20,7 @@
 				{{site.hostname}}
 			</a>
 		</div>
-		<div class="col-md-5 expandable"
+		<div class="hidden-sm-down col-md-2 expandable"
 			 data-toggle="collapse"
 			 aria-expanded="false"
 			 aria-controls="site-{{site.id}}"
@@ -28,10 +28,11 @@
 		>
 			<span class="invisible">expandable area</span>
 		</div>
-		<div class="col-md-4">
-			<ul class="btn-toolbar" role="toolbar"
+
+		<div class="col-xs-6 col-md-5">
+			<ul class="btn-toolbar list-inline" role="toolbar"
 				aria-label="Toolbar with button groups">
-				<li class="btn-group" role="group"
+				<li class="btn-group " role="group"
 					aria-label="Actions non-réversibles">
 
 					<delete :promise="delete_site" :object="site" class="btn-sm btn-link">
@@ -42,7 +43,7 @@
 					</delete>
 
 				</li>
-				<li class="btn-group" role="group"
+				<li class="btn-group " role="group"
 					aria-label="Actions d'administration">
 					<button aria-label="Redémarrer"
 							role="button"
@@ -66,7 +67,7 @@
 						<i class="fa fa-stop"> </i>
 					</button>
 				</li>
-				<li class="btn-group" role="group" aria-label="Actions publiques">
+				<li class="btn-group " role="group" aria-label="Actions publiques">
 					<button aria-label="Status"
 							role="button"
 							class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
