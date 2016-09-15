@@ -1,4 +1,18 @@
 <template>
+	<splash>
+		<span slot="title">
+			<i class="fa fa-warning text-warning"></i>
+			Zone dangereuse
+		</span>
+		<p slot="body">
+			Vous êtes sur une interface d'administration, vos actions peuvent <strong>impacter le réseau
+			d'entreprise</strong>.
+		</p>
+		<span slot="accept">
+			<i class="fa fa-check text-success"></i>
+			Je <b>comprends</b> les risques
+		</span>
+	</splash>
 	<div id="sites-page">
 		<div class="row">
 			<div class="col-lg-12">
@@ -47,6 +61,7 @@
 	import SiteComponent from './site.component.vue'
 	import AddSiteButtonComponent from './add-site.component';
 	import LogsComponent from './logs/logs.component';
+	import SplashComponent from '../../components/splash.vue';
 
 	export default {
 		ready(){
@@ -68,6 +83,7 @@
 			'site': SiteComponent,
 			'add-site-button': AddSiteButtonComponent,
 			'logs': LogsComponent,
+			'splash': SplashComponent,
 		},
 		vuex: {
 			actions: {
