@@ -1,54 +1,39 @@
 <template>
-	<splash>
-		<span slot="title">
-			<i class="fa fa-warning text-warning"></i>
-			Zone dangereuse
-		</span>
-		<p slot="body">
-			Vous êtes sur une interface d'administration, vos actions peuvent <strong>impacter le réseau
-			d'entreprise</strong>.
-		</p>
-		<span slot="accept">
-			<i class="fa fa-check text-success"></i>
-			Je <b>comprends</b> les risques
-		</span>
-	</splash>
 	<div id="sites-page">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="card card-block">
-					<div class="row">
-						<div class="col-md-12">
-							<h2>
-								<i class="fa fa-map-marker text-danger"></i>
-								Sites
-							</h2>
-						</div>
-					</div>
-					<div class="row" id="dashboard">
-						<span class="col-md-12 text-xs-right">
-							<add-site-button></add-site-button>
-						</span>
-					</div>
-
-					<br>
-
-					<div class="row">
-						<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
-							<div v-for="(index, site) in sites" class="panel panel-default">
-								<site :site="site" :index="index"></site>
-							</div>
-						</div>
-					</div>
+		<splash>
+			<span slot="title">
+				<i class="fa fa-warning text-warning"></i>
+				Zone dangereuse
+			</span>
+			<p slot="body">
+				Vous êtes sur une interface d'administration, vos actions peuvent <strong>impacter le réseau
+				d'entreprise</strong>.
+			</p>
+			<span slot="accept">
+				<i class="fa fa-check text-success"></i>
+				Je <b>comprends</b> les risques
+			</span>
+		</splash>
+		<div class="card card-block">
+			<div class="row">
+				<div class="col-md-6">
+					<h2>
+						<i class="fa fa-map-marker text-danger"></i>
+						Sites
+					</h2>
 				</div>
+				<span class="col-md-6 text-xs-right">
+				<add-site-button></add-site-button>
+			</span>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="card card-block">
-					<logs></logs>
-				</div>
+		<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
+			<div v-for="(index, site) in sites" class="card card-block">
+				<site :site="site" :index="index"></site>
 			</div>
+		</div>
+		<div class="card card-block">
+			<logs></logs>
 		</div>
 	</div>
 </template>

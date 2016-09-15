@@ -32,6 +32,7 @@
 	.ping {
 		text-shadow: 2px 0 0px #fff;
 		z-index: 1;
+		margin-left: .5em;
 	}
 
 	.telnet {

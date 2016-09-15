@@ -7,8 +7,8 @@
 	}
 </style>
 <template>
-	<div class="row btn-toolbar" id="{{ site.id }}-id:{{ printer.id }}"
-		 role="toolbar" aria-label="Toolbar with button groups">
+	<div class="row" id="{{ site.id }}-id:{{ printer.id }}"
+		 aria-label="Printer information">
 		<div class="col-xs-5 col-sm-5 col-md-6" role="group" aria-label="Actions publiques">
 			<network :device="device"></network>
 			<span class="description">{{ printer.description }}</span>
@@ -26,7 +26,7 @@
 		</div>
 		<div class="col-xs-3 col-sm-2 col-md-2">
 			<ul class="btn-toolbar list-inline">
-				<li class="btn-group list-inline-item" role="group"
+				<li class="btn-group" role="group"
 					aria-label="Actions non-réversibles">
 					<delete :promise="delete_printer" :object="printer" class="btn-sm btn-link">
 						<span slot="title">Supprimer l'imprimante <var>{{printer.hostname}}</var></span>
@@ -35,7 +35,7 @@
 						<span slot="action">Supprimer l'imprimante</span>
 					</delete>
 				</li>
-				<li class="btn-group list-inline-item" role="group" aria-label="Actions d'administrations">
+				<li class="btn-group" role="group" aria-label="Actions d'administrations">
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
 							class="btn btn-sm btn-link btn-action hide-btn-content hint--top"
