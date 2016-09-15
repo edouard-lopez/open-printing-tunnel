@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
-			<div v-for="(index, site) in sites" class="card card-block">
+			<div v-for="(index, site) in sites" class="site card card-block">
 				<site :site="site" :index="index"></site>
 			</div>
 		</div>
@@ -82,7 +82,14 @@
 	};
 </script>
 <style>
+	h2 {
+		margin-bottom: 0;
+	}
+
 	.striped .printer:nth-of-type(2n+1) {
 		background-color: hsla(0, 0%, 0%, 0.1);
+	}
+	.site {
+		padding-bottom: .625rem;
 	}
 </style>

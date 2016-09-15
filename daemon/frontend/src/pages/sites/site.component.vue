@@ -18,10 +18,10 @@
 				</div>
 
 				<div class="text-xs-center">
+					<br>
 					<add-printer-button :site="site" label="Ajouter une imprimante"></add-printer-button>
 					<add-printers-button :site="site" label="Ajouter des imprimantes"></add-printers-button>
 				</div>
-				<br>
 			</div>
 		</div>
 	</div>

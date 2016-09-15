@@ -2,9 +2,6 @@
 	.btn-toolbar .btn-group {
 		float: right;
 	}
-	.btn-group .list-inline-item {
-		margin: 0;
-	}
 </style>
 <template>
 	<div class="row" id="{{ site.id }}-id:{{ printer.id }}"

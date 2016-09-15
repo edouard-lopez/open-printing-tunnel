@@ -2,10 +2,15 @@
 	.expandable {
 		cursor: pointer;
 	}
+
+	.vertical-align-text {
+		line-height: 2em;
+		height: 2em;
+	}
 </style>
 <template>
 	<div class="row">
-		<div class="col-xs-6 col-md-5 expandable">
+		<div class="vertical-align-text col-xs-6 col-md-4">
 			<network :device="device"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
@@ -20,7 +25,7 @@
 				{{site.hostname}}
 			</a>
 		</div>
-		<div class="hidden-sm-down col-md-2 expandable"
+		<div class="hidden-sm-down col-md-3 expandable"
 			 data-toggle="collapse"
 			 aria-expanded="false"
 			 aria-controls="site-{{site.id}}"
@@ -28,7 +33,6 @@
 		>
 			<span class="invisible">expandable area</span>
 		</div>
-
 		<div class="col-xs-6 col-md-5">
 			<ul class="btn-toolbar list-inline" role="toolbar"
 				aria-label="Toolbar with button groups">
