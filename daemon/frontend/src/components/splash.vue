@@ -24,8 +24,6 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import 'bootstrap/dist/js/bootstrap.min';
-
 	export default {
 		ready(){
 			$('#splash').modal({
