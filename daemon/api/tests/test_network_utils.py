@@ -113,3 +113,13 @@ class NetwrokUtilsTestCase(unittest.TestCase):
     def test_benchmark_fping(self):
         printers = ['192.168.2.' + str(ip) for ip in range(50)]
         network_utils.fping(printers)
+
+    def test_detect_printer(self):
+        hostname = '127.0.0.1'
+        mask = '/31'
+        port = '9100'
+
+        scan = network_utils.scan(hostname + mask, port)
+
+        self.assertIsInstance(scan['scan'], dict)
+        self.assertEquals(scan['scan'][hostname]['tcp'][9100]['state'], 'closed')

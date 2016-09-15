@@ -2,6 +2,8 @@ import logging
 import socket
 import threading
 
+import nmap
+
 import output_parser
 import shell
 
@@ -94,3 +96,10 @@ def deep_merge(a, b, path=None):
         else:
             a[key] = b[key]
     return a
+
+
+def scan(target, ports='9100'):
+    scanner = nmap.PortScanner()
+    scan = scanner.scan(hosts=target, ports=ports, arguments='-T5')
+
+    return scan

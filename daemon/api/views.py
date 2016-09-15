@@ -189,6 +189,11 @@ class Networks(Resource):
         return response
 
 
+class Scan(Resource):
+    def get(self, site_hostname):
+        return {'results': network_utils.scan(site_hostname + '/24')}
+
+
 api.add_resource(Root, '/')
 api.add_resource(Sites, '/sites/')
 api.add_resource(Site, '/sites/<string:site_id>/')
@@ -197,6 +202,7 @@ api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>/')
 api.add_resource(Networks, '/networks/')
+api.add_resource(Scan, '/scan/<string:site_hostname>/')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

@@ -11,18 +11,15 @@ ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 
 RUN apt-get update \
     && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
-            aha \
             autossh \
-            bmon \
             dpkg \
             gawk \
             fping \
-            git \
             grep \
             htop \
-            iftop \
             libc-bin \
             make \
+            nmap \
             openssh-client \
             sshpass \
             sudo \
