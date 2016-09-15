@@ -35,7 +35,7 @@
 		</div>
 		<div class="col-xs-5 col-md-5">
 			<ul class="btn-toolbar list-inline" role="toolbar"
-				aria-label="Toolbar with button groups">
+				aria-label="Printer toolbar">
 				<li class="btn-group hidden-sm-down" role="group"
 					aria-label="Actions non-réversibles">
 
@@ -70,6 +70,7 @@
 					>
 						<i class="fa fa-stop"> </i>
 					</button>
+					<scanner :site="site"></scanner>
 				</li>
 				<li class="btn-group " role="group" aria-label="Actions publiques">
 					<button aria-label="Status"
@@ -98,6 +99,7 @@
 	import AddPrintersButtonComponent from './add-printers.component.vue';
 	import DeleteButton from 'components/delete-button';
 	import Network from 'components/network';
+	import Scanner from 'components/scanner';
 
 	import http from 'services/http.service';
 	import actions from 'vuex/actions';
@@ -109,7 +111,8 @@
 			'add-printer-button': AddPrinterButtonComponent,
 			'add-printers-button': AddPrintersButtonComponent,
 			'delete': DeleteButton,
-			'network': Network
+			'network': Network,
+			"scanner": Scanner
 		},
 		props: {
 			site: {type: Object, required: true},

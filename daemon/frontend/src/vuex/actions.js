@@ -7,6 +7,7 @@ const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
 const printers = http('printers', localStorage);
 const networks = http('networks', localStorage);
+const scan = http('scan', localStorage);
 
 export default {
 	addPrinter({dispatch}, printer) {
@@ -75,6 +76,18 @@ export default {
 			console.log('deletion failed', err);
 			logging.error('Échec de la suppression !');
 		});
+	},
+	scanSite({dispatch}, site) {
+		return scan.get({site: site.hostname}, {url: '/api/${resource}/${site}/'})
+			.then(response => {
+				dispatch('logResponse', response.data);
+				logging.success('Scan du réseau terminé.');
+				return response;
+			})
+			.catch(err => {
+				console.error(err);
+				logging.error('Échec du scan du réseau !');
+			});
 	},
 	siteStatus({dispatch}, site) {
 		site.action = 'status';
