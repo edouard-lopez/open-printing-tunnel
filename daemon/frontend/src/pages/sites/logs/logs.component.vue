@@ -53,6 +53,7 @@
 	.stdout {
 		background-color: #f7f7f9;
 		margin-bottom: 0;
+		padding: .5rem;
 	}
 
 	.line {

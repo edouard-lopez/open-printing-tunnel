@@ -39,7 +39,7 @@
 		left: -12px;
 	}
 
-	.fa-pulsing {
+	.ping .fa-pulsing, .telnet .fa-pulsing {
 		border: .2rem solid #ccc;
 		border-radius: 5rem !important;
 		height: 1rem;
