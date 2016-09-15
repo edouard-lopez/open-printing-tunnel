@@ -1,4 +1,4 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template>
 	<div id="newSite">
 		<button type="button" class="btn btn-success" data-toggle="modal"
 				data-target="#site-modal">

@@ -57,9 +57,6 @@
 				console.log(expandClass);
 				return expandClass;
 			}
-//			expand: () => this.expand ? 'in' : ''
 		}
 	}
-
-
 </script>
