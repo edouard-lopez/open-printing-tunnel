@@ -10,7 +10,7 @@
 </style>
 <template>
 	<div class="row">
-		<div class="vertical-align-text col-xs-6 col-md-4">
+		<div class="col-xs-7 col-md-5 vertical-align-text ">
 			<network :device="device"></network>
 			<span class="tunnel-name"
 				  data-toggle="collapse"
@@ -25,7 +25,7 @@
 				{{site.hostname}}
 			</a>
 		</div>
-		<div class="hidden-sm-down col-md-3 expandable"
+		<div class="hidden-sm-down col-md-2 expandable"
 			 data-toggle="collapse"
 			 aria-expanded="false"
 			 aria-controls="site-{{site.id}}"
@@ -33,10 +33,10 @@
 		>
 			<span class="invisible">expandable area</span>
 		</div>
-		<div class="col-xs-6 col-md-5">
+		<div class="col-xs-5 col-md-5">
 			<ul class="btn-toolbar list-inline" role="toolbar"
 				aria-label="Toolbar with button groups">
-				<li class="btn-group " role="group"
+				<li class="btn-group hidden-sm-down" role="group"
 					aria-label="Actions non-réversibles">
 
 					<delete :promise="delete_site" :object="site" class="btn-sm btn-link">
@@ -47,7 +47,7 @@
 					</delete>
 
 				</li>
-				<li class="btn-group " role="group"
+				<li class="btn-group" role="group"
 					aria-label="Actions d'administration">
 					<button aria-label="Redémarrer"
 							role="button"
@@ -80,10 +80,10 @@
 						<i class="fa fa-info"> </i>
 					</button>
 					<add-printer-button :site="site" class="btn-sm"></add-printer-button>
-					<add-printers-button :site="site" class="btn-sm"></add-printers-button>
+					<add-printers-button :site="site" class="hidden-sm-down btn-sm"></add-printers-button>
 					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
-							class="btn btn-link btn-sm btn-action hide-btn-content hint--top"
+							class="hidden-sm-down btn btn-link btn-sm btn-action hide-btn-content hint--top"
 							@click="getScript(site)"
 					>
 						<i class="fa fa-file-o"> </i>

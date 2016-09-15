@@ -6,11 +6,11 @@
 <template>
 	<div class="row" id="{{ site.id }}-id:{{ printer.id }}"
 		 aria-label="Printer information">
-		<div class="col-xs-5 col-sm-5 col-md-6" role="group" aria-label="Actions publiques">
+		<div class="col-xs-6 col-sm-6 col-md-6" role="group" aria-label="Actions publiques">
 			<network :device="device"></network>
 			<span class="description">{{ printer.description }}</span>
 		</div>
-		<div class="col-xs-4 col-sm-5 col-md-4">
+		<div class="col-xs-6 col-sm-6 col-md-4 text-xs-right">
 			<a href="http://{{printer.hostname}}" target="_blank">{{ printer.hostname }}</a>
 			<small class="text-muted">
 				<span class="port listening">{{ printer.ports.listen }}</span>
@@ -21,7 +21,7 @@
 				<span class="port destination">{{ printer.ports.send }}</span>
 			</small>
 		</div>
-		<div class="col-xs-3 col-sm-2 col-md-2">
+		<div class="hidden-sm-down col-sm-2 col-md-2">
 			<ul class="btn-toolbar list-inline">
 				<li class="btn-group" role="group"
 					aria-label="Actions non-réversibles">
@@ -69,15 +69,15 @@
 			from() {
 				return this.printer.ports.forward
 			},
-	device() {
-		var data = null;
+			device() {
+				var data = null;
 
-		if (typeof this.networks !== 'undefined' && typeof this.networks[this.site.hostname] !== 'undefined') {
-			data = this.networks[this.site.hostname][this.printer.hostname];
-		}
+				if (typeof this.networks !== 'undefined' && typeof this.networks[this.site.hostname] !== 'undefined') {
+					data = this.networks[this.site.hostname][this.printer.hostname];
+				}
 
-		return data;
-	},
+				return data;
+			},
 		},
 		methods: {
 			delete_printer(printer) {

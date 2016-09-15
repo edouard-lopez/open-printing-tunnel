@@ -16,15 +16,15 @@
 		</splash>
 		<div class="card card-block">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-xs-6 col-md-6">
 					<h2>
 						<i class="fa fa-map-marker text-danger"></i>
 						Sites
 					</h2>
 				</div>
-				<span class="col-md-6 text-xs-right">
-				<add-site-button></add-site-button>
-			</span>
+				<span class="col-xs-6 col-md-6 text-xs-right">
+					<add-site-button></add-site-button>
+				</span>
 			</div>
 		</div>
 		<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
