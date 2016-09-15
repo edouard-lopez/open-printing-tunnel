@@ -10,11 +10,11 @@
 
 1. It is assumed that your `frontend` applications are **up-to-date and build**.
 
-        cd daemon/frontend/ && npm run build
+        cd daemon/frontend/ ; npm run build
    
 1. Tag and push the new docker image to the repository:
 
-        cd deploy/ && ./tag_and_push.sh
+        cd deploy/ ; ./tag_and_push.sh
 
 ## Send files to server
 
