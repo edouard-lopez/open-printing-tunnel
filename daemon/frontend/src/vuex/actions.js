@@ -2,6 +2,7 @@ import http from 'services/http.service'; // eslint-disable-line import/no-extra
 import logging from 'services/logging.service'; // eslint-disable-line import/no-extraneous-dependencies
 import resource from 'pilou';
 import FileSaver from 'file-saver';
+import scannerFilter from '../components/scan.filter.js';
 
 const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);
@@ -80,7 +81,7 @@ export default {
 	scanSite({dispatch}, site) {
 		return scan.get({site: site.hostname}, {url: '/api/${resource}/${site}/'})
 			.then(response => {
-				dispatch('logResponse', response.data);
+				dispatch('logResponse', scannerFilter.printers(response.data));
 				logging.success('Scan du réseau terminé.');
 				return response;
 			})
