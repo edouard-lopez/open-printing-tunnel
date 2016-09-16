@@ -34,6 +34,14 @@
 	}
 </script>
 <style>
+	.bg-danger .modal-header {
+		border-bottom-color: #c9302c;
+	}
+
+	.bg-danger .modal-footer {
+		border-top-color: #c9302c;
+	}
+
 	.modal-backdrop.in {
 		opacity: .75;
 	}
