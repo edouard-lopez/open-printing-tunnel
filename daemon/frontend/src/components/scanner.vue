@@ -40,6 +40,57 @@
 	}
 </script>
 <style>
+	.scan .fa-wifi {
+		color: #ccc;
+	}
+
+	.scan .fa-wifi:hover {
+		color: #373a3c;
+	}
+
+	.scan .radiating {
+		width: 16px;
+		height: 16px;
+		position: relative;
+		top: 0;
+		left: 0;
+	}
+	.scan .radiating.fa-wifi {
+		position: relative;
+		overflow: hidden;
+		display: inline-block;
+	}
+	.scan .radiating.fa-wifi:after {
+		position: absolute;
+		height: inherit;
+		width: inherit;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		content: "x";
+		color: transparent;
+		display: block;
+		background-color: #fff;
+		animation: radiate 1s infinite ease-in-out;
+	}
+	@-webkit-keyframes radiate {
+		0% {
+			top: -4px;
+		}
+		25% {
+			top: -6px;
+		}
+		50% {
+			top: -9px;
+		}
+		75% {
+			top: -12px;
+		}
+		100% {
+			top: -15px;
+		}
+	}
+
 	.scan .fa-pulsing {
 		border: .2rem solid #373a3c;
 		border-radius: 5rem !important;
