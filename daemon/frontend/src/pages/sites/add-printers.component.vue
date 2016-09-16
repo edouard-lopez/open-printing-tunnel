@@ -1,7 +1,7 @@
 <template>
 	<button aria-label="Ajouter des imprimantes"
 			role="button"
-			class="btn btn-primary btn-action hide-btn-content hint--top {{class}}"
+			class="btn btn-primary hide-btn-content hint--top {{class}}"
 			data-toggle="modal"
 			data-target="#printers-modal-{{printers.siteName}}">
 		<i class="fa fa-print"></i>

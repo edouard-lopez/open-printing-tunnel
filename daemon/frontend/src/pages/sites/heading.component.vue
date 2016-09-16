@@ -51,21 +51,21 @@
 					aria-label="Actions d'administration">
 					<button aria-label="Redémarrer"
 							role="button"
-							class="btn btn-warning btn-sm btn-action restart hide-btn-content hint--top"
+							class="btn btn-warning btn-sm restart hide-btn-content hint--top"
 							@click="restart(site)"
 					>
 						<i class="fa fa-refresh"> </i>
 					</button>
 					<button aria-label="Démarrer"
 							role="button"
-							class="btn btn-success btn-sm btn-action hide-btn-content hint--top"
+							class="btn btn-success btn-sm hide-btn-content hint--top"
 							@click="start(site)"
 					>
 						<i class="fa fa-play"> </i>
 					</button>
 					<button aria-label="Arrêter"
 							role="button"
-							class="btn btn-danger btn-sm btn-action hide-btn-content hint--top"
+							class="btn btn-danger btn-sm hide-btn-content hint--top"
 							@click="stop(site)"
 					>
 						<i class="fa fa-stop"> </i>
@@ -75,7 +75,7 @@
 				<li class="btn-group " role="group" aria-label="Actions publiques">
 					<button aria-label="Status"
 							role="button"
-							class="btn btn-info btn-sm btn-action hide-btn-content hint--top"
+							class="btn btn-info btn-sm hide-btn-content hint--top"
 							@click="status(site)"
 					>
 						<i class="fa fa-info"> </i>
@@ -84,7 +84,7 @@
 					<add-printers-button :site="site" class="hidden-sm-down btn-sm"></add-printers-button>
 					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
 							role="button"
-							class="hidden-sm-down btn btn-link btn-sm btn-action hide-btn-content hint--top"
+							class="hidden-sm-down btn btn-link btn-sm hide-btn-content hint--top"
 							@click="getScript(site)"
 					>
 						<i class="fa fa-file-o"> </i>

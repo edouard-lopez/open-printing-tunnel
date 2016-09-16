@@ -10,7 +10,7 @@
 					aria-label="Toolbar with button groups">
 					<li class="btn-group" role="group" aria-label="Actions publiques">
 						<button title="Status" role="button"
-								class="btn btn-default btn-sm btn-action hide-btn-content hint--top-left"
+								class="btn btn-default btn-sm hide-btn-content hint--top-left"
 								aria-label="Nettoyer le log"
 								@click="clear()"
 						>

@@ -6,7 +6,7 @@
 <template>
 	<button aria-label="Ajouter une imprimante"
 			role="button"
-			class="btn btn-success btn-action hide-btn-content hint--top {{class}}"
+			class="btn btn-success hide-btn-content hint--top {{class}}"
 			data-toggle="modal"
 			data-target="#printer-modal-{{printer.site}}"
 	>
