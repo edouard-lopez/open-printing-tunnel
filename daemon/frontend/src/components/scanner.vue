@@ -1,6 +1,6 @@
 <template>
-	<button class="scan btn btn-sm btn-secondary hint--top-right"
-			aria-label="{{site.hostname}}"
+	<button class="scan btn btn-sm btn-link hint--top-right"
+			aria-label="Détecter des équipements sur ce réseau"
 			@click="scan(site)"
 	>
 		<i class="fa fa-wifi" v-if="!scanning"> </i>
@@ -41,7 +41,7 @@
 </script>
 <style>
 	.scan .fa-pulsing {
-		border: .2rem solid #999;
+		border: .2rem solid #373a3c;
 		border-radius: 5rem !important;
 		height: 1em;
 		width: 1em;
@@ -54,11 +54,11 @@
 	@-webkit-keyframes pulsate {
 		0% {
 			border-width: .4rem;
-			border-color: #aaa;
 			transform: scale(0.05, 0.05);
 			opacity: 0;
 		}
 		50% {
+			border-color: #aaa;
 			opacity: 1;
 		}
 		100% {
