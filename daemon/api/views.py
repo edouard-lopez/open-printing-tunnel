@@ -191,7 +191,8 @@ class Networks(Resource):
 
 class Scan(Resource):
     def get(self, site_hostname):
-        return {'results': network_utils.scan(site_hostname + '/24')}
+        # return {'results': network_utils.scan(site_hostname + '/24', '22,23,80,9100')}
+        return network_utils.scan(site_hostname + '/24', '22,23,80,9100')
 
 
 api.add_resource(Root, '/')

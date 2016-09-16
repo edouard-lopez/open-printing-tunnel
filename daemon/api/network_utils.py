@@ -100,6 +100,6 @@ def deep_merge(a, b, path=None):
 
 def scan(target, ports='9100'):
     scanner = nmap.PortScanner()
-    scan = scanner.scan(hosts=target, ports=ports, arguments='-T5')
+    scan = scanner.scan(hosts=target, ports=ports, arguments='-T5 --open')
 
     return scan
