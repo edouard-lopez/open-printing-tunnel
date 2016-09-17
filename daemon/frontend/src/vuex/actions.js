@@ -81,8 +81,15 @@ export default {
 	scanSite({dispatch}, site) {
 		return scan.get({site: site.hostname}, {url: '/api/${resource}/${site}/'})
 			.then(response => {
-				dispatch('logResponse', scannerFilter.clipboard(scannerFilter.printers(response.data)));
-				logging.success('Scan du réseau terminé.');
+				const printers = scannerFilter.printers(response.data);
+				console.log(printers);
+				dispatch('logResponse', scannerFilter.clipboard(printers));
+				const found = printers.length;
+				if (found === 0) {
+					logging.warning('Scan du réseau terminé : aucune imprimante trouvée.');
+				} else {
+					logging.success('Scan du réseau terminé : ' + found + ' imprimantes trouvées.');
+				}
 				return response;
 			})
 			.catch(err => {
