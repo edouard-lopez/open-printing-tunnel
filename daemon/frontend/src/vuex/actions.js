@@ -82,7 +82,6 @@ export default {
 		return scan.get({site: site.hostname}, {url: '/api/${resource}/${site}/'})
 			.then(response => {
 				const printers = scannerFilter.printers(response.data);
-				console.log(printers);
 				dispatch('logResponse', scannerFilter.clipboard(printers));
 				const found = printers.length;
 				if (found === 0) {
