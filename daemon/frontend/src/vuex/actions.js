@@ -81,7 +81,7 @@ export default {
 	scanSite({dispatch}, site) {
 		return scan.get({site: site.hostname}, {url: '/api/${resource}/${site}/'})
 			.then(response => {
-				dispatch('logResponse', scannerFilter.printers(response.data));
+				dispatch('logResponse', scannerFilter.clipboard(scannerFilter.printers(response.data)));
 				logging.success('Scan du réseau terminé.');
 				return response;
 			})

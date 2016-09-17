@@ -1,22 +1,34 @@
 export default {
+	getPrinter(ports, hostname) {
+		for (const port in ports) {
+			if ({}.hasOwnProperty.call(ports, port) && parseInt(port, 10) === 9100) {
+				const details = ports[port];
+				return {
+					hostname,
+					port: parseInt(port, 10),
+					description: details ? details.product : ''
+				};
+			}
+		}
+		return null;
+	},
 	printers(nmap) {
 		const printers = [];
 
 		const devices = nmap.scan;
-		console.log('devices', devices);
+
 		for (const hostname in devices) {
 			if ({}.hasOwnProperty.call(devices, hostname)) {
-				const port = 9100;
-
-				printers.push(
-					{
-						hostname,
-						port,
-						description: devices[hostname].tcp[port].product || null
-					}
-				);
+				const ports = devices[hostname].tcp;
+				const printer = this.getPrinter(ports, hostname);
+				if (printer) {
+					printers.push(printer);
+				}
 			}
 		}
 		return printers;
+	},
+	clipboard(printers) {
+		return printers.map(printer => [printer.description, printer.hostname].join('\t'));
 	}
 };

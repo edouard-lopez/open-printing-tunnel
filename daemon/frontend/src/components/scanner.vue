@@ -47,7 +47,7 @@
 	.scan .fa-wifi:hover {
 		color: #373a3c;
 	}
-	
+
 	.scan .fa-pulsing {
 		border: .2rem solid #373a3c;
 		border-radius: 5rem !important;
