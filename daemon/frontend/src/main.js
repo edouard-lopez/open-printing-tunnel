@@ -7,7 +7,6 @@ import LandingPage from './pages/index';
 import SitesPage from './pages/sites/sites';
 import SitePage from './pages/sites/site.component';
 
-import auth from './services/auth.service';
 import locales from './locales';
 
 // eslint-disable-next-line no-new
@@ -39,8 +38,6 @@ router.map({
 		component: SitePage
 	}
 });
-
-auth.localStorage = localStorage;
 
 router.beforeEach(transition => {
 	if (transition.to.path === '/') {

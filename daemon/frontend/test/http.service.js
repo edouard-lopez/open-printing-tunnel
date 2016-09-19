@@ -14,29 +14,11 @@ const foo = {
 	name: 'foo'
 };
 
-test('should send requests with Authorization header', t => {
-	const headers = {reqheaders: {Authorization: `JWT ${token}`}};
-	nock('http://localhost/', headers).get('/api/foos/').query(true).reply(200, {});
-	return foos.all().then(response => {
-		t.is(response.status, 200);
-	});
-});
-
 test('should create a foo', t => {
 	nock('http://localhost/').post('/api/foos/', foo).reply(201, foo);
 	return foos.create(foo).then(response => {
 		const newIncident = response.data;
 		t.is(foo.login, newIncident.login);
-	});
-});
-
-test('should send requests with Authorization header updated', t => {
-	const newToken = 'WV9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRyd';
-	foos.localStorage.setItem('token', newToken);
-	const headers = {reqheaders: {Authorization: `JWT ${newToken}`}};
-	nock('http://localhost/', headers).get('/api/foos/').query(true).reply(200, {});
-	return foos.all().then(response => {
-		t.is(response.status, 200);
 	});
 });
 

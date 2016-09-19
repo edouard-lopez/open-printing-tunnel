@@ -9,7 +9,6 @@
 </template>
 <script type="text/ecmascript-6">
 	import 'bootstrap/dist/js/bootstrap.min';
-	import auth from 'services/auth.service';
 	import store from 'vuex/store';
 
 	export default {
