@@ -1,9 +1,10 @@
 import test from 'ava';
+import axios from 'axios';
 import nock from 'nock';
-
 import http from '../src/services/http.service';
 import {storageMock} from './_helpers';
 
+axios.defaults.baseURL = 'http://localhost/';
 const foos = http('foos', storageMock());
 
 const token = 'ZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFt';
