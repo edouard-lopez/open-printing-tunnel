@@ -1,6 +1,14 @@
 files: [
-  "package.json"
+	"package.json"
 ]
 plugins:
-  prerelease: {}
-  postrelease: {}
+	prerelease: {}
+
+	postrelease:
+		'Commiting new version':
+			plugin: 'bumped-terminal'
+			command: 'git add package.json && git commit --amend --no-edit'
+
+		'Tagging locally':
+			plugin: 'bumped-terminal'
+			command: 'git tag v$newVersion'
