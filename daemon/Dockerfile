@@ -17,6 +17,8 @@ RUN apt-get update \
             fping \
             grep \
             htop \
+            libsmi2-dev \
+            libffi-dev \
             libc-bin \
             make \
             nmap \
