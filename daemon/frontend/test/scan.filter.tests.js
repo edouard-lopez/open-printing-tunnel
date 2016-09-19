@@ -1,5 +1,6 @@
 import test from 'ava';
 import filter from '../src/components/scan.filter';
+import nmap from './nmap.json';
 
 test('should get printer', t => {
 	const hostname = '10.0.1.2';
@@ -41,4 +42,15 @@ test('should format with empty description', t => {
 	const clipboard = filter.clipboard(printers);
 
 	t.deepEqual(clipboard, ['\t10.0.1.8\t9100']);
+});
+
+test('should format to log', t => {
+	const printers = filter.printers(nmap);
+	const clipboard = filter.clipboard(printers);
+
+	t.deepEqual(clipboard, [
+		'\t192.168.2.191\t9100',
+		'\t192.168.2.248\t9100',
+		'\t192.168.2.250\t9100'
+	]);
 });

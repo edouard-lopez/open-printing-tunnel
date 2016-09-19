@@ -82,7 +82,8 @@ export default {
 		return scan.get({site: site.hostname}, {url: '/api/${resource}/${site}/'})
 			.then(response => {
 				const printers = scannerFilter.printers(response.data);
-				dispatch('logResponse', scannerFilter.clipboard(printers));
+				response.results = scannerFilter.clipboard(printers);
+				dispatch('logResponse', response);
 				const found = printers.length;
 				if (found === 0) {
 					logging.warning('Scan du réseau terminé : aucune imprimante trouvée.');
