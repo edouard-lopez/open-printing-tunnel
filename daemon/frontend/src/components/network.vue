@@ -13,7 +13,6 @@
 		props: {
 			device: {
 				type: Object,
-				required: true,
 				default: function () {
 					return {
 						ping: null,
@@ -21,6 +20,12 @@
 					}
 				}
 			},
+		},
+		propsData: {
+			device: {
+				ping: {},
+				telnet: {}
+			}
 		},
 		filters: {
 			icon: network.icon,
