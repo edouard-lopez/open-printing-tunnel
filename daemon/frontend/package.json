@@ -50,6 +50,7 @@
     "xo": "^0.16.0"
   },
   "xo": {
+    "fix": true,
     "esnext": true,
     "envs": [
       "browser"
