@@ -33,12 +33,12 @@ test('should format as raw text clipboard content', t => {
 
 	const clipboard = filter.clipboard(printers);
 
-	t.deepEqual(clipboard, ['HP 5020-NL\t10.0.1.1']);
+	t.deepEqual(clipboard, ['HP 5020-NL\t10.0.1.1\t9100']);
 });
 test('should format with empty description', t => {
 	const printers = [{hostname: '10.0.1.8', port: 9100, description: ''}];
 
 	const clipboard = filter.clipboard(printers);
 
-	t.deepEqual(clipboard, ['\t10.0.1.8']);
+	t.deepEqual(clipboard, ['\t10.0.1.8\t9100']);
 });

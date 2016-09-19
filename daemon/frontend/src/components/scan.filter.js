@@ -29,6 +29,6 @@ export default {
 		return printers;
 	},
 	clipboard(printers) {
-		return printers.map(printer => [printer.description, printer.hostname].join('\t'));
+		return printers.map(printer => [printer.description, printer.hostname, printer.port].join('\t'));
 	}
 };
