@@ -15,7 +15,7 @@
 					<slot name="body"></slot>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">
+					<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">
 						<slot name="accept"></slot>
 					</button>
 				</div>
