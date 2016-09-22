@@ -3,6 +3,7 @@ import socket
 import threading
 
 import nmap
+import snimpy.manager as snimpy
 
 import output_parser
 import shell
@@ -103,3 +104,20 @@ def scan(target, ports='9100'):
     scan = scanner.scan(hosts=target, ports=ports, arguments='-T5 --open')
 
     return scan
+
+
+def get_details(device):
+    snimpy.load("SNMPv2-MIB")
+    session = snimpy.snmp.Session("localhost", "public", 2)
+
+    details = snimpy.Manager(device['hostname'])
+    device_model = session.get("1.3.6.1.2.1.1.1.0")
+
+    return {
+        'contact': details.sysContact,  # SNMPv2-MIB
+        'description': details.sysDescr,  # SNMPv2-MIB
+        'hostname': device['hostname'],
+        'name': details.sysName,  # SNMPv2-MIB
+        'port': 9100,
+        'uptime': details.sysUpTime,  # SNMPv2-MIB
+    }

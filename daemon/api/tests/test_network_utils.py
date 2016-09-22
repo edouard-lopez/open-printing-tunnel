@@ -123,3 +123,18 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
         self.assertIsInstance(scan['scan'], dict)
         self.assertEquals(scan['scan'][hostname]['tcp'][9100]['state'], 'closed')
+
+    def test_can_get_snmp_data(self):
+        printer = {
+            'hostname': 'localhost',
+            'port': 9100
+        }
+
+        details = network_utils.get_details(printer)
+
+        self.assertIn('contact', details)
+        self.assertIn('description', details)
+        self.assertEqual(details['hostname'], 'localhost')
+        self.assertIn('name', details)
+        self.assertIn('port', details)
+        self.assertGreater(details['uptime'], 0)
