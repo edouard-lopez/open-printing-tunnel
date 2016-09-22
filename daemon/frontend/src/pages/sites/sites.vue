@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
-			<div v-for="(index, site) in sites" class="site card card-block">
+			<div v-for="(index, site) in sites | orderBy 'id' " class="site card card-block">
 				<site :site="site" :index="index"></site>
 			</div>
 		</div>
