@@ -3,7 +3,7 @@
 		<splash>
 			<span slot="title">
 				<i class="fa fa-warning text-warning"></i>
-				Zone dangereuse
+				Zone Dangereuse
 			</span>
 			<p slot="body">
 				Vous êtes sur une interface d'administration, vos actions peuvent <strong>impacter le réseau
@@ -11,7 +11,7 @@
 			</p>
 			<span slot="accept">
 				<i class="fa fa-check text-success"></i>
-				Je <b>comprends</b> les risques
+				<b>Accepter</b> les risques
 			</span>
 		</splash>
 		<div class="card card-block">

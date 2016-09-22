@@ -35,11 +35,15 @@
 </script>
 <style>
 	.bg-danger .modal-header {
-		border-bottom-color: #c9302c;
+		border-bottom-color: hsl(2, 64%, 48%);
 	}
 
 	.bg-danger .modal-footer {
-		border-top-color: #c9302c;
+		border-top-color: hsl(2, 64%, 48%);
+	}
+
+	.bg-danger .btn-danger {
+		border-color: hsl(2, 64%, 48%);
 	}
 
 	.modal-backdrop.in {
