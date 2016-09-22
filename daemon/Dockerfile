@@ -9,6 +9,8 @@ ARG DAEMON_USER=mast
 ARG REMOTE_USER=coaxis
 ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 
+RUN sed --in-place 's!$! non-free!' /etc/apt/sources.list  # add non-free repositories from snmp-mibs-downloader
+
 RUN apt-get update \
     && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
             autossh \
@@ -23,6 +25,7 @@ RUN apt-get update \
             make \
             nmap \
             openssh-client \
+            snmp-mibs-downloader \
             sshpass \
             sudo \
             trickle \
