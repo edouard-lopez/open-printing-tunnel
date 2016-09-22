@@ -26,3 +26,13 @@ test('should label as "accessible" when reachable', t => {
 test('should label as "indisponible" when reachable', t => {
 	t.is(network.reachable(false), 'indisponible');
 });
+
+test('should label "`duration`+ms" when ping reach', t => {
+	const duration = 1.284535;
+	t.is(network.time(duration), '1.29 ms');
+});
+
+test('should label as "indisponible" when no ping', t => {
+	const duration = 0;
+	t.is(network.time(duration), 'indisponible');
+});

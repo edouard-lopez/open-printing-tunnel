@@ -1,5 +1,5 @@
 <template>
-	<span class="ping hint--top-right" aria-label="ping: {{ device.ping | currency '' 2 }} ms">
+	<span class="ping hint--top-right" aria-label="ping: {{ device.ping | time }}">
 		<i class="tunnel-status fa {{ device.ping | icon 'ping' }}"> </i>
 	</span>
 	<span class="telnet hint--top-right" aria-label="telnet: {{ device.telnet | reachable }}">
@@ -28,6 +28,7 @@
 			}
 		},
 		filters: {
+			time: network.time,
 			icon: network.icon,
 			reachable: network.reachable
 		}
