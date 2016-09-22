@@ -25,6 +25,8 @@ RUN apt-get update \
             make \
             nmap \
             openssh-client \
+            snmp \
+            snmpd \
             snmp-mibs-downloader \
             sshpass \
             sudo \
