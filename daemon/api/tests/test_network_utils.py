@@ -114,7 +114,14 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         printers = ['192.168.2.' + str(ip) for ip in range(50)]
         network_utils.fping(printers)
 
-    def test_detect_printer(self):
+    def test_fetch_optbox_netmask(self):
+        hostname = '127.0.0.1'
+
+        netmask = network_utils.fetch_netmask(hostname)
+
+        self.assertEqual(netmask, '/24')
+
+    def test_detect_devices_on_optbox_network(self):
         hostname = '127.0.0.1'
         mask = '/31'
         port = '9100'
@@ -122,7 +129,17 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         scan = network_utils.scan(hostname + mask, port)
 
         self.assertIsInstance(scan['scan'], dict)
-        self.assertEquals(scan['scan'][hostname]['tcp'][9100]['state'], 'closed')
+
+    def test_detect_open_port_on_optbox_network(self):
+        hostname = '127.0.0.1'
+        mask = '/31'
+        port = '22'
+
+        scan = network_utils.scan(hostname + mask, port)
+
+        self.assertIsInstance(scan['scan'], dict)
+
+        self.assertEquals(scan['scan'][hostname]['tcp'][22]['state'], 'open')
 
     def test_can_get_snmp_data(self):
         printer = {
