@@ -1,5 +1,7 @@
 import unittest
 
+import paramiko
+
 import network_utils
 
 
@@ -114,13 +116,6 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         printers = ['192.168.2.' + str(ip) for ip in range(50)]
         network_utils.fping(printers)
 
-    def test_fetch_optbox_netmask(self):
-        hostname = '127.0.0.1'
-
-        netmask = network_utils.fetch_netmask(hostname)
-
-        self.assertEqual(netmask, '/24')
-
     def test_detect_devices_on_optbox_network(self):
         hostname = '127.0.0.1'
         mask = '/31'
@@ -155,3 +150,24 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         self.assertIn('name', details)
         self.assertIn('port', details)
         self.assertGreater(details['uptime'], 0)
+
+    def test_open_ssh_connection(self):
+        hostname = '127.0.0.1'
+
+        connection = network_utils.open_ssh_connection(hostname)
+
+        self.assertIsInstance(connection, paramiko.client.SSHClient)
+
+    def test_open_ssh_connection_raise_error(self):
+        hostname = 'unreachable.host'
+
+        with self.assertRaises(Exception) as manager:
+            network_utils.open_ssh_connection(hostname)
+
+    def test_fetch_optbox_netmask(self):
+        hostname = '127.0.0.1'
+
+        netmask = network_utils.fetch_netmask(hostname)
+
+        self.assertEqual(netmask, '/24')
+

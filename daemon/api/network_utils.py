@@ -2,7 +2,9 @@ import logging
 import socket
 import threading
 
+import os
 import nmap
+import paramiko
 import snimpy.manager as snimpy
 
 import output_parser
@@ -121,3 +123,19 @@ def get_details(device):
         'port': 9100,
         'uptime': details.sysUpTime,  # SNMPv2-MIB
     }
+
+
+def open_ssh_connection(hostname):
+    paramiko.util.log_to_file('/tmp/ssh.log')  # sets up logging
+
+    try:
+        client = paramiko.SSHClient()
+        ssh_key = os.path.expanduser('~/.ssh/id_rsa.pub')
+        client.load_host_keys(ssh_key)
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(hostname, timeout=0.3)
+    except Exception as e:
+        raise Exception('SSH Connection Failed')
+
+    return client
