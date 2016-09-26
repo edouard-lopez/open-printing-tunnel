@@ -130,9 +130,6 @@ def open_ssh_connection(hostname):
 
     try:
         client = paramiko.SSHClient()
-        ssh_key = os.path.expanduser('~/.ssh/id_rsa.pub')
-        client.load_host_keys(ssh_key)
-        client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(hostname, timeout=0.3)
     except Exception as e:
