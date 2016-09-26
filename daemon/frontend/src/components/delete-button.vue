@@ -13,7 +13,7 @@
 </style>
 <template>
 	<div id="delete-button-{{object.id}}" class="delete-button">
-		<button type="button" class="btn btn-danger {{class}} hint--top"
+		<button type="button" class="btn btn-danger {{class}} hint--top-left"
 				aria-label="Supprimer {{object.id}}…"
 				data-toggle="modal"
 				data-target="#delete-button-modal-{{object.id}}">

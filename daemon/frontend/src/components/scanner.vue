@@ -1,5 +1,5 @@
 <template>
-	<button class="scan btn btn-sm btn-link hint--top-right"
+	<button class="scan btn btn-sm btn-link hint--top-left"
 			aria-label="Détecter des équipements sur ce réseau"
 			@click="scan(site)"
 	>

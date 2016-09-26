@@ -35,7 +35,7 @@
 				<li class="btn-group" role="group" aria-label="Actions d'administrations">
 					<button aria-label="script d'installation d'imprimante"
 							role="button"
-							class="btn btn-sm btn-link hide-btn-content hint--top"
+							class="btn btn-sm btn-link hide-btn-content hint--top-left"
 							@click="getScript(site, printer)"
 					>
 						<i class="fa fa-file-o"> </i>
