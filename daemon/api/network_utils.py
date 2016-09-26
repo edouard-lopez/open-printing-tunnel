@@ -103,6 +103,7 @@ def deep_merge(a, b, path=None):
 
 def scan(target, ports='9100'):
     scanner = nmap.PortScanner()
+    
     scan = scanner.scan(hosts=target, ports=ports, arguments='-T5 --open')
 
     return scan
@@ -125,6 +126,22 @@ def get_details(device):
     }
 
 
+def fetch_netmask(hostname):
+    connection = open_ssh_connection(hostname)
+
+    list_net_interfaces = "ip -oneline -family inet address show"
+    get_netmask = ("{list_net_interfaces} | grep {hostname}").format(
+        hostname=hostname,
+        list_net_interfaces=list_net_interfaces,
+    )
+
+    stdin, stdout, stderr = connection.exec_command(get_netmask)
+    address = parse_address(hostname, stdout)
+    connection.close()
+
+    return address
+
+
 def open_ssh_connection(hostname):
     paramiko.util.log_to_file('/tmp/ssh.log')  # sets up logging
 
@@ -136,3 +153,15 @@ def open_ssh_connection(hostname):
         raise Exception('SSH Connection Failed')
 
     return client
+
+
+def parse_address(hostname, addresses):
+    for address in addresses:
+        if hostname in address:
+            hostname, netmask = address.strip().split('/')
+            hostname = hostname.split()[-1]
+            netmask = netmask.split()[0]
+
+            return '/' + netmask
+
+    return None

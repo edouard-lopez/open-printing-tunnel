@@ -1,4 +1,5 @@
 import unittest
+from pprint import pprint
 
 import paramiko
 
@@ -116,21 +117,20 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         printers = ['192.168.2.' + str(ip) for ip in range(50)]
         network_utils.fping(printers)
 
-    def test_detect_devices_on_optbox_network(self):
-        hostname = '127.0.0.1'
-        mask = '/31'
+    def test_scan_detect_devices_on_optbox_network(self):
+        hostname = '127.0.0.1/31'
         port = '9100'
 
-        scan = network_utils.scan(hostname + mask, port)
+        scan = network_utils.scan(hostname, port)
 
         self.assertIsInstance(scan['scan'], dict)
 
-    def test_detect_open_port_on_optbox_network(self):
+    def test_scan_detect_open_port_on_optbox_network(self):
         hostname = '127.0.0.1'
-        mask = '/31'
+        netmask = '/31'
         port = '22'
 
-        scan = network_utils.scan(hostname + mask, port)
+        scan = network_utils.scan(hostname+netmask, port)
 
         self.assertIsInstance(scan['scan'], dict)
 
@@ -169,5 +169,19 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
         netmask = network_utils.fetch_netmask(hostname)
 
-        self.assertEqual(netmask, '/24')
+        self.assertEqual(netmask, '/8')
 
+    def test_parse_netmask(self):
+        hostname = '127.0.0.1'
+
+        stdout = [
+            "1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever",
+            "3: wlp4s0    inet 192.168.2.133/24 brd 192.168.2.255 scope global dynamic wlp4s0\       valid_lft 58984sec preferred_lft 58984sec",
+            "4: docker0    inet 172.17.0.1/16 scope global docker0\       valid_lft forever preferred_lft forever",
+            "5: br-a49026d1a341    inet 172.18.0.1/16 scope global br-a49026d1a341\       valid_lft forever preferred_lft forever",
+            "6: br-d26f2005f732    inet 172.19.0.1/16 scope global br-d26f2005f732\       valid_lft forever preferred_lft forever",
+        ]
+
+        netmask = network_utils.parse_address(hostname, stdout)
+
+        self.assertEqual(netmask, '/8')
