@@ -28,7 +28,7 @@ def fping(hostnames):
 
 
 def telnet(hostname=None, port=22, timeout=0.3, **kwargs):
-    logger.debug('telnet', str(hostname), port)
+    logger.debug('telnet: {}:{}'.format(hostname, port))
     connection = socket.socket()
     connection.settimeout(timeout)
     try:
