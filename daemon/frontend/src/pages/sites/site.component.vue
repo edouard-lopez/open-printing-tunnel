@@ -29,7 +29,7 @@
 <script>
 	import AddPrinterButtonComponent from './add-printer.component';
 	import AddPrintersButtonComponent from './add-printers.component';
-	import HeadingComponent from './heading.component';
+	import HeadingComponent from './site-heading.component.vue';
 	import PrinterComponent from './printers/printer.component';
 
 	import actions from 'vuex/actions';
