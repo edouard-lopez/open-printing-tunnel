@@ -14,29 +14,35 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
     def test_telnet_reply_time_when_reachable(self):
         hostname = '127.0.0.1'
+        port = 22
 
-        response = {hostname: network_utils.telnet(hostname, port=22)}
+        response = {hostname: network_utils.telnet(hostname, port=port)}
 
-        self.assertGreater(response[hostname]['telnet'], 0, 'require ssh port')
+        msg = 'require port {} to be open'.format(port)
+        self.assertGreater(response[hostname]['telnet'], 0, msg)
 
     def test_telnet_with_only_a_site(self):
         site_hostname = 'localhost'
+        port = 22
         printers = []
 
-        response = network_utils.parellelize(network_utils.telnet, site_hostname, printers)
+        response = network_utils.parellelize(network_utils.telnet, site_hostname, printers, port=port)
 
-        self.assertGreater(response[site_hostname]['telnet'], 0, 'require ssh port')
+        msg = 'require port {} to be open'.format(port)
+        self.assertGreater(response[site_hostname]['telnet'], 0, msg)
 
     def test_telnet_with_printers(self):
         site_hostname = 'localhost'
+        port = 22
         printers = [
             {'hostname': '127.0.0.1', 'ports': {'send': 22}},
             {'hostname': '0.0.0.0', 'ports': {'send': 22}},
         ]
 
-        response = network_utils.parellelize(network_utils.telnet, site_hostname, printers)
+        response = network_utils.parellelize(network_utils.telnet, site_hostname, printers, port=port)
 
-        self.assertEqual(response[site_hostname]['telnet'], True, 'require ssh port')
+        msg = 'require port {} to be open'.format(port)
+        self.assertEqual(response[site_hostname]['telnet'], True, msg)
         self.assertEqual(response[site_hostname]['127.0.0.1']['telnet'], True)
 
     def test_fping_with_only_a_site(self):
@@ -132,7 +138,9 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
         self.assertIsInstance(scan['scan'], dict)
 
-        self.assertEquals(scan['scan'][hostname]['tcp'][22]['state'], 'open', 'require ssh service')
+        msg = 'require ssh service to be running'
+        target = scan['scan'][hostname]
+        self.assertEquals(target['tcp'][22]['state'], 'open', msg)
 
     def test_can_get_snmp_data(self):
         printer = {
@@ -154,7 +162,8 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
         connection = network_utils.open_ssh_connection(hostname, 22)
 
-        self.assertIsInstance(connection, paramiko.client.SSHClient, 'require ssh service')
+        msg = 'require ssh service to be running'
+        self.assertIsInstance(connection, paramiko.client.SSHClient, msg)
 
     def test_open_ssh_connection_raise_error(self):
         hostname = 'unreachable.host'
@@ -162,12 +171,13 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             network_utils.open_ssh_connection(hostname, 22)
 
-    def test_fetch_optbox_netmask(self):
+    def test_fetch_netmask_from_optbox(self):
         hostname = '127.0.0.1'
 
         netmask = network_utils.fetch_netmask(hostname)
 
-        self.assertEqual(netmask, '/8', 'require ssh service')
+        msg = 'require ssh service to be running'
+        self.assertEqual(netmask, '/8', msg)
 
     def test_parse_netmask(self):
         hostname = '127.0.0.1'
