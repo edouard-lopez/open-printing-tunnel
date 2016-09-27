@@ -154,7 +154,7 @@ class NetwrokUtilsTestCase(unittest.TestCase):
     def test_open_ssh_connection(self):
         hostname = '127.0.0.1'
 
-        connection = network_utils.open_ssh_connection(hostname)
+        connection = network_utils.open_ssh_connection(hostname, 22)
 
         self.assertIsInstance(connection, paramiko.client.SSHClient)
 
@@ -162,7 +162,7 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         hostname = 'unreachable.host'
 
         with self.assertRaises(Exception) as manager:
-            network_utils.open_ssh_connection(hostname)
+            network_utils.open_ssh_connection(hostname, 22)
 
     def test_fetch_optbox_netmask(self):
         hostname = '127.0.0.1'
