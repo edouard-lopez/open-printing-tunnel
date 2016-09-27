@@ -1,5 +1,4 @@
 import unittest
-from pprint import pprint
 
 import paramiko
 
@@ -9,24 +8,20 @@ import network_utils
 class NetwrokUtilsTestCase(unittest.TestCase):
     def test_telnet_is_null_when_host_unreachable(self):
         hostname = 'unreachable'
-        response = {}
-
-        response[hostname] = network_utils.telnet(hostname)
+        response = {hostname: network_utils.telnet(hostname)}
 
         self.assertDictEqual(response, {'unreachable': {'telnet': False}})
 
     def test_telnet_reply_time_when_reachable(self):
         hostname = '127.0.0.1'
-        response = {}
 
-        response[hostname] = network_utils.telnet(hostname, port=22)
+        response = {hostname: network_utils.telnet(hostname, port=22)}
 
         self.assertGreater(response[hostname]['telnet'], 0, 'require ssh port')
 
     def test_telnet_with_only_a_site(self):
         site_hostname = 'localhost'
         printers = []
-        response = {}
 
         response = network_utils.parellelize(network_utils.telnet, site_hostname, printers)
 
@@ -109,11 +104,14 @@ class NetwrokUtilsTestCase(unittest.TestCase):
             }
         })
 
-    def test_benchmark_parellelize(self):
+    @staticmethod
+    def test_benchmark_parellelize():
         printers = [{'hostname': '192.168.2.' + str(ip), 'ports': {'send': 22}} for ip in range(50)]
+
         network_utils.parellelize(network_utils.telnet, '10.0.0.1', printers)
 
-    def test_benchmark_fping(self):
+    @staticmethod
+    def test_benchmark_fping():
         printers = ['192.168.2.' + str(ip) for ip in range(50)]
         network_utils.fping(printers)
 
