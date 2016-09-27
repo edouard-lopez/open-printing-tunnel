@@ -150,8 +150,12 @@ def open_ssh_connection(hostname, port=22):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(hostname, port=port, timeout=0.3)
 
-    except Exception as e:
-        raise Exception('SSH Connection Failed')
+    except paramiko.BadHostKeyException as e:
+        raise Exception('BadHostKeyException on ' + hostname)
+    except paramiko.AuthenticationException as e:
+        raise Exception('AuthenticationException on ' + hostname)
+    except paramiko.SSHException as e:
+        raise Exception('SSHException on ' + hostname)
 
     return client
 
