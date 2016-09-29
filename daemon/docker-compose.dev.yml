@@ -15,14 +15,6 @@ services:
       - mast:/etc/mast
       - ~/.bash_history:/root/.bash_history
     command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
-    links:
-      - optbox
-  optbox:
-    build: ./optbox
-    image: coaxis_optbox
-    container_name: coaxisopt_optbox
-    ports:
-      - "22:22"
 volumes:
   daemon:
   node_modules:
