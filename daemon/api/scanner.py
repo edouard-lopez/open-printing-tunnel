@@ -51,13 +51,14 @@ def open_ssh_connection(username, hostname, port=22, key=None):
 
 
 def parse_address(hostname, addresses):
+    netmask=''
+
     for address in addresses:
         logger.debug(address)
         if hostname in address:
             _hostname, _netmask = address.strip().split('/')
             hostname = _hostname.split()[-1]
-            netmask = _netmask.split()[0]
+            netmask = '/' + _netmask.split()[0]
+            break
 
-            return '/' + netmask
-
-    return None
+    return netmask

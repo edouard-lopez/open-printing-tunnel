@@ -5,6 +5,7 @@ import paramiko
 
 import scanner
 
+
 class ScannerTestCase(unittest.TestCase):
     def test_scan_detect_devices_on_optbox_network(self):
         hostname = '127.0.0.1/31'
@@ -13,7 +14,6 @@ class ScannerTestCase(unittest.TestCase):
         scan = scanner.scan(hostname, port)
 
         self.assertIsInstance(scan['scan'], dict)
-
 
     def test_scan_detect_open_port_on_optbox_network(self):
         hostname = '127.0.0.1'
@@ -27,7 +27,6 @@ class ScannerTestCase(unittest.TestCase):
         msg = 'require ssh service to be running'
         target = scan['scan'][hostname]
         self.assertEquals(target['tcp'][22]['state'], 'open', msg)
-
 
     def test_can_get_snmp_data(self):
         printer = {
@@ -44,7 +43,6 @@ class ScannerTestCase(unittest.TestCase):
         self.assertIn('port', details)
         self.assertGreater(details['uptime'], 0)
 
-
     def test_open_ssh_connection(self):
         hostname = '127.0.0.1'
         username = 'coaxis'
@@ -55,7 +53,6 @@ class ScannerTestCase(unittest.TestCase):
         msg = 'require ssh service to be running'
         self.assertIsInstance(connection, paramiko.client.SSHClient, msg)
 
-
     def test_open_ssh_connection_raise_error(self):
         hostname = 'unreachable.host'
         username = 'coaxis'
@@ -64,7 +61,6 @@ class ScannerTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             scanner.open_ssh_connection(username, hostname, port=22, key=private_key)
 
-
     def test_fetch_netmask_from_optbox(self):
         hostname = '127.0.0.1'
 
@@ -72,7 +68,6 @@ class ScannerTestCase(unittest.TestCase):
 
         msg = 'require ssh service to be running'
         self.assertEqual(netmask, '/8', msg)
-
 
     def test_parse_netmask(self):
         hostname = '127.0.0.1'
