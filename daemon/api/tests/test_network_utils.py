@@ -1,3 +1,4 @@
+import os
 import unittest
 
 import paramiko
@@ -134,7 +135,7 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         netmask = '/31'
         port = '22'
 
-        scan = network_utils.scan(hostname+netmask, port)
+        scan = network_utils.scan(hostname + netmask, port)
 
         self.assertIsInstance(scan['scan'], dict)
 
@@ -159,17 +160,21 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
     def test_open_ssh_connection(self):
         hostname = '127.0.0.1'
+        username = 'coaxis'
+        private_key = os.path.expanduser('~/.ssh/id_rsa.mast.coaxis')
 
-        connection = network_utils.open_ssh_connection(hostname, 22)
+        connection = network_utils.open_ssh_connection(username, hostname, port=22, key=private_key)
 
         msg = 'require ssh service to be running'
         self.assertIsInstance(connection, paramiko.client.SSHClient, msg)
 
     def test_open_ssh_connection_raise_error(self):
         hostname = 'unreachable.host'
+        username = 'coaxis'
+        private_key = os.path.expanduser('~/.ssh/id_rsa.mast.coaxis')
 
         with self.assertRaises(Exception):
-            network_utils.open_ssh_connection(hostname, 22)
+            network_utils.open_ssh_connection(username, hostname, port=22, key=private_key)
 
     def test_fetch_netmask_from_optbox(self):
         hostname = '127.0.0.1'

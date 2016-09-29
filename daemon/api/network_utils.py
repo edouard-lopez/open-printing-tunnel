@@ -127,41 +127,30 @@ def get_details(device):
 
 
 def fetch_netmask(hostname, port=22):
-    connection = open_ssh_connection(hostname, port)
+    private_key = '/home/mast/.ssh/id_rsa.mast.coaxis'
+    connection = open_ssh_connection('coaxis', hostname, port=port, key=private_key)
 
-    list_net_interfaces = "ip -oneline -family inet address show"
-    get_netmask = ("{list_net_interfaces} | grep {hostname}").format(
-        hostname=hostname,
-        list_net_interfaces=list_net_interfaces,
-    )
-
+    get_netmask = ("ip -oneline -family inet address show | grep {}").format(hostname)
     stdin, stdout, stderr = connection.exec_command(get_netmask)
+    logger.debug(stdout)
     address = parse_address(hostname, stdout)
     connection.close()
 
     return address
 
 
-def open_ssh_connection(hostname, port=22):
+def open_ssh_connection(username, hostname, port=22, key=None):
     paramiko.util.log_to_file('/tmp/ssh.log')  # sets up logging
-
-    try:
-        client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(hostname, port=port, timeout=0.3)
-
-    except paramiko.BadHostKeyException as e:
-        raise Exception('BadHostKeyException on ' + hostname)
-    except paramiko.AuthenticationException as e:
-        raise Exception('AuthenticationException on ' + hostname)
-    except paramiko.SSHException as e:
-        raise Exception('SSHException on ' + hostname)
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(hostname, port=port, timeout=0.3, username=username, key_filename=key)
 
     return client
 
 
 def parse_address(hostname, addresses):
     for address in addresses:
+        logger.debug(address)
         if hostname in address:
             hostname, netmask = address.strip().split('/')
             hostname = hostname.split()[-1]
