@@ -1,32 +1,42 @@
-import nmap
+import logging
+from pprint import pprint
+
 import paramiko
-from snimpy import manager as snimpy
 
-from network_utils import logger
-
-
-def scan(target, ports='9100'):
-    scanner = nmap.PortScanner()
-
-    return scanner.scan(hosts=target, ports=ports, arguments='-T5 --open')
+logger = logging.getLogger(__name__)
 
 
-def get_details(device):
-    snimpy.load("SNMPv2-MIB")
-    session = snimpy.snmp.Session("localhost", "public", 2)
+class Scanner:
+    def __init__(self, network_tools, hostname):
+        self.network_tools = network_tools
+        self.hostname = hostname
 
-    details = snimpy.Manager(device['hostname'])
-    device_model = session.get("1.3.6.1.2.1.1.1.0")
+    def scan(self, ports=9100, netmask=None):
+        nmap = self.network_tools.nmap(target=self.hostname + netmask, ports=ports)
+        details = self.get_details()
+        return nmap
 
-    return {
-        'contact': details.sysContact,  # SNMPv2-MIB
-        'description': details.sysDescr,  # SNMPv2-MIB
-        'hostname': device['hostname'],
-        'name': details.sysName,  # SNMPv2-MIB
-        'port': 9100,
-        'uptime': details.sysUpTime,  # SNMPv2-MIB
-    }
+    def get_details(self):
+        oids = [
+            '.1.3.6.1.2.1.25.3.2.1.3.1',  # HOST-RESOURCES-MIB::hrDeviceDescr.1
+            '.1.3.6.1.2.1.43.10.2.1.4.1.1'  # SNMPv2-SMI::mib-2.43.10.2.1.4.1.1 page count
+            '.1.3.6.1.2.1.1.4.0',  # SNMPv2-MIB::sysContact.0
+            '.1.3.6.1.2.1.1.1.0',  # SNMPv2-MIB::sysDescr.0
+            '.1.3.6.1.2.1.1.5.0',  # SNMPv2-MIB::sysName.0
+            '.1.3.6.1.2.1.1.3.0',  # DISMAN-EVENT-MIB::sysUpTimeInstance
+        ]
+        mibs = ['DISMAN-EVENT-MIB', 'HOST-RESOURCES-MIB', 'SNMPv2-MIB', 'SNMPv2-SMI']
+        details = self.network_tools.snmp(self.hostname, oids, mibs)
 
+        pprint(details)
+        return {
+            'description': details[0],
+            'page_count': details[1],
+            'sys_contact': details[2],
+            'sys_description': details[3],
+            'sys_name': details[4],
+            'uptime': details[5],
+        }
 
 def fetch_netmask(hostname, port=22):
     private_key = '/home/mast/.ssh/id_rsa.mast.coaxis'
@@ -40,7 +50,6 @@ def fetch_netmask(hostname, port=22):
 
     return address
 
-
 def open_ssh_connection(username, hostname, port=22, key=None):
     paramiko.util.log_to_file('/tmp/ssh.log')  # sets up logging
     client = paramiko.SSHClient()
@@ -51,7 +60,7 @@ def open_ssh_connection(username, hostname, port=22, key=None):
 
 
 def parse_address(hostname, addresses):
-    netmask=''
+    netmask = ''
 
     for address in addresses:
         logger.debug(address)

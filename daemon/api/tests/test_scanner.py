@@ -1,47 +1,42 @@
 import os
 import unittest
+from pprint import pprint
 
 import paramiko
 
 import scanner
+from scanner import Scanner
+from tests.stub_network_tools import NetworkToolsStub
 
 
 class ScannerTestCase(unittest.TestCase):
     def test_scan_detect_devices_on_optbox_network(self):
-        hostname = '127.0.0.1/31'
-        port = '9100'
-
-        scan = scanner.scan(hostname, port)
+        scanner = Scanner(network_tools=NetworkToolsStub(), hostname='127.0.0.1')
+        scan = scanner.scan(ports=9100, netmask='/31')
 
         self.assertIsInstance(scan['scan'], dict)
 
     def test_scan_detect_open_port_on_optbox_network(self):
-        hostname = '127.0.0.1'
-        netmask = '/31'
-        port = '22'
+        hostname = '192.168.2.250'
+        port = 9100
+        scanner = Scanner(network_tools=NetworkToolsStub(), hostname=hostname)
 
-        scan = scanner.scan(hostname + netmask, port)
+        scan = scanner.scan(ports=port, netmask='/31')
 
-        self.assertIsInstance(scan['scan'], dict)
+        self.assertEquals(scan['scan'][hostname]['tcp'][port]['state'], 'open')
 
-        msg = 'require ssh service to be running'
-        target = scan['scan'][hostname]
-        self.assertEquals(target['tcp'][22]['state'], 'open', msg)
+    def test_can_get_details_via_snmp(self):
+        scanner = Scanner(network_tools=NetworkToolsStub(), hostname='192.168.2.250')
+        details = scanner.get_details()
 
-    def test_can_get_snmp_data(self):
-        printer = {
-            'hostname': 'localhost',
-            'port': 9100
-        }
-
-        details = scanner.get_details(printer)
-
-        self.assertIn('contact', details)
-        self.assertIn('description', details)
-        self.assertEqual(details['hostname'], 'localhost')
-        self.assertIn('name', details)
-        self.assertIn('port', details)
-        self.assertGreater(details['uptime'], 0)
+        self.assertDictEqual(details, {
+            'description': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': b'BRN_7D3B43'},
+            'page_count': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460},
+            'sys_contact': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': b'Brother HL-5250DN series'},
+            'sys_description': {'oid': '.1.3.6.1.2.1.1.1.0', 'value': b'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
+            'sys_name': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': b''},
+            'uptime': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625}
+        })
 
     def test_open_ssh_connection(self):
         hostname = '127.0.0.1'
