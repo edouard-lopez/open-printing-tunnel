@@ -154,7 +154,7 @@ RUN npm install --production
 COPY ./frontend /frontend
 EXPOSE 8080
 
-VOLUME ["/etc/mast"]
+VOLUME ["/etc/mast", "/home/mast/.ssh"]
 
 COPY config/ /etc/supervisor/conf.d
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/prod.conf"]
