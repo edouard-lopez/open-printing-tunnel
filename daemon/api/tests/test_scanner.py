@@ -1,8 +1,4 @@
-import os
 import unittest
-from pprint import pprint
-
-import paramiko
 
 import scanner
 from scanner import Scanner
@@ -38,23 +34,6 @@ class ScannerTestCase(unittest.TestCase):
             'uptime': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625}
         })
 
-    def test_open_ssh_connection(self):
-        hostname = '127.0.0.1'
-        username = 'coaxis'
-        private_key = os.path.expanduser('~/.ssh/id_rsa.mast.coaxis')
-
-        connection = scanner.open_ssh_connection(username, hostname, port=22, key=private_key)
-
-        msg = 'require ssh service to be running'
-        self.assertIsInstance(connection, paramiko.client.SSHClient, msg)
-
-    def test_open_ssh_connection_raise_error(self):
-        hostname = 'unreachable.host'
-        username = 'coaxis'
-        private_key = os.path.expanduser('~/.ssh/id_rsa.mast.coaxis')
-
-        with self.assertRaises(Exception):
-            scanner.open_ssh_connection(username, hostname, port=22, key=private_key)
 
     def test_fetch_netmask_from_optbox(self):
         hostname = '127.0.0.1'
