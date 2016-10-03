@@ -10,7 +10,7 @@ class ScannerTestCase(unittest.TestCase):
         scanner = Scanner(network_tools=NetworkToolsStub(), hostname='127.0.0.1')
         scan = scanner.scan(port=9100)
 
-        self.assertIsInstance(scan['scan'], dict)
+        self.assertIsInstance(scan['devices'], dict)
 
     def test_scan_detect_open_port_on_optbox_network(self):
         hostname = '10.0.1.250'
@@ -19,7 +19,7 @@ class ScannerTestCase(unittest.TestCase):
 
         scan = scanner.scan(port=port)
         pprint(scan)
-        self.assertEquals(scan['scan'][hostname]['tcp'][port]['state'], 'open')
+        self.assertEqual(scan['devices'][hostname][port]['open'], True)
 
     def test_can_get_device_infos_via_snmp(self):
         scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
