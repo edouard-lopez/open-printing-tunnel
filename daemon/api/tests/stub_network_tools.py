@@ -33,12 +33,12 @@ class NetworkToolsStub:
 
     def snmp(self, hostname, oids, mibs):
         return [
-            {'oid': '.1.3.6.1.2.1.1.5.0', 'value': b'BRN_7D3B43'},
+            {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
             {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460},
-            {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': b'Brother HL-5250DN series'},
+            {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': 'Brother HL-5250DN series'},
             {'oid': '.1.3.6.1.2.1.1.1.0',
-             'value': b'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
-            {'oid': '.1.3.6.1.2.1.1.4.0', 'value': b''},
+             'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
+            {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
             {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625}
         ]
 
