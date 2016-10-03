@@ -9,13 +9,13 @@ class Scanner:
         self.hostname = hostname
 
     def scan(self, port='9100'):
-        logger.debug(self.hostname)
         target = self.hostname + self.get_netmask()
 
-        logger.debug('target')
+        logger.debug('target');
         logger.debug(target)
         nmap = self.clean_nmap(self.network_tools.nmap(target=target, ports=str(port)))
-        return self.add_snmp_infos(nmap)
+        nmap_snmp = self.add_snmp_infos(nmap)
+        return nmap_snmp
 
     def get_netmask(self):
         addresses = self.network_tools.get_network_interfaces(self.hostname)
@@ -51,27 +51,30 @@ class Scanner:
     def get_device_infos(self, hostname):
         oids = [
             '.1.3.6.1.2.1.25.3.2.1.3.1',  # HOST-RESOURCES-MIB::hrDeviceDescr.1
-            '.1.3.6.1.2.1.43.10.2.1.4.1.1'  # SNMPv2-SMI::mib-2.43.10.2.1.4.1.1 page count
             '.1.3.6.1.2.1.1.4.0',  # SNMPv2-MIB::sysContact.0
             '.1.3.6.1.2.1.1.1.0',  # SNMPv2-MIB::sysDescr.0
             '.1.3.6.1.2.1.1.5.0',  # SNMPv2-MIB::sysName.0
             '.1.3.6.1.2.1.1.3.0',  # DISMAN-EVENT-MIB::sysUpTimeInstance
+            # fixme: must be last otherwise break function o__O
+            '.1.3.6.1.2.1.43.10.2.1.4.1.1'  # SNMPv2-SMI::mib-2.43.10.2.1.4.1.1 page count
         ]
         mibs = ['DISMAN-EVENT-MIB', 'HOST-RESOURCES-MIB', 'SNMPv2-MIB', 'SNMPv2-SMI']
-        details = self.network_tools.snmp(hostname, oids, mibs)
+        infos = self.network_tools.snmp(hostname, oids, mibs)
 
-        logger.debug(details)
         return {
-            'description': details[0],
-            'page_count': details[1],
-            'sys_contact': details[2],
-            'sys_description': details[3],
-            'sys_name': details[4],
-            'uptime': details[5],
+            'description': infos[0],
+            'page_count': infos[1],
+            'sys_contact': infos[2],
+            'sys_description': infos[3],
+            'sys_name': infos[4],
+            'uptime': infos[5],
         }
 
     def add_snmp_infos(self, nmap):
         for (device, data) in nmap['devices'].items():
+            logger.debug(device)
+            logger.debug(data)
             infos = self.get_device_infos(device)
             nmap['devices'][device].update(infos)
+
         return nmap
