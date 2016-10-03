@@ -25,11 +25,24 @@ class NetworkTools:
         session = snimpy.snmp.Session(hostname, "public", 1)
         details = session.get(*oids)
         logger.debug(oids)
+        infos = session.get(*oids)
 
-        return [{
-                       'oid': '.' + '.'.join(repr(node) for node in oid[0]),
-                       'value': oid[1]
-                   } for oid in details]
+        return NetworkTools.format_snmp_results(infos)
+
+    @staticmethod
+    def format_snmp_results(details):
+        results = []
+
+        for path, value in details:
+            oid = '.' + '.'.join(repr(node) for node in path)
+            value = value.decode('utf-8') if type(value) == bytes else value
+
+            results.append({
+                'oid': oid,
+                'value': value
+            })
+
+        return results
 
     def open_ssh_connection(self, username, hostname, port=22):
         paramiko.util.log_to_file('/tmp/ssh.log')  # sets up logging
