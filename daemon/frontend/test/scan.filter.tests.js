@@ -1,56 +1,39 @@
 import test from 'ava';
 import filter from '../src/components/scan.filter';
-import nmap from './nmap.json';
-
-test('should get printer', t => {
-	const hostname = '10.0.1.2';
-	const ports = {9100: {state: 'closed', product: 'HP 5020-NL'}};
-
-	const printer = filter.getPrinter(ports, hostname);
-
-	t.deepEqual(printer, {hostname: '10.0.1.2', port: 9100, description: 'HP 5020-NL'});
-});
-
-test('should ignore non-printer', t => {
-	const hostname = '10.0.1.2';
-	const ports = {23: {state: 'closed', product: ''}};
-
-	const printer = filter.getPrinter(ports, hostname);
-
-	t.is(printer, null);
-});
-
-test('should filter to get data for bulk creation', t => {
-	const scan = {scan: {'10.0.1.1': {tcp: {9100: {state: 'closed', product: 'HP 5020-NL'}}}}};
-
-	const printers = filter.printers(scan);
-
-	t.is(printers.length, 1);
-	t.deepEqual(printers, [{hostname: '10.0.1.1', port: 9100, description: 'HP 5020-NL'}]);
-});
+import scan from './nmap_snmp.json';
 
 test('should format as raw text clipboard content', t => {
-	const printers = [{hostname: '10.0.1.1', port: 9100, description: 'HP 5020-NL'}];
+	const printers = {
+		'192.168.2.250': {
+			hostname: '192.168.2.250',
+			port: 9100,
+			description: {value: 'Brother HL-5250DN series'}
+		}
+	};
 
 	const clipboard = filter.clipboard(printers);
 
-	t.deepEqual(clipboard, ['HP 5020-NL\t10.0.1.1\t9100']);
+	t.deepEqual(clipboard, ['Brother HL-5250DN series\t192.168.2.250\t9100']);
 });
 test('should format with empty description', t => {
-	const printers = [{hostname: '10.0.1.8', port: 9100, description: ''}];
-
+	const printers = {
+		'192.168.2.250': {
+			hostname: '192.168.2.250',
+			port: 9100,
+			description: {value: ''}
+		}
+	};
 	const clipboard = filter.clipboard(printers);
 
-	t.deepEqual(clipboard, ['\t10.0.1.8\t9100']);
+	t.deepEqual(clipboard, ['\t192.168.2.250\t9100']);
 });
 
 test('should format to log', t => {
-	const printers = filter.printers(nmap);
+	const printers = scan.devices;
+
 	const clipboard = filter.clipboard(printers);
 
 	t.deepEqual(clipboard, [
-		'\t192.168.2.191\t9100',
-		'\t192.168.2.248\t9100',
-		'\t192.168.2.250\t9100'
+		'Brother HL-5250DN series\t192.168.2.250\t9100'
 	]);
 });
