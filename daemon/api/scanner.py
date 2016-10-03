@@ -15,10 +15,9 @@ class Scanner:
         logger.debug('target')
         logger.debug(target)
         nmap = self.clean_nmap(self.network_tools.nmap(target=target, ports=str(port)))
-        # details = self.get_details()
         return nmap
 
-    def get_details(self):
+    def get_device_infos(self, hostname):
         oids = [
             '.1.3.6.1.2.1.25.3.2.1.3.1',  # HOST-RESOURCES-MIB::hrDeviceDescr.1
             '.1.3.6.1.2.1.43.10.2.1.4.1.1'  # SNMPv2-SMI::mib-2.43.10.2.1.4.1.1 page count
@@ -28,7 +27,7 @@ class Scanner:
             '.1.3.6.1.2.1.1.3.0',  # DISMAN-EVENT-MIB::sysUpTimeInstance
         ]
         mibs = ['DISMAN-EVENT-MIB', 'HOST-RESOURCES-MIB', 'SNMPv2-MIB', 'SNMPv2-SMI']
-        details = self.network_tools.snmp(self.hostname, oids, mibs)
+        details = self.network_tools.snmp(hostname, oids, mibs)
 
         logger.debug(details)
         return {

@@ -21,9 +21,9 @@ class ScannerTestCase(unittest.TestCase):
         pprint(scan)
         self.assertEquals(scan['scan'][hostname]['tcp'][port]['state'], 'open')
 
-    def test_can_get_details_via_snmp(self):
-        scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.250')
-        details = scanner.get_details()
+    def test_can_get_device_infos_via_snmp(self):
+        scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
+        details = scanner.get_device_infos(hostname='10.0.1.250')
 
         self.assertDictEqual(details, {
             'description': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': b'BRN_7D3B43'},
