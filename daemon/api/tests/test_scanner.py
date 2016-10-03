@@ -57,28 +57,31 @@ class ScannerTestCase(unittest.TestCase):
 
         self.assertEqual(netmask, '/8')
 
-    def test_parse_scan(self):
+    def test_clean_nmap_data_to_keep_only_useful(self):
         scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
 
         nmap = scanner.network_tools.nmap('10.0.1.231/24', 9100)
-        parse = scanner.clean_nmap(nmap)
+        clean = scanner.clean_nmap(nmap)
 
-        self.assertDictEqual(parse, {
+        self.assertDictEqual(clean, {
             'raw': 'nmap -oX - -p 9100 -T5 --open 10.0.1.231/24',
             'devices': {
-                '10.0.1.250': {'9100': {'open': True}},
-                '10.0.1.248': {'9100': {'open': True}}
+                '10.0.1.250': {'hostname': '10.0.1.250', 'port': 9100, 'open': True},
+                '10.0.1.248': {'hostname': '10.0.1.248', 'port': 9100, 'open': True}
             }
         })
 
     def test_add_snmp_infos(self):
         scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
-        nmap = {'devices': {'10.0.1.250': {'9100': {'open': True}}}}
+        nmap = {'devices': {'10.0.1.250': {'hostname': '10.0.1.250', 'port': 9100, 'open': True}}}
 
         results = scanner.add_snmp_infos(nmap)
 
+        pprint(results)
         self.assertDictEqual(results['devices']['10.0.1.250'], {
-            '9100': {'open': True},
+            'hostname': '10.0.1.250',
+            'port': 9100,
+            'open': True,
             'description': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
             'page_count': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460},
             'sys_contact': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1',
