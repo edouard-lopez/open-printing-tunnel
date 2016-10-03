@@ -14,7 +14,7 @@ class Scanner:
 
         logger.debug('target')
         logger.debug(target)
-        nmap = self.network_tools.nmap(target=target, ports=str(port))
+        nmap = self.clean_nmap(self.network_tools.nmap(target=target, ports=str(port)))
         # details = self.get_details()
         return nmap
 
@@ -58,5 +58,15 @@ class Scanner:
 
         return netmask
 
+    def clean_nmap(self, nmap):
+        devices = {}
 
+        for (device, device_details) in nmap['scan'].items():
+            devices[device] = {}
+            for (port, port_details) in device_details['tcp'].items():
+                devices[device][port] = {'open': port_details['state'] == 'open'}
 
+        return {
+            'raw': nmap['nmap']['command_line'],
+            'devices': devices
+        }

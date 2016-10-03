@@ -56,3 +56,18 @@ class ScannerTestCase(unittest.TestCase):
         netmask = scanner.parse_address(stdout)
 
         self.assertEqual(netmask, '/8')
+
+    def test_parse_scan(self):
+        scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
+
+        nmap = scanner.network_tools.nmap('10.0.1.231/24', 9100)
+        parse = scanner.clean_nmap(nmap)
+
+        self.assertDictEqual(parse, {
+            'raw': 'nmap -oX - -p 9100 -T5 --open 10.0.1.231/24',
+            'devices': {
+                '10.0.1.250': {9100: {'open': True}},
+                '10.0.1.248': {9100: {'open': True}}
+            }
+        })
+
