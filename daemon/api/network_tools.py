@@ -1,4 +1,5 @@
 import logging
+from pprint import pprint
 
 import nmap
 import paramiko
@@ -19,12 +20,13 @@ class NetworkTools:
 
     @staticmethod
     def snmp(hostname, oids, mibs):
+        logger.debug(hostname); logger.debug(oids); logger.debug(mibs)
         for mib in mibs:
             snimpy.load(mib)
 
         session = snimpy.snmp.Session(hostname, "public", 1)
-        details = session.get(*oids)
-        logger.debug(oids)
+        session.timeout = 300  # ms
+        session.retries = 2
         infos = session.get(*oids)
 
         return NetworkTools.format_snmp_results(infos)
