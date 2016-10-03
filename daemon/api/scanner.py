@@ -8,9 +8,14 @@ class Scanner:
         self.network_tools = network_tools
         self.hostname = hostname
 
-    def scan(self, ports=9100, netmask=None):
-        nmap = self.network_tools.nmap(target=self.hostname + netmask, ports=ports)
-        details = self.get_details()
+    def scan(self, port=9100):
+        logger.debug(self.hostname)
+        target = self.hostname + self.get_netmask()
+
+        logger.debug('target')
+        logger.debug(target)
+        nmap = self.network_tools.nmap(target=target, ports=str(port))
+        # details = self.get_details()
         return nmap
 
     def get_details(self):
@@ -25,7 +30,7 @@ class Scanner:
         mibs = ['DISMAN-EVENT-MIB', 'HOST-RESOURCES-MIB', 'SNMPv2-MIB', 'SNMPv2-SMI']
         details = self.network_tools.snmp(self.hostname, oids, mibs)
 
-        pprint(details)
+        logger.debug(details)
         return {
             'description': details[0],
             'page_count': details[1],
@@ -35,30 +40,23 @@ class Scanner:
             'uptime': details[5],
         }
 
-def fetch_netmask(hostname, port=22):
-    private_key = '/home/mast/.ssh/id_rsa.mast.coaxis'
-    connection = open_ssh_connection('coaxis', hostname, port=port, key=private_key)
+    def get_netmask(self):
+        addresses = self.network_tools.get_network_interfaces(self.hostname)
 
-    get_netmask = "ip -oneline -family inet address show | grep {}".format(hostname)
-    stdin, stdout, stderr = connection.exec_command(get_netmask)
-    logger.debug(stdout)
-    address = parse_address(hostname, stdout)
-    connection.close()
+        return self.parse_address(addresses)
 
-    return address
+    def parse_address(self, addresses):
+        netmask = ''
+
+        for address in addresses:
+            logger.debug(address)
+            if self.hostname in address:
+                _hostname, _netmask = address.strip().split('/')
+                hostname = _hostname.split()[-1]
+                netmask = '/' + _netmask.split()[0]
+                break
+
+        return netmask
 
 
 
-
-def parse_address(hostname, addresses):
-    netmask = ''
-
-    for address in addresses:
-        logger.debug(address)
-        if hostname in address:
-            _hostname, _netmask = address.strip().split('/')
-            hostname = _hostname.split()[-1]
-            netmask = '/' + _netmask.split()[0]
-            break
-
-    return netmask

@@ -27,3 +27,6 @@ class EndToEndNetworkTestCase(unittest.TestCase):
         network_tools = NetworkTools(private_key=key)
         with self.assertRaises(Exception):
             network_tools.open_ssh_connection(username, hostname, port=22)
+
+    def test_get_network_interfaces(self):
+        self.skipTest('todo')
