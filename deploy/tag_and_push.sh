@@ -22,7 +22,7 @@ function tag_images() {
     declare -a images=("${!1}")
     tag="$2"
 
-    for image in ${images[@]}; do
+    for image in "${images[@]}"; do
         docker tag "$image" docker.akema.fr:5000/coaxis/"$image":"$tag"
     done
 }
@@ -32,7 +32,7 @@ function push_images() {
     declare -a images=("${!1}")
     tag="$2"
 
-    for image in ${images[@]}; do
+    for image in "${images[@]}"; do
         docker push docker.akema.fr:5000/coaxis/"$image":"$tag"
     done
 }

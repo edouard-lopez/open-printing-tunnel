@@ -14,7 +14,7 @@ function pull_images() {
 }
 
 function clean_images() {
-    docker rmi $(docker images -f "dangling=true" -q)
+    docker rmi "$(docker images -f "dangling=true" -q)"
 }
 
 function restart() {
