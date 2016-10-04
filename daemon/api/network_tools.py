@@ -53,8 +53,8 @@ class NetworkTools:
 
         return client
 
-    def get_network_interfaces(self, hostname):
-        connection = self.open_ssh_connection('coaxis', hostname)
+    def get_network_interfaces(self, hostname, username='coaxis'):
+        connection = self.open_ssh_connection(username, hostname)
 
         logger.debug('connecting on: ' + hostname)
         network_devices = "ip -oneline -family inet address show | grep {}".format(hostname)
