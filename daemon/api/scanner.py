@@ -67,11 +67,11 @@ class Scanner:
 
         return {
             'description': infos[0],
-            'page_count': infos[1],
-            'sys_contact': infos[2],
-            'sys_description': infos[3],
-            'sys_name': infos[4],
-            'uptime': infos[5],
+            'sysContact': infos[1],
+            'sysDescription': infos[2],
+            'sysName': infos[3],
+            'uptime': infos[4],
+            'pageCount': infos[5],
         }
 
     def add_snmp_infos(self, nmap):

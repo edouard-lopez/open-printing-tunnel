@@ -26,13 +26,12 @@ class ScannerTestCase(unittest.TestCase):
         details = scanner.get_device_infos(hostname='10.0.1.250')
 
         self.assertDictEqual(details, {
-            'description': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
-            'page_count': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460},
-            'sys_contact': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': 'Brother HL-5250DN series'},
-            'sys_description': {'oid': '.1.3.6.1.2.1.1.1.0',
-                                'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
-            'sys_name': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
-            'uptime': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625}
+            'description': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': 'Brother HL-5250DN series'},
+            'pageCount': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625},
+            'sysContact': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
+            'sysDescription': {'oid': '.1.3.6.1.2.1.1.1.0', 'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
+            'sysName': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
+            'uptime': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460}
         })
 
     def test_get_netmask_from_optbox(self):
@@ -77,18 +76,15 @@ class ScannerTestCase(unittest.TestCase):
 
         results = scanner.add_snmp_infos(nmap)
 
-        pprint(results)
         self.assertDictEqual(results['devices']['10.0.1.250'], {
             'hostname': '10.0.1.250',
             'port': 9100,
             'open': True,
-            'description': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
-            'page_count': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460},
-            'sys_contact': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1',
-                            'value': 'Brother HL-5250DN series'},
-            'sys_description': {'oid': '.1.3.6.1.2.1.1.1.0',
-                                'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.'
-                                         '31),MID 84UZ92'},
-            'sys_name': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
-            'uptime': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625}
+            'description': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': 'Brother HL-5250DN series'},
+            'pageCount': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625},
+            'sysContact': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
+            'sysDescription': {'oid': '.1.3.6.1.2.1.1.1.0',
+                                'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
+            'sysName': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
+            'uptime': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460}
         })
