@@ -11,9 +11,10 @@ from slugify import slugify
 import daemon
 import mast_utils
 import network_utils
-import scanner
 import scripts_generators
 import validators
+from network_tools import NetworkTools
+from scanner import Scanner
 
 app = Flask(__name__)
 api = Api(app, prefix='/api')
@@ -192,9 +193,9 @@ class Networks(Resource):
 
 class Scan(Resource):
     def get(self, site_hostname):
-        netmask = scanner.fetch_netmask(hostname=site_hostname)
-        target = site_hostname + netmask
-        return scanner.scan(target, '22,23,80,9100')
+        scanner = Scanner(network_tools=NetworkTools(), hostname=site_hostname)
+        scan = scanner.scan(port=9100)
+        return scan
 
 
 api.add_resource(Root, '/')
