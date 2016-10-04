@@ -1,6 +1,6 @@
 import test from 'ava';
 import filter from '../src/components/scan.filter';
-import scan from './nmap_snmp.json';
+import scan from './nmap_snmp.mock.json';
 
 test('should format as raw text clipboard content', t => {
 	const printers = {
