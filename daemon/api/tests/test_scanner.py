@@ -19,7 +19,7 @@ class ScannerTestCase(unittest.TestCase):
 
         scan = scanner.scan(port=port)
 
-        self.assertEqual(scan['devices'][hostname][port]['open'], True)
+        self.assertEqual(scan['devices'][hostname]['open'], True)
 
     def test_can_get_device_infos_via_snmp(self):
         scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
