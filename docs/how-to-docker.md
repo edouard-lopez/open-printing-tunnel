@@ -7,19 +7,20 @@
 sudo apt-key adv \
     --keyserver hkp://p80.pool.sks-keyservers.net:80 \
     --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" \
+echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" \
     | sudo tee -a /etc/apt/sources.list.d/docker.list
 sudo apt-get purge lxc-docker
 sudo apt-get update && sudo apt-get install --yes \
     apt-transport-https \
     ca-certificates \
     docker-engine \
-    linux-image-extra-"$(uname -r)"
+    linux-image-extra-"$(uname -r)" \
+    linux-image-extra-virtual
 sudo apt-get autoremove
 sudo usermod -aG docker coaxis
 sudo wget \
     --output-document=/usr/local/bin/docker-compose \
-    https://github.com/docker/compose/releases/download/1.7.0/docker-compose-"$(uname -s)"-"$(uname -m)" 
+    https://github.com/docker/compose/releases/download/1.8.0/docker-compose-"$(uname -s)"-"$(uname -m)" 
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
