@@ -4,6 +4,8 @@ import unittest
 import paramiko
 
 from network_tools import NetworkTools
+from scanner import Scanner
+from tests.stub_network_tools import NetworkToolsStub
 
 
 class EndToEndNetworkTestCase(unittest.TestCase):
@@ -30,3 +32,10 @@ class EndToEndNetworkTestCase(unittest.TestCase):
 
     def test_get_network_interfaces(self):
         self.skipTest('todo')
+
+    def test_can_scan(self):
+        scanner = Scanner(network_tools=NetworkToolsStub(), hostname='10.0.1.231')
+
+        scan = scanner.scan(port=9100)
+
+        self.assertDictEqual(scan, {})
