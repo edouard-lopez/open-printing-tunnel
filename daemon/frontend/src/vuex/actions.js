@@ -40,6 +40,18 @@ export default {
 				logging.error('Échec de la génération du script !');
 			});
 	},
+	getConfigurePortsScript({dispatch}, site) {
+			return scripts.get(
+				{site: site.id},
+				{url: '/api/${resource}/${site}/ports/'})
+			.then(response => {
+				logging.success('Génération du script réussi.');
+				return response;
+			}).catch(err => {
+				console.error('deletion failed', err);
+				logging.error('Échec de la génération du script !');
+			});
+		},
 	getSiteScript({dispatch}, site) {
 		return scripts.get({id: site.id}).then(response => {
 			logging.success('Génération du script réussi.');

@@ -87,7 +87,14 @@
 							class="hidden-sm-down btn btn-link btn-sm hide-btn-content hint--top"
 							@click="getScript(site)"
 					>
-						<i class="fa fa-file-o"> </i>
+						<i class="fa fa-file-code-o text-info"> </i>
+					</button>
+					<button v-show="has_printers" aria-label="script de configuration des ports"
+							role="button"
+							class="hidden-sm-down btn btn-link btn-sm hide-btn-content hint--top"
+							@click="getPortsScript(site)"
+					>
+						<i class="fa fa-file-code-o text-danger"> </i>
 					</button>
 				</li>
 			</ul>
@@ -156,11 +163,19 @@
 					console.error('Échec du téléchargement du script.', err);
 				})
 			},
+			getPortsScript(site) {
+				this.getConfigurePortsScript(site).then(response => {
+					this.saveFile(response);
+				}).catch(err => {
+					console.error('Échec du téléchargement du script.', err);
+				})
+			}
 		},
 		vuex: {
 			actions: {
 				getSites: actions.getSites,
 				getSiteScript: actions.getSiteScript,
+				getConfigurePortsScript: actions.getConfigurePortsScript,
 				deleteSite: actions.deleteSite,
 				saveFile: actions.saveFile,
 				siteStatus: actions.siteStatus,

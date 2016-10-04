@@ -175,6 +175,25 @@ class SiteInstallScript(Resource):
             headers={"Content-Disposition": "attachment; filename={}.bat".format(site_id)}
         )
 
+class SiteConfigurePortScript(Resource):
+    def get(self, site_id):
+        if not site_id:
+            abort(400)
+
+        filename = 'configure-ports.bat.j2'
+        site_host = request.headers['Host']
+        now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+
+        printers = mast_utils.list_printers(site_id)['results']['channels']
+        data = scripts_generators.prepare_site_install_data(site_id, printers, site_host, now)
+        script = scripts_generators.render(filename, {'printers': data})
+
+        return Response(
+            script,
+            mimetype='application/bat',
+            headers={"Content-Disposition": "attachment; filename={}-configure-ports.bat".format(site_id)}
+        )
+
 
 class Networks(Resource):
     def get(self):
@@ -205,6 +224,7 @@ api.add_resource(Printers, '/printers/')
 api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(SiteInstallScript, '/scripts/<string:site_id>/')
+api.add_resource(SiteConfigurePortScript, '/scripts/<string:site_id>/ports/')
 api.add_resource(Networks, '/networks/')
 api.add_resource(Scan, '/scan/<string:site_hostname>/')
 
