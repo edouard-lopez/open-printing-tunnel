@@ -3,7 +3,7 @@ onexit(){ while caller $((n++)); do :; done; }
 trap onexit EXIT
 #set -x  # debug
 
-TAG="${1:=latest}"
+TAG="${1:-latest}"
 
 function usage() {
     printf "Usage: ./tag_and_push.sh [tag]\n\n"
