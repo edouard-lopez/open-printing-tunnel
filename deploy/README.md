@@ -4,7 +4,7 @@
 
     docker login docker.akema.fr:5000
     # User: coaxis 
-    # Password: <Akema LessPass Password coaxis.com>
+    # Password: <admin@akema.fr + Akema LessPass Password coaxis.com>
 
 ## Prepare the release
 
