@@ -33,13 +33,7 @@
 					</delete>
 				</li>
 				<li class="btn-group" role="group" aria-label="Actions d'administrations">
-					<button aria-label="script d'installation d'imprimante"
-							role="button"
-							class="btn btn-sm btn-link hide-btn-content hint--top-left"
-							@click="getScript(site, printer)"
-					>
-						<i class="fa fa-file-o"> </i>
-					</button>
+					<script-printer-installation :site="site" :printer="printer"></script-printer-installation>
 				</li>
 			</ul>
 		</div>
@@ -48,6 +42,7 @@
 <script type="text/ecmascript-6">
 	import DeleteButton from 'components/delete-button';
 	import Network from 'components/network';
+	import ScriptPrinterInstallation from 'components/script-printer-installation.component';
 
 	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
@@ -56,7 +51,8 @@
 	export default {
 		components: {
 			'delete': DeleteButton,
-			'network': Network
+			'network': Network,
+			'script-printer-installation': ScriptPrinterInstallation
 		},
 		props: {
 			printer: {type: Object, required: true},
@@ -85,21 +81,11 @@
 					this.getSites();
 					this.siteRestart(this.site);
 				});
-			},
-			getScript(site, printer) {
-				this.getPrinterScript(site, printer)
-						.then(response => {
-							this.saveFile(response);
-						})
-						.catch(err => {
-							console.error('Échec du téléchargement du script.', err);
-						})
 			}
 		},
 		vuex: {
 			actions: {
 				deletePrinter: actions.deletePrinter,
-				getPrinterScript: actions.getPrinterScript,
 				getSites: actions.getSites,
 				saveFile: actions.saveFile,
 				siteRestart: actions.siteRestart

@@ -82,20 +82,8 @@
 					</button>
 					<add-printer-button :site="site" class="btn-sm"></add-printer-button>
 					<add-printers-button :site="site" class="hidden-sm-down btn-sm"></add-printers-button>
-					<button v-show="has_printers" aria-label="script d'installation d'imprimante"
-							role="button"
-							class="hidden-sm-down btn btn-link btn-sm hide-btn-content hint--top"
-							@click="getScript(site)"
-					>
-						<i class="fa fa-file-code-o text-info"> </i>
-					</button>
-					<button v-show="has_printers" aria-label="script de configuration des ports"
-							role="button"
-							class="hidden-sm-down btn btn-link btn-sm hide-btn-content hint--top"
-							@click="getPortsScript(site)"
-					>
-						<i class="fa fa-file-code-o text-danger"> </i>
-					</button>
+					<script-site-installation :site="site" :has_printers="has_printers"></script-site-installation>
+					<script-ports-configuration :site="site" :has_printers="has_printers"></script-ports-configuration>
 				</li>
 			</ul>
 		</div>
@@ -104,11 +92,13 @@
 <script type="text/ecmascript-6">
 	import AddPrinterButtonComponent from './add-printer.component.vue';
 	import AddPrintersButtonComponent from './add-printers.component.vue';
+	import ScriptSiteInstallation from 'components/script-site-installation.component';
+	import ScriptPortsConfiguration from 'components/script-ports-configuration.component';
 	import DeleteButton from 'components/delete-button';
+
 	import Network from 'components/network';
 	import Scanner from 'components/scanner';
 
-	import http from 'services/http.service';
 	import actions from 'vuex/actions';
 	import getters from "vuex/getters";
 	import logging from 'services/logging.service';
@@ -117,6 +107,8 @@
 		components: {
 			'add-printer-button': AddPrinterButtonComponent,
 			'add-printers-button': AddPrintersButtonComponent,
+			'script-site-installation': ScriptSiteInstallation,
+			'script-ports-configuration': ScriptPortsConfiguration,
 			'delete': DeleteButton,
 			'network': Network,
 			"scanner": Scanner
@@ -155,27 +147,11 @@
 				return this.deleteSite(site).then(response => {
 					this.getSites();
 				});
-			},
-			getScript(site) {
-				this.getSiteScript(site).then(response => {
-					this.saveFile(response);
-				}).catch(err => {
-					console.error('Échec du téléchargement du script.', err);
-				})
-			},
-			getPortsScript(site) {
-				this.getConfigurePortsScript(site).then(response => {
-					this.saveFile(response);
-				}).catch(err => {
-					console.error('Échec du téléchargement du script.', err);
-				})
 			}
 		},
 		vuex: {
 			actions: {
 				getSites: actions.getSites,
-				getSiteScript: actions.getSiteScript,
-				getConfigurePortsScript: actions.getConfigurePortsScript,
 				deleteSite: actions.deleteSite,
 				saveFile: actions.saveFile,
 				siteStatus: actions.siteStatus,
