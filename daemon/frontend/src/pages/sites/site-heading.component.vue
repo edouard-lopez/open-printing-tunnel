@@ -18,7 +18,7 @@
 				  aria-controls="site-{{site.id}}"
 				  data-target="#site-{{site.id}}"
 			>
-				<b>{{site.id}}</b>
+				<b class="expandable">{{site.id}}</b>
 			</span>
 			<span class="divider"> – </span>
 			<a href="//{{site.hostname}}" class="tunnel-fqdn" target="_blank">
