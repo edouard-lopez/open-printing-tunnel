@@ -39,6 +39,9 @@ def detect_status_state(line):
     if matches:
         data = matches.groupdict()
         state = data['state']
+    else:
+        logger.debug(line)
+        state = 'unknown'
 
     return state
 
