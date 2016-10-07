@@ -27,7 +27,7 @@
 	export default {
 		ready(){
 			$('#splash').modal({
-				backdrop: true,
+				backdrop: 'static',
 				show: true
 			})
 		}
