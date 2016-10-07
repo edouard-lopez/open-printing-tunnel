@@ -18,5 +18,12 @@ export default {
 			}
 		}
 		return clipboard;
+	},
+	text(clipboard) {
+		let multilines = '';
+
+		multilines = clipboard.join('\n');
+
+		return multilines;
 	}
 };

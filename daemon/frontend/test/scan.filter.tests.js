@@ -11,7 +11,7 @@ const mockOtherSnmpInfos = {
 };
 const mockSnmpInfosString = '\t# pageCount: \tsysContact: \tsysDescription: \tsysName: \tuptime: ';
 
-test('should format printer\'s main infos as raw text clipboard content', t => {
+test('should format printer\'s main infos as list of raw text', t => {
 	const printers = {
 		'192.168.2.250': {
 			hostname: '192.168.2.250',
@@ -39,7 +39,7 @@ test('should format printer\'s with empty description', t => {
 	t.deepEqual(clipboard, ['\t192.168.2.250\t9100' + mockSnmpInfosString]);
 });
 
-test('should format all printer\'s infos as raw text clipboard content', t => {
+test('should format all printer\'s infos as list of raw text', t => {
 	const printers = mockScan.devices;
 
 	const clipboard = filter.clipboard(printers);
@@ -51,4 +51,15 @@ test('should format all printer\'s infos as raw text clipboard content', t => {
 		'sysDescription: Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92\t' +
 		'sysName: BRN_7D3B43\t' +
 		'uptime: 169046170');
+});
+
+test('should format clipboard as raw text', t => {
+	const clipboard = [
+		'description\t10.0.1.7\t9100',
+		'description\t10.0.1.8\t9100'
+	];
+
+	const text = filter.text(clipboard);
+
+	t.is(text, 'description\t10.0.1.7\t9100\ndescription\t10.0.1.8\t9100');
 });
