@@ -7,5 +7,8 @@ export default {
 	},
 	retrieveNetworks(state) {
 		return state.networks;
+	},
+	retrieveScanClipboard(state) {
+		return state.scans;
 	}
 };

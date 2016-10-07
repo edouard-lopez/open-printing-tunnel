@@ -98,6 +98,9 @@ export default {
 				response.results = toLog;
 
 				dispatch('logResponse', response);
+				dispatch('setScanClipboard', {id: site.id, scan: toLog});
+				jQuery('#printers-modal-' + site.id).modal('show'); // eslint-disable-line no-undef
+
 				const found = Object.keys(printers).length;
 				if (found === 0) {
 					logging.warning('Scan du réseau terminé : aucune imprimante trouvée.');

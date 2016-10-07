@@ -13,5 +13,9 @@ export default {
 		// const siteId = Object.keys(data)[0];
 		state.networks = data;
 		state.networks = {...state.networks};  // prevent vuejs reactivity caveats
+	},
+	setScanClipboard(state, site) {
+		state.scans[site.id] = site.scan;
+		state.scans = {...state.scans};  // prevent vuejs reactivity caveats
 	}
 };

@@ -33,7 +33,7 @@
 							<textarea class="form-control" id="hostnames" v-model="printers.hostnames"
 									  rows="8"
 									  placeholder="description    10.100.12.21    9105"
-							></textarea>
+							>{{scan}}</textarea>
 						</fieldset>
 					</div>
 					<div class="modal-footer">
@@ -52,6 +52,8 @@
 <script type="text/ecmascript-6">
 	import printersService from 'services/printers.service';
 	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
+	import scanFilter from 'components/scan.filter';
 
 	export default {
 		data() {
@@ -99,6 +101,10 @@
 						&& this.printers.hostnames
 						&& !this.formSubmitted
 				);
+			},
+			scan() {
+				const site_scan = this.scans[this.site.id];
+				return scanFilter.text(site_scan);
 			}
 		},
 		vuex: {
@@ -106,6 +112,9 @@
 				addPrinter: actions.addPrinter,
 				getSites: actions.getSites,
 				siteRestart: actions.siteRestart
+			},
+			getters: {
+				scans: getters.retrieveScanClipboard
 			}
 		}
 	};

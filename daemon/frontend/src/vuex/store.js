@@ -51,6 +51,9 @@ const state = {
 		 'telnet': None,
 		 }
 		 */
+	},
+	scans: {
+		/**/
 	}
 };
 
