@@ -15,6 +15,7 @@ class NetworkTools:
     def nmap(target, ports):
         scanner = nmap.PortScanner()
 
+        logger.debug('nmap {} -p {} -T5 --open'.format(target, ports))
         return scanner.scan(hosts=target, ports=ports, arguments='-T5 --open')
 
     @staticmethod
