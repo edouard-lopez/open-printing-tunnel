@@ -1,6 +1,7 @@
 
 # OPT
 
+[![Build Status](https://travis-ci.org/Coaxis-ASP/opt.svg?branch=master)](https://travis-ci.org/Coaxis-ASP/opt)
 **OPT** stands for _Open Printing Tunnel_ is  a solution to compress printing stream from `TSE` instance to a remote printers.
 
 <p style="text-align: center">
