@@ -19,7 +19,7 @@ export default {
 		}
 		return log;
 	},
-	text(clipboard) {
+	text(clipboard = []) {
 		let multilines = '';
 
 		multilines = clipboard.join('\n');
