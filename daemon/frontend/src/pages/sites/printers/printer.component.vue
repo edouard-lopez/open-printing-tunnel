@@ -14,7 +14,7 @@
 			<a href="http://{{printer.hostname}}" target="_blank">{{ printer.hostname }}</a>
 			<small class="text-muted">
 				<span class="port listening">{{ printer.ports.listen }}</span>
-				<abbr class="forward hint--top" aria-label="forwarning {{from}}">
+				<abbr class="forward hint--top" aria-label="forwarding {{from}}">
 					<i class="fa fa-long-arrow-right" v-show="is_forwarding_remote"></i>
 					<i class="fa fa-long-arrow-left" v-show="!is_forwarding_remote"></i>
 				</abbr>

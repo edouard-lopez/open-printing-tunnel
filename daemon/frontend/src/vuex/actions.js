@@ -154,7 +154,6 @@ export default {
 		if (!Array.isArray(response.results)) {
 			response.results = [response.results];
 		}
-		dispatch('logResponse', response);
 	},
 	probeNetwork({dispatch}) {
 		function sendProbe() {

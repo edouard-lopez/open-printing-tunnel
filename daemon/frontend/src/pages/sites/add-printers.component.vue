@@ -18,7 +18,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="action-label">Ajouter des imprimante</h4>
+					<h4 class="modal-title" id="action-label">Ajouter des imprimantes</h4>
 				</div>
 				<form @submit="addBulk()">
 					<div class="modal-body">

@@ -10,7 +10,6 @@ export default {
 		state.log = response.results;
 	},
 	setNetworksData(state, data) {
-		// const siteId = Object.keys(data)[0];
 		state.networks = data;
 		state.networks = {...state.networks};  // prevent vuejs reactivity caveats
 	},
