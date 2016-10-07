@@ -1,11 +1,11 @@
 export default {
-	clipboard(printers) {
-		const clipboard = [];
+	toLog(printers) {
+		const log = [];
 
 		for (const hostname in printers) {
 			if ({}.hasOwnProperty.call(printers, hostname)) {
 				const printer = printers[hostname];
-				clipboard.push([
+				log.push([
 					printer.description.value,
 					printer.hostname,
 					printer.port,
@@ -17,7 +17,7 @@ export default {
 				].join('\t'));
 			}
 		}
-		return clipboard;
+		return log;
 	},
 	text(clipboard) {
 		let multilines = '';

@@ -21,7 +21,7 @@ test('should format printer\'s main infos as list of raw text', t => {
 		}
 	};
 
-	const clipboard = filter.clipboard(printers);
+	const clipboard = filter.toLog(printers);
 
 	t.deepEqual(clipboard, ['Brother HL-5250DN series\t192.168.2.250\t9100' + mockSnmpInfosString]);
 });
@@ -34,7 +34,7 @@ test('should format printer\'s with empty description', t => {
 			...mockOtherSnmpInfos
 		}
 	};
-	const clipboard = filter.clipboard(printers);
+	const clipboard = filter.toLog(printers);
 
 	t.deepEqual(clipboard, ['\t192.168.2.250\t9100' + mockSnmpInfosString]);
 });
@@ -42,7 +42,7 @@ test('should format printer\'s with empty description', t => {
 test('should format all printer\'s infos as list of raw text', t => {
 	const printers = mockScan.devices;
 
-	const clipboard = filter.clipboard(printers);
+	const clipboard = filter.toLog(printers);
 
 	t.is(clipboard.length, 1);
 	t.is(clipboard[0], 'Brother HL-5250DN series\t192.168.2.250\t9100\t# ' +
@@ -53,7 +53,7 @@ test('should format all printer\'s infos as list of raw text', t => {
 		'uptime: 169046170');
 });
 
-test('should format clipboard as raw text', t => {
+test('should format toLog as raw text', t => {
 	const clipboard = [
 		'description\t10.0.1.7\t9100',
 		'description\t10.0.1.8\t9100'
