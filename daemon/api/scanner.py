@@ -11,11 +11,11 @@ class Scanner:
     def scan(self, port='9100'):
         target = self.hostname + self.get_netmask()
 
-        logger.debug('target');
-        logger.debug(target)
-        nmap = self.clean_nmap(self.network_tools.nmap(target=target, ports=str(port)))
+        nmap = self.network_tools.nmap(target=target, ports=str(port))
+        logger.debug(nmap)
+        cleaned_nmap = self.clean_nmap(nmap)
 
-        return self.add_snmp_infos(nmap)
+        return self.add_snmp_infos(cleaned_nmap)
 
     def get_netmask(self):
         addresses = self.network_tools.get_network_interfaces(self.hostname)
