@@ -28,6 +28,8 @@ def status(lines, id=None):
             response = status_is_on(lines)
         elif state == 'off':
             response = status_is_off(lines)
+        else:
+            response = {'state': state}
 
     return response
 
@@ -61,7 +63,7 @@ def status_is_on(lines):
                 'uptime': data['uptime'],
             })
 
-        return response
+    return response
 
 
 def status_is_off(lines):
