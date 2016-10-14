@@ -9,7 +9,7 @@ teardown() {
 }
 
 remove_ansi() {  # http://superuser.com/a/380778/174465
-    echo $@ | sed -r 's/\x1b\[[0-9;]*m//g'
+    echo $@ | sed -r 's/\x1b\[[^@-~]*[@-~]//g'
 }
 
 @test "should raise error without NAME parameter" {
