@@ -2,6 +2,7 @@
 
 setup() {
     alias mast-utils="$BATS_TEST_DIRNAME/../makefile"
+    MAKEFILE_ERROR=2
 }
 
 teardown() {
@@ -15,6 +16,10 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 @test "should raise error without NAME parameter" {
     run mast-utils add-channel
 
-    [[ "$status" == 2 ]]
+    [[ "$status" == $MAKEFILE_ERROR ]]
+    [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
+}
+
+
     [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
 }
