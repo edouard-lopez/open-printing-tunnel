@@ -14,6 +14,7 @@ services:
       - node_modules:/frontend/node_modules
       - mast:/etc/mast
       - ~/.bash_history:/root/.bash_history
+      - ./test:/test
     command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
 volumes:
   daemon:

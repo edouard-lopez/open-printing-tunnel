@@ -15,6 +15,24 @@
 
 This is done during the docker container building process, if you want **more details refer to the [Dockerfile](Dockerfile)**.
 
+
+## Test
+
+### Requirements
+
+* [`bats`](https://github.com/sstephenson/bats) (Bash Automated Testing System).
+
+### Run
+
+From host machine:
+
+    docker exec -it coaxisopt_daemon bats /test/makefile.tests.bats
+
+From inside the container:
+
+    bats test/makefile.tests.bats
+        
+
 ## Toolbox's Tasks
 
 A _makefile_ define so-called _tasks_, that allow admin to easily run a complex sequence of commands in a single call. For instance, `make install` might run commands to ① [check the system state](#check-system), ② [install the requirements](#install-requirements), ③ [configure everything](#deploying), etc.

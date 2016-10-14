@@ -156,5 +156,13 @@ EXPOSE 8080
 
 VOLUME ["/etc/mast", "/home/mast/.ssh"]
 
+# install BATS for testing
+RUN apt-get update \
+    && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+            git \
+    && git clone --depth 1 https://github.com/sstephenson/bats.git /tmp/bats \
+    && cd /tmp/bats && ./install.sh /usr/local
+COPY ./test /test
+
 COPY config/ /etc/supervisor/conf.d
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/prod.conf"]
