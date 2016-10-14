@@ -20,6 +20,12 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
     [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
 }
 
+@test "should raise error with NAME=none" {
+    run mast-utils add-channel NAME=none
+
+    [[ "$status" == $MAKEFILE_ERROR ]]
+    [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
+}
 
     [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
 }
