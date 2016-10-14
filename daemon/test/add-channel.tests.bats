@@ -15,17 +15,24 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 
 @test "should raise error without NAME parameter" {
     run mast-utils add-channel
-
     [[ "$status" == $MAKEFILE_ERROR ]]
     [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
 }
 
 @test "should raise error with NAME=none" {
     run mast-utils add-channel NAME=none
-
     [[ "$status" == $MAKEFILE_ERROR ]]
     [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
 }
 
-    [[ $(remove_ansi ${lines[1]}) == "NAME missing (see 'mast-utils list-host')" ]]
+@test "should raise error without PRINTER parameter" {
+    run mast-utils add-channel NAME=office
+    [[ "$status" == $MAKEFILE_ERROR ]]
+    [[ $(remove_ansi ${lines[1]}) == "PRINTER missing (IP address or hostname)" ]]
+}
+
+@test "should raise error with PRINTER=none" {
+    run mast-utils add-channel NAME=office PRINTER=none
+    [[ "$status" == $MAKEFILE_ERROR ]]
+    [[ $(remove_ansi ${lines[1]}) == "PRINTER missing (IP address or hostname)" ]]
 }
