@@ -53,3 +53,25 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
     (( $new_channels_count == $old_channels_count + 1 ))
     rm /etc/mast/bats.test
 }
+
+@test "should belong to 'mast' user" {
+    cp /etc/mast/{template,bats.test}
+    chown nobody /etc/mast/bats.test
+
+    run mast-utils add-channel NAME=bats.test PRINTER=my-printer
+    owner_user=$(stat -c "%U" /etc/mast/bats.test)
+
+    [[ "$status" == $NO_ERROR ]]
+    [[ $owner_user == 'mast' ]]
+}
+
+@test "should set read/write/execute permissions for user and group" {
+    cp /etc/mast/{template,bats.test}
+    chmod u=,g=,o= /etc/mast/bats.test
+
+    run mast-utils add-channel NAME=bats.test PRINTER=my-printer
+    permissions=$(stat -c "%A" /etc/mast/bats.test)
+
+    [[ "$status" == $NO_ERROR ]]
+    [[ $permissions == '-rwxrwx---' ]]
+}
