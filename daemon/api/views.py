@@ -119,7 +119,6 @@ class Printers(Resource):
 
 class Printer(Resource):
     def delete(self, site_id=None, printer_id=None):
-        app.logger.debug(site_id, printer_id)
         if site_id is None or printer_id is None:  # printer_id can have value of 0
             abort(400)
 
