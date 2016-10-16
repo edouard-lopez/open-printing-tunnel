@@ -2,12 +2,16 @@
 
 setup() {
     alias mast-utils="$BATS_TEST_DIRNAME/../makefile"
-    NO_ERROR=0
-    MAKEFILE_ERROR=2
+    export NO_ERROR=0
+    export MAKEFILE_ERROR=2
+    export status
+    export lines
 }
 
 teardown() {
     unalias mast-utils
+    unset NO_ERROR
+    unset MAKEFILE_ERROR
 }
 
 remove_ansi() {  # http://superuser.com/a/380778/174465
