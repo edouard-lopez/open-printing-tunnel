@@ -12,6 +12,7 @@ teardown() {
     unalias mast-utils
     unset NO_ERROR
     unset MAKEFILE_ERROR
+    rm -f /tmp/ports
 }
 
 remove_ansi() {  # http://superuser.com/a/380778/174465
