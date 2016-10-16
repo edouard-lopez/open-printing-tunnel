@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    alias mast-utils="$BATS_TEST_DIRNAME/../makefile"
+    alias mast-utils="\$BATS_TEST_DIRNAME/../makefile"
     export NO_ERROR=0
     export MAKEFILE_ERROR=2
     export status
