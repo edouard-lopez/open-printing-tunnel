@@ -5,12 +5,13 @@ setup() {
     export MAKEFILE_ERROR=2
     export status
     export lines
+    cp --preserve /etc/mast/{template,bats.test}
 }
 
 teardown() {
     unset NO_ERROR
     unset MAKEFILE_ERROR
-    rm -f /tmp/ports
+    rm -f /tmp/ports /etc/mast/bats.test
 }
 
 remove_ansi() {  # http://superuser.com/a/380778/174465
@@ -46,7 +47,6 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 }
 
 @test "should add a channel rule in ForwardPort array" {
-    cp --preserve /etc/mast/{template,bats.test}
     old_channels_count=$(source /etc/mast/bats.test; echo ${#ForwardPort[@]})
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
@@ -58,7 +58,6 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 }
 
 @test "should belong to 'mast' user" {
-    cp --preserve /etc/mast/{template,bats.test}
     chown nobody /etc/mast/bats.test
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
@@ -69,7 +68,6 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 }
 
 @test "should set read/write/execute permissions for user and group" {
-    cp --preserve /etc/mast/{template,bats.test}
     chmod u=,g=,o= /etc/mast/bats.test
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
