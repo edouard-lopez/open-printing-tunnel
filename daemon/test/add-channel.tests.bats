@@ -47,7 +47,7 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 }
 
 @test "should add a channel rule in ForwardPort array" {
-    cp /etc/mast/{template,bats.test}
+    cp --preserve /etc/mast/{template,bats.test}
     old_channels_count=$(source /etc/mast/bats.test; echo ${#ForwardPort[@]})
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
@@ -59,7 +59,7 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 }
 
 @test "should belong to 'mast' user" {
-    cp /etc/mast/{template,bats.test}
+    cp --preserve /etc/mast/{template,bats.test}
     chown nobody /etc/mast/bats.test
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
@@ -70,7 +70,7 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 }
 
 @test "should set read/write/execute permissions for user and group" {
-    cp /etc/mast/{template,bats.test}
+    cp --preserve /etc/mast/{template,bats.test}
     chmod u=,g=,o= /etc/mast/bats.test
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
