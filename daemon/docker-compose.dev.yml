@@ -15,6 +15,7 @@ services:
       - mast:/etc/mast
       - ~/.bash_history:/root/.bash_history
       - ./test:/test
+      - ./makefile:/usr/sbin/mast-utils
     command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
 volumes:
   daemon:

@@ -11,7 +11,7 @@ setup() {
 teardown() {
     unset NO_ERROR
     unset MAKEFILE_ERROR
-    rm -f /tmp/ports /etc/mast/bats.test
+    rm  --force --recursive /tmp/ports /tmp/mast.busy /etc/mast/bats.test
 }
 
 remove_ansi() {  # http://superuser.com/a/380778/174465
@@ -50,6 +50,7 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
     old_channels_count=$(source /etc/mast/bats.test; echo ${#ForwardPort[@]})
 
     run mast-utils add-channel NAME=bats.test PRINTER=my-printer
+
     new_channels_count=$(source /etc/mast/bats.test; echo ${#ForwardPort[@]})
 
     [[ "$status" == $NO_ERROR ]]
@@ -75,4 +76,23 @@ remove_ansi() {  # http://superuser.com/a/380778/174465
 
     [[ "$status" == $NO_ERROR ]]
     [[ $permissions == '-rwxrwx---' ]]
+}
+
+@test "should support concurrent addition" {
+    {
+        for ((i=0; $i < 10; i++)); do
+            mast-utils add-channel NAME=bats.test PRINTER=parallel1-$i;
+        done
+    } & pid_bulk1=$!
+    {
+        for ((i=0; $i < 10; i++)); do
+            mast-utils add-channel NAME=bats.test PRINTER=parallel2-$i;
+        done
+    } & pid_bulk2=$!
+
+    wait $pid_bulk1 $pid_bulk2
+    channels_count=$(source /etc/mast/bats.test; echo ${#ForwardPort[@]})
+
+#    [[ "$status" == "$NO_ERROR" ]]  # fixme: missing $status
+    (( $channels_count == 20 ))
 }

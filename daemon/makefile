@@ -168,8 +168,8 @@ add-channel:
 		exit 1; \
 	fi
 
-	while [[ -a /tmp/ports ]]; do true; done  # waiting for lock to free
-	@grep --no-filename --only-matching --perl-regexp 'L[\s]+\*:([\d]+):' ${CONFIG_DIR}/* \
+	while ! mkdir /tmp/mast.busy 2> /dev/null; do sleep .1s; done  # waiting for lock to free
+	grep --no-filename --only-matching --perl-regexp 'L[\s]+\*:([\d]+):' ${CONFIG_DIR}/* \
 		| cut --delimiter=':' -f 2 \
 		| sort --unique --numeric-sort \
 	> /tmp/ports; \
@@ -179,7 +179,7 @@ add-channel:
 		(( port == nextPort )) && PORT=$$nextPort || break; \
 		prevPort=$$port; \
 		nextPort=$$(( $$prevPort+1 )); \
-	done < <(cat /tmp/ports); rm /tmp/ports; \
+	done < <(cat /tmp/ports); rm --force /tmp/ports; \
 	source "${CONFIG_DIR}/${NAME}"; \
 	newRule="L *:$$nextPort:${PRINTER}:9100 # ${DESC}"; \
 	ForwardPort+=( "$$newRule" ); \
@@ -193,6 +193,7 @@ add-channel:
 		||    printf "\t%-50s\t%s\n" $$'$(call VALUE,'"$$newRule"$$')' $$'$(call ERROR,failed)'
 	@chown -R ${APP}:${WEB_SERVER} "${CONFIG_DIR}"
 	@chmod -R u=rwx,g=rwx,o= "${CONFIG_DIR}"
+	rm --recursive --force /tmp/mast.busy
 
 
 # Remove channel using its index
