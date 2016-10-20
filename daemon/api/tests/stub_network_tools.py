@@ -25,7 +25,7 @@ class NetworkToolsStub:
                     'downhosts': '231', 'timestr': 'Thu Sep 29 17:58:46 2016', 'uphosts': '25',
                     'totalhosts': '256', 'elapsed': '2.27'
                 },
-                'command_line': 'nmap -oX - -p 9100 -T5 --open 10.0.1.231/24',
+                'command_line': 'nmap -oX - -p 9100 -T3 --open 10.0.1.231/24',
                 'scaninfo': {
                     'tcp': {'services': '9100', 'method': 'connect'}}
             }

@@ -63,7 +63,7 @@ class ScannerTestCase(unittest.TestCase):
         clean = scanner.clean_nmap(nmap)
 
         self.assertDictEqual(clean, {
-            'raw': 'nmap -oX - -p 9100 -T5 --open 10.0.1.231/24',
+            'raw': 'nmap -oX - -p 9100 -T3 --open 10.0.1.231/24',
             'devices': {
                 '10.0.1.250': {'hostname': '10.0.1.250', 'port': 9100, 'open': True},
                 '10.0.1.248': {'hostname': '10.0.1.248', 'port': 9100, 'open': True}
