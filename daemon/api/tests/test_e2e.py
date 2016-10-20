@@ -7,6 +7,7 @@ import paramiko
 from network_tools import NetworkTools
 from scanner import Scanner
 from tests.stub_network_tools import NetworkToolsStub
+# from stub_network_tools import NetworkToolsStub
 
 
 class EndToEndNetworkTestCase(unittest.TestCase):
@@ -46,3 +47,13 @@ class EndToEndNetworkTestCase(unittest.TestCase):
         scan = scanner.scan(port=9100)
 
         self.assertDictEqual(scan, {})
+
+    def test_snmp_resist_exception(self):
+        oids = [
+            '.1.3.6.1.2.1.25.3.2.1.3.1',  # HOST-RESOURCES-MIB::hrDeviceDescr.1
+        ]
+        mibs = ['DISMAN-EVENT-MIB']
+
+        infos = NetworkTools.snmp('127.0.0.1', oids, mibs)
+
+        self.assertCountEqual(infos, [{}, {}, {}, {}, {}, {}])

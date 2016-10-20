@@ -24,12 +24,20 @@ class NetworkTools:
         for mib in mibs:
             snimpy.load(mib)
 
-        session = snimpy.snmp.Session(hostname, "public", 1)
-        session.timeout = 300  # ms
-        session.retries = 2
-        infos = session.get(*oids)
+        try:
+            session = snimpy.snmp.Session(hostname, "public", 1)
+            session.timeout = 300  # ms
+            session.retries = 2
+            infos = session.get(*oids)
+            snmp_results = NetworkTools.format_snmp_results(infos)
+        except:
+            snmp_results = NetworkTools.format_empty_result(oids)
 
-        return NetworkTools.format_snmp_results(infos)
+        return snmp_results
+
+    @staticmethod
+    def format_empty_result(oids):
+        return [{'oid': oid, 'value': None} for oid in oids]
 
     @staticmethod
     def format_snmp_results(details):

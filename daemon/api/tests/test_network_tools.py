@@ -1,4 +1,5 @@
 import unittest
+from pprint import pprint
 
 from network_tools import NetworkTools
 
@@ -23,4 +24,14 @@ class NetworkToolsTestCase(unittest.TestCase):
             {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
             {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 168725415},
             {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22629},
+        ])
+
+    def test_can_format_oids_to_snmp_results(self):
+        oids = ['.1.3.6.1.2.1.25.3.2.1.3.1', '.1.3.6.1.2.1.1.4.0']
+
+        results = NetworkTools.format_empty_result(oids)
+
+        self.assertCountEqual(results, [
+            {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': None},
+            {'oid': '.1.3.6.1.2.1.1.4.0', 'value': None},
         ])
