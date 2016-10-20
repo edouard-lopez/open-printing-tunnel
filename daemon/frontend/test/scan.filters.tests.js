@@ -11,7 +11,7 @@ const mockOtherSnmpInfos = {
 };
 const mockSnmpInfosString = '\t# pageCount: \tsysContact: \tsysDescription: \tsysName: \tuptime: ';
 
-test('should format printer\'s main infos as list of raw text', t => {
+test('should format printer infos as list of raw text', t => {
 	const printers = {
 		'192.168.2.250': {
 			hostname: '192.168.2.250',
@@ -62,4 +62,18 @@ test('should format toLog as raw text', t => {
 	const text = filter.text(clipboard);
 
 	t.is(text, 'description\t10.0.1.7\t9100\ndescription\t10.0.1.8\t9100');
+});
+
+test('should remove text after #', t => {
+	const printers = {
+		'192.168.2.250': {
+			hostname: '192.168.2.250',
+			port: 9100,
+			description: {value: ''},
+			...mockOtherSnmpInfos
+		}
+	};
+	const clipboard = filter.toClipboard(printers);
+
+	t.deepEqual(clipboard, ['\t192.168.2.250\t9100']);
 });
