@@ -8,6 +8,7 @@ import shell
 logger = logging.getLogger(__name__)
 
 
+# fixme: merge into network_tools
 def fping(hostnames):
     command = ['fping',
                '-p', '100',
@@ -22,6 +23,7 @@ def fping(hostnames):
     return output_parser.fping(response['results'])
 
 
+# fixme: merge into network_tools
 def telnet(hostname=None, port=22, timeout=0.3, **kwargs):
     logger.debug('telnet: {}:{}'.format(hostname, port))
     connection = socket.socket()
@@ -37,12 +39,14 @@ def telnet(hostname=None, port=22, timeout=0.3, **kwargs):
     return {'telnet': reachable}
 
 
+# fixme: merge into network_tools
 def collect(task, response, **kwargs):
     hostname = kwargs['hostname']
 
     response[hostname] = task(**kwargs)
 
 
+# fixme: merge into network_tools
 def parellelize(task, site_id, printers, **kwargs):
     response = {}
     kw = kwargs.copy()
@@ -69,6 +73,7 @@ def parellelize(task, site_id, printers, **kwargs):
     return response
 
 
+# fixme: merge into network_tools
 def ping_site_and_printers(site_hostname, printers):
     hostnames = [site_hostname]
     printers_hostnames = [printer['hostname'] for printer in printers]
@@ -80,6 +85,7 @@ def ping_site_and_printers(site_hostname, printers):
     return response
 
 
+# fixme: merge into network_tools
 def deep_merge(a, b, path=None):
     "merges b into a"
     if path is None: path = []
