@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# USAGE:
+#       ./tag_and_push.sh v1.5.6
+#   or
+#       ./tag_and_push.sh
+
 onexit(){ while caller $((n++)); do :; done; }
 trap onexit EXIT
 #set -x  # debug
