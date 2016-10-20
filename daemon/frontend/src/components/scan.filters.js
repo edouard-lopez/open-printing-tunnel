@@ -9,7 +9,7 @@ export default {
 					printer.description.value,
 					printer.hostname,
 					printer.port,
-					'# pageCount: ' + printer.pageCount.value,
+					'# pageCou	nt: ' + printer.pageCount.value,
 					'sysContact: ' + printer.sysContact.value,
 					'sysDescription: ' + printer.sysDescription.value,
 					'sysName: ' + printer.sysName.value,

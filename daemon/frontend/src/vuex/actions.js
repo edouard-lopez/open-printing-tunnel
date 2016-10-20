@@ -2,7 +2,7 @@ import http from 'services/http.service'; // eslint-disable-line import/no-extra
 import logging from 'services/logging.service'; // eslint-disable-line import/no-extraneous-dependencies
 import resource from 'pilou';
 import FileSaver from 'file-saver';
-import scannerFilter from '../components/scan.filter.js';
+import scannerFilter from '../components/scan.filters.js';
 
 const sites = http('sites', localStorage);
 const scripts = http('scripts', localStorage);

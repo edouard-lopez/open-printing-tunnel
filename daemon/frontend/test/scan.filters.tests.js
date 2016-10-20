@@ -1,5 +1,5 @@
 import test from 'ava';
-import filter from '../src/components/scan.filter';
+import filter from '../src/components/scan.filters';
 import mockScan from './nmap_snmp.mock.json';
 
 const mockOtherSnmpInfos = {
