@@ -56,4 +56,4 @@ class EndToEndNetworkTestCase(unittest.TestCase):
 
         infos = NetworkTools.snmp('127.0.0.1', oids, mibs)
 
-        self.assertCountEqual(infos, [{}, {}, {}, {}, {}, {}])
+        self.assertCountEqual(infos, [{'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': None}])
