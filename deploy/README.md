@@ -1,5 +1,14 @@
 # Deployment
 
+## Optbox
+
+In developmenet we use the `optbox` device as a reverse proxy to access customer's infrastructure.
+
+    Host optbox-forward
+    Port 2222
+    HostName <your-optbox-ip>
+    IdentityFile ~/.ssh/id_rsa.pub 
+
 ## Connect to docker registry
 
     docker login docker.akema.fr:5000
@@ -26,9 +35,9 @@ You need to send the latest recipe and deployment script:
     
 ## Deploy
 
-1. connect to production server:
+1. connect to production server using the `optbox` forwarding rule (cf. [optbox's section](#optbox)):
 
-        ssh -p 2222 coaxis@192.168.2.231
+        ssh -p 2222 coaxis@optbox-forward
     
 1. move to coaxisopt folder:
 

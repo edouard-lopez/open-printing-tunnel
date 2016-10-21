@@ -14,4 +14,4 @@ cd ../../deploy/ ;
 ./tag_and_push.sh "$TAG"
 ./send_archive.sh
 
-ssh -p 2222 coaxis@192.168.2.246 coaxisopt/deploy.sh $DEFAULT_INTERFACE "$TAG"
+ssh -p 2222 coaxis@optbox-forward coaxisopt/deploy.sh $DEFAULT_INTERFACE "$TAG"

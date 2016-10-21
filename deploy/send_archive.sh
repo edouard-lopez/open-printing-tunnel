@@ -4,7 +4,7 @@ echo "Usage: ./send_archive.sh [USER@HOSTNAME] [SSH_PORT]"
 
 cd ..
 
-HOST="${1:-coaxis@192.168.2.231}"
+HOST="${1:-coaxis@optbox-forward}"
 SSH_PORT="${2:-2222}"
 
 ssh -p $SSH_PORT $HOST 'mkdir -p ~/coaxisopt'
