@@ -1,12 +1,27 @@
+<style>
+	.btn-link .fa-trash-o:focus, .btn-link .fa-trash-o:hover {
+		color: hsl(2, 64%, 48%);
+	}
+
+	.btn-link .fa-trash-o {
+		color: hsl(2, 64%, 58%) !important;
+	}
+
+	.delete-button {
+		display: inline-block;
+	}
+</style>
 <template>
-	<div id="delete-button">
-		<button type="button" class="btn btn-danger {{class}}"
+	<div id="delete-button-{{object.id}}" class="delete-button">
+		<button type="button" class="btn btn-danger {{class}} hint--top-left"
+				aria-label="Supprimer {{object.id}}…"
 				data-toggle="modal"
-				data-target="#delete-button-modal">
-			<i class="fa fa-trash"></i>
+				data-target="#delete-button-modal-{{object.id}}">
+			<i class="fa fa-trash-o"></i>
 			<slot name="label"></slot>
 		</button>
-		<div class="modal fade" id="delete-button-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
+		<div class="modal fade" id="delete-button-modal-{{object.id}}" tabindex="-1" role="dialog"
+			 aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content text-xs-left">
@@ -53,8 +68,9 @@
 		methods: {
 			confirm() {
 				this.pending = true;
-				this.promise(this.object).then(function() {
-					$('#delete-button-modal').modal('hide');
+				let id = this.object.id;
+				this.promise(this.object).then(function () {
+					$('#delete-button-modal-' + id).modal('hide');
 				});
 			}
 		}

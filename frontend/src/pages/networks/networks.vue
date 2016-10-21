@@ -72,7 +72,7 @@
 	import DeleteButton from 'components/delete-button';
 	import HTTP from 'services/http.service';
 	import Logging from 'services/logging.service';
-	import Network from 'network';
+	import Network from './network';
 
 	const Networks = HTTP('networks', localStorage);
 
