@@ -4,6 +4,22 @@
 * fixes
     * [ ] unicode caractere in description?
 
+## Sprint #8
+
+* [ ] ajouter l'info de la limite de débit du site → déplacer dans _future_
+    
+## Sprint #7
+
+* [x] fix status #50
+* [x] fix modal #52
+
+### Features 
+
+* [x] Récupération des infos d'une/des imprimante-s [#36](https://gitlab.akema.fr/coaxis/discussions/issues/36)
+* [x] Scripts d'installation supplémentaires [#35](https://gitlab.akema.fr/coaxis/discussions/issues/35)
+* [x] Detection des imprimantes [#12](https://gitlab.akema.fr/coaxis/discussions/issues/12) 
+
+
 ## Sprint #5
 
 * refonte architecture logiciel (clentsdeaemon)
