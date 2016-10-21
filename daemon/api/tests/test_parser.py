@@ -1,4 +1,5 @@
 import unittest
+from pprint import pprint
 
 import output_parser
 
@@ -23,11 +24,12 @@ class ParserTestCase(unittest.TestCase):
         self.assertIsNotNone(response[0]['id'])
         self.assertIsNotNone(response[0]['state'])
 
-    def test_can_detect_status_state(self):
+    def test_detect_status_state_is_on(self):
         line = "Akema:autossh                      on    pid: 19569, uptime: 30-16:22:00"
         status = output_parser.detect_status_state(line)
         self.assertEqual(status, 'on')
 
+    def test_detect_status_state_is_off(self):
         line = "Akema                               off\tservice has not been started yet"
         status = output_parser.detect_status_state(line)
         self.assertEqual(status, 'off')
@@ -42,6 +44,16 @@ class ParserTestCase(unittest.TestCase):
             'state': 'off',
             'help': 'service has not been started yet'
         })
+
+    def test_parse_status_when_there_is_printers(self):
+        stdout = [
+            "\tdaan:autossh                        on\tpid: 18719, uptime: 02:39",
+            "\t     ssh                            off\tport: ?"
+        ]
+
+        status = output_parser.status(stdout)
+
+        self.assertCountEqual(status, [{'id': 'daan', 'pid': 18719, 'state': 'on', 'uptime': '02:39'}])
 
     def test_parse_status_is_on_response(self):
         stdout = [

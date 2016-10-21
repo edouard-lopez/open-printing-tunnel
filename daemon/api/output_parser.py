@@ -20,16 +20,16 @@ def list_sites(lines):
 
 
 def status(lines, id=None):
-    response = []
+    response = {'state': 'unknow'}
 
     for line in lines:
         state = detect_status_state(line)
         if state == 'on':
             response = status_is_on(lines)
+            break
         elif state == 'off':
             response = status_is_off(lines)
-        else:
-            response = {'state': state}
+            break
 
     return response
 
