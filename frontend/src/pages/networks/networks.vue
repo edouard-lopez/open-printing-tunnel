@@ -72,6 +72,7 @@
 	import DeleteButton from 'components/delete-button';
 	import HTTP from 'services/http.service';
 	import Logging from 'services/logging.service';
+	import Network from 'network';
 
 	const Networks = HTTP('networks', localStorage);
 
@@ -112,9 +113,8 @@
 					}
 				});
 			},
-			isEmptyNetwork(network){
-				return Object.keys(network.Containers).length === 0
-			}
+			isEmptyNetwork: Network.isEmptyNetwork,
+			addLowercaseId: Network.addLowercaseId
 		}
 	};
 </script>
