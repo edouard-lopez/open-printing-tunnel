@@ -32,6 +32,6 @@ class NetworkToolsTestCase(unittest.TestCase):
         results = NetworkTools.format_empty_result(oids)
 
         self.assertCountEqual(results, [
-            {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': None},
-            {'oid': '.1.3.6.1.2.1.1.4.0', 'value': None},
+            {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': 'unknown'},
+            {'oid': '.1.3.6.1.2.1.1.4.0', 'value': 'unknown'},
         ])

@@ -37,7 +37,7 @@ class NetworkTools:
 
     @staticmethod
     def format_empty_result(oids):
-        return [{'oid': oid, 'value': None} for oid in oids]
+        return [{'oid': oid, 'value': 'unknown'} for oid in oids]
 
     @staticmethod
     def format_snmp_results(details):
