@@ -45,4 +45,5 @@ You need to send the latest recipe and deployment script:
     
 1. launch the deployment:    
 
+        ./deploy.sh ens192 v1.5.10
         ./deploy.sh

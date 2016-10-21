@@ -10,6 +10,9 @@ DEFAULT_INTERFACE="${2:-ens192}"
 cd ../daemon/frontend/ ;
 npm run build
 
+cd ../frontend/ ;
+npm run build
+
 cd ../../deploy/ ;
 ./tag_and_push.sh "$TAG"
 ./send_archive.sh
