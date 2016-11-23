@@ -15,35 +15,25 @@ In developmenet we use the `optbox` device as a reverse proxy to access customer
     # User: coaxis 
     # Password: <admin@akema.fr + Akema LessPass Password coaxis.com>
 
-## Prepare the release
+## Release
 
-1. It is assumed that your `frontend` applications are **up-to-date and build**.
+Run the script with the version to release:
 
-        cd daemon/frontend/ ; 
-        npm run build
-   
-1. Tag and push the new docker image to the repository:
+    cd deploy/
+    ./release.sh v1.5.11
 
-        cd ../../deploy/ ; 
-        ./tag_and_push.sh
+It is the same as:
 
-## Send files to server
+1. rebuild `daemon/frontend/` ;
+1. rebuild `frontend/` ;
+1. tag and push the release ;
+1. update the `docker-compose` and deploy script.
 
-You need to send the latest recipe and deployment script:
- 
-    ./send_archive.sh
-    
 ## Deploy
 
-1. connect to production server using the `optbox` forwarding rule (cf. [optbox's section](#optbox)):
+Connect to production server using the `optbox` forwarding rule (cf. [optbox's section](#optbox)):
 
         ssh -p 2222 coaxis@optbox-forward
-    
-1. move to coaxisopt folder:
-
         cd coaxisopt/
-    
-1. launch the deployment:    
-
         ./deploy.sh ens192 v1.5.10
         ./deploy.sh
