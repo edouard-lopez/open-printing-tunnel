@@ -7,13 +7,15 @@
 TAG="${1:-latest}"
 DEFAULT_INTERFACE="${2:-ens192}"
 
-cd ../daemon/frontend/ ;
+cd ../
+cd daemon/frontend/ ;
 npm run build
 
-cd ../frontend/ ;
+cd ../../
+cd frontend/ ;
 npm run build
 
-cd ../../deploy/ ;
+cd ../deploy/ ;
 ./tag_and_push.sh "$TAG"
 ./send_archive.sh
 
