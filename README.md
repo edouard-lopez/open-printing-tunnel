@@ -93,7 +93,7 @@ From developer computer, run:
     $ npm run build
     $ cd ../deploy/
     $ archive="$(./create_archive.sh | tail -n 1)"
-    $ ./send_archive.sh "$archive"
+    $ ./send-scripts.sh "$archive"
     
 If you need to setup a python environment, please have a look at our short [Python and virtualenv doc](./docs/how-to-python-and-virtualenv.md).
 ### Development

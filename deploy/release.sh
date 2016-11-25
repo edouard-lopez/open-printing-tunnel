@@ -28,7 +28,7 @@ function build_and_push() {
 
     cd ../deploy/
     ./build_and_push.sh "$tag"
-    ./send_archive.sh
+    ./send-scripts.sh
 }
 
 function deploy_on_remote() {

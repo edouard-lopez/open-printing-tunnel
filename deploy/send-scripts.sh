@@ -2,7 +2,7 @@
 # DESCRIPTION
 #       Send docker-compose and deploiement script on remote
 
-echo "Usage: ./send_archive.sh [USER@HOSTNAME] [SSH_PORT]"
+echo "Usage: ./send-scripts.sh [USER@HOSTNAME] [SSH_PORT]"
 
 cd ..
 
