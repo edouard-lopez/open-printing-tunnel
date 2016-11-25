@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# DESCRIPTION
+#       Build backoffice front-end, frontoffice front-end and
 # USAGE:
 #       ./release.sh v1.5.6
 #   or

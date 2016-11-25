@@ -1,4 +1,7 @@
 #!/bin/bash
+# DESCRIPTION
+#       Pull and restart latest or given tag on the machine.
+
 echo "Usage: ./deploy.sh [DEFAULT_INTERFACE [TAG]"
 
 DEFAULT_INTERFACE="${1:-ens192}"
