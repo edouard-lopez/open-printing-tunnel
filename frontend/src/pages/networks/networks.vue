@@ -106,7 +106,7 @@
 			},
 			getNetworks(){
 				return Networks.all().then(response => {
-					this.networks = response.data;
+					this.networks = this.addLowercaseId(response.data);
 					this.count = response.data.length;
 					if (this.count == 0) {
 						this.no_network_message = 'il n\'y a pas de réseau'
