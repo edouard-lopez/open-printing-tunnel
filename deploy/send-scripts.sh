@@ -13,5 +13,6 @@ ssh -p $SSH_PORT $HOST 'mkdir -p ~/coaxisopt'
 scp -P $SSH_PORT docker-compose.prod.yml "$HOST":~/
 scp -P $SSH_PORT deploy/deploy.sh "$HOST":~/coaxisopt
 ssh -p $SSH_PORT $HOST 'mv docker-compose.prod.yml ~/coaxisopt/docker-compose.yml'
+scp -P $SSH_PORT deploy/start-opt-tunnels.sh "$HOST":~/coaxisopt
 
 cd deploy

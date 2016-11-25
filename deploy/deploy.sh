@@ -1,6 +1,10 @@
 #!/bin/bash
 # DESCRIPTION
 #       Pull and restart latest or given tag on the machine.
+# USAGE
+#       ./deploy.sh
+# or
+#       ./deploy.sh ens192 v1.5.12
 
 echo "Usage: ./deploy.sh [DEFAULT_INTERFACE [TAG]"
 
@@ -25,6 +29,11 @@ function restart() {
     docker-compose up -d
 }
 
+function copy_initd_script() {
+        cp ./start-opt-tunnels.sh /etc/init.d/
+}
+
 pull_images
 restart
 clean_images
+copy_initd_script
