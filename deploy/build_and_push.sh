@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
+# DESCRIPTION
+#       Build docker images, tag them and push to registry
 # USAGE:
-#       ./tag_and_push.sh v1.5.6
+#       ./build_and_push.sh v1.5.6
 #   or
-#       ./tag_and_push.sh
+#       ./build_and_push.sh
 
 onexit(){ while caller $((n++)); do :; done; }
 trap onexit EXIT
-#set -x  # debug
 
 TAG="${1:-latest}"
 
 function usage() {
-    printf "Usage: ./tag_and_push.sh [tag]\n\n"
+    printf "Usage: ./build_and_push.sh [tag]\n\n"
 }
 
 function build_images() {
