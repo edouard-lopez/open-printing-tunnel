@@ -9,16 +9,40 @@
 TAG="${1:-latest}"
 DEFAULT_INTERFACE="${2:-ens192}"
 
-cd ../
-cd daemon/frontend/ ;
-npm run build
+function usage() {
+    printf "Usage: ./release.sh [tag]\n\n"
+}
 
-cd ../../
-cd frontend/ ;
-npm run build
+function build_vps_frontend() {
+    cd ../daemon/frontend/
+    npm run build
+}
 
-cd ../deploy/ ;
-./tag_and_push.sh "$TAG"
-./send_archive.sh
+function build_backoffice_frontend() {
+    cd ../../frontend/
+    npm run build
+}
 
-ssh -p 2222 coaxis@optbox-forward /home/coaxis/coaxisopt/deploy.sh $DEFAULT_INTERFACE "$TAG"
+function build_and_push() {
+    local tag="${1}"
+
+    cd ../deploy/
+    ./build_and_push.sh "$tag"
+    ./send_archive.sh
+}
+
+function deploy_on_remote() {
+    local interface="${1}"
+    local tag="${2}"
+
+    ssh \
+        -p 2222 \
+        coaxis@optbox-forward \
+        bash -c "/home/coaxis/coaxisopt/deploy.sh "${interface}" "${tag}""
+}
+
+usage
+build_vps_frontend
+build_backoffice_frontend
+build_and_push "$TAG"
+#deploy_on_remote "${DEFAULT_INTERFACE}" "${TAG}""
