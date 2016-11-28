@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 def pop_new_container(data, docker_client=None):
     container = docker_api.create_container(
+        # todo: use config file
         image='docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest',
         hostname=data.get('hostname'),
         ports=[80],

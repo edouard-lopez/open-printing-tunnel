@@ -34,7 +34,7 @@ It is the same as:
 
 Connect to production server using the `optbox` forwarding rule (cf. [optbox's section](#optbox)):
 
-        ssh -p 2222 coaxis@optbox-forward
-        cd coaxisopt/
-        ./deploy.sh ens192 v1.5.10
-        ./deploy.sh
+    ssh -p 2222 coaxis@optbox-forward
+    cd coaxisopt/
+    ./deploy.sh ens192 v1.5.10
+    ./deploy.sh

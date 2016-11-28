@@ -10,6 +10,8 @@
     
 ## Sprint #7
 
+* [x] fix start mast after host reboot coaxis/discussions#60
+* [x] add 'id' to network object fixes coaxis/discussions#52
 * [x] fix status #50
 * [x] fix modal #52
 
