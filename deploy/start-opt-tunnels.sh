@@ -14,8 +14,14 @@
 #       ./start-opt-tunnels.sh
 
 sleep 10s
+
 containers=$(docker ps --format "{{.ID}}")
 
-for container in "${containers[@]}"; do
-    docker exec "$container" /etc/init.d/mast start
+for container in ${containers[@]}; do
+    now=$(date '+%Y-%m-%dT%H:%S')
+    if docker exec "$container" /etc/init.d/mast start > /dev/null; then
+        echo "$now: STARTED 'mast' on: $container" | tee -a /var/log/start-opt-tunnels.log
+    else
+        echo "$now: FAILED 'mast' on: $container  # is it a daemon?" >> /var/log/start-opt-tunnels.log
+    fi
 done
