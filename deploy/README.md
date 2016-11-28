@@ -21,6 +21,7 @@ Run the script with the version to release:
 
     cd deploy/
     ./release.sh v1.5.11
+    ./release.sh  # the 'latest' tag
 
 It is the same as:
 
