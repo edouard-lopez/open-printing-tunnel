@@ -13,6 +13,7 @@
 # USAGE
 #       ./start-opt-tunnels.sh
 
+sleep 10s
 containers=$(docker ps --format "{{.ID}}")
 
 for container in "${containers[@]}"; do
