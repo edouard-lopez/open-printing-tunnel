@@ -19,6 +19,8 @@ containers=$(docker ps --format "{{.ID}}")
 
 for container in ${containers[@]}; do
     now=$(date '+%Y-%m-%dT%H:%S')
+
+    docker exec "$container" /etc/init.d/mast stop
     if docker exec "$container" /etc/init.d/mast start > /dev/null; then
         echo "$now: STARTED 'mast' on: $container" | tee -a /var/log/start-opt-tunnels.log
     else
