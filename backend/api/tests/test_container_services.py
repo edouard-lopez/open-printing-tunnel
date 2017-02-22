@@ -116,3 +116,25 @@ class ContainersTestCase(APITestCase):
         container_services.destroy(containerId)
         self.docker_api.remove_network(network_id)
 
+    def test_can_restart_container(self):
+            config = {
+                'ip': '10.49.0.3',
+                'subnet': '10.49.0.0/16',
+                'gateway': '10.49.0.203',
+                'vlan': 103,
+            }
+            print('Starting container, wait…')
+            container = container_services.pop_new_container(config, self.docker_api)
+            containerId = container.get('Id')
+            data = self.docker_api.inspect_container(containerId)
+
+            print('Restarting container, wait…')
+            container_services.restart(container, self.docker_api)
+            new_data = self.docker_api.inspect_container(containerId)
+
+            self.assertGreater(new_data.get('State').get('StartedAt'), data.get('State').get('StartedAt'))
+
+            networks = self.docker_api.inspect_container(containerId).get('NetworkSettings').get('Networks')
+            network_id = networks.get(list(networks)[0]).get('NetworkID')
+            container_services.destroy(containerId)
+            self.docker_api.remove_network(network_id)

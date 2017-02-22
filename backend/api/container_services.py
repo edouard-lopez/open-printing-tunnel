@@ -89,3 +89,7 @@ def filter_opt_networks(networks):
         if network['Name'].startswith('opt_network_'):
             filtered_networks.append(network)
     return filtered_networks
+
+
+def restart(container, docker_client):
+    return docker_client.restart(container.get('Id'))
