@@ -96,3 +96,23 @@ class ContainersTestCase(APITestCase):
 
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.docker_api.remove_network(network_id)
+
+    def test_can_pop_new_container(self):
+        config = {
+            'ip': '10.49.0.2',
+            'subnet': '10.49.0.0/16',
+            'gateway': '10.49.0.202',
+            'vlan': 102,
+        }
+
+        print('Starting container, wait…')
+        container = container_services.pop_new_container(config, self.docker_api)
+        containerId = container.get('Id')
+
+        self.assertIsNotNone(containerId)
+
+        networks = self.docker_api.inspect_container(containerId).get('NetworkSettings').get('Networks')
+        network_id = networks.get(list(networks)[0]).get('NetworkID')
+        container_services.destroy(containerId)
+        self.docker_api.remove_network(network_id)
+
