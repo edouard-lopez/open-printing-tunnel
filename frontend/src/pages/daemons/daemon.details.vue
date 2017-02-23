@@ -28,10 +28,24 @@
 					</h5>
 					<div class="card-block">
 						<h3>
-							<span class="tag tag-lg"
-								  v-bind:class="{ 'tag-danger': daemon.container_info.State.Status=='exited', 'tag-warning': daemon.container_info.State.Status=='paused', 'tag-success': daemon.container_info.State.Status=='running'}">
-                                {{daemon.container_info.State.Status }}
+							<span v-if="restarting">
+								<span class="tag tag-warning tag-lg">
+									Redémarrage…
+									<i class="fa fa-refresh fa-spin fa-fw"></i>
+								</span>
 							</span>
+							<div v-if="!restarting">
+								<span class="tag tag-lg"
+									  v-bind:class="{ 'tag-danger': daemon.container_info.State.Status=='exited', 'tag-warning': daemon.container_info.State.Status=='paused', 'tag-success': daemon.container_info.State.Status=='running'}">
+                               		{{daemon.container_info.State.Status }}
+								</span>
+								<span @click="restart(daemon.id)"
+									  class="tag tag-warning tag-lg hint--bottom pull-right"
+									  aria-label="Redémarrer">
+								<i class="fa fa-refresh fa-fw"></i>
+								</span>
+							</div>
+
 						</h3>
 					</div>
 				</div>
@@ -67,6 +81,7 @@
 </template>
 <script type="text/ecmascript-6">
 	import HTTP from 'services/http.service';
+	import axios from 'axios';
 	import Logging from 'services/logging.service';
 	import moment from 'moment';
 
@@ -75,7 +90,8 @@
 	export default {
 		data() {
 			return {
-				daemon: null
+				daemon: null,
+				restarting: false
 			};
 		},
 		ready(){
@@ -87,6 +103,12 @@
 					this.daemon = response.data;
 				});
 			},
+			restart(id){
+				this.restarting = true;
+				return axios.post('/api/containers/' + id + ':restart').then(response => {
+					this.restarting = false;
+				})
+			}
 		},
 		filters: {
 			moment: function (date) {
