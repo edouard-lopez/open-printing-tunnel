@@ -14,6 +14,8 @@ Refer to the [main project documetation for a quick introduction to virtualenv](
 
 * Run the tests:
 
+        cd backend/
+        export DEFAULT_INTERFACE=${interface:=wlp4s0}
         python3.5 ./manage.py test
 
 * Run development server:

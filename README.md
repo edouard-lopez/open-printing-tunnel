@@ -98,11 +98,7 @@ From developer computer, run:
 If you need to setup a python environment, please have a look at our short [Python and virtualenv doc](./docs/how-to-python-and-virtualenv.md).
 ### Development
 
-We are using a `docker-compose` to manage the various containers. See [how to docker](./docs/HOW-TO-DOCKER.md) for install and basics: 
-
-    cd open-printing-tunnel-master/  # project root directory
-    docker-compose build  # create the containers images 
-    docker-compose up  # start project
+See [docs/how-to-develop.md](docs/how-to-develop.md).
 
 ### Glossary
 
