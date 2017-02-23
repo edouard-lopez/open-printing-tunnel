@@ -10,40 +10,40 @@ const token = 'ZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9eyJzdWIiOiIxMjM0NTY3ODkwIiwib
 foos.localStorage.setItem('token', token);
 /* eslint camelcase: 0 */
 const foo = {
-  name: 'foo'
+	name: 'foo'
 };
 
 test('should send requests with Authorization header', t => {
-  const headers = {reqheaders: {Authorization: `JWT ${token}`}};
-  nock('http://localhost/', headers).get('/api/foos/').query(true).reply(200, {});
-  return foos.all().then(response => {
-    t.is(response.status, 200);
-  });
+	const headers = {reqheaders: {Authorization: `JWT ${token}`}};
+	nock('http://localhost/', headers).get('/api/foos/').query(true).reply(200, {});
+	return foos.all().then(response => {
+		t.is(response.status, 200);
+	});
 });
 
 test('should create a foo', t => {
-  nock('http://localhost/').post('/api/foos/', foo).reply(201, foo);
-  return foos.create(foo).then(response => {
-    const newIncident = response.data;
-    t.is(foo.login, newIncident.login);
-  });
+	nock('http://localhost/').post('/api/foos/', foo).reply(201, foo);
+	return foos.create(foo).then(response => {
+		const newIncident = response.data;
+		t.is(foo.login, newIncident.login);
+	});
 });
 
 test('should send requests with Authorization header updated', t => {
-  const newToken = 'WV9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRyd';
-  foos.localStorage.setItem('token', newToken);
-  const headers = {reqheaders: {Authorization: `JWT ${newToken}`}};
-  nock('http://localhost/', headers).get('/api/foos/').query(true).reply(200, {});
-  return foos.all().then(response => {
-    t.is(response.status, 200);
-  });
+	const newToken = 'WV9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRyd';
+	foos.localStorage.setItem('token', newToken);
+	const headers = {reqheaders: {Authorization: `JWT ${newToken}`}};
+	nock('http://localhost/', headers).get('/api/foos/').query(true).reply(200, {});
+	return foos.all().then(response => {
+		t.is(response.status, 200);
+	});
 });
 
 test('should get all foo with parameters', t => {
-  nock('http://localhost/').get('/api/foos/?limit=100&offset=0&search=query&ordering=-created')
-    .reply(200, {});
-  const params = {limit: 100, offset: 0, search: 'query', ordering: '-created'};
-  return foos.all(params).then(response => {
-    t.is(response.status, 200);
-  });
+	nock('http://localhost/').get('/api/foos/?limit=100&offset=0&search=query&ordering=-created')
+		.reply(200, {});
+	const params = {limit: 100, offset: 0, search: 'query', ordering: '-created'};
+	return foos.all(params).then(response => {
+		t.is(response.status, 200);
+	});
 });

@@ -3,7 +3,7 @@
 if (!Array.prototype.getIndex) {
 	Array.prototype.findIndex = function (predicate) {
 		'use strict';
-		if (this == null) {
+		if (this === null) {
 			throw new TypeError('Array.prototype.findIndex called on null or undefined');
 		}
 		if (typeof predicate !== 'function') {
@@ -23,7 +23,6 @@ if (!Array.prototype.getIndex) {
 		return -1;
 	};
 }
-
 
 /*
  * check if an element exists in array using a comparer function
@@ -49,7 +48,6 @@ Array.prototype.pushIfNotInArray = function (element, comparer) {
 	}
 };
 
-
 /*
  * Remove an item or interval of items from array
  * @see: http://stackoverflow.com/a/9815010/802365
@@ -65,7 +63,7 @@ Array.prototype.remove = function (from, to) {
  */
 if (!Array.prototype.find) {
 	Array.prototype.find = function (predicate) {
-		if (this == null) {
+		if (this === null) {
 			throw new TypeError('Array.prototype.find called on null or undefined');
 		}
 		if (typeof predicate !== 'function') {

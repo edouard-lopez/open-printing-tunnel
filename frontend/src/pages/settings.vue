@@ -54,7 +54,7 @@
 					return;
 				}
 				auth.changePassword(this.credentials)
-						.then(()=> {
+						.then(() => {
 							logging.success(this.$t('settings.passwordChangedSuccess'));
 						})
 						.catch(() => {

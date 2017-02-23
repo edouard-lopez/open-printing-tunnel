@@ -21,6 +21,9 @@
     "babel-runtime": "^6.0.0",
     "bootstrap": "^4.0.0-alpha.3",
     "css-loader": "^0.23.1",
+    "eslint": "3.x.x",
+    "eslint-config-angular": "0.5.x",
+    "eslint-plugin-angular": "1.6.x",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
     "hint.css": "^2.3.2",
@@ -54,12 +57,13 @@
       "browser"
     ],
     "rules": {
-      "import/newline-after-import": 0
+      "import/newline-after-import": 0,
+      "camelcase": 0
     },
     "ignores": [
       "webpack.config.js",
       "server.js",
-      "src/services/array.js",
+      "src/services/array.polyfill.js",
       "test/_helpers.js"
     ],
     "overrides": [

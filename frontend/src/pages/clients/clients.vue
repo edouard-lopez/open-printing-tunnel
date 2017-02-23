@@ -166,7 +166,7 @@
 			filter(query){
 				this.currentPage = 1;
 				this.offset = 0;
-				this.getClients(this.limit, this.offset, query).then(()=> {
+				this.getClients(this.limit, this.offset, query).then(() => {
 					if (this.count == 0) {
 						this.no_client_message = 'il n\'y a aucun client correspondant à votre recherche'
 					}

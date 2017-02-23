@@ -4,7 +4,6 @@
 	@import '../../node_modules/notie/dist/notie.css';
 	@import '../../node_modules/hint.css/hint.min.css';
 
-
 	* {
 		border-radius: 0 !important;
 

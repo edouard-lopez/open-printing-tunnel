@@ -5,10 +5,6 @@ export default {
 	setSites(state, sites) {
 		state.sites = sites;
 	},
-	// todo
-	// insertSite(state, site) {
-	// 	state.sites.push(site);
-	// },
 	removeSite(state, site) {
 		sitesService.remove(state.sites, site);
 	},

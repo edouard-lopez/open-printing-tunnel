@@ -12,14 +12,14 @@ const state = {
 	sites: []
 	/**
 	 {
-        hostname: "192.168.2.23",
-        id: "akema",
+        hostname: '192.168.2.23',
+        id: 'akema',
         printers: [
             {
-                description: "bureau",
+                description: 'bureau',
                 destination_port: 9100,
-                forward: "normal",
-                hostname: "1.2.3.4",
+                forward: 'normal',
+                hostname: '1.2.3.4',
                 id: 0,
                 listening_port: 9102
             }

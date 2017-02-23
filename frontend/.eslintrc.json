@@ -1,0 +1,19 @@
+{
+	"env": {
+		"browser": true
+	},
+	"globals": {
+		"inject": true
+	},
+	"plugins": [
+		"angular"
+	],
+	"extends": [
+		"angular",
+		"xo"
+	],
+	"rules": {
+		"camelcase": 0,
+		"angular/definedundefined": 0
+	}
+}

@@ -198,7 +198,7 @@
 			filter(query){
 				this.currentPage = 1;
 				this.offset = 0;
-				this.getDaemons(this.limit, this.offset, query).then(()=> {
+				this.getDaemons(this.limit, this.offset, query).then(() => {
 					if (this.count == 0) {
 						this.no_daemon_message = 'il n\'y a aucun daemon correspondant à votre recherche'
 					}
