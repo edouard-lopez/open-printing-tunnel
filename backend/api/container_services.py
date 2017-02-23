@@ -3,8 +3,8 @@ import logging
 import uuid
 
 import docker
-import docker.utils
 import docker.errors
+import docker.utils
 from django.conf import settings
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
@@ -91,5 +91,9 @@ def filter_opt_networks(networks):
     return filtered_networks
 
 
-def restart(container, docker_client):
-    return docker_client.restart(container.get('Id'))
+def restart(container_id, docker_client):
+    containers = docker_client.containers(filters={'id': container_id})
+    if containers:
+        container_id = containers[0].get('Id')
+        print(container_id)
+        return docker_client.restart(container_id)
