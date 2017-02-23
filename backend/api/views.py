@@ -1,14 +1,17 @@
+import json
 import logging
 
 import docker
 from django.contrib.auth import login, authenticate
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status, permissions, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from api import permissions as app_permissions
 from api import container_services
 from api import models, serializers
+from api import permissions as app_permissions
 from api import services
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
@@ -109,3 +112,26 @@ class DaemonsViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         container_services.destroy(instance.container_id)
         instance.delete()
+
+
+class Container(APIView):
+    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (app_permissions.IsTechnician,)
+
+    def get(self, request, container_id, action=None):
+        try:
+            container = models.Daemon.objects.get(id=container_id)
+            data = serializers.DaemonSerializer(container).data
+            return Response(data=data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request, container_id, action):
+        try:
+            container = models.Daemon.objects.get(id=container_id)
+            data = serializers.DaemonSerializer(container).data
+            if action == 'restart':
+                container_services.restart(container.container_id, docker_api)
+                return Response(data=data, status=status.HTTP_205_RESET_CONTENT)
+        except ObjectDoesNotExist:
+            return Response(data={}, status=status.HTTP_404_NOT_FOUND)

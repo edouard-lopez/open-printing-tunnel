@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^tokens/verify/', rest_framework_jwt.views.verify_jwt_token),
     url(r'^tokens/refresh/', rest_framework_jwt.views.refresh_jwt_token),
     url(r'^auth/', include('djoser.urls')),
+    url(r'^containers/(?P<container_id>[0-9a-z-]+)(:(?P<action>restart))?$', views.Container.as_view())
 ]

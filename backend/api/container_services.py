@@ -95,5 +95,4 @@ def restart(container_id, docker_client):
     containers = docker_client.containers(filters={'id': container_id})
     if containers:
         container_id = containers[0].get('Id')
-        print(container_id)
         return docker_client.restart(container_id)
