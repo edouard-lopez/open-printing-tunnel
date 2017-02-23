@@ -50,6 +50,15 @@
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0",
     "xo": "^0.16.0"
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ],
+    "comments": false
   },
   "xo": {
     "esnext": true,
@@ -76,15 +85,5 @@
         }
       }
     ]
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-2"
-    ],
-    "plugins": [
-      "transform-runtime"
-    ],
-    "comments": false
   }
 }
