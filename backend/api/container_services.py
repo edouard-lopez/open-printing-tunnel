@@ -96,3 +96,15 @@ def restart(container_id, docker_client):
     if containers:
         container_id = containers[0].get('Id')
         return docker_client.restart(container_id)
+
+
+def get_container_volumes(container_data):
+    return container_data.get('Mounts')
+
+
+def get_container_hostname(container_data):
+    return container_data.get('Config').get('Hostname')
+
+
+def get_container_image(container_data):
+    return container_data.get('Config').get('Image')

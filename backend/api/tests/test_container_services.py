@@ -81,6 +81,47 @@ class ContainersTestCase(APITestCase):
 
         self.assertEqual(gateway, '10.0.0.254')
 
+    def test_can_get_container_volumes(self):
+        container_data = mock.get_one_container_data()
+
+        volumes = container_services.get_container_volumes(container_data)
+
+        self.assertCountEqual(volumes, [
+            {
+                "Type": "volume",
+                "Name": "841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f",
+                "Source": "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data",
+                "Destination": "/home/mast/.ssh",
+                "Driver": "local",
+                "Mode": "",
+                "RW": True,
+                "Propagation": ""
+            },
+            {
+                "Type": "volume",
+                "Name": "002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e",
+                "Source": "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data",
+                "Destination": "/etc/mast",
+                "Driver": "local",
+                "Mode": "",
+                "RW": True,
+                "Propagation": ""
+            }
+        ])
+
+    def test_can_get_container_hostname(self):
+        container_data = mock.get_one_container_data()
+
+        hostname = container_services.get_container_hostname(container_data)
+
+        self.assertCountEqual(hostname, 'test-01')
+
+    def test_can_get_container_image(self):
+        container_data = mock.get_one_container_data()
+
+        image = container_services.get_container_image(container_data)
+
+        self.assertCountEqual(image, 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest')
     def test_get_network_config(self):
         number_networks = len(self.docker_api.networks())
         network_config = container_services.get_network_config(
