@@ -21,19 +21,36 @@ def pop_new_container(data, docker_client=None):
             port_bindings={80: 80},
             restart_policy={"MaximumRetryCount": 0, "Name": "always"}
         ),
-        networking_config=get_network_config(data, docker_client)
+        networking_config=create_network_config(data, docker_client)
     )
     docker_api.start(container=container.get('Id'))
     return container
 
 
-def get_network_config(data, docker_client):
+def create_network_config(data, docker_client):
     network = create_network(data, docker_client)
     network_name = docker_client.inspect_network(network.get('Id')).get('Name')
     network_info = dict()
     network_info[network_name] = docker_client.create_endpoint_config(ipv4_address=data.get('ip'))
     networking_config = docker_client.create_networking_config(network_info)
+
     return networking_config
+
+
+def get_container_network_config(container_data):
+    networks = container_data.get('NetworkSettings').get('Networks')
+
+    network_id, network_config = networks.copy().popitem()
+
+    return {
+        'EndpointsConfig': {
+            network_id: {
+                'IPAMConfig': {
+                    'IPv4Address': network_config.get('IPAddress')
+                }
+            }
+        }
+    }
 
 
 def destroy(container_id):

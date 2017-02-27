@@ -149,9 +149,18 @@ class ContainersTestCase(APITestCase):
             }
         })
 
-    def test_get_network_config(self):
+    def test_can_get_network_config(self):
+        container_data = mock.get_one_container_data()
+
+        network_config = container_services.get_container_network_config(container_data)
+
+        self.assertDictEqual(network_config, {
+            'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}}
+        })
+
+    def test_create_network_config(self):
         number_networks = len(self.docker_api.networks())
-        network_config = container_services.get_network_config(
+        network_config = container_services.create_network_config(
             data={
                 'ip': '10.49.0.1',
                 'subnet': '10.49.0.0/16',
