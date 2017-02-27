@@ -128,6 +128,16 @@ class ContainersTestCase(APITestCase):
 
         config = container_services.create_volumes_config(container_data)
 
+        self.assertCountEqual(config, [
+            "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data",
+            "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data"
+        ])
+
+    def test_can_create_volume_bindings_config(self):
+        container_data = mock.get_one_container_data()
+
+        config = container_services.create_volumes_config_bindings(container_data)
+
         self.assertDictEqual(config, {
             "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data": {
                 'bind': "/home/mast/.ssh",

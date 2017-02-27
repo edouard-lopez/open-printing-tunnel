@@ -112,14 +112,21 @@ def get_container_image(container_data):
 
 def create_volumes_config(container_data):
     volumes = get_container_volumes(container_data)
-    config = {}
+
+    return [volume['Source'] for volume in volumes]
+
+
+def create_volumes_config_bindings(container_data):
+    volumes = get_container_volumes(container_data)
+    bindings = {}
 
     for volume in volumes:
-        config[volume['Source']] = {
+        bindings[volume['Source']] = {
             'bind': volume['Destination'],
             'mode': 'rw'
         }
 
-    return config
+    return bindings
+
 
 
