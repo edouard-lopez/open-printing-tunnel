@@ -108,3 +108,18 @@ def get_container_hostname(container_data):
 
 def get_container_image(container_data):
     return container_data.get('Config').get('Image')
+
+
+def create_volumes_config(container_data):
+    volumes = get_container_volumes(container_data)
+    config = {}
+
+    for volume in volumes:
+        config[volume['Source']] = {
+            'bind': volume['Destination'],
+            'mode': 'rw'
+        }
+
+    return config
+
+
