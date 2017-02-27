@@ -158,6 +158,33 @@ class ContainersTestCase(APITestCase):
             'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}}
         })
 
+    def test_can_get_data_to_upgrade_container(self):
+        container_data = mock.get_one_container_data()
+
+        creation_data = container_services.get_upgrade_data(container_data)
+
+        self.assertDictEqual(creation_data, {
+            'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest',
+            'hostname': "test-01",
+            'volumes': [
+                "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data",
+                "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data"
+            ],
+            'volumes_bindings': {
+                "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data": {
+                    'bind': "/home/mast/.ssh",
+                    'mode': 'rw'
+                },
+                "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data": {
+                    'bind': "/etc/mast",
+                    'mode': 'rw'
+                }
+            },
+            'networking_config': {
+                'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}}
+            }
+        })
+
     def test_create_network_config(self):
         number_networks = len(self.docker_api.networks())
         network_config = container_services.create_network_config(

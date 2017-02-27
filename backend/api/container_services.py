@@ -146,4 +146,23 @@ def create_volumes_config_bindings(container_data):
     return bindings
 
 
+def get_upgrade_data(container_data):
+    return {
+        'image': get_container_image(container_data),
+        'hostname': get_container_hostname(container_data),
+        'volumes': create_volumes_config(container_data),
+        'volumes_bindings': create_volumes_config_bindings(container_data),
+        'networking_config': get_container_network_config(container_data)
+    }
 
+
+def upgrade_daemon_container(data):
+    docker_api.create_container(
+        image=data.get('image'),
+        hostname=data.get('hostname'),
+        volumes=data.get('volumes'),
+        host_config=docker_api.create_host_config(
+            binds=data.get('volume_bindings'),
+            port_bindings={80: 80},
+            restart_policy={"MaximumRetryCount": 0, "Name": "always"}
+        ))
