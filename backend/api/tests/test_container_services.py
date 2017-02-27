@@ -65,21 +65,21 @@ class ContainersTestCase(APITestCase):
 
         network_data = container_services.get_container_network_infos(container_data)
 
-        self.assertEqual(network_data.get('IPAddress'), '10.0.0.2')
+        self.assertEqual(network_data.get('IPAddress'), '10.0.0.1')
 
     def test_can_get_container_ipaddress(self):
         container_data = mock.get_one_container_data()
 
         ipaddress = container_services.get_container_ipaddress(container_data)
 
-        self.assertEqual(ipaddress, '10.0.0.2')
+        self.assertEqual(ipaddress, '10.0.0.1')
 
     def test_can_get_container_gateway(self):
         container_data = mock.get_one_container_data()
 
         gateway = container_services.get_container_gateway(container_data)
 
-        self.assertEqual(gateway, '10.0.0.1')
+        self.assertEqual(gateway, '10.0.0.254')
 
     def test_get_network_config(self):
         number_networks = len(self.docker_api.networks())
