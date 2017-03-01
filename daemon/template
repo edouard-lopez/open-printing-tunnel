@@ -41,4 +41,4 @@ ForwardPort=(
 BandwidthLimitation=true
 # Limit is expressed as kilobytes
 UploadLimit=1000
-DownloadLimit=100
+DownloadLimit=100000
