@@ -220,7 +220,6 @@ class ContainersTestCase(APITestCase):
         self.assertNotEqual(container.get('Id'), new_container.get('Id'))
         self.purge([container, new_container])
 
-
     def test_upgrade_container_mount_volumes_from_old_to_new_container(self):
         config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
         container = container_services.pop_new_container(config, self.docker_api)
@@ -233,26 +232,23 @@ class ContainersTestCase(APITestCase):
                                  self.docker_api.inspect_container(new_container.get('Id')).get('Mounts')]
 
         self.assertSetEqual(set(container_volumes), set(new_container_volumes))
-        self.purge([container, new_container])
+        # self.purge([container, new_container])
 
-        def test_can_pop_new_container(self):
-            config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
+    def test_can_pop_new_container(self):
+        config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
 
-            print('Starting container, wait…')
-            container = container_services.pop_new_container(config, self.docker_api)
+        container = container_services.pop_new_container(config, self.docker_api)
 
-            self.assertIsNotNone(container['Id'])
-            self.purge([container])
+        self.assertIsNotNone(container['Id'])
+        self.purge([container])
 
-        def test_can_restart_container(self):
-            config = {'ip': '10.49.0.3', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.203', 'vlan': 103}
-            print('Starting container, wait…')
-            container = container_services.pop_new_container(config, self.docker_api)
-            data = self.docker_api.inspect_container(container['Id'])
+    def test_can_restart_container(self):
+        config = {'ip': '10.49.0.3', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.203', 'vlan': 103}
+        container = container_services.pop_new_container(config, self.docker_api)
+        data = self.docker_api.inspect_container(container['Id'])
 
-            print('Restarting container, wait…')
-            container_services.restart(container['Id'], self.docker_api)
-            new_data = self.docker_api.inspect_container(container['Id'])
+        container_services.restart(container['Id'], self.docker_api)
+        new_data = self.docker_api.inspect_container(container['Id'])
 
-            self.assertGreater(new_data.get('State').get('StartedAt'), data.get('State').get('StartedAt'))
-            self.purge([container, new_container])
+        self.assertGreater(new_data.get('State').get('StartedAt'), data.get('State').get('StartedAt'))
+        self.purge([container])
