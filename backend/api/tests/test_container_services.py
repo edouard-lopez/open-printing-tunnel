@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import uuid
 
 import docker
@@ -129,8 +131,8 @@ class ContainersTestCase(APITestCase):
         config = container_services.create_volumes_config(container_data)
 
         self.assertCountEqual(config, [
-            "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data",
-            "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data"
+            "/home/mast/.ssh",
+            "/etc/mast"
         ])
 
     def test_can_create_volume_bindings_config(self):
@@ -139,11 +141,11 @@ class ContainersTestCase(APITestCase):
         config = container_services.create_volumes_config_bindings(container_data)
 
         self.assertDictEqual(config, {
-            "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data": {
+            "841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f": {
                 'bind': "/home/mast/.ssh",
                 'mode': 'rw'
             },
-            "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data": {
+            "002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e": {
                 'bind': "/etc/mast",
                 'mode': 'rw'
             }
@@ -167,15 +169,15 @@ class ContainersTestCase(APITestCase):
             'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest',
             'hostname': "test-01",
             'volumes': [
-                "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data",
-                "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data"
+                "/home/mast/.ssh",
+                "/etc/mast"
             ],
             'volumes_bindings': {
-                "/var/lib/docker/volumes/841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f/_data": {
+                "841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f": {
                     'bind': "/home/mast/.ssh",
                     'mode': 'rw'
                 },
-                "/var/lib/docker/volumes/002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e/_data": {
+                "002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e": {
                     'bind': "/etc/mast",
                     'mode': 'rw'
                 }
@@ -201,39 +203,56 @@ class ContainersTestCase(APITestCase):
         self.assertEqual(number_networks + 1, len(self.docker_api.networks()))
         self.docker_api.remove_network(network_id)
 
-    def test_can_pop_new_container(self):
-        config = {
-            'ip': '10.49.0.2',
-            'subnet': '10.49.0.0/16',
-            'gateway': '10.49.0.202',
-            'vlan': 102,
-        }
+    def purge(self, containers=[]):
+        for container in containers:
+            self.docker_api.stop(container['Id'], 0)
+            for network in self.docker_api.inspect_container(container['Id'])['NetworkSettings']['Networks']:
+                if 'opt_network' in network:
+                    self.docker_api.remove_network(network)
+                self.docker_api.remove_container(container['Id'])
 
-        print('Starting container, wait…')
+    def test_upgrade_container_pop_new_container(self):
+        config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
         container = container_services.pop_new_container(config, self.docker_api)
-        containerId = container.get('Id')
 
-        self.assertIsNotNone(containerId)
+        new_container = container_services.upgrade_daemon_container(container.get('Id'))
 
-        networks = self.docker_api.inspect_container(containerId).get('NetworkSettings').get('Networks')
-        network_id = networks.get(list(networks)[0]).get('NetworkID')
-        container_services.destroy(containerId)
-        self.docker_api.remove_network(network_id)
+        self.assertNotEqual(container.get('Id'), new_container.get('Id'))
+        self.purge([container, new_container])
 
-    def test_can_restart_container(self):
-        config = {'ip': '10.49.0.3', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.203', 'vlan': 103,}
-        print('Starting container, wait…')
+
+    def test_upgrade_container_mount_volumes_from_old_to_new_container(self):
+        config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
         container = container_services.pop_new_container(config, self.docker_api)
-        containerId = container.get('Id')
-        data = self.docker_api.inspect_container(containerId)
 
-        print('Restarting container, wait…')
-        container_services.restart(containerId, self.docker_api)
-        new_data = self.docker_api.inspect_container(containerId)
+        new_container = container_services.upgrade_daemon_container(container.get('Id'))
 
-        self.assertGreater(new_data.get('State').get('StartedAt'), data.get('State').get('StartedAt'))
+        container_volumes = [volume['Name'] for volume in
+                             self.docker_api.inspect_container(container.get('Id')).get('Mounts')]
+        new_container_volumes = [volume['Name'] for volume in
+                                 self.docker_api.inspect_container(new_container.get('Id')).get('Mounts')]
 
-        networks = self.docker_api.inspect_container(containerId).get('NetworkSettings').get('Networks')
-        network_id = networks.get(list(networks)[0]).get('NetworkID')
-        container_services.destroy(containerId)
-        self.docker_api.remove_network(network_id)
+        self.assertSetEqual(set(container_volumes), set(new_container_volumes))
+        self.purge([container, new_container])
+
+        def test_can_pop_new_container(self):
+            config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
+
+            print('Starting container, wait…')
+            container = container_services.pop_new_container(config, self.docker_api)
+
+            self.assertIsNotNone(container['Id'])
+            self.purge([container])
+
+        def test_can_restart_container(self):
+            config = {'ip': '10.49.0.3', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.203', 'vlan': 103}
+            print('Starting container, wait…')
+            container = container_services.pop_new_container(config, self.docker_api)
+            data = self.docker_api.inspect_container(container['Id'])
+
+            print('Restarting container, wait…')
+            container_services.restart(container['Id'], self.docker_api)
+            new_data = self.docker_api.inspect_container(container['Id'])
+
+            self.assertGreater(new_data.get('State').get('StartedAt'), data.get('State').get('StartedAt'))
+            self.purge([container, new_container])

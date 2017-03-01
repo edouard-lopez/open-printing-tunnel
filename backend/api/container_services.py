@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
+
 import logging
 import uuid
 
@@ -130,7 +132,7 @@ def get_container_image(container_data):
 def create_volumes_config(container_data):
     volumes = get_container_volumes(container_data)
 
-    return [volume['Source'] for volume in volumes]
+    return [volume['Destination'] for volume in volumes]
 
 
 def create_volumes_config_bindings(container_data):
@@ -138,7 +140,7 @@ def create_volumes_config_bindings(container_data):
     bindings = {}
 
     for volume in volumes:
-        bindings[volume['Source']] = {
+        bindings[volume['Name']] = {
             'bind': volume['Destination'],
             'mode': 'rw'
         }
@@ -156,13 +158,18 @@ def get_upgrade_data(container_data):
     }
 
 
-def upgrade_daemon_container(data):
-    docker_api.create_container(
-        image=data.get('image'),
-        hostname=data.get('hostname'),
-        volumes=data.get('volumes'),
+def upgrade_daemon_container(old_container_id):
+    old_container_data = docker_api.inspect_container(old_container_id)
+    creation_data = get_upgrade_data(old_container_data)
+
+    new_container = docker_api.create_container(
+        image=creation_data.get('image'),
+        hostname=creation_data.get('hostname'),
+        volumes=creation_data.get('volumes'),
         host_config=docker_api.create_host_config(
-            binds=data.get('volume_bindings'),
+            binds=creation_data.get('volumes_bindings'),
             port_bindings={80: 80},
             restart_policy={"MaximumRetryCount": 0, "Name": "always"}
         ))
+
+    return new_container
