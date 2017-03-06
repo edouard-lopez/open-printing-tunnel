@@ -232,7 +232,7 @@ class ContainersTestCase(APITestCase):
                                  self.docker_api.inspect_container(new_container.get('Id')).get('Mounts')]
 
         self.assertSetEqual(set(container_volumes), set(new_container_volumes))
-        # self.purge([container, new_container])
+        self.purge([container, new_container])
 
     def test_can_pop_new_container(self):
         config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
