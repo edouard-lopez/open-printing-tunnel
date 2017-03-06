@@ -1,3 +1,4 @@
+import time
 from pprint import pprint
 
 import uuid
@@ -157,7 +158,8 @@ class ContainersTestCase(APITestCase):
         network_config = container_services.get_container_network_config(container_data)
 
         self.assertDictEqual(network_config, {
-            'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}}
+            'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}},
+            'IPv4Address': '10.0.0.1'
         })
 
     def test_can_get_data_to_upgrade_container(self):
@@ -183,7 +185,8 @@ class ContainersTestCase(APITestCase):
                 }
             },
             'networking_config': {
-                'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}}
+                'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}},
+                'IPv4Address': '10.0.0.1'
             }
         })
 
@@ -218,21 +221,35 @@ class ContainersTestCase(APITestCase):
         new_container = container_services.upgrade_daemon_container(container.get('Id'))
 
         self.assertNotEqual(container.get('Id'), new_container.get('Id'))
-        self.purge([container, new_container])
+        self.purge([new_container])
 
     def test_upgrade_container_mount_volumes_from_old_to_new_container(self):
         config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
         container = container_services.pop_new_container(config, self.docker_api)
 
+        old_container_volumes = [volume['Name'] for volume in container_services.get_mounts(container['Id'])]
         new_container = container_services.upgrade_daemon_container(container.get('Id'))
+        new_container_volumes = [volume['Name'] for volume in container_services.get_mounts(new_container['Id'])]
 
-        container_volumes = [volume['Name'] for volume in
-                             self.docker_api.inspect_container(container.get('Id')).get('Mounts')]
-        new_container_volumes = [volume['Name'] for volume in
-                                 self.docker_api.inspect_container(new_container.get('Id')).get('Mounts')]
+        self.assertSetEqual(set(old_container_volumes), set(new_container_volumes))
+        self.purge([new_container])
 
-        self.assertSetEqual(set(container_volumes), set(new_container_volumes))
-        self.purge([container, new_container])
+    def test_upgrade_container_bind_to_old_network(self):
+        config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}
+        container = container_services.pop_new_container(config, self.docker_api)
+
+        old_name, old_network = container_services.get_networks(container['Id']).popitem()
+        new_container = container_services.upgrade_daemon_container(container.get('Id'))
+        new_name, new_network = container_services.get_networks(new_container['Id']).popitem()
+
+        self.assertEqual(old_name, new_name)
+        self.assertEqual(old_network['IPAMConfig'], new_network['IPAMConfig'])
+        self.assertEqual(old_network['IPAddress'], new_network['IPAddress'])
+        self.assertEqual(old_network['Gateway'], new_network['Gateway'])
+        self.assertEqual(old_network['MacAddress'], new_network['MacAddress'])
+        self.assertEqual(old_network['NetworkID'], new_network['NetworkID'])
+
+        self.purge([new_container])
 
     def test_can_pop_new_container(self):
         config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102}

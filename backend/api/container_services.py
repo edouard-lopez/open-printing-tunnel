@@ -51,7 +51,8 @@ def get_container_network_config(container_data):
                     'IPv4Address': network_config.get('IPAddress')
                 }
             }
-        }
+        },
+        'IPv4Address': network_config.get('IPAddress')
     }
 
 
@@ -59,7 +60,7 @@ def destroy(container_id):
     containers = docker_api.containers(filters={'id': container_id})
     if containers:
         container_id = containers[0].get('Id')
-        docker_api.stop(container_id)
+        docker_api.stop(container_id, 0)
         return docker_api.remove_container(container_id)
 
 
@@ -162,6 +163,9 @@ def upgrade_daemon_container(old_container_id):
     old_container_data = docker_api.inspect_container(old_container_id)
     creation_data = get_upgrade_data(old_container_data)
 
+    network_id = creation_data.get('networking_config').get('EndpointsConfig').copy().popitem()[0]
+    docker_api.disconnect_container_from_network(old_container_id, network_id)
+
     new_container = docker_api.create_container(
         image=creation_data.get('image'),
         hostname=creation_data.get('hostname'),
@@ -172,4 +176,16 @@ def upgrade_daemon_container(old_container_id):
             restart_policy={"MaximumRetryCount": 0, "Name": "always"}
         ))
 
+    docker_api.disconnect_container_from_network(new_container.get('Id'), 'bridge')
+    docker_api.connect_container_to_network(new_container.get('Id'), network_id, ipv4_address=creation_data.get('networking_config').get('IPv4Address'))
+    destroy(old_container_id)
+    docker_api.start(container=new_container.get('Id'))
+
     return new_container
+
+
+def get_networks(container_id):
+    return docker_api.inspect_container(container_id)['NetworkSettings']['Networks'].copy()
+
+def get_mounts(container_id):
+    return docker_api.inspect_container(container_id)['Mounts'].copy()
