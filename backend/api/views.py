@@ -134,3 +134,12 @@ class Container(APIView):
                 return Response(data=data, status=status.HTTP_205_RESET_CONTENT)
         except ObjectDoesNotExist:
             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+
+class DaemonVersions(APIView):
+    permission_classes = (app_permissions.IsTechnician,)
+
+    def get(self, request):
+        images = docker_api.images()
+        versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
+        return Response(data=versions, status=status.HTTP_200_OK)

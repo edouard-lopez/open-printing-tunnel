@@ -190,3 +190,15 @@ def get_networks(container_id):
 def get_mounts(container_id):
     return docker_api.inspect_container(container_id)['Mounts'].copy()
 
+
+def available_versions(name, images):
+    versions = []
+
+    for image in images:
+        tags = image['RepoTags']
+        for tag in tags:
+            if name in tag:
+                version = tag.split(':')[-1]
+                versions.append(version)
+
+    return versions

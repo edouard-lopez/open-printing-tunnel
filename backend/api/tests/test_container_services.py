@@ -265,3 +265,11 @@ class ContainersTestCase(APITestCase):
 
         self.assertGreater(new_data.get('State').get('StartedAt'), data.get('State').get('StartedAt'))
         self.purge([container])
+
+    def test_list_available_daemons_version(self):
+        images = mock.get_images()
+
+        versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
+
+        self.assertEqual(len(versions), 3)
+        self.assertCountEqual(set(versions), {'latest', 'v1.6.1', 'v1.6.0'})
