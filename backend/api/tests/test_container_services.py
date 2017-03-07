@@ -183,7 +183,8 @@ class ContainersTestCase(APITestCase):
             'networking_config': {
                 'EndpointsConfig': {'opt_network_508be7': {'IPAMConfig': {'IPv4Address': '10.0.0.1'}}},
                 'IPv4Address': '10.0.0.1'
-            }
+            },
+            'labels': {'type': 'coaxisopt_daemon'}
         })
 
     def test_create_network_config(self):

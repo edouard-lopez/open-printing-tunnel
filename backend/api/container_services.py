@@ -21,7 +21,8 @@ def pop_new_container(data, docker_client=None):
             port_bindings={80: 80},
             restart_policy={"MaximumRetryCount": 0, "Name": "always"}
         ),
-        networking_config=create_network_config(data, docker_client)
+        networking_config=create_network_config(data, docker_client),
+        labels={'type': 'coaxisopt_daemon'}
     )
     docker_api.start(container=container.get('Id'))
     return container
@@ -153,7 +154,8 @@ def get_upgrade_data(container_data):
         'hostname': get_container_hostname(container_data),
         'volumes': create_volumes_config(container_data),
         'volumes_bindings': create_volumes_config_bindings(container_data),
-        'networking_config': get_container_network_config(container_data)
+        'networking_config': get_container_network_config(container_data),
+        'labels': {'type': 'coaxisopt_daemon'}
     }
 
 
@@ -172,7 +174,9 @@ def upgrade_daemon_container(old_container_id):
             binds=creation_data.get('volumes_bindings'),
             port_bindings={80: 80},
             restart_policy={"MaximumRetryCount": 0, "Name": "always"}
-        ))
+        ),
+        labels=creation_data.get('labels')
+    )
 
     docker_api.disconnect_container_from_network(new_container.get('Id'), 'bridge')
     docker_api.connect_container_to_network(new_container.get('Id'), network_id,
