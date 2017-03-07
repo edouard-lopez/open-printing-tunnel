@@ -27,26 +27,8 @@
 						Status
 					</h5>
 					<div class="card-block">
-						<h3>
-							<span v-if="restarting">
-								<span class="tag tag-warning tag-lg">
-									Redémarrage…
-									<i class="fa fa-refresh fa-spin fa-fw"></i>
-								</span>
-							</span>
-							<div v-if="!restarting">
-								<span class="tag tag-lg"
-									  v-bind:class="{ 'tag-danger': daemon.container_info.State.Status=='exited', 'tag-warning': daemon.container_info.State.Status=='paused', 'tag-success': daemon.container_info.State.Status=='running'}">
-                               		{{daemon.container_info.State.Status }}
-								</span>
-								<span @click="restart(daemon.id)"
-									  class="tag tag-warning tag-lg hint--bottom pull-right"
-									  aria-label="Redémarrer">
-								<i class="fa fa-refresh fa-fw"></i>
-								</span>
-							</div>
-
-						</h3>
+						<restart :container="daemon"></restart>
+						<upgrade :container="daemon"></upgrade>
 					</div>
 				</div>
 				<div class="card">
@@ -81,17 +63,27 @@
 </template>
 <script type="text/ecmascript-6">
 	import HTTP from 'services/http.service';
-	import axios from 'axios';
 	import Logging from 'services/logging.service';
 	import moment from 'moment';
+	import RestartButton from './restart.component.vue';
+	import UpgradeComponent from './upgrade.component.vue';
 
 	const DaemonService = HTTP('daemons', localStorage);
 
 	export default {
+		components: {
+			'restart': RestartButton,
+			'upgrade': UpgradeComponent
+		},
 		data() {
 			return {
-				daemon: null,
-				restarting: false
+				daemon: {
+					client: {name: null},
+					ip: null,
+					subnet: null,
+					gateway: null,
+					vlan: null
+				},
 			};
 		},
 		ready(){
@@ -103,12 +95,6 @@
 					this.daemon = response.data;
 				});
 			},
-			restart(id){
-				this.restarting = true;
-				return axios.post('/api/containers/' + id + ':restart').then(response => {
-					this.restarting = false;
-				})
-			}
 		},
 		filters: {
 			moment: function (date) {

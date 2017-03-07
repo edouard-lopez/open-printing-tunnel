@@ -58,6 +58,11 @@
 
 		}
 	}
+
+	.xx-large {
+		font-size: 1.75rem;
+		line-height: 1.75rem;
+	}
 </style>
 <template>
 	<div class="app">
