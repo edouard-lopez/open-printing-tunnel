@@ -115,8 +115,7 @@ class DaemonsViewSet(viewsets.ModelViewSet):
 
 
 class Container(APIView):
-    permission_classes = (permissions.AllowAny,)
-    # permission_classes = (app_permissions.IsTechnician,)
+    permission_classes = (app_permissions.IsTechnician,)
 
     def get(self, request, container_id, action=None):
         try:
