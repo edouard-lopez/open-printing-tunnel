@@ -1,14 +1,10 @@
-import time
-from pprint import pprint
-
-import uuid
-
 import docker
 import docker.errors
+import uuid
+from api import container_services
 from django.conf import settings
 from rest_framework.test import APITestCase
 
-from api import container_services
 from api.tests import factories
 from api.tests import mock
 

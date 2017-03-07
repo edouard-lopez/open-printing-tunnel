@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-from pprint import pprint
-
-import logging
-import uuid
 
 import docker
 import docker.errors
 import docker.utils
+import logging
+import uuid
 from django.conf import settings
 
 docker_api = docker.Client(base_url='unix://var/run/docker.sock')
@@ -177,7 +175,8 @@ def upgrade_daemon_container(old_container_id):
         ))
 
     docker_api.disconnect_container_from_network(new_container.get('Id'), 'bridge')
-    docker_api.connect_container_to_network(new_container.get('Id'), network_id, ipv4_address=creation_data.get('networking_config').get('IPv4Address'))
+    docker_api.connect_container_to_network(new_container.get('Id'), network_id,
+                                            ipv4_address=creation_data.get('networking_config').get('IPv4Address'))
     destroy(old_container_id)
     docker_api.start(container=new_container.get('Id'))
 
@@ -187,5 +186,7 @@ def upgrade_daemon_container(old_container_id):
 def get_networks(container_id):
     return docker_api.inspect_container(container_id)['NetworkSettings']['Networks'].copy()
 
+
 def get_mounts(container_id):
     return docker_api.inspect_container(container_id)['Mounts'].copy()
+
