@@ -1,12 +1,12 @@
 import docker
 import docker.errors
 import uuid
-from api import container_services
+from api.tests import factories
+from api.tests import mock
 from django.conf import settings
 from rest_framework.test import APITestCase
 
-from api.tests import factories
-from api.tests import mock
+from api import container_services
 
 
 class ContainersTestCase(APITestCase):
@@ -253,6 +253,19 @@ class ContainersTestCase(APITestCase):
         self.assertEqual(old_network['MacAddress'], new_network['MacAddress'])
         self.assertEqual(old_network['NetworkID'], new_network['NetworkID'])
 
+        self.purge([new_container])
+
+    def test_can_upgrade_to_different_version(self):
+        config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102,
+                  'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'}
+        container = container_services.pop_new_container(config, self.docker_api)
+        containers_count = len(self.docker_api.containers())
+        beta = 'beta'
+        self.docker_api.tag('coaxisopt_daemon', 'docker.akema.fr:5000/coaxis/coaxisopt_daemon', tag=beta)
+
+        new_container = container_services.upgrade_daemon_container(container.get('Id'), version=beta)
+
+        self.assertEqual(container_services.get_tag(new_container.get('Image')), 'beta')
         self.purge([new_container])
 
     def test_can_pop_new_container(self):
