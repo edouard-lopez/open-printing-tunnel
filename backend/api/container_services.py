@@ -148,9 +148,9 @@ def create_volumes_config_bindings(container_data):
     return bindings
 
 
-def get_upgrade_data(container_data):
+def get_upgrade_data(container_data, version):
     return {
-        'image': get_container_image(container_data),
+        'image': (get_upgrade_image(get_container_image(container_data), version)),
         'hostname': get_container_hostname(container_data),
         'volumes': create_volumes_config(container_data),
         'volumes_bindings': create_volumes_config_bindings(container_data),
@@ -159,9 +159,17 @@ def get_upgrade_data(container_data):
     }
 
 
-def upgrade_daemon_container(old_container_id):
+def get_upgrade_image(image, version):
+    if get_tag(image) != version:
+        info = image.split(':')
+        info[-1] = version
+        image = ':'.join(info)
+    return image
+
+
+def upgrade_daemon_container(old_container_id, version='latest'):
     old_container_data = docker_api.inspect_container(old_container_id)
-    creation_data = get_upgrade_data(old_container_data)
+    creation_data = get_upgrade_data(old_container_data, version)
 
     network_id = creation_data.get('networking_config').get('EndpointsConfig').copy().popitem()[0]
     docker_api.disconnect_container_from_network(old_container_id, network_id)

@@ -158,25 +158,32 @@ class ContainersTestCase(APITestCase):
             'IPv4Address': '10.0.0.1'
         })
 
+    def test_can_upgrade_image_version(self):
+        self.assertEqual(
+            container_services.get_upgrade_image('docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest', 'beta'),
+            'docker.akema.fr:5000/coaxis/coaxisopt_daemon:beta')
+        self.assertEqual(container_services.get_upgrade_image('coaxisopt_backend:v1.6.1', 'latest'),
+                         'coaxisopt_backend:latest')
+
     def test_can_get_data_to_upgrade_container(self):
         container_data = mock.get_one_container_data()
 
-        creation_data = container_services.get_upgrade_data(container_data)
+        creation_data = container_services.get_upgrade_data(container_data, version='beta')
 
         self.assertDictEqual(creation_data, {
-            'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest',
-            'hostname': "test-01",
+            'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:beta',
+            'hostname': 'test-01',
             'volumes': [
-                "/home/mast/.ssh",
-                "/etc/mast"
+                '/home/mast/.ssh',
+                '/etc/mast'
             ],
             'volumes_bindings': {
-                "841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f": {
-                    'bind': "/home/mast/.ssh",
+                '841d6a1709b365763c85fb4b7400c87f264d468eb1691a660fe81761da6e374f': {
+                    'bind': '/home/mast/.ssh',
                     'mode': 'rw'
                 },
-                "002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e": {
-                    'bind': "/etc/mast",
+                '002730cbb4dd9b37ad808915a60081508885d533fe003b529b8d0ab4fa46e92e': {
+                    'bind': '/etc/mast',
                     'mode': 'rw'
                 }
             },
