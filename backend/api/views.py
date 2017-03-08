@@ -125,11 +125,11 @@ class Container(APIView):
         except ObjectDoesNotExist:
             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
 
-    def post(self, request, container_id, action):
+    def post(self, request, container_id):
         try:
             container = models.Daemon.objects.get(id=container_id)
             data = serializers.DaemonSerializer(container).data
-            if action == 'restart':
+            if request.data.get('action') == 'restart':
                 container_services.restart(container.container_id, docker_api)
                 return Response(data=data, status=status.HTTP_205_RESET_CONTENT)
         except ObjectDoesNotExist:

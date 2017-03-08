@@ -40,7 +40,7 @@
 		methods: {
 			restart(id){
 				this.restarting = true;
-				return axios.post('/api/containers/' + id + ':restart').then(response => {
+				return axios.post('/api/containers/' + id, {action: 'restart'}).then(response => {
 					this.restarting = false;
 				})
 			}
