@@ -263,6 +263,15 @@ class ContainersTestCase(APITestCase):
         self.assertIsNotNone(container['Id'])
         self.purge([container])
 
+    def test_can_pop_new_container_with_specific_image(self):
+        config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102,
+                  'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'}
+
+        container = container_services.pop_new_container(config, self.docker_api)
+
+        self.assertIsNotNone(container['Id'])
+        self.purge([container])
+
     def test_can_restart_container(self):
         config = {'ip': '10.49.0.3', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.203', 'vlan': 103}
         container = container_services.pop_new_container(config, self.docker_api)
