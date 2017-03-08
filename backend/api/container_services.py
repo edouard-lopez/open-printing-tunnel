@@ -192,7 +192,7 @@ def upgrade_daemon_container(old_container_id, version='latest'):
     destroy(old_container_id)
     docker_api.start(container=new_container.get('Id'))
 
-    return new_container
+    return docker_api.containers(filters={'id': new_container.get('Id')}).pop()
 
 
 def get_networks(container_id):
