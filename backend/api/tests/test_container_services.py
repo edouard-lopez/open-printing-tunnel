@@ -281,3 +281,10 @@ class ContainersTestCase(APITestCase):
 
         self.assertEqual(len(versions), 3)
         self.assertCountEqual(set(versions), {'latest', 'v1.6.1', 'v1.6.0'})
+
+    def test_can_get_tag(self):
+        repo_tag = 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'
+
+        tag = container_services.get_tag(repo_tag)
+
+        self.assertEqual(tag, 'latest')
