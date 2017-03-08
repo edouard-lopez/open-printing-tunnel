@@ -10,7 +10,7 @@
 				<i class="fa fa-refresh fa-spin fa-fw"></i>
 			</span>
 			<span v-if="!restarting" @click="restart(container.id)"
-				  class="tag tag-warning tag-lg hint--bottom"
+				  class="tag tag-warning tag-lg hint--top"
 				  aria-label="Redémarrer">
 				<i class="fa fa-refresh fa-fw"></i>
 			</span>

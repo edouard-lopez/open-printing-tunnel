@@ -132,6 +132,9 @@ class Container(APIView):
             if request.data.get('action') == 'restart':
                 container_services.restart(container.container_id, docker_api)
                 return Response(data=data, status=status.HTTP_205_RESET_CONTENT)
+            elif request.data.get('action') == 'upgrade':
+                container_services.upgrade_daemon_container(container.container_id, request.data.get('version'))
+                return Response(data=data, status=status.HTTP_201_CREATED)
         except ObjectDoesNotExist:
             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
 
