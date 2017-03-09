@@ -16,7 +16,7 @@ import './services/array.polyfill';
 import auth from './services/auth.service';
 import locales from './locales';
 
-new Vue({
+new Vue({ // eslint-disable-line no-new
 	el: '#app',
 	render: h => h(App)
 });

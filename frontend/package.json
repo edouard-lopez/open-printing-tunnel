@@ -5,7 +5,9 @@
     "start": "NODE_ENV=production node server.js",
     "dev": "npm install && webpack-dev-server --inline --hot --host 0.0.0.0",
     "build": "rm -rf dist/ && NODE_ENV=production webpack --progress --hide-modules",
-    "test": "ava test && xo"
+    "test": "ava test && xo",
+    "precommit": "npm test",
+    "prepush": "npm test"
   },
   "dependencies": {
     "express": "^4.13.4"
@@ -27,6 +29,7 @@
     "file-loader": "0.10.x",
     "font-awesome": "4.7.x",
     "hint.css": "2.4.x",
+    "husky": "0.13.x",
     "jquery": "3.1.x",
     "json-loader": "0.5.x",
     "moment": "2.17.x",

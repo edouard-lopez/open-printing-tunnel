@@ -1,10 +1,6 @@
 // Credits: borrowed code from fcomb/redux-logger
 
-export default function createLogger({
-										 collapsed = true,
-										 transformer = state => state,
-										 mutationTransformer = mut => mut
-									 } = {}) {
+export default function createLogger({collapsed = true, mutationTransformer = mut => mut} = {}) {
 	return {
 		snapshot: true,
 		onMutation(mutation, nextState, prevState) {

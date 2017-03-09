@@ -6,7 +6,7 @@ export default {
 	setPrinters(sites, siteId, printers) {
 		const index = this.getIndex(sites, siteId);
 		console.log('setPrinters', siteId, index, sites[index], printers);
-		sites[index] = {...sites[index], printers: printers};
+		sites[index] = {...sites[index], printers};
 	},
 	remove(sites, site) {
 		const index = sites.findIndex(current => current.id === site.id);
