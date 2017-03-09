@@ -30,3 +30,6 @@ restart: remove dev
 
 prod:
 	docker run -p 80:80 coaxisopt_daemon:latest
+
+test:
+    echo "see <root>/makefile"

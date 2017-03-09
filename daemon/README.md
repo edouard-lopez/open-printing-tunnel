@@ -23,9 +23,31 @@ Options and examples are available in [docs/how-to-use-daemon.md](./docs/how-to-
 
 ## Test
 
+Note: see `makefile` in root project.
+
+### API
+
+**requirements**: 
+There is end-to-end test on this directory to test network methods, you will need to install
+
+    apt install libsmi2-dev libffi-dev libc-bin snmp snmpd snmp-mibs-downloader openssh-server fping
+
+Then
+
+	. ./env/bin/activate \
+	&& cd ./daemon/api/ \
+	&& python -m unittest discover --verbose
+
+### Frontend
+
+    cd frontend
+    npm run test
+
+### Daemon
+
 From host machine we run the tests in a [`bats`](https://github.com/sstephenson/bats) (Bash Automated Testing System) container:
 
-    docker exec -it coaxisopt_daemon bats /test/makefile.tests.bats
+    docker exec -it coaxisopt_daemon_* bats /test/makefile.tests.bats
 
 From inside the container:
 
