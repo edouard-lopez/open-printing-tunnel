@@ -41,7 +41,7 @@ def telnet(hostname=None, port=22, timeout=0.3, **kwargs):
 
 # fixme: merge into network_tools
 def collect(task, response, **kwargs):
-    hostname = kwargs['hostname']
+    hostname = kwargs['ip']
 
     response[hostname] = task(**kwargs)
 
@@ -51,15 +51,16 @@ def parellelize(task, site_id, printers, **kwargs):
     response = {}
     kw = kwargs.copy()
     kw.update({'hostname': site_id})
-    collect(task, response, **kw)
+    response.update({site_id: task(**kw)})
 
     printers_response = {}
     threads = []
     for printer in printers:
         kw = kwargs.copy()
         kw.update({
-            'hostname': (printer['hostname']),
-            'port': (printer['ports']['send'])
+            'hostname': 'localhost',
+            'ip': (printer['hostname']),
+            'port': (printer['ports']['listen'])
         })
 
         thread = threading.Thread(target=collect, args=(task, printers_response), kwargs=kw)

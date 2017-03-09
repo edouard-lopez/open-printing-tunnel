@@ -1,4 +1,8 @@
+from IN import AF_INET
+
+import socket
 import unittest
+from _socket import SOCK_STREAM
 
 import network_utils
 
@@ -33,13 +37,19 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         site_hostname = 'localhost'
         port = 22
         printers = [
-            {'hostname': '127.0.0.1', 'ports': {'send': 22}},
-            {'hostname': '0.0.0.0', 'ports': {'send': 22}},
+            {'hostname': '127.0.0.1', 'ports': {'listen': 9100}},
+            {'hostname': '0.0.0.0', 'ports': {'listen': 9101}},
         ]
+        fakeOpenedPorts = {}
+        for printer in printers:
+            fakeOpenedPorts[printer['hostname']] = socket.socket(AF_INET, SOCK_STREAM)
+            fakeOpenedPorts[printer['hostname']].bind(('', printer['ports']['listen']))
+            fakeOpenedPorts[printer['hostname']].listen(0)
 
         response = network_utils.parellelize(network_utils.telnet, site_hostname, printers, port=port)
 
         msg = 'require port {} to be open'.format(port)
+        print(response)
         self.assertEqual(response[site_hostname]['telnet'], True, msg)
         self.assertEqual(response[site_hostname]['127.0.0.1']['telnet'], True)
 
@@ -110,7 +120,7 @@ class NetwrokUtilsTestCase(unittest.TestCase):
 
     @staticmethod
     def test_benchmark_parellelize():
-        printers = [{'hostname': '192.168.2.' + str(ip), 'ports': {'send': 22}} for ip in range(50)]
+        printers = [{'hostname': '192.168.2.' + str(ip), 'ports': {'listen': 9100 + ip}} for ip in range(50)]
 
         network_utils.parellelize(network_utils.telnet, '10.0.0.1', printers)
 
