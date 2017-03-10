@@ -65,6 +65,9 @@
 	import HTTP from 'services/http.service';
 	import Logging from 'services/logging.service';
 	import moment from 'moment';
+
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
 	import RestartButton from './restart.component.vue';
 	import UpgradeComponent from './upgrade.component.vue';
 
@@ -75,31 +78,21 @@
 			'restart': RestartButton,
 			'upgrade': UpgradeComponent
 		},
-		data() {
-			return {
-				daemon: {
-					client: {name: null},
-					ip: null,
-					subnet: null,
-					gateway: null,
-					vlan: null
-				},
-			};
-		},
 		ready(){
-			this.getDaemon(this.$route.params.id);
-		},
-		methods: {
-			getDaemon(id){
-				return DaemonService.get({id}).then(response => {
-					this.daemon = response.data;
-				});
-			},
+			this.fetchDaemon(this.$route.params.id);
 		},
 		filters: {
 			moment: function (date) {
 				return moment(date).format('MMMM Do YYYY, h:mm:ss');
 			},
+		},
+		vuex: {
+			actions: {
+				fetchDaemon: actions.fetchDaemon
+			},
+			getters: {
+				daemon: getters.getDaemon,
+			}
 		}
 	};
 </script>

@@ -9,7 +9,7 @@
 				Redémarrage…
 				<i class="fa fa-refresh fa-spin fa-fw"></i>
 			</span>
-			<span v-if="!restarting" @click="restart(container.id)"
+			<span v-if="!restarting" @click="restart(container)"
 				  class="tag tag-warning tag-lg hint--top"
 				  aria-label="Redémarrer">
 				<i class="fa fa-refresh fa-fw"></i>
@@ -18,7 +18,9 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import axios from 'axios';
+	import HTTP from 'services/http.service';
+
+	const ContainersService = HTTP('containers', localStorage);
 
 	export default {
 		data() {
@@ -38,9 +40,9 @@
 			}
 		},
 		methods: {
-			restart(id){
+			restart(container){
 				this.restarting = true;
-				return axios.post('/api/containers/' + id, {action: 'restart'}).then(response => {
+				ContainersService.create({id: container.id, action: 'restart'}).then(response => {
 					this.restarting = false;
 				})
 			}

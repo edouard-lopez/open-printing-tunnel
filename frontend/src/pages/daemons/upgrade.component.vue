@@ -19,7 +19,7 @@
 
 			<ul v-if="showVersions" class="list-inline">
 				<li v-for="version in availableVersions" class="list-inline-item">
-					<small @click="upgrade(container.id, version)"
+					<small @click="upgrade(container, version)"
 						   aria-label="basculer en version {{version}}"
 						   class="version tag tag-warning hint--top">
 						{{version}}
@@ -38,9 +38,11 @@
 </style>
 <script type="text/ecmascript-6">
 	import HTTP from 'services/http.service';
-	import axios from 'axios';
-	const VersionsService = HTTP('daemon-versions', localStorage);
+	import actions from 'vuex/actions';
+	import getters from 'vuex/getters';
 
+	const VersionsService = HTTP('daemon-versions', localStorage);
+	const ContainersService = HTTP('containers', localStorage);
 
 	export default {
 		data() {
@@ -79,14 +81,20 @@
 				});
 			},
 			toggleVersions() {
-				return this.showVersions=!this.showVersions;
+				return this.showVersions = !this.showVersions;
 			},
-			upgrade(id, version){
+			upgrade(container, version){
 				this.toggleVersions();
 				this.upgrading = true;
-				return axios.post('/api/containers/' + id, {action: 'upgrade', version}).then(response => {
+				ContainersService.create({id: container.id, action: 'upgrade', version}).then(response => {
+					this.fetchDaemon(response.data.id);
 					this.upgrading = false;
 				})
+			}
+		},
+		vuex: {
+			actions: {
+				fetchDaemon: actions.fetchDaemon
 			}
 		}
 	}

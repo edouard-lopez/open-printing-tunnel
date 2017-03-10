@@ -16,5 +16,8 @@ export default {
 	},
 	removePrinter(state, printer) {
 		printersService.remove(state.sites[printer.site].printers, printer);
+	},
+	SET_DAEMON(state, daemon) {
+		state.daemon = daemon;
 	}
 };

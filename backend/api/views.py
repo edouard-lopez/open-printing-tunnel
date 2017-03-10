@@ -125,15 +125,18 @@ class Container(APIView):
         except ObjectDoesNotExist:
             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
 
-    def post(self, request, container_id):
+    def post(self, request):
         try:
-            container = models.Daemon.objects.get(id=container_id)
-            data = serializers.DaemonSerializer(container).data
+            daemon = models.Daemon.objects.filter(id=request.data.get('id'))[0]
             if request.data.get('action') == 'restart':
-                container_services.restart(container.container_id, docker_api)
+                data = serializers.DaemonSerializer(daemon).data
+                container_services.restart(daemon.container_id, docker_api)
                 return Response(data=data, status=status.HTTP_205_RESET_CONTENT)
             elif request.data.get('action') == 'upgrade':
-                container_services.upgrade_daemon_container(container.container_id, request.data.get('version'))
+                new_container = container_services.upgrade_daemon_container(daemon.container_id, request.data.get('version'))
+                daemon.container_id = new_container.get('Id')
+                daemon.save()
+                data = serializers.DaemonSerializer(daemon).data
                 return Response(data=data, status=status.HTTP_201_CREATED)
         except ObjectDoesNotExist:
             return Response(data={}, status=status.HTTP_404_NOT_FOUND)

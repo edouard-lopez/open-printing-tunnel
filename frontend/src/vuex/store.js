@@ -9,7 +9,7 @@ Vue.config.debug = true;
 const debug = process.env.NODE_ENV !== 'production';
 
 const state = {
-	sites: []
+	sites: [],
 	/**
 	 {
         hostname: '192.168.2.23',
@@ -26,6 +26,7 @@ const state = {
         ]
     }
 	 */
+	daemon: {}
 };
 
 export default new Vuex.Store({

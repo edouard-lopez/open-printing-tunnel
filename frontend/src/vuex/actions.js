@@ -1,6 +1,9 @@
 import resource from 'pilou';
+import http from '../services/http.service';
 import logging from '../services/logging.service';
+
 const printers = resource('printers', {get: '/api/sites/${site_id}/${resource}/'});
+const DaemonService = http('daemons', localStorage);
 
 export default {
 	getPrinters({dispatch}, siteId) {
@@ -14,9 +17,6 @@ export default {
 	setSites({dispatch}, sites) {
 		dispatch('setSites', sites);
 	},
-	// insertSite({dispatch}, site) {
-	// 	dispatch('insertSite', site);
-	// },
 	removeSite({dispatch}, site) {
 		dispatch('removeSite', site);
 	},
@@ -25,5 +25,10 @@ export default {
 	},
 	removePrinter({dispatch}, printer) {
 		dispatch('removeSite', printer);
+	},
+	fetchDaemon({dispatch}, id) {
+		DaemonService.get({id}).then(response => {
+			dispatch('SET_DAEMON', response.data);
+		});
 	}
 };
