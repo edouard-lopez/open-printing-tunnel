@@ -5,7 +5,7 @@ from rest_framework import serializers
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Client
-
+        fields = '__all__'
 
 class DaemonSerializer(serializers.ModelSerializer):
     container_info = serializers.ReadOnlyField()
