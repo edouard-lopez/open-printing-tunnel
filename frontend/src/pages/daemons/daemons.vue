@@ -135,7 +135,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-	// todo rename services/containers.service
 	import AddDaemonButton from './add-daemon-button';
 	import DeleteButton from 'components/delete-button';
 	import HTTP from 'services/http.service';

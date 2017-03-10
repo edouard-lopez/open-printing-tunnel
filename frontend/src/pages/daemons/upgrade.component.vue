@@ -13,7 +13,8 @@
 			<span v-if="!upgrading" @click="toggleVersions()"
 				  class="tag tag-lg hint--top text-info"
 				  aria-label="Afficher les versions disponibles">
-				<i class="fa fa-fw text-muted" v-bind:class="{ 'fa-eye': !showVersions, 'fa-eye-slash': showVersions}"></i>
+				<i class="fa fa-fw text-muted"
+				   v-bind:class="{ 'fa-eye': !showVersions, 'fa-eye-slash': showVersions}"></i>
 		</span>
 
 			<ul v-if="showVersions" class="list-inline">
@@ -31,7 +32,7 @@
 <style>
 	.version {
 		font-size: .9rem;
-		font-weight:normal;
+		font-weight: normal;
 		cursor: pointer;
 	}
 </style>

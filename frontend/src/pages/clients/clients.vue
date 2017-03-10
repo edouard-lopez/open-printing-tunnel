@@ -25,7 +25,7 @@
 							<h2>
                                 <span class="label label-info">
                                     <span v-if="selected.length>0"> {{selected.length}} / </span> {{count}} client<span
-										v-if="clients.length>1">s</span>
+									v-if="clients.length>1">s</span>
                                 </span>
 							</h2>
 						</div>
@@ -103,7 +103,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-	// todo rename services/containers.service
 	import AddClientButton from './add-client-button';
 	import DeleteButton from 'components/delete-button';
 	import HTTP from 'services/http.service';
