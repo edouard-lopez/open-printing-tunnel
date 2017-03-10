@@ -19,6 +19,7 @@
 </template>
 <script type="text/ecmascript-6">
 	import HTTP from 'services/http.service';
+	import Logging from 'services/logging.service';
 
 	const ContainersService = HTTP('containers', localStorage);
 
@@ -44,7 +45,10 @@
 				this.restarting = true;
 				ContainersService.create({id: container.id, action: 'restart'}).then(response => {
 					this.restarting = false;
-				})
+					Logging.success('Daemon redémarré avec succès.');
+				}).catch(() => {
+					Logging.error('Impossible de redémarrer le daemon.')
+				});
 			}
 		}
 	}

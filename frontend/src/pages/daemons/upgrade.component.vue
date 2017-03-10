@@ -38,6 +38,7 @@
 </style>
 <script type="text/ecmascript-6">
 	import HTTP from 'services/http.service';
+	import Logging from 'services/logging.service';
 	import actions from 'vuex/actions';
 	import getters from 'vuex/getters';
 
@@ -89,7 +90,10 @@
 				ContainersService.create({id: container.id, action: 'upgrade', version}).then(response => {
 					this.fetchDaemon(response.data.id);
 					this.upgrading = false;
-				})
+					Logging.success('Daemon mise à jour en version `'+ version + '`');
+				}).catch(() => {
+					Logging.error('Impossible de mettre à jour le daemon.')
+				});
 			}
 		},
 		vuex: {
