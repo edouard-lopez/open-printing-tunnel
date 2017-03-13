@@ -309,7 +309,8 @@ class ContainersTestCase(APITestCase):
         images = [
             {'RepoTags': []},
             {'RepoTags': ['node:argon-slim']},
-            {'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0']}
+            {'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0']},
+            {"RepoTags": None}
         ]
 
         versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
