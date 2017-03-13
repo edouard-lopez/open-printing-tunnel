@@ -219,144 +219,52 @@ mock_daemon_container_data = {
 }
 
 mock_images = [
-    {'Containers': -1,
-     'Created': 1488879838,
-     'Id': 'sha256:6003ceb6aaf35c9df4e21bd57266553e7b9f2077d5ebd21a0cef28c3d8ca066f',
-     'Labels': {},
-     'ParentId': 'sha256:0c47713fa65866239057b1d1ce59ee7605c26b3b1679c728efbe772c1cd55441',
-     'RepoDigests': None,
-     'RepoTags': ['coaxisopt_backend:latest'],
-     'SharedSize': -1,
-     'Size': 188844159,
-     'VirtualSize': 188844159},
-    {'Containers': -1,
-     'Created': 1488879825,
-     'Id': 'sha256:399c8c2886ef189bee63f62767d56063ba24eb79cf9f04da78d088e4426cc328',
-     'Labels': {},
-     'ParentId': 'sha256:c9e3bbbaaf1fcd7ef388693ad585e710093d78c0c99bfe98d747bfac0f7e1997',
-     'RepoDigests': None,
-     'RepoTags': ['coaxisopt_daemon:latest'],
-     'SharedSize': -1,
-     'Size': 865199967,
-     'VirtualSize': 865199967},
-    {'Containers': -1,
-     'Created': 1488574525,
-     'Id': 'sha256:3e3a33a8e8f930a923545c2ab2abb0f233e9a44ca83e3609697cd2dbf67a0645',
-     'Labels': {},
-     'ParentId': '',
-     'RepoDigests': [
-         'colstrom/fish@sha256:7ceeb181e2a22619706515d4428e314c4ee1c9d8ad2fe10de962f00ee3e16e62'],
-     'RepoTags': ['colstrom/fish:latest'],
-     'SharedSize': -1,
-     'Size': 24869150,
-     'VirtualSize': 24869150},
-    {'Containers': -1,
-     'Created': 1488401237,
-     'Id': 'sha256:b8a28fa9fa9c7b921af486a23f89862de7616ade4c424b351e779b3e2436e4a6',
-     'Labels': {},
-     'ParentId': 'sha256:688ffb06a57dfd746402ed9a4cc53bf163ae7d0fc8dbf3687e880cbcd3a91976',
-     'RepoDigests': [
-         'docker.akema.fr:5000/coaxis/coaxisopt_daemon@sha256:7482ec461392aa77503569a073b63ddb97018fb5ba2f4cad545eb607b422b4d7'],
-     'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'],
-     'SharedSize': -1,
-     'Size': 865079806,
-     'VirtualSize': 865079806},
-    {'Containers': -1,
-     'Created': 1488401172,
-     'Id': 'sha256:4b57a5d579673d3a49ea59953953a17ef57315fb4f6cb6f1670b21c2c9e54252',
-     'Labels': {},
-     'ParentId': 'sha256:0e0bb8e896c871aa96ef97fa34838d17f1001f7bde7656758392821884248778',
-     'RepoDigests': [
-         'docker.akema.fr:5000/coaxis/coaxisopt_backend@sha256:1da34a2ae09033435803b8931ff7498dbfd3baad09f13dc97b5c7864159a3f49'],
-     'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_backend:latest'],
-     'SharedSize': -1,
-     'Size': 188843421,
-     'VirtualSize': 188843421},
-    {'Containers': -1,
-     'Created': 1488390603,
-     'Id': 'sha256:652e925c18f391e28ef88c7bfc7ca617daaa4152cc99583f3d57ac7d31dd279b',
-     'Labels': {},
-     'ParentId': 'sha256:a98cad68254d3052233c8fd749cd044945094730fa3d1bc2c43a5f223d21e5ab',
-     'RepoDigests': [
-         'docker.akema.fr:5000/coaxis/coaxisopt_daemon@sha256:48809da35ebe87f7cf4993223ce4eddac41a67377a06699c1431f70081970971'],
-     'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.1'],
-     'SharedSize': -1,
-     'Size': 865079808,
-     'VirtualSize': 865079808},
-    {'Containers': -1,
-     'Created': 1488390471,
-     'Id': 'sha256:d8f4b42c0cae4629b1d2db815900a6bfc58c211518d16d01496f09b0057ecb56',
-     'Labels': {},
-     'ParentId': 'sha256:7ab5f774deb149a9a8be3b03b89be643191fedc34c837e52e78f9f5d4c028752',
-     'RepoDigests': [
-         'docker.akema.fr:5000/coaxis/coaxisopt_backend@sha256:f02d18389a6cf238a71b3a2159f3a6a728ef0bab2232b37b077e33bee784cf5f'],
-     'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_backend:v1.6.1'],
-     'SharedSize': -1,
-     'Size': 188842623,
-     'VirtualSize': 188842623},
-    {'Containers': -1,
-     'Created': 1488382541,
-     'Id': 'sha256:e6cff3d768d43bb5fe70d9b59a5815eb66b5225bfa341bc9259a66d5976499c5',
-     'Labels': {},
-     'ParentId': 'sha256:bf8c2ae29ade260b1a288da3683ad7e692626e0ff1a2e3a906a30dbee5363afa',
-     'RepoDigests': None,
-     'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0'],
-     'SharedSize': -1,
-     'Size': 865079815,
-     'VirtualSize': 865079815},
-    {'Containers': -1,
-     'Created': 1488382381,
-     'Id': 'sha256:cccecd327372c849093f96d11cfdf34fde299eea43f9f8623318b406d3edbed2',
-     'Labels': {},
-     'ParentId': 'sha256:358569d3a49f334811f707e9c6487f3eb7f59a2b15cb8f45e376c7bb2df74823',
-     'RepoDigests': None,
-     'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_backend:v1.6.0'],
-     'SharedSize': -1,
-     'Size': 188833059,
-     'VirtualSize': 188833059},
-    {'Containers': -1,
-     'Created': 1487955541,
-     'Id': 'sha256:239ea3f40e72f42b7d053e70abde0239b1b9b22b1f2f7a37545db5a64b2129b2',
-     'Labels': {},
-     'ParentId': 'sha256:545a038c54cbacc9c01fb0fd4c6eef344fd42884b8a5d0918984fb63d63604b0',
-     'RepoDigests': [
-         'docker.akema.fr:5000/coaxis/coaxisopt_frontend@sha256:1268a74405a5d6a33577be37b2eb3e547abfe642e8eaff26b99864ede63bf3e9'],
-     'RepoTags': ['coaxisopt_frontend:latest',
-                  'docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest',
-                  'docker.akema.fr:5000/coaxis/coaxisopt_frontend:v1.6.0',
-                  'docker.akema.fr:5000/coaxis/coaxisopt_frontend:v1.6.1'],
-     'SharedSize': -1,
-     'Size': 310317010,
-     'VirtualSize': 310317010},
-    {'Containers': -1,
-     'Created': 1477492130,
-     'Id': 'sha256:6f8db04b6f580b4eceb4ffe853ecbfec231ab339ebabf914d748caf35d7a635a',
-     'Labels': {},
-     'ParentId': 'sha256:f1dca2a9d5ea0997c46896f235e5ac77997e256ebed82fd06b7ef8b2ee0e3330',
-     'RepoDigests': [
-         'docker.akema.fr:5000/coaxis/coaxisopt_nginx@sha256:2459401ff6d7de0c9931e92b614b35a5d7b9db266963c141f98f2fe5762c2ef0'],
-     'RepoTags': ['coaxisopt_nginx:latest',
-                  'docker.akema.fr:5000/coaxis/coaxisopt_nginx:latest',
-                  'docker.akema.fr:5000/coaxis/coaxisopt_nginx:v1.6.0',
-                  'docker.akema.fr:5000/coaxis/coaxisopt_nginx:v1.6.1'],
-     'SharedSize': -1,
-     'Size': 54693517,
-     'VirtualSize': 54693517},
-    {'Containers': -1,
-     'Created': 1477089322,
-     'Id': 'sha256:00541b7f7424a504441133132da0b4b3948c8448c365874a1089e1be4563c750',
-     'Labels': {},
-     'ParentId': '',
-     'RepoDigests': ['node@sha256:460bbe8965aceb8d7c78d0d7d9366170afb40949a20cec592a48a42a5addd313'],
-     'RepoTags': ['node:argon-slim'],
-     'SharedSize': -1,
-     'Size': 204965964,
-     'VirtualSize': 204965964}
+    {
+        'Id': 'sha256:6003ceb6aaf35c9df4e21bd57266553e7b9f2077d5ebd21a0cef28c3d8ca066f',
+        'RepoTags': ['coaxisopt_backend:latest']
+    },
+    {
+        'Id': 'sha256:399c8c2886ef189bee63f62767d56063ba24eb79cf9f04da78d088e4426cc328',
+        'RepoTags': ['coaxisopt_daemon:latest']
+    },
+    {
+        'Id': 'sha256:3e3a33a8e8f930a923545c2ab2abb0f233e9a44ca83e3609697cd2dbf67a0645',
+        'RepoTags': ['colstrom/fish:latest']
+    },
+    {
+        'Id': 'sha256:b8a28fa9fa9c7b921af486a23f89862de7616ade4c424b351e779b3e2436e4a6',
+        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest']
+    },
+    {
+        'Id': 'sha256:652e925c18f391e28ef88c7bfc7ca617daaa4152cc99583f3d57ac7d31dd279b',
+        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.1']
+    },
+    {
+        'Id': 'sha256:d8f4b42c0cae4629b1d2db815900a6bfc58c211518d16d01496f09b0057ecb56',
+        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_backend:v1.6.1']
+    },
+    {
+        'Id': 'sha256:e6cff3d768d43bb5fe70d9b59a5815eb66b5225bfa341bc9259a66d5976499c5',
+        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0']
+    },
+    {
+        'Id': 'sha256:239ea3f40e72f42b7d053e70abde0239b1b9b22b1f2f7a37545db5a64b2129b2',
+        'RepoTags': ['coaxisopt_frontend:latest',
+                     'docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest',
+                     'docker.akema.fr:5000/coaxis/coaxisopt_frontend:v1.6.0',
+                     'docker.akema.fr:5000/coaxis/coaxisopt_frontend:v1.6.1']
+    },
+    {
+        'Id': 'sha256:00541b7f7424a504441133132da0b4b3948c8448c365874a1089e1be4563c750',
+        'RepoDigests': ['node@sha256:460bbe8965aceb8d7c78d0d7d9366170afb40949a20cec592a48a42a5addd313'],
+        'RepoTags': ['node:argon-slim']
+    }
 ]
 
 
 def get_one_container_data():
     return mock_daemon_container_data
+
 
 def get_images():
     return mock_images

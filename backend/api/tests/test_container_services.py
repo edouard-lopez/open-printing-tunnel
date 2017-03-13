@@ -1,12 +1,13 @@
+import uuid
+
 import docker
 import docker.errors
-import uuid
-from api.tests import factories
-from api.tests import mock
 from django.conf import settings
 from rest_framework.test import APITestCase
 
 from api import container_services
+from api.tests import factories
+from api.tests import mock
 
 
 class ContainersTestCase(APITestCase):
@@ -303,6 +304,18 @@ class ContainersTestCase(APITestCase):
 
         self.assertEqual(len(versions), 3)
         self.assertCountEqual(set(versions), {'latest', 'v1.6.1', 'v1.6.0'})
+
+    def test_list_available_daemons_version_with_empty_repoTags(self):
+        images = [
+            {'RepoTags': []},
+            {'RepoTags': ['node:argon-slim']},
+            {'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0']}
+        ]
+
+        versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
+
+        self.assertEqual(len(versions), 1)
+        self.assertCountEqual(set(versions), {'v1.6.0'})
 
     def test_can_get_tag(self):
         repo_tag = 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'

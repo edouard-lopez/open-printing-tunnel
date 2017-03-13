@@ -206,7 +206,7 @@ def available_versions(name, images):
     versions = []
 
     for image in images:
-        repo_tags = image['RepoTags']
+        repo_tags = image.get('RepoTags', [])
         for repo_tag in repo_tags:
             if name in repo_tag:
                 version = get_tag(repo_tag)
