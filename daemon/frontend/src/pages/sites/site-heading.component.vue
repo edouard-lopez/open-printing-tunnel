@@ -12,11 +12,12 @@
 	<div class="row">
 		<div class="col-xs-7 col-md-5 vertical-align-text ">
 			<network :device="device"></network>
-			<span class="tunnel-name"
+			<span class="tunnel-name hint--top"
 				  data-toggle="collapse"
 				  aria-expanded="false"
 				  aria-controls="site-{{site.id}}"
 				  data-target="#site-{{site.id}}"
+				  aria-label="⇡1Mo/s | ⇣ 100Mo/s *"
 			>
 				<b class="expandable">{{site.id}}</b>
 			</span>

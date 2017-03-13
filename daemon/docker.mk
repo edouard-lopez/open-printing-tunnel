@@ -32,4 +32,4 @@ prod:
 	docker run -p 80:80 coaxisopt_daemon:latest
 
 test:
-    echo "see <root>/makefile"
+	echo "see <root>/makefile"
