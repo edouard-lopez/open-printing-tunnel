@@ -473,17 +473,18 @@ function run() {
 	start)
 		# if no config is provided run all exisiting configs, otherwise only the specified
 		if [[ -z "$1" ]]; then
-			iter_action_on_config "$action" $(list_config)  # don't quote, we need word splitting
+			iter_action_on_config "stop" $(list_config)  # to get a clean env when `docker restart`
+			iter_action_on_config "start" $(list_config)  # don't quote, we need word splitting
 		else
-			iter_action_on_config "$action" "$@"
+			iter_action_on_config "start" "$@"
 		fi
 		;;
 	stop)
 		# if no config is provided run all exisiting configs, otherwise only the specified
 		if [[ -z "$1" ]]; then
-			iter_action_on_config "$action" $(list_config)  # don't quote, we need word splitting
+			iter_action_on_config "stop" $(list_config)  # don't quote, we need word splitting
 		else
-			iter_action_on_config "$action" "$@"
+			iter_action_on_config "stop" "$@"
 		fi
 		;;
 	restart)
@@ -493,9 +494,9 @@ function run() {
 	status)
 		# if no config is provided run all exisiting configs, otherwise only the specified
 		if [[ -z "$1" ]]; then
-			iter_action_on_config "$action" $(list_config)  # don't quote, we need word splitting
+			iter_action_on_config "status" $(list_config)  # don't quote, we need word splitting
 		else
-			iter_action_on_config "$action" "$@"
+			iter_action_on_config "status" "$@"
 		fi
 		;;
 	*)
