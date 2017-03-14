@@ -2,7 +2,7 @@
 	<span class="ping hint--top-right" aria-label="ping: {{ device.ping | time }}">
 		<i class="tunnel-status fa {{ device.ping | icon 'ping' }}"> </i>
 	</span>
-	<span class="telnet hint--top-right" aria-label="tunnel (via telnet): {{ device.telnet | reachable }}">
+	<span class="telnet hint--top-right" aria-label="telnet (via tunnel): {{ device.telnet | reachable }}">
 		<i class="tunnel-status fa {{ device.telnet | icon 'telnet' }}"> </i>
 	</span>
 </template>
