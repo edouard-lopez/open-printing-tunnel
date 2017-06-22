@@ -20,7 +20,7 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-2": "^6.13.0",
     "babel-runtime": "^6.11.6",
-    "bootstrap": "^4.0.0-alpha.4",
+    "bootstrap": "4.0.0-alpha.4",
     "bumped": "^0.9.3",
     "bumped-terminal": "^0.7.2",
     "css-loader": "^0.25.0",
