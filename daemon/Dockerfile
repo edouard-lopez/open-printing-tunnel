@@ -23,6 +23,7 @@ RUN apt-get update \
             libffi-dev \
             libc-bin \
             make \
+            nano \
             nmap \
             openssh-client \
             snmp \
