@@ -40,5 +40,5 @@ ForwardPort=(
 # Bandwidth limitation flag (using trickle)
 BandwidthLimitation=true
 # Limit is expressed as kilobytes
-UploadLimit=1000
-DownloadLimit=100000
+UploadLimit=100
+DownloadLimit=10000
