@@ -11,11 +11,23 @@ Then you need to add a super user to the backend if none exists:
     docker exec -it coaxisopt_backend bash
     ./manage.py createsuperuser
 
-Finally go to [http://localhost/](http://localhost/)
+Create the `coaxisopt_daemon` container so we can use it as template:
+
+        cd daemon
+        docker build -t coaxisopt_daemon .
+
+After having create a `client` we will need to create a `daemon`
+
+> ![creation d'un deamon de test](./screenshots/creation-d'un-deamon-de-test.png)
+
+Finally **go to [http://localhost/](http://localhost/)**
 
 ### Front-office
 
-You can run the whole `docker-compose` as above then identify the `daemon` container IP address:
+    cd daemon/
+    ./docker.mk 
+
+You can run the whole `docker-compose` as above then identify the `daemon` container's IP address:
 
     docker inspect coaxisopt_daemon_1   --format "{{ json .NetworkSettings.Networks }}" | python -m json.tool
     

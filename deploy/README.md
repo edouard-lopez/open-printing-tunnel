@@ -20,8 +20,7 @@ In developmenet we use the `optbox` device as a reverse proxy to access customer
 Run the script with the version to release:
 
     cd deploy/
-    ./release.sh v1.5.11
-    ./release.sh  # the 'latest' tag
+    ./release.sh v1.7.4
 
 It is the same as:
 
@@ -36,8 +35,7 @@ Connect to production server using the `optbox` forwarding rule (cf. [optbox's s
 
     ssh -p 2222 coaxis@optbox-forward
     cd coaxisopt/
-    ./deploy.sh ens192 v1.5.10
-    ./deploy.sh
+    ./deploy.sh ens192 v1.7.4
 
 ## Let's Encrypt
     
