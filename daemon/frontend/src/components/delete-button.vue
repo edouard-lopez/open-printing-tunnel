@@ -12,15 +12,15 @@
 	}
 </style>
 <template>
-	<div id="delete-button-{{object.id}}" class="delete-button">
+	<div id="delete-button-{{object.site}}-{{object.id}}" class="delete-button">
 		<button type="button" class="btn btn-danger {{class}} hint--top-left"
-				aria-label="Supprimer {{object.id}}…"
+				aria-label="Supprimer {{object.site}}-{{object.id}}…"
 				data-toggle="modal"
-				data-target="#delete-button-modal-{{object.id}}">
+				data-target="#delete-button-modal-{{object.site}}-{{object.id}}">
 			<i class="fa fa-trash-o"></i>
 			<slot name="label"></slot>
 		</button>
-		<div class="modal fade" id="delete-button-modal-{{object.id}}" tabindex="-1" role="dialog"
+		<div class="modal fade" id="delete-button-modal-{{object.site}}-{{object.id}}" tabindex="-1" role="dialog"
 			 aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">

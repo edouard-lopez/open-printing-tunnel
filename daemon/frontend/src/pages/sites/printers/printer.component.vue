@@ -58,6 +58,9 @@
 			printer: {type: Object, required: true},
 			site: {type: Object, required: true}
 		},
+		created() {
+			this.printer.site = this.site.id
+		},
 		computed: {
 			is_forwarding_remote() {
 				return this.printer.ports.forward == 'remote'
