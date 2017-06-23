@@ -80,7 +80,7 @@ class Site(Resource):
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
             abort(400)
-        response = getattr(daemon, action)(site_id)
+        response = getattr(daemon, action)(site_id)  # see api/daemon.py
         response.update({
             'id': site_id
         })
@@ -92,6 +92,7 @@ class Site(Resource):
             abort(400)
 
         site_id = slugify(site_id)
+        response = getattr(daemon, 'stop')(site_id)  # see api/daemon.py
         response = mast_utils.remove_site(site_id)
         response['id'] = site_id
 
