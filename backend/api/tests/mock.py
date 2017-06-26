@@ -167,7 +167,7 @@ mock_daemon_container_data = {
             "/etc/supervisor/conf.d/prod.conf"
         ],
         "ArgsEscaped": True,
-        "Image": "docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest",
+        "Image": "coaxisasp/coaxisopt_daemon:latest",
         "Volumes": {
             "/etc/mast": {},
             "/home/mast/.ssh": {}
@@ -233,26 +233,26 @@ mock_images = [
     },
     {
         'Id': 'sha256:b8a28fa9fa9c7b921af486a23f89862de7616ade4c424b351e779b3e2436e4a6',
-        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest']
+        'RepoTags': ['coaxisasp/coaxisopt_daemon:latest']
     },
     {
         'Id': 'sha256:652e925c18f391e28ef88c7bfc7ca617daaa4152cc99583f3d57ac7d31dd279b',
-        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.1']
+        'RepoTags': ['coaxisasp/coaxisopt_daemon:v1.6.1']
     },
     {
         'Id': 'sha256:d8f4b42c0cae4629b1d2db815900a6bfc58c211518d16d01496f09b0057ecb56',
-        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_backend:v1.6.1']
+        'RepoTags': ['coaxisasp/coaxisopt_backend:v1.6.1']
     },
     {
         'Id': 'sha256:e6cff3d768d43bb5fe70d9b59a5815eb66b5225bfa341bc9259a66d5976499c5',
-        'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0']
+        'RepoTags': ['coaxisasp/coaxisopt_daemon:v1.6.0']
     },
     {
         'Id': 'sha256:239ea3f40e72f42b7d053e70abde0239b1b9b22b1f2f7a37545db5a64b2129b2',
         'RepoTags': ['coaxisopt_frontend:latest',
-                     'docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest',
-                     'docker.akema.fr:5000/coaxis/coaxisopt_frontend:v1.6.0',
-                     'docker.akema.fr:5000/coaxis/coaxisopt_frontend:v1.6.1']
+                     'coaxisasp/coaxisopt_frontend:latest',
+                     'coaxisasp/coaxisopt_frontend:v1.6.0',
+                     'coaxisasp/coaxisopt_frontend:v1.6.1']
     },
     {
         'Id': 'sha256:00541b7f7424a504441133132da0b4b3948c8448c365874a1089e1be4563c750',

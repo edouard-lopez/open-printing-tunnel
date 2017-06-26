@@ -29,7 +29,7 @@ function tag_images() {
     tag="$2"
 
     for image in "${images[@]}"; do
-        docker tag "$image" docker.akema.fr:5000/coaxis/"$image":"$tag"
+        docker tag "$image" coaxisasp/"$image":"$tag"
     done
 }
 
@@ -39,7 +39,7 @@ function push_images() {
     tag="$2"
 
     for image in "${images[@]}"; do
-        docker push docker.akema.fr:5000/coaxis/"$image":"$tag"
+        docker push coaxisasp/"$image":"$tag"
     done
 }
 

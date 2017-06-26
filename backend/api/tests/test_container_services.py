@@ -121,7 +121,7 @@ class ContainersTestCase(APITestCase):
 
         image = container_services.get_container_image(container_data)
 
-        self.assertCountEqual(image, 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest')
+        self.assertCountEqual(image, 'coaxisasp/coaxisopt_daemon:latest')
 
     def test_can_create_volume_config(self):
         container_data = mock.get_one_container_data()
@@ -161,8 +161,8 @@ class ContainersTestCase(APITestCase):
 
     def test_can_upgrade_image_version(self):
         self.assertEqual(
-            container_services.get_upgrade_image('docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest', 'beta'),
-            'docker.akema.fr:5000/coaxis/coaxisopt_daemon:beta')
+            container_services.get_upgrade_image('coaxisasp/coaxisopt_daemon:latest', 'beta'),
+            'coaxisasp/coaxisopt_daemon:beta')
         self.assertEqual(container_services.get_upgrade_image('coaxisopt_backend:v1.6.1', 'latest'),
                          'coaxisopt_backend:latest')
 
@@ -172,7 +172,7 @@ class ContainersTestCase(APITestCase):
         creation_data = container_services.get_upgrade_data(container_data, version='beta')
 
         self.assertDictEqual(creation_data, {
-            'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:beta',
+            'image': 'coaxisasp/coaxisopt_daemon:beta',
             'hostname': 'test-01',
             'volumes': [
                 '/home/mast/.ssh',
@@ -258,11 +258,11 @@ class ContainersTestCase(APITestCase):
 
     def test_can_upgrade_to_different_version(self):
         config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102,
-                  'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'}
+                  'image': 'coaxisasp/coaxisopt_daemon:latest'}
         container = container_services.pop_new_container(config, self.docker_api)
         containers_count = len(self.docker_api.containers())
         beta = 'beta'
-        self.docker_api.tag('coaxisopt_daemon', 'docker.akema.fr:5000/coaxis/coaxisopt_daemon', tag=beta)
+        self.docker_api.tag('coaxisopt_daemon', 'coaxisasp/coaxisopt_daemon', tag=beta)
 
         new_container = container_services.upgrade_daemon_container(container.get('Id'), version=beta)
 
@@ -279,7 +279,7 @@ class ContainersTestCase(APITestCase):
 
     def test_can_pop_new_container_with_specific_image(self):
         config = {'ip': '10.49.0.2', 'subnet': '10.49.0.0/16', 'gateway': '10.49.0.202', 'vlan': 102,
-                  'image': 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'}
+                  'image': 'coaxisasp/coaxisopt_daemon:latest'}
 
         container = container_services.pop_new_container(config, self.docker_api)
 
@@ -309,7 +309,7 @@ class ContainersTestCase(APITestCase):
         images = [
             {'RepoTags': []},
             {'RepoTags': ['node:argon-slim']},
-            {'RepoTags': ['docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.6.0']},
+            {'RepoTags': ['coaxisasp/coaxisopt_daemon:v1.6.0']},
             {"RepoTags": None}
         ]
 
@@ -319,7 +319,7 @@ class ContainersTestCase(APITestCase):
         self.assertCountEqual(set(versions), {'v1.6.0'})
 
     def test_can_get_tag(self):
-        repo_tag = 'docker.akema.fr:5000/coaxis/coaxisopt_daemon:latest'
+        repo_tag = 'coaxisasp/coaxisopt_daemon:latest'
 
         tag = container_services.get_tag(repo_tag)
 

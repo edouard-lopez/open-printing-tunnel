@@ -2,7 +2,7 @@ version: '2'
 services:
   backend:
     restart: always
-    image: docker.akema.fr:5000/coaxis/coaxisopt_backend:latest
+    image: coaxisasp/coaxisopt_backend:latest
     volumes:
       - sqlite:/backend/database
       - www:/backend/www
@@ -13,12 +13,12 @@ services:
       - DEFAULT_INTERFACE
   frontend:
     restart: always
-    image: docker.akema.fr:5000/coaxis/coaxisopt_frontend:latest
+    image: coaxisasp/coaxisopt_frontend:latest
     ports:
      - "8080:8080"
   nginx:
     restart: always
-    image: docker.akema.fr:5000/coaxis/coaxisopt_nginx:latest
+    image: coaxisasp/coaxisopt_nginx:latest
     ports:
       - "80:80"
     volumes_from:

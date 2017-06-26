@@ -19,7 +19,7 @@ function pull_images() {
     local tag="${1}"
 
     docker-compose pull
-    docker pull docker.akema.fr:5000/coaxis/coaxisopt_daemon:"$tag"
+    docker pull coaxisasp/coaxisopt_daemon:"$tag"
 }
 
 function clean_images() {
