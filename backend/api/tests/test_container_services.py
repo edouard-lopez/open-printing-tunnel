@@ -159,12 +159,25 @@ class ContainersTestCase(APITestCase):
             'IPv4Address': '10.0.0.1'
         })
 
-    def test_can_upgrade_image_version(self):
-        self.assertEqual(
-            container_services.get_upgrade_image('coaxisasp/coaxisopt_daemon:latest', 'beta'),
-            'coaxisasp/coaxisopt_daemon:beta')
-        self.assertEqual(container_services.get_upgrade_image('coaxisopt_backend:v1.6.1', 'latest'),
-                         'coaxisopt_backend:latest')
+    def test_get_upgrade_image_change_version_tag(self):
+        newImage = container_services.get_upgrade_image('docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.7.4', '1.7.11')
+        self.assertEqual(newImage.split(':')[-1], '1.7.11')
+        newImage = container_services.get_upgrade_image('coaxisasp/coaxisopt_daemon:latest', 'beta')
+        self.assertEqual(newImage.split(':')[-1], 'beta')
+        newImage = container_services.get_upgrade_image('coaxisasp/coaxisopt_backend:v1.6.1', 'latest')
+        self.assertEqual(newImage.split(':')[-1], 'latest')
+        newImage = container_services.get_upgrade_image('coaxisopt_backend:v1.6.1', 'latest')
+        self.assertEqual(newImage.split(':')[-1], 'latest')
+
+    def test_get_upgrade_image_change_registry(self):
+        newImage = container_services.get_upgrade_image('docker.akema.fr:5000/coaxis/coaxisopt_daemon:v1.7.4', '1.7.11')
+        self.assertEqual(newImage.split(':')[0], 'coaxisasp/coaxisopt_daemon')
+        newImage = container_services.get_upgrade_image('coaxisasp/coaxisopt_daemon:latest', 'beta')
+        self.assertEqual(newImage.split(':')[0], 'coaxisasp/coaxisopt_daemon')
+        newImage = container_services.get_upgrade_image('coaxisasp/coaxisopt_backend:v1.6.1', 'latest')
+        self.assertEqual(newImage.split(':')[0], 'coaxisasp/coaxisopt_backend')
+        newImage = container_services.get_upgrade_image('coaxisopt_backend:v1.6.1', 'latest')
+        self.assertEqual(newImage.split(':')[0], 'coaxisopt_backend')
 
     def test_can_get_data_to_upgrade_container(self):
         container_data = mock.get_one_container_data()

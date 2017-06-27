@@ -161,8 +161,15 @@ def get_upgrade_data(container_data, version):
 def get_upgrade_image(image, version):
     if get_tag(image) != version:
         info = image.split(':')
-        info[-1] = version
-        image = ':'.join(info)
+        repo_tag = info[-2]
+        if len(repo_tag.split('/')) == 1:
+            new_repo_tag = repo_tag
+        else:
+            extracted_repo_tag = repo_tag.split('/')[-2:]
+            if extracted_repo_tag[0] != 'coaxisasp':
+                extracted_repo_tag[0] = 'coaxisasp'
+            new_repo_tag = '/'.join(extracted_repo_tag)
+        image = ':'.join([new_repo_tag, version])
     return image
 
 
@@ -214,6 +221,7 @@ def available_versions(name, images):
                     versions.append(version)
 
     return versions
+
 
 def get_tag(repo_tag):
     return repo_tag.split(':')[-1]
