@@ -147,5 +147,5 @@ class DaemonVersions(APIView):
 
     def get(self, request):
         images = docker_api.images()
-        versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
+        versions = container_services.available_versions('coaxisasp/coaxisopt_daemon', images)
         return Response(data=versions, status=status.HTTP_200_OK)

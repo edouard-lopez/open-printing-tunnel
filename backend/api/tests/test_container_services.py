@@ -300,7 +300,7 @@ class ContainersTestCase(APITestCase):
     def test_list_available_daemons_version(self):
         images = mock.get_images()
 
-        versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
+        versions = container_services.available_versions('coaxisasp/coaxisopt_daemon', images)
 
         self.assertEqual(len(versions), 3)
         self.assertCountEqual(set(versions), {'latest', 'v1.6.1', 'v1.6.0'})
@@ -313,7 +313,7 @@ class ContainersTestCase(APITestCase):
             {"RepoTags": None}
         ]
 
-        versions = container_services.available_versions('coaxis/coaxisopt_daemon', images)
+        versions = container_services.available_versions('coaxisasp/coaxisopt_daemon', images)
 
         self.assertEqual(len(versions), 1)
         self.assertCountEqual(set(versions), {'v1.6.0'})
