@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "4.4"
-before_install: cd daemon/frontend
+before_install:
+  - cd daemon/frontend
+  - npm install -g yarn
 notifications:
       email: false
