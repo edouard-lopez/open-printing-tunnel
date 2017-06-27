@@ -18,8 +18,10 @@ export COMPOSE_HTTP_TIMEOUT=600
 function pull_images() {
     local tag="${1}"
 
-    docker-compose pull
     docker pull coaxisasp/coaxisopt_daemon:"$tag"
+    docker pull coaxisasp/coaxisopt_nginx:"$tag"
+    docker pull coaxisasp/coaxisopt_frontend:"$tag"
+    docker pull coaxisasp/coaxisopt_backend:"$tag"
 }
 
 function clean_images() {
