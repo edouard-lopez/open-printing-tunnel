@@ -95,5 +95,8 @@
       "transform-runtime"
     ],
     "comments": false
+  },
+    "engines": {
+      "node": "^4.8.0 || ^5.7.0 || ^6.2.2 || >=8.0.0"
   }
 }
