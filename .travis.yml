@@ -1,8 +1,52 @@
-language: node_js
-node_js:
-  - "4.8"
-before_install:
-  - cd daemon/frontend
-  - npm install -g yarn
+matrix:
+  include:
+    - name: "Back-office's API"
+      language: python
+      python: 
+        - "3.4"
+      env:
+      - DEFAULT_INTERFACE=eth0
+      before_install:
+        - cd backend/
+      install: 
+        - pip install -r requirements.txt
+      script:
+        - python manage.py test
+
+    - name: "Back-office's front-end"
+      language: node_js
+      node_js:
+        - "4.8"
+      before_install:
+        - cd frontend/
+      install:
+        - yarn install
+      script:
+        - yarn test
+
+    - name: "Front-office's API"
+      language: python
+      python: 
+        - "3.4"
+      before_install:
+        - cd daemon/
+      install: 
+      - sudo apt-get update
+      - sudo apt-get install -y fping libsmi2-dev libffi-dev libc-bin nmap snmp snmpd snmp-mibs-downloader
+      - pip install -r requirements.txt
+      script:
+        - python manage.py test
+
+    - name: "Front-office's front-end"
+      language: node_js
+      node_js:
+        - "4.8"
+      before_install:
+        - cd daemon/frontend/
+      install:
+        - yarn install
+      script:
+        - yarn test
+
 notifications:
-      email: false
+  email: false
