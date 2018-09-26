@@ -4,4 +4,4 @@
 cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\prnport.vbs -a -o raw -h {{ printer.site_hostname }} -r "GZ_{{ printer.site_hostname }}:{{ printer.port }}_{{ printer.hostname }}" -n {{ printer.port }}
 cscript C:\\Windows\\System32\\Printing_Admin_Scripts\\fr-FR\\prnport.vbs -a -o raw -h {{ printer.hostname }} -r "DIRECT_{{ printer.hostname }}"
 {% endfor %}
-control printers
+control printers
