@@ -7,7 +7,7 @@ plugins:
 	postrelease:
 		'Commiting new version':
 			plugin: 'bumped-terminal'
-			command: 'git add package.json && git commit --amend --no-edit'
+			command: 'git add package.json && git commit -m "v$newVersion"'
 
 		'Tagging locally':
 			plugin: 'bumped-terminal'
