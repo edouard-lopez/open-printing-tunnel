@@ -40,15 +40,20 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         fakeOpenedPorts = {}
         for printer in printers:
             fakeOpenedPorts[printer['hostname']] = socket.socket()
-            fakeOpenedPorts[printer['hostname']].bind(('', printer['ports']['listen']))
-            fakeOpenedPorts[printer['hostname']].listen(0)
+            socket_to_printer = fakeOpenedPorts[printer['hostname']]
+            socket_to_printer.bind(('', printer['ports']['listen']))
+            socket_to_printer.listen(0)
 
         response = network_utils.parellelize(network_utils.telnet, site_hostname, printers, port=port)
 
         msg = 'require port {} to be open'.format(port)
-        print(response)
+
         self.assertEqual(response[site_hostname]['telnet'], True, msg)
         self.assertEqual(response[site_hostname]['127.0.0.1']['telnet'], True)
+
+        for printer in printers:
+            socket_to_printer = fakeOpenedPorts[printer['hostname']].close()
+            del socket_to_printer
 
     def test_fping_with_only_a_site(self):
         site_hostname = 'localhost'

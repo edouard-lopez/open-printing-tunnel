@@ -7,7 +7,6 @@ import paramiko
 from network_tools import NetworkTools
 from scanner import Scanner
 from tests.stub_network_tools import NetworkToolsStub
-# from stub_network_tools import NetworkToolsStub
 
 
 class EndToEndNetworkTestCase(unittest.TestCase):
