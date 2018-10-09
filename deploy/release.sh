@@ -28,6 +28,7 @@ function build_and_push() {
 
     cd ../deploy/
     ./build_and_push.sh "$tag"
+    ./build_and_push.sh
     ./send-scripts.sh
 }
 
