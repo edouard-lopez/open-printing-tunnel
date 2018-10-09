@@ -4,7 +4,7 @@ import unittest
 import network_utils
 
 
-class NetwrokUtilsTestCase(unittest.TestCase):
+class NetworkUtilsTestCase(unittest.TestCase):
     def test_telnet_is_null_when_host_unreachable(self):
         hostname = 'unreachable'
         response = {hostname: network_utils.telnet(hostname)}
