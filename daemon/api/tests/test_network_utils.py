@@ -1,8 +1,5 @@
-from IN import AF_INET
-
 import socket
 import unittest
-from _socket import SOCK_STREAM
 
 import network_utils
 
@@ -42,7 +39,7 @@ class NetwrokUtilsTestCase(unittest.TestCase):
         ]
         fakeOpenedPorts = {}
         for printer in printers:
-            fakeOpenedPorts[printer['hostname']] = socket.socket(AF_INET, SOCK_STREAM)
+            fakeOpenedPorts[printer['hostname']] = socket.socket()
             fakeOpenedPorts[printer['hostname']].bind(('', printer['ports']['listen']))
             fakeOpenedPorts[printer['hostname']].listen(0)
 
