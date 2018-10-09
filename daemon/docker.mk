@@ -31,5 +31,10 @@ restart: remove dev
 prod:
 	docker run -p 80:80 coaxisopt_daemon:latest
 
-test:
-	echo "see <root>/makefile"
+test-api:
+	docker run \
+		--name coaxis-daemon-tests \
+		--rm \
+		--interactive \
+		--tty \
+		coaxisopt_daemon bash -c 'make -f /python.mk test-api-in-docker'

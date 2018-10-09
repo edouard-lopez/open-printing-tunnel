@@ -25,6 +25,7 @@ RUN apt-get update \
             make \
             nano \
             nmap \
+			openssh-server \
             openssh-client \
             snmp \
             snmpd \
@@ -166,4 +167,5 @@ RUN apt-get update \
 COPY ./test /test
 
 COPY config/ /etc/supervisor/conf.d
+COPY python.mk /
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/prod.conf"]

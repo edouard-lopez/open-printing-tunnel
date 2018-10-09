@@ -54,3 +54,8 @@ install-python-requirements:
 test-api:
 	source env/bin/activate
 	cd api/ && python3 -m unittest discover --verbose
+
+test-api-in-docker:
+	service ssh start \
+	&& cd /api/ \
+	&& python3 -m unittest discover --verbose
