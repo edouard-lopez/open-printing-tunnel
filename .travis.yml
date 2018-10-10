@@ -29,12 +29,12 @@ matrix:
       python: 
         - "3.4"
       before_install:
-        - cd daemon/
         - sudo apt-get update
+        - cd daemon/
       install: 
         - make -f help-me.mk install-dependencies
       script:
-        - make -f help-me.mk test-api
+        - make -f help-me.mk install-python-requirements test-api
 
     - name: "Front-office's front-end"
       language: node_js
