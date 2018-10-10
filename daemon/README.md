@@ -30,7 +30,7 @@ Note: see `makefile` in root project.
 **requirements**: 
 There is end-to-end test on this directory to test network methods, you will need to install
 
-    apt install libsmi2-dev libffi-dev libc-bin snmp snmpd snmp-mibs-downloader openssh-server fping
+    make -f help-me.mk install-dependencies
 
 Then
 

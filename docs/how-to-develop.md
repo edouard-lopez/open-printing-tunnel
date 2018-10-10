@@ -25,7 +25,7 @@ Finally **go to [http://localhost/](http://localhost/)**
 ### Front-office
 
     cd daemon/
-    ./docker.mk 
+    ./help-me.mk build dev 
 
 You can run the whole `docker-compose` as above then identify the `daemon` container's IP address:
 

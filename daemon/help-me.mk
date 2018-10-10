@@ -3,15 +3,31 @@
 #	Help you setup the env to work locally
 #
 # USAGE
-#	make -f helpers.mk
+#	make -f help-me.mk
 #   or
-#	make -f helpers.mk test-api
+#	make -f help-me.mk test-api
 
 
 # force use of Bash
 SHELL := /bin/bash
+DOCKER_COMPOSE=docker-compose -f docker-compose.dev.yml
 
-default: install
+default: build dev
+
+dev:
+	${DOCKER_COMPOSE} up -d
+
+rebuild: build
+build: remove
+	${DOCKER_COMPOSE} build
+
+remove:
+	${DOCKER_COMPOSE} rm --force coaxisopt_daemon || true
+
+restart: remove dev
+
+prod:
+	docker run -p 80:80 coaxisopt_daemon:latest
 
 install: install-dependencies install-python-requirements
 
@@ -56,6 +72,10 @@ test-api:
 	cd api/ && python3 -m unittest discover --verbose
 
 test-api-in-docker:
-	service ssh start \
-	&& cd /api/ \
-	&& python3 -m unittest discover --verbose
+	docker run \
+		--name coaxis-daemon-tests \
+		--rm \
+		--interactive \
+		--tty \
+		coaxisopt_daemon \
+			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose'

@@ -167,5 +167,5 @@ RUN apt-get update \
 COPY ./test /test
 
 COPY config/ /etc/supervisor/conf.d
-COPY python.mk /
+COPY help-me.mk /
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/prod.conf"]
