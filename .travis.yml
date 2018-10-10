@@ -31,11 +31,9 @@ matrix:
       before_install:
         - cd daemon/
       install: 
-      - sudo apt-get update
-      - sudo apt-get install -y fping libsmi2-dev libffi-dev libc-bin nmap snmp snmpd snmp-mibs-downloader
-      - pip install -r requirements.txt
+        - make -f help-me.mk install-dependencies
       script:
-        - python manage.py test
+        - make -f help-me.mk test-api
 
     - name: "Front-office's front-end"
       language: node_js
