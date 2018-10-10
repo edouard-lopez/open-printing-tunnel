@@ -32,7 +32,7 @@ prod:
 install: install-dependencies install-python-requirements
 
 install-dependencies:
-	apt install --yes --no-install-recommends --no-install-suggests \
+	sudo apt-get install --yes --no-install-recommends --no-install-suggests \
 			autossh \
 			dpkg \
 			gawk \
