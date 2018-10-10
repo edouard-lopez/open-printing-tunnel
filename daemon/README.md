@@ -34,9 +34,7 @@ There is end-to-end test on this directory to test network methods, you will nee
 
 Then
 
-	. ./env/bin/activate \
-	&& cd ./daemon/api/ \
-	&& python -m unittest discover --verbose
+    make -f help-me.mk test-api
 
 ### Frontend
 
