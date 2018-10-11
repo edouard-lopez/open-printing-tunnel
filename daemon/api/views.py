@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 from datetime import datetime
 
 from flask import Flask
@@ -15,6 +16,7 @@ import scripts_generators
 import validators
 from network_tools import NetworkTools
 from scanner import Scanner
+from config_editor import ConfigEditor
 
 app = Flask(__name__)
 api = Api(app, prefix='/api')
@@ -99,11 +101,30 @@ class Site(Resource):
         return response, 200 if response['cmd']['exit_status'] else 500
 
 class Config(Resource):
-    def put(sef, site_id):
+    def get(self, site_id):
+        site_id = slugify(site_id)
+        config_editor = ConfigEditor()
+        site_config = os.path.join('/etc', 'mast', site_id)
+        content = config_editor.load(file_path=site_config)
+
+        return content, 200
+
+    def put(self, site_id):
         if not request.json:
             abort(400)
 
         site_id = slugify(site_id)
+        site_config = os.path.join('/etc', 'mast', site_id)
+        config_editor = ConfigEditor()
+
+        for key in ['UploadLimit', 'DownloadLimit']:
+            if key in request.json:
+                value=request.json.get(key)
+                assert isinstance(int(float(value)), int)
+                config_editor.update(file_path=site_config, data={key: value})
+
+        response = config_editor.load(file_path=site_config)
+        return response, 200
 
 
 class Printers(Resource):
@@ -227,6 +248,7 @@ class Scan(Resource):
 api.add_resource(Root, '/')
 api.add_resource(Sites, '/sites/')
 api.add_resource(Site, '/sites/<string:site_id>/')
+api.add_resource(Config, '/config/<string:site_id>/')
 api.add_resource(Printers, '/printers/')
 api.add_resource(Printer, '/sites/<string:site_id>/printers/<int:printer_id>/')
 api.add_resource(PrinterInstallScript, '/scripts/<string:site_id>/printers/<int:printer_id>/')
