@@ -98,6 +98,13 @@ class Site(Resource):
 
         return response, 200 if response['cmd']['exit_status'] else 500
 
+class Config(Resource):
+    def put(sef, site_id):
+        if not request.json:
+            abort(400)
+
+        site_id = slugify(site_id)
+
 
 class Printers(Resource):
     def post(self):

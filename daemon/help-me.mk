@@ -79,3 +79,15 @@ test-api-in-docker:
 		--tty \
 		coaxisopt_daemon \
 			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose'
+
+test-frontend:
+	cd ./frontend/ \
+	&& npm test
+
+test-core:
+	docker run \
+		--name coaxis-daemon-core-tests \
+		--rm \
+		--interactive \
+		--tty \
+		coaxisopt_daemon bash -c 'bats /test/*.tests.bats'
