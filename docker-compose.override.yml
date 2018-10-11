@@ -2,15 +2,21 @@ version: '2'
 
 services:
   daemon:
-      build: ./daemon
-      image: coaxisopt_daemon
+    build: ./daemon
+    image: coaxisopt_daemon
+    volumes:
+      - ./daemon/api:/api
+      - ./daemon/frontend:/frontend
+    command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
   backend:
+    image: coaxisopt_backend
     volumes:
       - ./backend:/backend
     environment:
       - DEFAULT_INTERFACE=wlp4s0
     command: python manage.py runserver 0.0.0.0:8000
   frontend:
+    image: coaxisopt_frontend
     volumes:
       - ./frontend:/frontend
       - node_modules:/frontend/node_modules

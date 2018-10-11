@@ -43,8 +43,7 @@ connect:
 	ssh -F $$HOME/.ssh/config coaxis@opt-forward cd coaxisopt/ -vvv
 
 tag-as-feature:
-	cd daemon/frontend \test-backoffice
-test-frontoffice
+	cd daemon/frontend \
 	&& bumped release feature
 
 tag-as-patch:
@@ -66,7 +65,7 @@ where-is-front-office:
 	&& echo "Front-office → http://$$frontoffice_ip/"
 	echo
 
-dev: prepare-env where-is-front-office
+dev: reset-test-env prepare-env where-is-front-office
 	echo "Back-office → http://localhost/"
 	
 restart-flask:
