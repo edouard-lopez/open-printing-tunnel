@@ -3,7 +3,6 @@
 # force use of Bash
 SHELL := /bin/bash
 INTERACTIVE=true
-NPM=$$HOME/.nvm/versions/node/v4.4.7/bin/npm
 
 test_daemon_api:
 	. ./env/bin/activate \
