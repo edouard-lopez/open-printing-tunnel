@@ -4,15 +4,17 @@
 SHELL := /bin/bash
 INTERACTIVE=true
 
-test-daemon-api:
+default: dev
+
+test-frontoffice-api:
 	cd daemon/ \
 	&& make -f help-me.mk test-api
 
-test-daemon-frontend:
+test-frontoffice-frontend:
 	cd daemon/ \
 	&& make -f help-me.mk test-frontend
 
-test-daemon-core:
+test-frontoffice-core:
 	cd daemon/ \
 	&& make -f help-me.mk test-core
 
@@ -24,9 +26,11 @@ test-backoffice-frontend:
 	cd ./frontend/ \
 	&& npm test
 
-tests: test-daemon-api test-daemon-frontend test-daemon-core test-backoffice-api test-backoffice-frontend
+test-backoffice: test-backoffice-api test-backoffice-frontend
+test-frontoffice: test-frontoffice-api test-frontoffice-frontend test-frontoffice-core
+tests: test-backoffice test-frontoffice
 
-build-daemon-frontend: test-daemon-frontend
+build-daemon-frontend: test-frontoffice-frontend
 	cd daemon/frontend/ \
 	&& npm run build
 
@@ -39,9 +43,31 @@ connect:
 	ssh -F $$HOME/.ssh/config coaxis@opt-forward cd coaxisopt/ -vvv
 
 tag-as-feature:
-	cd daemon/frontend \
+	cd daemon/frontend \test-backoffice
+test-frontoffice
 	&& bumped release feature
 
 tag-as-patch:
 	cd daemon/frontend \
 	&& bumped release patch
+
+prepare-env:
+	docker-compose build # create the containers images 
+	docker-compose up -d # start project
+
+first-run: prepare-env
+	docker exec -it coaxisopt_backend bash -c './manage.py createsuperuser'
+
+reset-test-env:
+	docker network prune --force
+
+where-is-front-office:
+	frontoffice_ip="$$(docker inspect coaxisopt_daemon_1 --format "{{ json .NetworkSettings.Networks.coaxisopt_default.IPAddress }}" | python -m json.tool | sed -s 's/"//g')" \
+	&& echo "Front-office → http://$$frontoffice_ip/"
+	echo
+
+dev: prepare-env where-is-front-office
+	echo "Back-office → http://localhost/"
+	
+restart-flask:
+	docker exec	coaxisopt_daemon_1 bash -c 'supervisorctl restart flask'
