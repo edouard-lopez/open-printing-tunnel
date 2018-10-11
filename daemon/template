@@ -32,11 +32,10 @@ IdentityFile="/home/$LocalUser/.ssh/id_rsa.mast.coaxis"
 # 	Forward port 3307, listening on 127.0.0.1 on the remote side, to
 # 	127.0.0.1 port 3306 on the local side. Forward port 8081, listening on
 # 	127.0.0.1 on the local side, to 10.100.1.60 port 80 on the remote side.
-#
-ForwardPort=(
-	# "L *:9100:imp1:9100 # comment about printer1"
-	# "L *:9101:imp2:9100 # comment: ()[]'' about printer#1"
-)
+#	Forwarding:
+#		"L *:9100:imp1:9100 # comment about printer1"
+#		"L *:9101:imp2:9100 # comment: ()[]'' about printer#1"
+ForwardPort=()
 # Bandwidth limitation flag (using trickle)
 BandwidthLimitation=true
 # Limit is expressed as kilobytes
