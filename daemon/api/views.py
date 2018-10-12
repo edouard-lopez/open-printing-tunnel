@@ -88,15 +88,17 @@ class Config(Resource):
     def put(self, site_id):
         if not request.json:
             abort(400)
-
         site_id = slugify(site_id)
         site_config = os.path.join('/etc', 'mast', site_id)
         config_editor = ConfigEditor()
 
+        BANDWIDTH_MIN=10
+        BANDWIDTH_MAX=100000
         for key in ['UploadLimit', 'DownloadLimit']:
             if key in request.json:
                 value = request.json.get(key)
-                assert isinstance(int(float(value)), int)
+                assert isinstance(int(float(value)), int), "Bandwidth must be a positive integer."
+                assert BANDWIDTH_MIN <= value <= BANDWIDTH_MAX, "Bandwidth must be between {}Kb and {}Kb." % (BANDWIDTH_MIN, BANDWIDTH_MAX)
                 config_editor.update(file_path=site_config, data={key: value})
 
         response = config_editor.load(file_path=site_config)
