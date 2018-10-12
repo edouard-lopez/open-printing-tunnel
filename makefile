@@ -50,6 +50,10 @@ tag-as-patch:
 	cd daemon/frontend \
 	&& bumped release patch
 
+release:
+	cd deploy/ \
+	&& ./release.sh "$$(git describe --abbrev=0 --tags)"
+
 prepare-env:
 	docker-compose build # create the containers images 
 	docker-compose up -d # start project

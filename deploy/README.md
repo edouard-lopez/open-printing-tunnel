@@ -19,8 +19,7 @@ In developmenet we use the `optbox` device as a reverse proxy to access customer
 
 Run the script with the version to release:
 
-    cd deploy/
-    ./release.sh v1.7.4
+    make release
 
 It is the same as:
 
