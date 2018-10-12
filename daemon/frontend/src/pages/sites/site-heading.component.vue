@@ -17,7 +17,7 @@
 				  aria-expanded="false"
 				  aria-controls="site-{{site.id}}"
 				  data-target="#site-{{site.id}}"
-				  aria-label="⇡1Mo/s | ⇣ 100Mo/s *"
+				  aria-label="⇡{{config.UploadLimit}}Kb/s | ⇣ {{config.DownloadLimit}}Kb/s *"
 			>
 				<b class="expandable">{{site.id}}</b>
 			</span>
@@ -117,6 +117,9 @@
 		props: {
 			site: {type: Object, required: true},
 		},
+  		ready: function () {
+			this.getSiteConfig(this.site);
+		},
 		computed: {
 			has_printers: function () {
 				return this.site.channels.length > 0;
@@ -130,6 +133,9 @@
 
 				return data;
 			},
+			config() {
+				return this.site.config;
+			}
 		},
 		methods: {
 			status(site) {
@@ -159,9 +165,10 @@
 				siteStart: actions.siteStart,
 				siteStop: actions.siteStop,
 				siteRestart: actions.siteRestart,
+				getSiteConfig: actions.getSiteConfig
 			},
 			getters: {
-				networks: getters.retrieveNetworks,
+				networks: getters.retrieveNetworks
 			}
 		}
 	}

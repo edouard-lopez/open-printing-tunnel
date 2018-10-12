@@ -9,6 +9,7 @@ const scripts = http('scripts', localStorage);
 const printers = http('printers', localStorage);
 const networks = http('networks', localStorage);
 const scan = http('scan', localStorage);
+const siteConfig = http('config', localStorage);
 
 export default {
 	addPrinter({dispatch}, printer) {
@@ -166,5 +167,17 @@ export default {
 
 		sendProbe();
 		setInterval(() => sendProbe(), 15 * 1000);
+	},
+
+	getSiteConfig({dispatch}, site) {
+		return siteConfig.get({site: site.id}, {url: '/api/${resource}/${site}/'})
+			.then(response => {
+				dispatch('logResponse', response);
+				dispatch('setSiteConfig', {site, config: response.data});
+			})
+			.catch(err => {
+				console.error(err);
+				logging.error('Échec du scan du réseau !');
+			});
 	}
 };

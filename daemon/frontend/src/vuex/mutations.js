@@ -16,5 +16,12 @@ export default {
 	setScanClipboard(state, site) {
 		state.scans[site.id] = site.scan;
 		state.scans = {...state.scans};  // prevent vuejs reactivity caveats
+	},
+	setSiteConfig(state, {site, config}) {
+		const siteIndex = state.sites.findIndex(item => item.id === site.id);
+
+		if (siteIndex !== -1) {
+			state.sites[siteIndex].config = config;
+		}
 	}
 };
