@@ -67,6 +67,10 @@ where-is-front-office:
 
 dev: reset-test-env prepare-env where-is-front-office
 	echo "Back-office → http://localhost/"
-	
+
+dev-frontoffice:
+	cd daemon/ \
+	&& make -f help-me.mk dev
+
 restart-flask:
 	docker exec	coaxisopt_daemon_1 bash -c 'supervisorctl restart flask'

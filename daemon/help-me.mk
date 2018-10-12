@@ -16,6 +16,7 @@ default: build dev
 
 dev:
 	${DOCKER_COMPOSE} up -d
+	echo 'Visit: http://localhost/'
 
 rebuild: build
 build: remove
