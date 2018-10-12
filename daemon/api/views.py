@@ -104,8 +104,11 @@ class Config(Resource):
                 assert BANDWIDTH_MIN <= value <= BANDWIDTH_MAX, "Bandwidth must be between {}Kb and {}Kb." % (BANDWIDTH_MIN, BANDWIDTH_MAX)
                 config_editor.update(file_path=site_config, data={key: value})
 
-        response = config_editor.load(file_path=site_config)
-        return response, 200
+        content = config_editor.load(file_path=site_config)
+        only = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
+        censored = Constraints().censor(config=content, keep=only)
+
+        return censored, 200
 
 
 class Printers(Resource):
