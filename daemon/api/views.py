@@ -1,5 +1,3 @@
-import logging
-import sys
 import os
 from datetime import datetime
 
@@ -14,35 +12,12 @@ import mast_utils
 import network_utils
 import scripts_generators
 import validators
+from config_editor import ConfigEditor
 from network_tools import NetworkTools
 from scanner import Scanner
-from config_editor import ConfigEditor
 
 app = Flask(__name__)
 api = Api(app, prefix='/api')
-
-logger = logging.getLogger(__name__)
-
-
-def configure_logging():
-    root = logging.getLogger()
-    root.setLevel(logging.DEBUG)
-
-    ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
-    root.addHandler(ch)
-
-
-configure_logging()
-
-if not app.debug:
-    app.logger.addHandler(logging.StreamHandler())
-    app.logger.setLevel(logging.DEBUG)
-    logging.getLogger('gunicorn').setLevel(logging.DEBUG)
-    logging.getLogger('gunicorn.access').setLevel(logging.DEBUG)
-    logging.getLogger('gunicorn.error').setLevel(logging.DEBUG)
 
 
 class Root(Resource):
@@ -100,6 +75,7 @@ class Site(Resource):
 
         return response, 200 if response['cmd']['exit_status'] else 500
 
+
 class Config(Resource):
     def get(self, site_id):
         site_id = slugify(site_id)
@@ -119,7 +95,7 @@ class Config(Resource):
 
         for key in ['UploadLimit', 'DownloadLimit']:
             if key in request.json:
-                value=request.json.get(key)
+                value = request.json.get(key)
                 assert isinstance(int(float(value)), int)
                 config_editor.update(file_path=site_config, data={key: value})
 
@@ -202,6 +178,7 @@ class SiteInstallScript(Resource):
             mimetype='application/bat',
             headers={"Content-Disposition": "attachment; filename={}.bat".format(site_id)}
         )
+
 
 class SiteConfigurePortScript(Resource):
     def get(self, site_id):

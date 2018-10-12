@@ -1,7 +1,6 @@
+import logging
 import re
 import subprocess
-
-from flask import logging
 
 logger = logging.getLogger(__name__)
 
