@@ -1,10 +1,8 @@
 import os
 from datetime import datetime
 
-from flask import Flask
-from flask import Response
-from flask import request
-from flask_restful import Resource, Api, abort
+from flask import Flask, Response, request
+from flask_restful import Api, Resource, abort
 from slugify import slugify
 
 import daemon
@@ -15,6 +13,7 @@ import validators
 from config_editor import ConfigEditor
 from network_tools import NetworkTools
 from scanner import Scanner
+from config_constraints import Constraints
 
 app = Flask(__name__)
 api = Api(app, prefix='/api')
@@ -79,13 +78,15 @@ class Site(Resource):
 class Config(Resource):
     def get(self, site_id):
         site_id = slugify(site_id)
+
         config_editor = ConfigEditor()
         site_config = os.path.join('/etc', 'mast', site_id)
         content = config_editor.load(file_path=site_config)
 
-        allowed_keys = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
-        sanitized_content = dict((key, content[key]) for key in allowed_keys)
-        return sanitized_content, 200
+        only = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
+        censored = Constraints().censor(config=content, keep=only)
+        
+        return censored, 200
 
     def put(self, site_id):
         if not request.json:
