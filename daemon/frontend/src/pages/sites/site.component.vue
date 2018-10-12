@@ -54,7 +54,6 @@
 			printers: function() { return this.site.channels; },
 			expand: function () {
 				const expandClass = this.index === 0 ? 'in' : '';
-				console.log(expandClass);
 				return expandClass;
 			}
 		}

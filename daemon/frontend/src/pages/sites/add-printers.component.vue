@@ -104,7 +104,6 @@
 			},
 			clipboard() {
 				const printers = this.scans[this.site.id];
-				console.log(printers);
 				return scanFilter.text(scanFilter.toClipboard(printers));
 			}
 		},

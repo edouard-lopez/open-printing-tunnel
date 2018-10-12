@@ -71,7 +71,7 @@
 					this.formSubmitted = false;
 					this.getSites()
 				}).catch(() => {
-					console.log(err);
+					console.error(err);
 					this.formSubmitted = false;
 					logging.error('Impossible d\'ajouter le site');
 				});

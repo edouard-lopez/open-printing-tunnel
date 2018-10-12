@@ -117,7 +117,7 @@
 							this.formSubmitted = false;
 							Logging.error('Impossible de créer un daemon');
 							this.error_message = request.response.data[0];
-							console.log(request.response.data[0])
+							console.error(request.response.data[0])
 						});
 			}
 		},
