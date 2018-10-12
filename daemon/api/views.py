@@ -83,7 +83,9 @@ class Config(Resource):
         site_config = os.path.join('/etc', 'mast', site_id)
         content = config_editor.load(file_path=site_config)
 
-        return content, 200
+        allowed_keys = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
+        sanitized_content = dict((key, content[key]) for key in allowed_keys)
+        return sanitized_content, 200
 
     def put(self, site_id):
         if not request.json:
