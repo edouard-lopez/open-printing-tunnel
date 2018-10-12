@@ -12,15 +12,7 @@
 	<div class="row">
 		<div class="col-xs-7 col-md-5 vertical-align-text ">
 			<network :device="device"></network>
-			<span class="tunnel-name hint--top"
-				  data-toggle="collapse"
-				  aria-expanded="false"
-				  aria-controls="site-{{site.id}}"
-				  data-target="#site-{{site.id}}"
-				  aria-label="⇡{{config.UploadLimit}}Kb/s | ⇣ {{config.DownloadLimit}}Kb/s *"
-			>
-				<b class="expandable">{{site.id}}</b>
-			</span>
+			<tunnel-name :site="site"></tunnel-name>
 			<span class="divider"> – </span>
 			<a href="//{{site.hostname}}" class="tunnel-fqdn" target="_blank">
 				{{site.hostname}}
@@ -99,6 +91,7 @@
 
 	import Network from 'components/network';
 	import Scanner from 'components/scanner';
+	import tunnelName from 'components/tunnel-name';
 
 	import actions from 'vuex/actions';
 	import getters from "vuex/getters";
@@ -112,13 +105,11 @@
 			'script-ports-configuration': ScriptPortsConfiguration,
 			'delete': DeleteButton,
 			'network': Network,
-			"scanner": Scanner
+			"scanner": Scanner,
+			'tunnel-name': tunnelName
 		},
 		props: {
 			site: {type: Object, required: true},
-		},
-  		ready: function () {
-			this.getSiteConfig(this.site);
 		},
 		computed: {
 			has_printers: function () {
@@ -132,9 +123,6 @@
 				}
 
 				return data;
-			},
-			config() {
-				return this.site.config;
 			}
 		},
 		methods: {
@@ -164,8 +152,7 @@
 				siteStatus: actions.siteStatus,
 				siteStart: actions.siteStart,
 				siteStop: actions.siteStop,
-				siteRestart: actions.siteRestart,
-				getSiteConfig: actions.getSiteConfig
+				siteRestart: actions.siteRestart
 			},
 			getters: {
 				networks: getters.retrieveNetworks

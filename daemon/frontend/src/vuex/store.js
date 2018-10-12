@@ -25,8 +25,9 @@ const state = {
                 	send: 9100,
                 }
             }
-        ]
-    } */
+		],
+		config: { }  // dynamicly inserted
+    }
 	],
 	log: [/*
 	 {
