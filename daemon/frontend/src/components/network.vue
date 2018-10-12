@@ -21,12 +21,6 @@
 				}
 			},
 		},
-		propsData: {
-			device: {
-				ping: {},
-				telnet: {}
-			}
-		},
 		filters: {
 			time: network.time,
 			icon: network.icon,
