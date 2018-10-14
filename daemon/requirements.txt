@@ -1,7 +1,6 @@
 wheel
 Flask==1.0.2
 Flask-RESTful==0.3.6
-pytest==3.8.2
 python-slugify==1.2.0
 python-nmap==0.6.1
 snimpy==0.8.11

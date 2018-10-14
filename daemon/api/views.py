@@ -15,6 +15,7 @@ from network_tools import NetworkTools
 from scanner import Scanner
 from config_constraints import Constraints
 
+
 app = Flask(__name__)
 api = Api(app, prefix='/api')
 
