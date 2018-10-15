@@ -1,10 +1,10 @@
 <template>
 	<span class="tunnel-name hint--top"
-			data-toggle="collapse"
-			aria-expanded="false"
-			aria-controls="site-{{site.id}}"
-			data-target="#site-{{site.id}}"
-			aria-label="⇡{{config.UploadLimit | kb}} | ⇣ {{config.DownloadLimit | kb}}"
+		  data-toggle="collapse"
+		  aria-expanded="false"
+		  aria-controls="site-{{site.id}}"
+		  data-target="#site-{{site.id}}"
+		  aria-label="⇡{{config.UploadLimit | kb}} | ⇣ {{config.DownloadLimit | kb}}"
 	>
 		<b class="expandable">{{site.id}}</b>
 	</span>
@@ -20,7 +20,6 @@
 		},
 		ready: function () {
 			this.getSiteConfig(this.site);
-			console.log('this.site', this.site);
 		},
 		computed: {
 			config() {
@@ -32,7 +31,6 @@
 		},
 		vuex: {
 			actions: {
-				
 				getSiteConfig: actions.getSiteConfig
 			}
 		}

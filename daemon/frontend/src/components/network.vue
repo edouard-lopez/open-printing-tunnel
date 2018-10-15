@@ -1,8 +1,8 @@
 <template>
-	<span class="ping hint--top-right" aria-label="ping: {{ device.ping | time }}">
+	<span v-if="device" class="ping hint--top-right" aria-label="ping: {{ device.ping | time }}">
 		<i class="tunnel-status fa {{ device.ping | icon 'ping' }}"> </i>
 	</span>
-	<span class="telnet hint--top-right" aria-label="telnet (via tunnel): {{ device.telnet | reachable }}">
+	<span v-if="device" class="telnet hint--top-right" aria-label="telnet (via tunnel): {{ device.telnet | reachable }}">
 		<i class="tunnel-status fa {{ device.telnet | icon 'telnet' }}"> </i>
 	</span>
 </template>
@@ -14,12 +14,9 @@
 			device: {
 				type: Object,
 				default: function () {
-					return {
-						ping: null,
-						telnet: null
-					}
+					return {ping: 0, telnet: 0}
 				}
-			},
+			}
 		},
 		filters: {
 			time: network.time,

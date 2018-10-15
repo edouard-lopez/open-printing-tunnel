@@ -1,6 +1,8 @@
+import Vue from 'vue';
+
 export default {
 	setSites(state, sites) {
-		state.sites = sites;
+		state.sites = sites.map(site => ({ config: {}, ...site }))
 	},
 	clearLog(state) {
 		const empty = [];
@@ -21,7 +23,7 @@ export default {
 		const siteIndex = state.sites.findIndex(item => item.id === site.id);
 
 		if (siteIndex !== -1) {
-			state.sites[siteIndex].config = config;
+			Vue.set( state.sites[siteIndex], 'config', config )
 		}
 	}
 };
