@@ -32,7 +32,7 @@ class ConfigEditorTestCase(unittest.TestCase):
 
     def test_config_editor_load_ignore_empty_line(self):
         with tempfile.NamedTemporaryFile(mode='w+t') as site_config:
-            site_config.write('  \n  ')
+            site_config.write('\n')
             site_config.seek(os.SEEK_SET)  # move back
 
             config_editor = ConfigEditor()
@@ -129,10 +129,14 @@ class ConfigEditorTestCase(unittest.TestCase):
 
         self.assertDictEqual(parsed_integer, {'UploadLimit': '"100"'})
 
-    def test_drop_keyword_parse_bash_boolean_declaration(self):
+    def test_drop_keyword_parse_bash_array_declaration(self):
         bash_array = 'declare -a ForwardPort=([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'
 
         parsed_array = ConfigEditor().drop_keyword(bash_array)
 
         self.assertDictEqual(parsed_array, {
             'ForwardPort': '([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'})
+
+    def test_drop_keyword_parse_empty_bash_array_declaration(self):
+        with self.assertRaises(Exception):
+            parsed_array = ConfigEditor().drop_keyword('')

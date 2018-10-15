@@ -17,7 +17,8 @@ class ConfigEditor:
 
         with open(file_path) as file:
             for line in file:
-                if line.startswith('#') or len(line.strip()) == 0:
+                line = line.strip().replace('\n', '')
+                if line.startswith('#') or len(line) == 0:
                     continue
                 content.update(self.drop_keyword(line))
         return content
@@ -36,6 +37,8 @@ class ConfigEditor:
 
     def drop_keyword(self, line):
         bash_declaration_keyword = 'declare'  # e.g.: declare -- FOO="bar"
+
+        assert len(line) > 0, 'Line should not be empty'
 
         parsed_line = list(shlex.shlex(line))
         if parsed_line[0] == bash_declaration_keyword:
