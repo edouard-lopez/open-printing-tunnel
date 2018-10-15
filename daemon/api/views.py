@@ -37,15 +37,18 @@ class Sites(Resource):
         if not request.json or not validators.has_all(request.json, ['id', 'hostname']):
             abort(400)
 
-        site_id = slugify(request.json['id'])
         hostname = request.json['hostname']
-        if validators.is_valid_host(hostname):
-            response = mast_utils.add_site(site_id, hostname)
-            response.update({
-                'id': site_id, 'hostname': hostname
-            })
+        if not validators.is_valid_host(hostname):
+            return None, 500
+        
+        site_id = slugify(request.json['id'])
+        response = mast_utils.add_site(site_id, hostname)
+        response.update({
+            'id': site_id, 
+            'hostname': hostname
+        })
 
-            return response, 201 if response['cmd']['exit_status'] else 500
+        return response, 201 if response['cmd']['exit_status'] else 500
 
 
 class Site(Resource):
