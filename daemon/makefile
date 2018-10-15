@@ -277,12 +277,6 @@ remove-host:
 # Install application network may not be setup, so don't deploy (ssh's key) on remote devices
 install: check-system check-privileges create-ssh-key
 
-purge: uninstall
-	@printf "Purging…\n"
-	rm -rf "${CONFIG_DIR}" \
-		&& printf "\t%-50s%s\n" $$'$(call VALUE,'$$fn$$')' $$'$(call SUCCESS,done)' \
-		|| printf "%s\n" $$'$(call ERROR,error)' 1>&2; \
-
 
 config-ssh: deploy-key
 

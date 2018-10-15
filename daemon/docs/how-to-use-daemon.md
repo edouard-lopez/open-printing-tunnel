@@ -196,11 +196,6 @@ sudo make remove-channel ID=2 NAME=nautilus
 Display basic help. for further information refer to the [official docs](http//github.com/edouard lopez/mast/readme.md).
 ![sudo-make-usage](./screenshots/sudo-make-usage.png)
 
-### Uninstall
-
-Remove configuration files, services, utility, etc. So you can make a fresh [install](#install).
-![sudo-make-uninstall](./screenshots/sudo-make-uninstall.png)
-
 ### List Logs
 List all log files, one for each tunnel.
 ```bash
