@@ -6,26 +6,24 @@
 # For information, please read the README.md file
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
-# Integer variables
-declare -i RemotePort ServerAliveInterval ServerAliveCountMax UploadLimit DownloadLimit
 # This value will be automatically replaced if you use 'make add-host'
-RemoteHost="{{HOST}}"
+declare -- RemoteHost="{{HOST}}"
 # This should not be changed without confirmation from upper authority
-RemoteUser="coaxis"
-RemotePort=22
+declare -- RemoteUser="coaxis"
+declare -i RemotePort=22
 
 # compression level isn't available in SSH2 (cf. http://serverfault.com/q/388658)
 Compression="yes"
 
 # Check connection every 10 seconds, and after 3 tries (30 seconds), drop and
 # let autossh re-connect.
-ServerAliveInterval=3
-ServerAliveCountMax=2
-StrictHostKeyChecking="no"
+declare -i ServerAliveInterval=3
+declare -i ServerAliveCountMax=2
+declare -- StrictHostKeyChecking="no"
 
-LocalUser="mast"
+declare -- LocalUser="mast"
 # @see SSH_KEYFILE in 'makefile'
-IdentityFile="/home/$LocalUser/.ssh/id_rsa.mast.coaxis"
+declare -- IdentityFile="/home/$LocalUser/.ssh/id_rsa.mast.coaxis"
 
 
 # Array of ports to be forwarded. Example:
@@ -35,9 +33,9 @@ IdentityFile="/home/$LocalUser/.ssh/id_rsa.mast.coaxis"
 #	Forwarding:
 #		"L *:9100:imp1:9100 # comment about printer1"
 #		"L *:9101:imp2:9100 # comment: ()[]'' about printer#1"
-ForwardPort=()
+declare -a ForwardPort=()
 # Bandwidth limitation flag (using trickle)
-BandwidthLimitation=true
+declare -- BandwidthLimitation=true
 # Limit is expressed as kilobytes
 UploadLimit=100
-DownloadLimit=10000
+declare -i DownloadLimit=10000
