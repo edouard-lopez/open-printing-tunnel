@@ -67,22 +67,6 @@ DEPS_UTILS:=bmon iftop htop
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Code source repository
-BRANCH=dev
-# FIXME: update to new repo
-WEBAPP_REPO:=https://github.com/edouard-lopez/mast-web.git
-# FIXME: update to new repo
-WEBAPP_ARCHIVE:=https://github.com/edouard-lopez/mast-web/archive/${BRANCH}.tar.gz
-# DEV ONLY
-WEBAPP_REPO:=file://$(shell pwd)/../webapp/.git
-# Web app's hostname
-APACHE_HOSTNAME:=mast.dev
-# Path to apache config file
-APACHE_SRC_CONF=/var/www/html/${WEBAPP}/resources/server/${WEBAPP}.apache.conf
-APACHE_DEST_CONF=/etc/apache2/sites-enabled/${WEBAPP}.conf
-
-# Branch to checkout before deploying webapp
-WEBAPP_BRANCH=dev
 
 .PHONY:  default \
 	add-channel \
@@ -404,13 +388,6 @@ usage:
 	@printf "\t%-50s%s %s\n" $$'$(call INFO,for full installation)' $$'$(call WARNING,sudo)' $$'$(call VALUE,make install)'
 
 
-
-# Coloring constants
-NO_COLOR=\x1b[0m
-OK_COLOR=\x1b[32;01m
-ERROR_COLOR=\x1b[31;01m
-WARN_COLOR=\x1b[33;01m
-
 # Reset
 _RESET_=\e[0m
 # valid/green
@@ -433,7 +410,5 @@ DEBUG=$(_DEBUG_)$(1)$(_RESET_)
 ERROR=$(_ERROR_)$(1)$(_RESET_)
 WARNING=$(_WARNING_)$(1)$(_RESET_)
 VALUE=$(_VALUE_)$(1)$(_RESET_)
-# messages helper
-OK=$(call SUCCESS,ok)
 
 
