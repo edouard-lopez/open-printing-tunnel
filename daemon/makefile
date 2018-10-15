@@ -99,7 +99,6 @@ WEBAPP_BRANCH=dev
 	list-logs  \
 	remove-channel \
 	remove-host  \
-	uninstall  \
 	usage
 
 
@@ -283,29 +282,6 @@ purge: uninstall
 	rm -rf "${CONFIG_DIR}" \
 		&& printf "\t%-50s%s\n" $$'$(call VALUE,'$$fn$$')' $$'$(call SUCCESS,done)' \
 		|| printf "%s\n" $$'$(call ERROR,error)' 1>&2; \
-
-uninstall:
-	@printf "Uninstalling…\n"
-	@filesList=( \
-		/etc/systemd/system/mastd.service \
-		/etc/init.d/mast \
-		/usr/sbin/mastd \
-		/usr/sbin/mast-utils \
-		/etc/apache2/sites-enabled/"${WEBAPP}".conf \
-		"${LOG_DIR}" \
-		"${PID_DIR}" \
-		"${LOCK_DIR}" \
-		"${WEBAPP_DEST_DIR}/${WEBAPP}" \
-		"${WEBAPP}" \
-	); for fn in "$${filesList[@]}"; do \
-		[[ -f $$fn || -d $$fn ]] || continue; \
-		rm -rf "$$fn" \
-			&& printf "\t%-50s%s\n" $$'$(call VALUE,'$$fn$$')' $$'$(call SUCCESS,done)' \
-			|| printf "%s\n" $$'$(call ERROR,error)' 1>&2; \
-	done
-	@update-rc.d -f mast remove > /dev/null
-
-
 
 
 config-ssh: deploy-key
