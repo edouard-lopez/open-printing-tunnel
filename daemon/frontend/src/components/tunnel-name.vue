@@ -4,7 +4,7 @@
 		  aria-expanded="false"
 		  aria-controls="site-{{site.id}}"
 		  data-target="#site-{{site.id}}"
-		  aria-label="⇡{{config.UploadLimit | kb}} | ⇣ {{config.DownloadLimit | kb}}"
+		  aria-label="⇡ {{config.UploadLimit | kb}} | ⇣ {{config.DownloadLimit | kb}}"
 	>
 		<b class="expandable">{{site.id}}</b>
 	</span>
@@ -14,7 +14,7 @@
 
 	import actions from 'vuex/actions';
 
-	export default {
+	export default { 
 		props: {
 			site: {type: Object, required: true},
 		},
