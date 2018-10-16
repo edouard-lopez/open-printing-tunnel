@@ -6,6 +6,9 @@ import in_place
 class ConfigEditor:
     def __init__(self):
         self.config = {}
+        self.BASH_INTEGER_DECLARATION='-i'
+        self.BASH_STRING_DECLARATION='--'
+        self.BASH_ARRAY_DECLARATION='-a'
 
     def load(self, file_path):
         """
@@ -20,7 +23,7 @@ class ConfigEditor:
                 line = line.strip().replace('\n', '')
                 if line.startswith('#') or len(line) == 0:
                     continue
-                content.update(self.drop_keyword(line))
+                content.update(self.parse(line))
         return content
 
     def update(self, file_path, data={}):
@@ -35,23 +38,32 @@ class ConfigEditor:
                     else:
                         file.write(line)
 
-    def drop_keyword(self, line):
+    def parse(self, line):
         bash_declaration_keyword = 'declare'  # e.g.: declare -- FOO="bar"
 
         assert len(line) > 0, 'Line should not be empty'
 
         parsed_line = list(shlex.shlex(line))
+        declaration=self.BASH_STRING_DECLARATION
         if parsed_line[0] == bash_declaration_keyword:
+            declaration = ''.join(parsed_line[:2])
             parsed_line = parsed_line[3:]
 
         lexer = shlex.shlex(''.join(parsed_line))
-
         var_name = lexer.get_token()
         drop_equal = lexer.get_token()
 
         if var_name == 'ForwardPort':  # special treat for arrays
             value = ''.join(lexer).replace('"[', '" [')
         else:
-            value = ' '.join(lexer)
+            value = self.cast(' '.join(lexer), declaration)
 
         return dict({var_name: value})
+
+    def cast(self, value, declaration):
+        if declaration == self.BASH_INTEGER_DECLARATION:
+            value = int(float(value.replace('"', '') or 0))
+        elif declaration == self.BASH_STRING_DECLARATION:
+            value = value.replace('"', '')
+
+        return value

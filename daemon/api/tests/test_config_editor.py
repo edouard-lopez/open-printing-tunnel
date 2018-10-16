@@ -48,7 +48,7 @@ class ConfigEditorTestCase(unittest.TestCase):
             config_editor = ConfigEditor()
             content = config_editor.load(file_path=site_config.name)
 
-            self.assertDictEqual(content, {'Compression': '"yes"'})
+            self.assertDictEqual(content, {'Compression': 'yes'})
 
     def test_config_editor_load_detect_variable(self):
         with tempfile.NamedTemporaryFile(mode='w+t', delete=False) as site_config:
@@ -58,7 +58,7 @@ class ConfigEditorTestCase(unittest.TestCase):
             config_editor = ConfigEditor()
             content = config_editor.load(file_path=site_config.name)
 
-            self.assertDictEqual(content, {'BAR': '"abc"', 'FOO': '123'})
+            self.assertDictEqual(content, {'BAR': 'abc', 'FOO': '123'})
 
     def test_config_editor_can_load_config_file(self):
         site_config = os.path.join(WORKING_DIR, '..', 'template')
@@ -103,40 +103,50 @@ class ConfigEditorTestCase(unittest.TestCase):
 
     def test_config_editor_update_play_nice_with_real_file(self):
         site_config = os.path.join(WORKING_DIR, '..', 'template')
-        config_editor = ConfigEditor()
-        content = config_editor.load(file_path=site_config)
+        content = ConfigEditor().load(file_path=site_config)
         backup_value = content.get('UploadLimit')
 
-        config_editor.update(file_path=site_config, data={'UploadLimit': 80})
-        content = config_editor.load(file_path=site_config)
+        ConfigEditor().update(file_path=site_config, data={'UploadLimit': 80})
+        content = ConfigEditor().load(file_path=site_config)
 
         self.assertEqual(content.get('UploadLimit'), '80')
-        self.assertEqual(content.get('DownloadLimit'), '10000')
+        self.assertEqual(content.get('DownloadLimit'), 10000)
         # restore initial value
-        config_editor.update(file_path=site_config, data={'UploadLimit': backup_value})
+        ConfigEditor().update(file_path=site_config, data={'UploadLimit': backup_value})
 
     def test_drop_keyword_parse_bash_boolean_declaration(self):
         bash_boolean = 'declare -- BandwidthLimitation="true"'
 
-        parsed_boolean = ConfigEditor().drop_keyword(bash_boolean)
+        parsed_boolean = ConfigEditor().parse(bash_boolean)
 
-        self.assertDictEqual(parsed_boolean, {'BandwidthLimitation': '"true"'})
+        self.assertDictEqual(parsed_boolean, {'BandwidthLimitation': 'true'})
 
     def test_drop_keyword_parse_bash_integer_declaration(self):
         bash_integer = 'declare -i UploadLimit="100"'
 
-        parsed_integer = ConfigEditor().drop_keyword(bash_integer)
+        parsed_integer = ConfigEditor().parse(bash_integer)
 
-        self.assertDictEqual(parsed_integer, {'UploadLimit': '"100"'})
+        self.assertDictEqual(parsed_integer, {'UploadLimit': 100})
 
     def test_drop_keyword_parse_bash_array_declaration(self):
         bash_array = 'declare -a ForwardPort=([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'
 
-        parsed_array = ConfigEditor().drop_keyword(bash_array)
+        parsed_array = ConfigEditor().parse(bash_array)
 
         self.assertDictEqual(parsed_array, {
             'ForwardPort': '([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'})
 
     def test_drop_keyword_parse_empty_bash_array_declaration(self):
         with self.assertRaises(Exception):
-            parsed_array = ConfigEditor().drop_keyword('')
+            parsed_array = ConfigEditor().parse('')
+
+    def test_cast_integer(self):
+        self.assertEqual(ConfigEditor().cast('""', "-i"), 0)
+        self.assertEqual(ConfigEditor().cast('"0"', "-i"), 0)
+        self.assertEqual(ConfigEditor().cast('"100"', "-i"), 100)
+        self.assertEqual(ConfigEditor().cast('"2.6"', "-i"), 2)
+
+    def test_cast_string(self):
+        self.assertEqual(ConfigEditor().cast('""', "--"), '')
+        self.assertEqual(ConfigEditor().cast('"yes"', "--"), 'yes')
+        self.assertEqual(ConfigEditor().cast('"true"', "--"), 'true')
