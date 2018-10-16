@@ -1,3 +1,4 @@
+import re
 import shlex
 
 import in_place
@@ -6,9 +7,9 @@ import in_place
 class ConfigEditor:
     def __init__(self):
         self.config = {}
-        self.BASH_INTEGER_DECLARATION='-i'
-        self.BASH_STRING_DECLARATION='--'
-        self.BASH_ARRAY_DECLARATION='-a'
+        self.BASH_INTEGER_DECLARATION = '-i'
+        self.BASH_STRING_DECLARATION = '--'
+        self.BASH_ARRAY_DECLARATION = '-a'
 
     def load(self, file_path):
         """
@@ -32,11 +33,20 @@ class ConfigEditor:
 
         with in_place.InPlace(file_path) as file:
             for line in file:
-                for var_name, value in data.items():
-                    if '{}='.format(var_name) in line:
-                        file.write("{}={}\n".format(var_name, value))  # /!\ remove 'declare --'
+                for name, value in data.items():
+                    if '{}='.format(name) in line:
+                        file.write('{}\n'.format(self.edit(line, name, value)))
                     else:
                         file.write(line)
+
+    def edit(self, line, name, value):
+        declaration = re.compile(r'(declare\s+(-[ia-]))\s+').match(line)
+        declare = declaration.group(1) if declaration else ''
+        declared_as = declaration.group(2) if declaration else self.BASH_STRING_DECLARATION
+
+        value = self.cast(value, declared_as)
+
+        return "{declare} {name}={value}".format(declare=declare, name=name, value=value)
 
     def parse(self, line):
         bash_declaration_keyword = 'declare'  # e.g.: declare -- FOO="bar"
@@ -44,9 +54,9 @@ class ConfigEditor:
         assert len(line) > 0, 'Line should not be empty'
 
         parsed_line = list(shlex.shlex(line))
-        declaration=self.BASH_STRING_DECLARATION
+        declaration = self.BASH_STRING_DECLARATION
         if parsed_line[0] == bash_declaration_keyword:
-            declaration = ''.join(parsed_line[:2])
+            declaration = ''.join(parsed_line[1:3])
             parsed_line = parsed_line[3:]
 
         lexer = shlex.shlex(''.join(parsed_line))
@@ -60,10 +70,16 @@ class ConfigEditor:
 
         return dict({var_name: value})
 
-    def cast(self, value, declaration):
-        if declaration == self.BASH_INTEGER_DECLARATION:
-            value = int(float(value.replace('"', '') or 0))
-        elif declaration == self.BASH_STRING_DECLARATION:
-            value = value.replace('"', '')
+    def cast(self, value, declared_as):
+        if declared_as == self.BASH_INTEGER_DECLARATION:
+            value = self.cast_to_int(value)
+        elif declared_as == self.BASH_STRING_DECLARATION:
+            value = value.replace('"', '') if isinstance(value, str) else value
+
+        return value
+
+    def cast_to_int(self, value):
+        if isinstance(value, str):
+            return int(float(value.replace('"', '') or 0))
 
         return value
