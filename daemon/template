@@ -10,15 +10,15 @@
 declare -- RemoteHost="{{HOST}}"
 # This should not be changed without confirmation from upper authority
 declare -- RemoteUser="coaxis"
-declare -i RemotePort=22
+declare -i RemotePort="22"
 
 # compression level isn't available in SSH2 (cf. http://serverfault.com/q/388658)
-Compression="yes"
+declare -- Compression="yes"
 
 # Check connection every 10 seconds, and after 3 tries (30 seconds), drop and
 # let autossh re-connect.
-declare -i ServerAliveInterval=3
-declare -i ServerAliveCountMax=2
+declare -i ServerAliveInterval="3"
+declare -i ServerAliveCountMax="2"
 declare -- StrictHostKeyChecking="no"
 
 declare -- LocalUser="mast"
@@ -32,10 +32,10 @@ declare -- IdentityFile="/home/$LocalUser/.ssh/id_rsa.mast.coaxis"
 # 	127.0.0.1 on the local side, to 10.100.1.60 port 80 on the remote side.
 #	Forwarding:
 #		"L *:9100:imp1:9100 # comment about printer1"
-#		"L *:9101:imp2:9100 # comment: ()[]'' about printer#1"
+#		"L *:9101:imp2:true9100 # comment: ()[]'' about printer#1"
 declare -a ForwardPort=()
 # Bandwidth limitation flag (using trickle)
-declare -- BandwidthLimitation=true
+declare -- BandwidthLimitation="true"
 # Limit is expressed as kilobytes
-UploadLimit=100
-declare -i DownloadLimit=10000
+declare -i UploadLimit="100"
+declare -i DownloadLimit="10000"
