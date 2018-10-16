@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "author": "Edouard Lopez <edouard@akema.fr>",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "engines": {
     "node": ">=4.8.0"
   },
