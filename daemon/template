@@ -10,15 +10,15 @@
 declare -- RemoteHost="{{HOST}}"
 # This should not be changed without confirmation from upper authority
 declare -- RemoteUser="coaxis"
-declare -i RemotePort="22"
+declare -i RemotePort=22
 
 # compression level isn't available in SSH2 (cf. http://serverfault.com/q/388658)
 declare -- Compression="yes"
 
 # Check connection every 10 seconds, and after 3 tries (30 seconds), drop and
 # let autossh re-connect.
-declare -i ServerAliveInterval="3"
-declare -i ServerAliveCountMax="2"
+declare -i ServerAliveInterval=3
+declare -i ServerAliveCountMax=2
 declare -- StrictHostKeyChecking="no"
 
 declare -- LocalUser="mast"
@@ -37,5 +37,5 @@ declare -a ForwardPort=()
 # Bandwidth limitation flag (using trickle)
 declare -- BandwidthLimitation="true"
 # Limit is expressed as kilobytes
-declare -i UploadLimit="100"
-declare -i DownloadLimit="10000"
+declare -i UploadLimit=100
+declare -i DownloadLimit=10000
