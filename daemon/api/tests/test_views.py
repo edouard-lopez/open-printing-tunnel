@@ -1,12 +1,28 @@
+import os
+from pathlib import Path
+from shutil import copyfile
 from unittest import TestCase
 
 from views import app
+
+if 'IN_DOCKER' in os.environ:
+    TEMPLATE_PATH = Path('/etc', 'mast', 'template')
+else:
+    working_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    TEMPLATE_PATH = Path(working_dir, '..', 'template')
+TEMPLATE_BACKUP_PATH = Path('/tmp', 'template').with_suffix('.bak')
 
 
 class TestAPIIntegrations(TestCase):
     def setUp(self):
         app.testing = True
         self.app = app.test_client()
+        copyfile(str(TEMPLATE_PATH), str(TEMPLATE_BACKUP_PATH))
+
+    def tearDown(self):
+        print(str(TEMPLATE_BACKUP_PATH), str(TEMPLATE_PATH))
+        
+        copyfile(str(TEMPLATE_BACKUP_PATH), str(TEMPLATE_PATH))
 
     def test_GET_api_root_endpoint(self):
         response = self.app.get('/api/')
