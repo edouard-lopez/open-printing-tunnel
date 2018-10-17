@@ -68,7 +68,7 @@ install-python-requirements:
 	source env/bin/activate \
 	&& pip3 install -r requirements.txt
 
-test-backend:
+test-backend: build dev
 	docker run \
 		--name coaxis-daemon-tests \
 		--rm \

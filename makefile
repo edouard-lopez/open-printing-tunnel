@@ -8,7 +8,7 @@ default: dev
 
 test-frontoffice-backend:
 	cd daemon/ \
-	&& make -f help-me.mk dev test-backend
+	&& make -f help-me.mk test-backend
 
 test-frontoffice-frontend:
 	cd daemon/ \
