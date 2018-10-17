@@ -1,6 +1,7 @@
 import os
 import tempfile
 import unittest
+from pprint import pprint
 
 from config_editor import ConfigEditor
 
@@ -132,15 +133,15 @@ class ConfigEditorTestCase(unittest.TestCase):
 
         self.assertDictEqual(parsed_integer, {'UploadLimit': 100})
 
-    def test_parse_bash_array_declaration(self):
-        bash_array = 'declare -a ForwardPort=([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'
+    def test_parse_ruleset_declaration(self):
+        ruleset = 'declare -a ForwardPort=([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'
 
-        parsed_array = ConfigEditor().parse(bash_array)
+        parsed_array = ConfigEditor().parse(ruleset)
 
         self.assertDictEqual(parsed_array, {
             'ForwardPort': '([0]="L *:9102:10.0.1.8:9100 # pc-ed" [1]="L *:9166:8.8.8.8:9100 # google")'})
 
-    def test_parse_empty_bash_array_declaration(self):
+    def test_parse_empty_ruleset_declaration(self):
         with self.assertRaises(Exception):
             parsed_array = ConfigEditor().parse('')
 
@@ -154,3 +155,27 @@ class ConfigEditorTestCase(unittest.TestCase):
         self.assertEqual(ConfigEditor().cast('""', "--"), '')
         self.assertEqual(ConfigEditor().cast('"yes"', "--"), 'yes')
         self.assertEqual(ConfigEditor().cast('"true"', "--"), 'true')
+
+    def test_parse_forward_rule_can_parse_empty(self):
+        ruleset = 'declare -a ForwardPort=()'
+
+        parsed = ConfigEditor().parse_forward_ruleset(ruleset)
+
+        self.assertListEqual(parsed, [])
+
+    def test_parse_forward_rule_return_object(self):
+        ruleset = 'declare -a ForwardPort=([0]="L *:9102:10.0.1.8:9100 # bureau étage")'
+
+        parsed = ConfigEditor().parse_forward_ruleset(ruleset)
+
+        self.assertListEqual(parsed, [{
+                'id': -1,
+                'description': 'bureau étage',
+                'hostname': '10.0.1.8',
+                'ports': {
+                    'send': 9100,
+                    'forward': 'remote',
+                    'listen': 9102
+                }
+            }])
+

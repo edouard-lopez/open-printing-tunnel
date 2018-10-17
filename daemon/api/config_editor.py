@@ -3,6 +3,8 @@ import shlex
 
 import in_place
 
+import output_parser
+
 
 class ConfigEditor:
     def __init__(self):
@@ -84,3 +86,17 @@ class ConfigEditor:
             return int(float(value.replace('"', '') or 0))
 
         return value
+
+    def parse_forward_ruleset(self, line):
+        name, value = line.strip().split('=(')
+        value = value[:-1]  # removing the trailing ')'
+
+        if len(value) == 0:
+            return []
+
+        ruleset = []
+        for rule in re.split(r'\[\d+\]=', value):
+            if rule:
+                ruleset.append(output_parser.forward_rule(rule.strip().strip('"')))
+
+        return ruleset
