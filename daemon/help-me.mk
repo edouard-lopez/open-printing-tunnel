@@ -73,7 +73,6 @@ test-backend: build
 		--name coaxis-daemon-tests \
 		--rm \
 		--interactive \
-		--tty \
 		--env IN_DOCKER=true \
 		coaxisopt_daemon \
 			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose --failfast'
@@ -87,5 +86,4 @@ test-core:
 		--name coaxis-daemon-core-tests \
 		--rm \
 		--interactive \
-		--tty \
 		coaxisopt_daemon bash -c 'bats /test/*.tests.bats'

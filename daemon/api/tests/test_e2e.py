@@ -36,7 +36,6 @@ class EndToEndNetworkTestCase(unittest.TestCase):
         network_tools = NetworkTools(private_key=os.path.expanduser('~/.ssh/id_rsa'))
         network_interfaces = network_tools.get_network_interfaces('127.0.0.1')
 
-        pprint(network_interfaces)
         self.assertEqual(network_interfaces, '')
 
     def test_can_scan(self):
