@@ -23,6 +23,8 @@ class ConfigEditorTestCase(unittest.TestCase):
         }
         
         censored = list(constraints.censor(config=config, keep=only).keys())
+        censored.sort()
+
         self.assertListEqual(censored, ['Allowed', 'Uncensored'])
 
     def test_censor_empty_dict_stay_empty(self):
