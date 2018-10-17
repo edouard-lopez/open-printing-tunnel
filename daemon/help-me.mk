@@ -78,6 +78,7 @@ test-api-in-docker:
 		--rm \
 		--interactive \
 		--tty \
+		--env IN_DOCKER=true \
 		coaxisopt_daemon \
 			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose'
 

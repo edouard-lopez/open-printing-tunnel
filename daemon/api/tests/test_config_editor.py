@@ -5,7 +5,11 @@ from pprint import pprint
 
 from config_editor import ConfigEditor
 
-WORKING_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if 'IN_DOCKER' in os.environ:
+    TEMPLATE_PATH = os.path.join('/etc', 'mast', 'template')
+else:
+    working_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    TEMPLATE_PATH = os.path.join(working_dir, '..', 'template')
 
 
 class ConfigEditorTestCase(unittest.TestCase):
@@ -62,7 +66,7 @@ class ConfigEditorTestCase(unittest.TestCase):
             self.assertDictEqual(content, {'BAR': 'abc', 'FOO': 123})
 
     def test_config_editor_can_load_config_file(self):
-        site_config = os.path.join(WORKING_DIR, '..', 'template')
+        site_config = TEMPLATE_PATH
 
         config_editor = ConfigEditor()
         content = config_editor.load(file_path=site_config)
@@ -107,7 +111,7 @@ class ConfigEditorTestCase(unittest.TestCase):
             self.assertDictEqual(content, {'UploadLimit': 80, 'DownloadLimit': 10000})
 
     def test_config_editor_update_play_nice_with_real_file(self):
-        site_config = os.path.join(WORKING_DIR, '..', 'template')
+        site_config = TEMPLATE_PATH
         content = ConfigEditor().load(file_path=site_config)
         backup_value = content.get('UploadLimit')
 
