@@ -1,3 +1,4 @@
+import glob
 import os
 from pathlib import Path
 from shutil import copyfile
@@ -20,8 +21,9 @@ class TestAPIIntegrations(TestCase):
         copyfile(str(TEMPLATE_PATH), str(TEMPLATE_BACKUP_PATH))
 
     def tearDown(self):
-        print(str(TEMPLATE_BACKUP_PATH), str(TEMPLATE_PATH))
-        
+        files = glob.glob(str(TEMPLATE_PATH.parent) + '/*')
+        for file in files:
+            os.remove(file)
         copyfile(str(TEMPLATE_BACKUP_PATH), str(TEMPLATE_PATH))
 
     def test_GET_api_root_endpoint(self):
