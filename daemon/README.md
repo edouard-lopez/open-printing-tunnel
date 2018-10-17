@@ -34,7 +34,7 @@ There is end-to-end test on this directory to test network methods, you will nee
 
 Then
 
-    make -f help-me.mk test-api
+    make -f help-me.mk test-backend
 
 ### Frontend
 

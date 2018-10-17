@@ -5,7 +5,7 @@
 # USAGE
 #	make -f help-me.mk
 #   or
-#	make -f help-me.mk test-api
+#	make -f help-me.mk test-backend
 
 
 # force use of Bash
@@ -68,11 +68,7 @@ install-python-requirements:
 	source env/bin/activate \
 	&& pip3 install -r requirements.txt
 
-test-api:
-	source env/bin/activate
-	cd api/ && python3 -m unittest discover --verbose
-
-test-api-in-docker:
+test-backend:
 	docker run \
 		--name coaxis-daemon-tests \
 		--rm \

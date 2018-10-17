@@ -6,9 +6,9 @@ INTERACTIVE=true
 
 default: dev
 
-test-frontoffice-api:
+test-frontoffice-backend:
 	cd daemon/ \
-	&& make -f help-me.mk test-api
+	&& make -f help-me.mk dev test-backend
 
 test-frontoffice-frontend:
 	cd daemon/ \
@@ -27,7 +27,7 @@ test-backoffice-frontend:
 	&& npm test
 
 test-backoffice: test-backoffice-api test-backoffice-frontend
-test-frontoffice: test-frontoffice-api test-frontoffice-frontend test-frontoffice-core
+test-frontoffice: test-frontoffice-backend test-frontoffice-frontend test-frontoffice-core
 tests: test-backoffice test-frontoffice
 
 build-daemon-frontend: test-frontoffice-frontend
