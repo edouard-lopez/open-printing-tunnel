@@ -68,7 +68,7 @@ install-python-requirements:
 	source env/bin/activate \
 	&& pip3 install -r requirements.txt
 
-test-backend: build dev
+test-backend: build
 	docker run \
 		--name coaxis-daemon-tests \
 		--rm \
@@ -76,7 +76,7 @@ test-backend: build dev
 		--tty \
 		--env IN_DOCKER=true \
 		coaxisopt_daemon \
-			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose'
+			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose --failfast'
 
 test-frontend:
 	cd ./frontend/ \
