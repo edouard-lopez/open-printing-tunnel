@@ -78,7 +78,8 @@ class ConfigEditor:
 
         return value
 
-    def cast_to_int(self, value):
+    @staticmethod
+    def cast_to_int(value):
         if isinstance(value, str):
             return int(float(value.replace('"', '') or 0))
 
