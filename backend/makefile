@@ -29,4 +29,4 @@ reset-test-env:
 test-api: reset-test-env
 	source env/bin/activate \
 	&& export DEFAULT_INTERFACE=wlp4s0 \
-	&& ./manage.py test -v 2
+	&& ./manage.py test --failfast --verbosity 2
