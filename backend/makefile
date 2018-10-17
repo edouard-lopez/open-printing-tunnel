@@ -22,8 +22,9 @@ install-python-requirements:
 	&& pip3 install -r requirements.txt
 
 reset-test-env:
+	docker stop --time 0 $$(docker ps | awk '/coaxisopt_daemon/ {print $$1}') || true
 	docker network prune --force
-	docker rm --force "$$(docker ps | grep coaxisopt_daemon)" || true
+	docker rm --force $$(docker ps | awk '/coaxisopt_daemon/ {print $$1}') || true
 
 test-api: reset-test-env
 	source env/bin/activate \
