@@ -100,3 +100,23 @@ class ConfigEditor:
                 ruleset.append(output_parser.forward_rule(rule.strip().strip('"')))
 
         return ruleset
+
+    def serialize_forward_rule(self, rule):
+        forward_to = rule.get('ports').get('forward')
+        socket_source = 'L' if forward_to == 'remote' else 'R'
+
+        return '"{socket_source} *:{listen}:{hostname}:{send} # {description}"'.format(
+            socket_source=socket_source,
+            listen=rule.get('ports').get('listen'),
+            hostname=rule.get('hostname'),
+            send=rule.get('ports').get('send'),
+            description=rule.get('description'),
+        )
+
+    def serialize_forward_ruleset(self, ruleset):
+        serialization=[]
+
+        for key, rule in enumerate(ruleset):
+            serialization.append('[{key}]={rule}'.format(key=key, rule=self.serialize_forward_rule(rule)))
+        
+        return '({rules})'.format(rules=' '.join(serialization))

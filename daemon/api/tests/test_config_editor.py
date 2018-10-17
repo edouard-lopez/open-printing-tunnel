@@ -183,3 +183,41 @@ class ConfigEditorTestCase(unittest.TestCase):
                 }
             }])
 
+
+    def test_serialize_forward_rule(self):
+        rule = {
+                'description': 'bureau étage',
+                'hostname': '10.0.1.8',
+                'ports': { 'send': 9100, 'forward': 'remote', 'listen': 9102 }
+            }
+            
+        serialization = ConfigEditor().serialize_forward_rule(rule)
+
+        self.assertEqual(serialization, '"L *:9102:10.0.1.8:9100 # bureau étage"')
+
+    def test_serialize_forward_ruleset_empty_ruleset(self):
+        ruleset = []
+
+        serialization = ConfigEditor().serialize_forward_ruleset(ruleset)
+
+        self.assertEqual(serialization, '()')
+
+    def test_serialize_forward_ruleset(self):
+        ruleset = [
+            {
+                'description': 'étage',
+                'hostname': '1.2.3.4',
+                'ports': { 'send': 9100, 'forward': 'remote', 'listen': 9101 }
+            },
+            {
+                'description': 'rdc',
+                'hostname': '8.8.8.8',
+                'ports': { 'send': 9100, 'forward': 'remote', 'listen': 9102 }
+            }
+        ]
+
+        serialization = ConfigEditor().serialize_forward_ruleset(ruleset)
+
+        self.assertEqual(serialization, '([0]="L *:9101:1.2.3.4:9100 # étage" [1]="L *:9102:8.8.8.8:9100 # rdc")')
+
+    
