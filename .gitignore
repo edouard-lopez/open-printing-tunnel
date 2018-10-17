@@ -31,3 +31,4 @@ venv/
 node_modules/
 !frontend/dist/
 !daemon/frontend/dist/
+*.lock
