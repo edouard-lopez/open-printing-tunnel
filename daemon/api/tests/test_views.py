@@ -14,7 +14,7 @@ else:
 TEMPLATE_BACKUP_PATH = Path('/tmp', 'template').with_suffix('.bak')
 
 
-class TestAPIIntegrations(TestCase):
+class TestViewsIntegrations(TestCase):
     def setUp(self):
         app.testing = True
         self.app = app.test_client()
