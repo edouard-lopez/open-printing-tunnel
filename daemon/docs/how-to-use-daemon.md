@@ -158,6 +158,7 @@ sudo make list-channels
 # or
 sudo make list-channels NAME=nautilus
 ```
+![sudo-make-list-channels](./screenshots/sudo-make-list-channels.png)
 
 ### Add Channel
 
