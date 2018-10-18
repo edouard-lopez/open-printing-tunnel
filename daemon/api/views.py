@@ -123,18 +123,20 @@ class Printers(Resource):
         if not validators.has_all(request.json, ['site', 'hostname', 'description']):
             abort(400)
 
-        site = slugify(request.json['site'])
         hostname = request.json['hostname']
-        description = request.json['description']
-        if validators.is_valid_host(hostname):
-            response = mast_utils.add_printer(site, hostname, description)
-            response.update({
-                'site': site,
-                'hostname': hostname,
-                'description': description,
-            })
+        if not validators.is_valid_host(hostname):
+            abort(400)
 
-            return response, 201 if response['cmd']['exit_status'] else 500
+        site = slugify(request.json['site'])
+        description = request.json['description']
+        response = mast_utils.add_printer(site, hostname, description)
+        response.update({
+            'site': site,
+            'hostname': hostname,
+            'description': description,
+        })
+
+        return response, 201 if response['cmd']['exit_status'] else 500
 
 
 class Printer(Resource):
