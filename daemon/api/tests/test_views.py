@@ -42,17 +42,17 @@ class TestViewsIntegrations(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_POST_api_sites_endpoint_reject_invalid_hostname(self):
-        response = self.app.post('/api/sites/', json={"id": "paris", "hostname": "invalid hostname"})
+        response = self.app.post('/api/sites/', json={'id': 'paris', 'hostname': 'invalid hostname'})
 
         self.assertEqual(response.status_code, 500)
 
     def test_POST_api_sites_endpoint_require_id_and_hostname(self):
-        response = self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        response = self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         self.assertEqual(response.status_code, 201)
 
     def test_GET_api_sites_endpoint_fetch_newly_created_site(self):
-        self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.get('/api/sites/')
         json = response.get_json()
@@ -72,7 +72,7 @@ class TestViewsIntegrations(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_PUT_api_site_endpoint_start_site(self):
-        self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'start'})
 
@@ -80,7 +80,7 @@ class TestViewsIntegrations(TestCase):
         self.assertIn('status', response.get_json()['results'])
 
     def test_PUT_api_site_endpoint_stop_site(self):
-        self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'stop'})
 
@@ -88,7 +88,7 @@ class TestViewsIntegrations(TestCase):
         self.assertIn('status', response.get_json()['results'])
 
     def test_PUT_api_site_endpoint_check_status_site(self):
-        self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'status'})
 
@@ -96,15 +96,16 @@ class TestViewsIntegrations(TestCase):
         self.assertIn('state', response.get_json()['results'])
 
     def test_PUT_api_site_endpoint_restart_site(self):
-        self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'restart'})
         self.assertEqual(response.status_code, 200)
         self.assertIn('status', response.get_json()['results'])
 
     def test_DELETE_api_site_endpoint(self):
-        self.app.post('/api/sites/', json={"id": "paris", "hostname": "0.0.0.0"})
+        self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.delete('/api/sites/paris/')
 
         self.assertEqual(response.status_code, 200)
+
