@@ -27,21 +27,11 @@ class ValidatorsTestCase(unittest.TestCase):
         self.assertEqual(validators.is_valid_host('being stupid'), False)
 
     def test_silent_if_all_required_args_present(self):
-        required_args = ('name', 'remote-host')
-        payload = {'name': None, 'remote-host': None}
-
-        has_all = validators.has_all(payload, required_args)
+        has_all = validators.has_all({'name': None, 'remote-host': None}, ['name', 'remote-host'])
 
         self.assertEqual(has_all, True)
 
     def test_fail_on_missing_required_arg(self):
-        required_args = ('name', 'remote-host')
-        payload = {'remote-host': None}
-
-        has_all = validators.has_all(payload, required_args)
+        has_all = validators.has_all({'remote-host': None}, ['name', 'remote-host'])
 
         self.assertEqual(has_all, False)
-
-
-if __name__ == '__main__':
-    unittest.main()

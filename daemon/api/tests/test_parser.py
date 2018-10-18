@@ -1,5 +1,4 @@
 import unittest
-from pprint import pprint
 
 import output_parser
 
@@ -403,6 +402,3 @@ class ParserTestCase(unittest.TestCase):
             '216.58.208.3': {'ping': None},
             '216.58.208.4': {'ping': None}
         })
-
-if __name__ == '__main__':
-    unittest.main()

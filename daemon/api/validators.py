@@ -20,7 +20,8 @@ def is_valid_host(host):
 
 
 def has_all(payload, required_args):
-    for arg in required_args:
-        if arg not in payload:
-            return False
-        return True
+    payload_keys = list(payload.keys())
+    payload_keys.sort()
+    required_args.sort()
+
+    return set(payload_keys) == set(required_args)

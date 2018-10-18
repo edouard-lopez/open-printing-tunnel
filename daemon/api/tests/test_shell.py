@@ -54,7 +54,3 @@ class ShellTestCase(unittest.TestCase):
         escaped_data = shell.clean_response(stdout)
 
         self.assertListEqual(escaped_data, [])
-
-
-if __name__ == '__main__':
-    unittest.main()
