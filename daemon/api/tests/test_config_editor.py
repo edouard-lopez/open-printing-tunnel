@@ -220,4 +220,31 @@ class ConfigEditorTestCase(unittest.TestCase):
 
         self.assertEqual(serialization, '([0]="L *:9101:1.2.3.4:9100 # étage" [1]="L *:9102:8.8.8.8:9100 # rdc")')
 
-    
+    def test_aggregate_site_config_no_site_yet(self):
+        sites = [ ]
+
+        listening_ports = ConfigEditor().aggregate_listening_ports(sites)
+
+        self.assertListEqual(listening_ports, [])
+
+    def test_aggregate_site_config_no_printer(self):
+        sites = [ { 'id': 'paris', 'channels': [ ] } ]
+
+        listening_ports = ConfigEditor().aggregate_listening_ports(sites)
+
+        self.assertListEqual(listening_ports, [])
+
+    def test_aggregate_site_config(self):
+        sites = [
+            { 'id': 'paris', 'channels': [
+                    { 'ports': { 'listen': 9101 } } ,
+                    { 'ports': { 'listen': 9105 } } 
+            ] },
+            { 'id': 'bayonne', 'channels': [ { 'ports': { 'listen': 9103 } } ] }
+        ]
+
+        listening_ports = ConfigEditor().aggregate_listening_ports(sites)
+
+        self.assertListEqual(listening_ports, [9101, 9103, 9105])
+
+        
