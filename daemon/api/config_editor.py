@@ -91,9 +91,6 @@ class ConfigEditor:
         name, value = line.strip().split('=(')
         value = value[:-1]  # removing the trailing ')'
 
-        if len(value) == 0:
-            return []
-
         ruleset = []
         for rule in re.split(r'\[\d+\]=', value):
             if rule:
