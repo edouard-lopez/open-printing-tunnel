@@ -87,7 +87,8 @@ class ConfigEditor:
 
         return value
 
-    def parse_forward_ruleset(self, line):
+    @staticmethod
+    def parse_forward_ruleset(line):
         name, value = line.strip().split('=(')
         value = value[:-1]  # removing the trailing ')'
 
@@ -98,7 +99,8 @@ class ConfigEditor:
 
         return ruleset
 
-    def serialize_forward_rule(self, rule):
+    @staticmethod
+    def serialize_forward_rule(rule):
         forward_to = rule.get('ports').get('forward')
         socket_source = 'L' if forward_to == 'remote' else 'R'
 
@@ -118,7 +120,8 @@ class ConfigEditor:
 
         return '({rules})'.format(rules=' '.join(serialization))
 
-    def aggregate_listening_ports(self, sites):
+    @staticmethod
+    def aggregate_listening_ports(sites):
         listening_ports = []
 
         for site in sites:
