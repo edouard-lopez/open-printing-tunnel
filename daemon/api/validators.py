@@ -21,7 +21,5 @@ def is_valid_host(host):
 
 def has_all(payload, required_args):
     payload_keys = list(payload.keys())
-    payload_keys.sort()
-    required_args.sort()
 
-    return set(payload_keys) == set(required_args)
+    return set(required_args).issubset(payload_keys)

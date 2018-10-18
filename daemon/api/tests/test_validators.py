@@ -35,3 +35,8 @@ class ValidatorsTestCase(unittest.TestCase):
         has_all = validators.has_all({'remote-host': None}, ['name', 'remote-host'])
 
         self.assertEqual(has_all, False)
+
+    def test_ignore_extraneous_properties(self):
+        has_all = validators.has_all({'name': None, 'remote-host': None}, ['name'])
+
+        self.assertEqual(has_all, True)

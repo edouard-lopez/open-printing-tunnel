@@ -117,7 +117,10 @@ class Config(Resource):
 
 class Printers(Resource):
     def post(self):
-        if not request.json or not validators.has_all(request.json, ['site', 'hostname', 'description']):
+        if not request.json:
+            abort(400)
+
+        if not validators.has_all(request.json, ['site', 'hostname', 'description']):
             abort(400)
 
         site = slugify(request.json['site'])
