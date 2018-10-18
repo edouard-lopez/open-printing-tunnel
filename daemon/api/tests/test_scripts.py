@@ -1,5 +1,4 @@
 import unittest
-
 from datetime import datetime
 
 import mast_utils
@@ -31,9 +30,12 @@ class ScriptsGeneratorTestCase(unittest.TestCase):
 
         content = scripts_generators.render(filename, {
             'printers': [
-                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.4', 'port': '9101', 'site': 'akema', 'description': 'lorem ipsum'},
-                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.5', 'port': '9102', 'site': 'akema', 'description': 'lorem ipsum'},
-                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.6', 'port': '9103', 'site': 'akema', 'description': 'lorem ipsum'}
+                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.4', 'port': '9101', 'site': 'akema',
+                 'description': 'lorem ipsum'},
+                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.5', 'port': '9102', 'site': 'akema',
+                 'description': 'lorem ipsum'},
+                {'site_hostname': 'akema.opt', 'hostname': '1.2.3.6', 'port': '9103', 'site': 'akema',
+                 'description': 'lorem ipsum'}
             ]})
 
         self.assertRegex(content, 'akema.opt')

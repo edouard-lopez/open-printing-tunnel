@@ -1,6 +1,5 @@
 import unittest
 
-import output_parser
 import shell
 
 

@@ -1,7 +1,6 @@
 import os
 import tempfile
 import unittest
-from pprint import pprint
 
 from config_editor import ConfigEditor
 
@@ -173,24 +172,23 @@ class ConfigEditorTestCase(unittest.TestCase):
         parsed = ConfigEditor().parse_forward_ruleset(ruleset)
 
         self.assertListEqual(parsed, [{
-                'id': -1,
-                'description': 'bureau étage',
-                'hostname': '10.0.1.8',
-                'ports': {
-                    'send': 9100,
-                    'forward': 'remote',
-                    'listen': 9102
-                }
-            }])
-
+            'id': -1,
+            'description': 'bureau étage',
+            'hostname': '10.0.1.8',
+            'ports': {
+                'send': 9100,
+                'forward': 'remote',
+                'listen': 9102
+            }
+        }])
 
     def test_serialize_forward_rule(self):
         rule = {
-                'description': 'bureau étage',
-                'hostname': '10.0.1.8',
-                'ports': { 'send': 9100, 'forward': 'remote', 'listen': 9102 }
-            }
-            
+            'description': 'bureau étage',
+            'hostname': '10.0.1.8',
+            'ports': {'send': 9100, 'forward': 'remote', 'listen': 9102}
+        }
+
         serialization = ConfigEditor().serialize_forward_rule(rule)
 
         self.assertEqual(serialization, '"L *:9102:10.0.1.8:9100 # bureau étage"')
@@ -207,12 +205,12 @@ class ConfigEditorTestCase(unittest.TestCase):
             {
                 'description': 'étage',
                 'hostname': '1.2.3.4',
-                'ports': { 'send': 9100, 'forward': 'remote', 'listen': 9101 }
+                'ports': {'send': 9100, 'forward': 'remote', 'listen': 9101}
             },
             {
                 'description': 'rdc',
                 'hostname': '8.8.8.8',
-                'ports': { 'send': 9100, 'forward': 'remote', 'listen': 9102 }
+                'ports': {'send': 9100, 'forward': 'remote', 'listen': 9102}
             }
         ]
 
@@ -221,14 +219,14 @@ class ConfigEditorTestCase(unittest.TestCase):
         self.assertEqual(serialization, '([0]="L *:9101:1.2.3.4:9100 # étage" [1]="L *:9102:8.8.8.8:9100 # rdc")')
 
     def test_aggregate_site_config_no_site_yet(self):
-        sites = [ ]
+        sites = []
 
         listening_ports = ConfigEditor().aggregate_listening_ports(sites)
 
         self.assertListEqual(listening_ports, [])
 
     def test_aggregate_site_config_no_printer(self):
-        sites = [ { 'id': 'paris', 'channels': [ ] } ]
+        sites = [{'id': 'paris', 'channels': []}]
 
         listening_ports = ConfigEditor().aggregate_listening_ports(sites)
 
@@ -236,15 +234,13 @@ class ConfigEditorTestCase(unittest.TestCase):
 
     def test_aggregate_site_config(self):
         sites = [
-            { 'id': 'paris', 'channels': [
-                    { 'ports': { 'listen': 9101 } } ,
-                    { 'ports': { 'listen': 9105 } } 
-            ] },
-            { 'id': 'bayonne', 'channels': [ { 'ports': { 'listen': 9103 } } ] }
+            {'id': 'paris', 'channels': [
+                {'ports': {'listen': 9101}},
+                {'ports': {'listen': 9105}}
+            ]},
+            {'id': 'bayonne', 'channels': [{'ports': {'listen': 9103}}]}
         ]
 
         listening_ports = ConfigEditor().aggregate_listening_ports(sites)
 
         self.assertListEqual(listening_ports, [9101, 9103, 9105])
-
-        

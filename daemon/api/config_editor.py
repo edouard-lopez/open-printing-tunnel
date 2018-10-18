@@ -111,11 +111,11 @@ class ConfigEditor:
         )
 
     def serialize_forward_ruleset(self, ruleset):
-        serialization=[]
+        serialization = []
 
         for key, rule in enumerate(ruleset):
             serialization.append('[{key}]={rule}'.format(key=key, rule=self.serialize_forward_rule(rule)))
-        
+
         return '({rules})'.format(rules=' '.join(serialization))
 
     def aggregate_listening_ports(self, sites):
@@ -124,6 +124,6 @@ class ConfigEditor:
         for site in sites:
             for channel in site['channels']:
                 listening_ports.append(channel['ports']['listen'])
-        
+
         listening_ports.sort()
         return listening_ports

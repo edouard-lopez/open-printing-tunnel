@@ -1,5 +1,4 @@
 import logging
-import shlex
 
 import output_parser
 import shell

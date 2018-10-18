@@ -1,5 +1,4 @@
 import unittest
-from pprint import pprint
 
 from scanner import Scanner
 from tests.stub_network_tools import NetworkToolsStub
@@ -29,7 +28,8 @@ class ScannerTestCase(unittest.TestCase):
             'description': {'oid': '.1.3.6.1.2.1.25.3.2.1.3.1', 'value': 'Brother HL-5250DN series'},
             'pageCount': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625},
             'sysContact': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
-            'sysDescription': {'oid': '.1.3.6.1.2.1.1.1.0', 'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
+            'sysDescription': {'oid': '.1.3.6.1.2.1.1.1.0',
+                               'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
             'sysName': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
             'uptime': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460}
         })
@@ -84,7 +84,7 @@ class ScannerTestCase(unittest.TestCase):
             'pageCount': {'oid': '.1.3.6.1.2.1.43.10.2.1.4.1.1', 'value': 22625},
             'sysContact': {'oid': '.1.3.6.1.2.1.1.4.0', 'value': ''},
             'sysDescription': {'oid': '.1.3.6.1.2.1.1.1.0',
-                                'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
+                               'value': 'Brother NC-6400h, Firmware Ver.1.01  (05.08.31),MID 84UZ92'},
             'sysName': {'oid': '.1.3.6.1.2.1.1.5.0', 'value': 'BRN_7D3B43'},
             'uptime': {'oid': '.1.3.6.1.2.1.1.3.0', 'value': 143431460}
         })

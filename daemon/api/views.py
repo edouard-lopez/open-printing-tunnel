@@ -10,11 +10,10 @@ import mast_utils
 import network_utils
 import scripts_generators
 import validators
+from config_constraints import Constraints
 from config_editor import ConfigEditor
 from network_tools import NetworkTools
 from scanner import Scanner
-from config_constraints import Constraints
-
 
 app = Flask(__name__)
 api = Api(app, prefix='/api')
@@ -40,11 +39,11 @@ class Sites(Resource):
         hostname = request.json['hostname']
         if not validators.is_valid_host(hostname):
             return None, 500
-        
+
         site_id = slugify(request.json['id'])
         response = mast_utils.add_site(site_id, hostname)
         response.update({
-            'id': site_id, 
+            'id': site_id,
             'hostname': hostname
         })
 
@@ -89,7 +88,7 @@ class Config(Resource):
 
         only = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
         censored = Constraints().censor(config=content, keep=only)
-        
+
         return censored, 200
 
     def put(self, site_id):
@@ -99,13 +98,14 @@ class Config(Resource):
         site_config = os.path.join('/etc', 'mast', site_id)
         config_editor = ConfigEditor()
 
-        BANDWIDTH_MIN=10
-        BANDWIDTH_MAX=100000
+        BANDWIDTH_MIN = 10
+        BANDWIDTH_MAX = 100000
         for key in ['UploadLimit', 'DownloadLimit']:
             if key in request.json:
                 value = request.json.get(key)
                 assert isinstance(int(float(value)), int), "Bandwidth must be a positive integer."
-                assert BANDWIDTH_MIN <= value <= BANDWIDTH_MAX, "Bandwidth must be between {}Kb and {}Kb." % (BANDWIDTH_MIN, BANDWIDTH_MAX)
+                assert BANDWIDTH_MIN <= value <= BANDWIDTH_MAX, "Bandwidth must be between {}Kb and {}Kb." % (
+                BANDWIDTH_MIN, BANDWIDTH_MAX)
                 config_editor.update(file_path=site_config, data={key: value})
 
         content = config_editor.load(file_path=site_config)

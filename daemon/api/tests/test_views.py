@@ -120,13 +120,15 @@ class TestViewsIntegrations(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_POST_api_printers_require_valid_hostname(self):
-        response = self.app.post('/api/printers/', json={'site': 'paris', 'hostname': 'hōßt näme!', 'description': 'bureau'})
+        response = self.app.post('/api/printers/',
+                                 json={'site': 'paris', 'hostname': 'hōßt näme!', 'description': 'bureau'})
 
         self.assertEqual(response.status_code, 400)
 
     def test_POST_api_printers_return_forward_rule(self):
-        response = self.app.post('/api/printers/', json={'site': 'paris', 'hostname': '0.0.0.0', 'description': 'bureau'})
-        results = response.get_json()['results']
+        response = self.app.post('/api/printers/',
+                                 json={'site': 'paris', 'hostname': '0.0.0.0', 'description': 'bureau'})
+        results = response.json['results']
 
         self.assertEqual(response.status_code, 201)
         self.assertIn('ports', results)

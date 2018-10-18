@@ -386,8 +386,8 @@ class ParserTestCase(unittest.TestCase):
         response = output_parser.fping(stdout)
 
         self.assertDictEqual(response, {
-            '216.58.208.253':  {'ping': 96.1},
-            '216.58.208.254':  {'ping': 88.4}
+            '216.58.208.253': {'ping': 96.1},
+            '216.58.208.254': {'ping': 88.4}
         })
 
     def test_parse_fping_unreachable_hosts(self):
