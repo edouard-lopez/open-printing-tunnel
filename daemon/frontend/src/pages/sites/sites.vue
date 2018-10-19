@@ -47,7 +47,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import logging from 'services/logging.service';
 	import actions from 'vuex/actions';
 	import getters from 'vuex/getters';
 
@@ -100,6 +99,7 @@
 	.striped .printer:nth-of-type(2n+1) {
 		background-color: hsla(0, 0%, 0%, 0.1);
 	}
+
 	.site {
 		padding-bottom: .625rem;
 	}

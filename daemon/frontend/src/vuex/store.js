@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import * as actions from './actions';
+import * as getters from './getters';
 import mutations from './mutations';
 
 Vue.use(Vuex);
-Vue.config.debug = true;
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -27,9 +28,9 @@ const state = {
 		],
 		config: { }  // dynamicly inserted
     }
-	],
-	log: [/*
-	 {
+		 ],
+		 log: [/*
+		 {
 	 'help': 'service has not been started yet',
 	 'id': 'akema',
 	 'state': 'off'
@@ -59,6 +60,8 @@ const state = {
 
 export default new Vuex.Store({
 	state,
+	getters,
+	actions,
 	mutations,
 	strict: debug
 });
