@@ -77,6 +77,14 @@ test-backend: build
 		coaxisopt_daemon \
 			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose --failfast'
 
+test-backend-dev: dev
+	echo 'Mount source code in container'
+	docker exec \
+		--interactive \
+		--env IN_DOCKER=true \
+		coaxisopt_daemon \
+			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose --failfast '
+
 test-frontend:
 	cd ./frontend/ \
 	&& npm test
