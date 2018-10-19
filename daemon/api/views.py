@@ -6,6 +6,7 @@ from flask_restful import Api, Resource, abort
 from slugify import slugify
 
 import daemon
+import http_status
 import mast_utils
 import network_utils
 import scripts_generators
@@ -30,15 +31,15 @@ class Sites(Resource):
     def get(self):
         response = mast_utils.list_site_and_printers()
 
-        return response, 200 if response['cmd']['exit_status'] else 500
+        return response, http_status.OK if response['cmd']['exit_status'] else http_status.INTERNAL_SERVER_ERROR
 
     def post(self):
         if not request.json or not validators.has_all(request.json, ['id', 'hostname']):
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         hostname = request.json['hostname']
         if not validators.is_valid_host(hostname):
-            return None, 500
+            return None, http_status.INTERNAL_SERVER_ERROR
 
         site_id = slugify(request.json['id'])
         response = mast_utils.add_site(site_id, hostname)
@@ -47,35 +48,35 @@ class Sites(Resource):
             'hostname': hostname
         })
 
-        return response, 201 if response['cmd']['exit_status'] else 500
+        return response, http_status.CREATED if response['cmd']['exit_status'] else http_status.INTERNAL_SERVER_ERROR
 
 
 class Site(Resource):
     def put(self, site_id):
         if not request.json or not validators.has_all(request.json, ['action']):
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         site_id = slugify(site_id)
         action = slugify(request.json['action'])
         if action not in ['start', 'stop', 'status', 'restart']:
-            abort(400)
+            abort(http_status.BAD_REQUEST)
         response = getattr(daemon, action)(site_id)  # see api/daemon.py
         response.update({
             'id': site_id
         })
 
-        return response, 200 if response['cmd']['exit_status'] else 500
+        return response, http_status.OK if response['cmd']['exit_status'] else http_status.INTERNAL_SERVER_ERROR
 
     def delete(self, site_id):
         if not site_id:
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         site_id = slugify(site_id)
         response = getattr(daemon, 'stop')(site_id)  # see api/daemon.py
         response = mast_utils.remove_site(site_id)
         response['id'] = site_id
 
-        return response, 200 if response['cmd']['exit_status'] else 500
+        return response, http_status.OK if response['cmd']['exit_status'] else http_status.INTERNAL_SERVER_ERROR
 
 
 class Config(Resource):
@@ -88,11 +89,11 @@ class Config(Resource):
         only = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
         censored = Constraints().censor(config=content, keep=only)
 
-        return censored, 200
+        return censored, http_status.OK
 
     def put(self, site_id):
         if not request.json:
-            abort(400)
+            abort(http_status.BAD_REQUEST)
         site_id = slugify(site_id)
         site_config = os.path.join('/etc', 'mast', site_id)
         config_editor = ConfigEditor()
@@ -111,48 +112,50 @@ class Config(Resource):
         only = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
         censored = Constraints().censor(config=content, keep=only)
 
-        return censored, 200
+        return censored, http_status.OK
 
 
 class Printers(Resource):
+
     def post(self):
         if not request.json:
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         if not validators.has_all(request.json, ['site', 'hostname', 'description']):
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         hostname = request.json['hostname']
         if not validators.is_valid_host(hostname):
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         site_id = slugify(request.json['site'])
         description = request.json['description']
 
         if 'ports' in request.json and 'listen' in request.json['ports']:
             if not validators.has_all(request.json['ports'], ['forward', 'listen', 'send']):
-                abort(400)
+                abort(http_status.BAD_REQUEST)
             assert isinstance(int(float(request.json['ports']['listen'])), int), "Bandwidth must be a positive integer."
 
             config_editor = ConfigEditor()
             listening_port = config_editor.cast_to_int(request.json['ports']['listen'])
 
-            PORT_NUMBER_MIN=1000
-            PORT_NUMBER_MAX=65535
+            PORT_NUMBER_MIN = 1000
+            PORT_NUMBER_MAX = 65535
             if not PORT_NUMBER_MIN <= listening_port <= PORT_NUMBER_MAX:
-                abort(406)
+                abort(http_status.NOT_ACCEPTABLE)
 
             sites = mast_utils.list_site_and_printers()['results']
             if listening_port in config_editor.aggregate_listening_ports(sites):
-                abort(409)
+                abort(http_status.CONFLICT)
 
             site_config = os.path.join('/etc', 'mast', site_id)
             config = config_editor.load(file_path=site_config)
             ruleset = config_editor.parse_forward_ruleset(config['ForwardPort'])
-            new_rule = {'site': site_id, 'hostname': hostname, 'description': description, 'ports': request.json['ports']}
+            new_rule = {'site': site_id, 'hostname': hostname, 'description': description,
+                        'ports': request.json['ports']}
             ruleset.append(new_rule)
             config_editor.update(file_path=site_config,
-                          data={'ForwardPort': config_editor.serialize_forward_ruleset(ruleset)})
+                                 data={'ForwardPort': config_editor.serialize_forward_ruleset(ruleset)})
             config = config_editor.load(file_path=site_config)
             response = {'results': new_rule, 'cmd': {'exit_status': True}}
         else:
@@ -163,13 +166,13 @@ class Printers(Resource):
                 'description': description,
             })
 
-        return response, 201 if response['cmd']['exit_status'] else 500
+        return response, http_status.CREATED if response['cmd']['exit_status'] else http_status.INTERNAL_SERVER_ERROR
 
 
 class Printer(Resource):
     def delete(self, site_id=None, printer_id=None):
         if site_id is None or printer_id is None:  # printer_id can have value of 0
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         site_id = slugify(site_id)
         response = mast_utils.remove_printer(site_id, printer_id)
@@ -178,7 +181,7 @@ class Printer(Resource):
             'id': printer_id,
         })
 
-        return response, 200 if response['cmd']['exit_status'] else 500
+        return response, http_status.OK if response['cmd']['exit_status'] else http_status.INTERNAL_SERVER_ERROR
 
 
 class PrinterInstallScript(Resource):
@@ -207,7 +210,7 @@ class PrinterInstallScript(Resource):
 class SiteInstallScript(Resource):
     def get(self, site_id):
         if not site_id:
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         filename = 'site.bat.j2'
         site_host = request.headers['Host']
@@ -227,7 +230,7 @@ class SiteInstallScript(Resource):
 class SiteConfigurePortScript(Resource):
     def get(self, site_id):
         if not site_id:
-            abort(400)
+            abort(http_status.BAD_REQUEST)
 
         filename = 'configure-ports.bat.j2'
         site_host = request.headers['Host']

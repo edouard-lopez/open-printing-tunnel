@@ -4,6 +4,7 @@ from pathlib import Path
 from shutil import copyfile
 from unittest import TestCase
 
+import http_status
 from views import app
 
 if 'IN_DOCKER' in os.environ:
@@ -35,22 +36,22 @@ class TestViewsIntegrations(TestCase):
     def test_POST_api_sites_endpoint_require_payload(self):
         response = self.app.post('/api/sites/')
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_POST_api_sites_endpoint_require_payload_fields(self):
         response = self.app.post('/api/sites/', json={})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_POST_api_sites_endpoint_reject_invalid_hostname(self):
         response = self.app.post('/api/sites/', json={'id': 'paris', 'hostname': 'invalid hostname'})
 
-        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.status_code, http_status.INTERNAL_SERVER_ERROR)
 
     def test_POST_api_sites_endpoint_require_id_and_hostname(self):
         response = self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, http_status.CREATED)
 
     def test_GET_api_sites_endpoint_fetch_newly_created_site(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
@@ -65,19 +66,19 @@ class TestViewsIntegrations(TestCase):
     def test_PUT_api_site_endpoint_reject_require_action_attribute(self):
         response = self.app.post('/api/sites/', json={})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_PUT_api_site_endpoint_reject_invalid_action(self):
         response = self.app.post('/api/sites/', json={'action': 'invalid'})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_PUT_api_site_endpoint_start_site(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'start'})
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, http_status.OK)
         self.assertIn('status', response.json['results'])
 
     def test_PUT_api_site_endpoint_stop_site(self):
@@ -85,7 +86,7 @@ class TestViewsIntegrations(TestCase):
 
         response = self.app.put('/api/sites/paris/', json={'action': 'stop'})
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, http_status.OK)
         self.assertIn('status', response.json['results'])
 
     def test_PUT_api_site_endpoint_check_status_site(self):
@@ -93,14 +94,14 @@ class TestViewsIntegrations(TestCase):
 
         response = self.app.put('/api/sites/paris/', json={'action': 'status'})
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, http_status.OK)
         self.assertIn('state', response.json['results'])
 
     def test_PUT_api_site_endpoint_restart_site(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'restart'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, http_status.OK)
         self.assertIn('status', response.json['results'])
 
     def test_DELETE_api_site_endpoint(self):
@@ -108,23 +109,23 @@ class TestViewsIntegrations(TestCase):
 
         response = self.app.delete('/api/sites/paris/')
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, http_status.OK)
 
     def test_POST_api_printers_require_payload(self):
         response = self.app.post('/api/printers/', json={})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_POST_api_printers_require_payload_fields(self):
         response = self.app.post('/api/printers/', json={'site': 'paris'})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_POST_api_printers_require_valid_hostname(self):
         response = self.app.post('/api/printers/',
                                  json={'site': 'paris', 'hostname': 'hōßt näme!', 'description': 'bureau'})
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_POST_api_printers_return_forward_rule(self):
         self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
@@ -133,7 +134,7 @@ class TestViewsIntegrations(TestCase):
                                  json={'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'bureau'})
         results = response.json['results']
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, http_status.CREATED)
         self.assertIn('ports', results)
         ports = list(results['ports'].keys())
         ports.sort()
@@ -155,7 +156,7 @@ class TestViewsIntegrations(TestCase):
             'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'réception'
         })
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
     def test_POST_api_printers_assign_port_manually_reject_allocated_port(self):
         self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
@@ -167,16 +168,16 @@ class TestViewsIntegrations(TestCase):
 
         response = self.app.post('/api/printers/', json=printer_config_on_same_port)
 
-        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.status_code, http_status.CONFLICT)
 
     def test_POST_api_printers_assign_port_manually_reject_out_of_boundaries(self):
         self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
 
         response = self.app.post('/api/printers/', json={'ports': {'forward': 'xyz', 'listen': 123456, 'send': 9100}, 'site': 'xyz', 'hostname': 'xyz', 'description': 'xyz'})
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, http_status.NOT_ACCEPTABLE)
 
         response = self.app.post('/api/printers/', json={'ports': {'forward': 'xyz', 'listen': 123456, 'send': 9100}, 'site': 'xyz', 'hostname': 'xyz', 'description': 'xyz'})
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, http_status.NOT_ACCEPTABLE)
 
     def test_POST_api_printers_assign_port_manually_on_new_site(self):
         self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
@@ -189,7 +190,7 @@ class TestViewsIntegrations(TestCase):
         })
         channels = self.app.get('/api/sites/').json['results'][0]['channels']
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, http_status.CREATED)
         self.assertDictEqual(response.json['results']['ports'], {'forward': 'remote', 'listen': 9108, 'send': 9100})
         self.assertEqual(len(channels), 1)
         self.assertEqual(channels[0]['ports']['listen'], 9108)
@@ -206,7 +207,7 @@ class TestViewsIntegrations(TestCase):
         })
         channels = self.app.get('/api/sites/').json['results'][0]['channels']
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, http_status.CREATED)
         self.assertDictEqual(response.json['results'], {
             'ports': {'forward': 'remote', 'listen': 9108, 'send': 9100},
             'site': 'bordeaux',
