@@ -12,6 +12,7 @@ else:
     working_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     TEMPLATE_PATH = Path(working_dir, '..', 'template')
 TEMPLATE_BACKUP_PATH = Path('/tmp', 'template').with_suffix('.bak')
+FIRST_ALLOCATED_PORT = 9102  # why? should be 9100
 
 
 class TestViewsIntegrations(TestCase):
@@ -126,8 +127,10 @@ class TestViewsIntegrations(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_POST_api_printers_return_forward_rule(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+
         response = self.app.post('/api/printers/',
-                                 json={'site': 'paris', 'hostname': '0.0.0.0', 'description': 'bureau'})
+                                 json={'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'bureau'})
         results = response.json['results']
 
         self.assertEqual(response.status_code, 201)
@@ -135,3 +138,82 @@ class TestViewsIntegrations(TestCase):
         ports = list(results['ports'].keys())
         ports.sort()
         self.assertListEqual(ports, ['forward', 'listen', 'send'])
+
+    def test_POST_api_printers_return_create_new_rule(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+        self.app.post('/api/printers/', json={'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'bureau'})
+        channels = self.app.get('/api/sites/').json['results'][0]['channels']
+
+        self.assertEqual(len(channels), 1)
+        self.assertEqual(channels[0]['ports']['listen'], FIRST_ALLOCATED_PORT)
+
+    def test_POST_api_printers_assign_port_manually_reject_incomplete_printer_config(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+
+        response = self.app.post('/api/printers/', json={
+            'ports': {'listen': 9108},
+            'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'réception'
+        })
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_POST_api_printers_assign_port_manually_reject_allocated_port(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+        printer_config_on_same_port = {
+            'ports': {'forward': 'remote', 'listen': 9108, 'send': 9100},
+            'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'réception'
+        }
+        self.app.post('/api/printers/', json=printer_config_on_same_port)
+
+        response = self.app.post('/api/printers/', json=printer_config_on_same_port)
+
+        self.assertEqual(response.status_code, 409)
+
+    def test_POST_api_printers_assign_port_manually_reject_out_of_boundaries(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+
+        response = self.app.post('/api/printers/', json={'ports': {'forward': 'xyz', 'listen': 123456, 'send': 9100}, 'site': 'xyz', 'hostname': 'xyz', 'description': 'xyz'})
+        self.assertEqual(response.status_code, 406)
+
+        response = self.app.post('/api/printers/', json={'ports': {'forward': 'xyz', 'listen': 123456, 'send': 9100}, 'site': 'xyz', 'hostname': 'xyz', 'description': 'xyz'})
+        self.assertEqual(response.status_code, 406)
+
+    def test_POST_api_printers_assign_port_manually_on_new_site(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+
+        response = self.app.post('/api/printers/', json={
+            'ports': {'forward': 'remote', 'listen': 9108, 'send': 9100},
+            'site': 'bordeaux',
+            'hostname': '0.0.0.0',
+            'description': 'bureau'
+        })
+        channels = self.app.get('/api/sites/').json['results'][0]['channels']
+
+        self.assertEqual(response.status_code, 201)
+        self.assertDictEqual(response.json['results']['ports'], {'forward': 'remote', 'listen': 9108, 'send': 9100})
+        self.assertEqual(len(channels), 1)
+        self.assertEqual(channels[0]['ports']['listen'], 9108)
+
+    def test_POST_api_printers_assign_port_manually_on_site_with_printers(self):
+        self.app.post('/api/sites/', json={'id': 'bordeaux', 'hostname': '0.0.0.0'})
+        self.app.post('/api/printers/', json={'site': 'bordeaux', 'hostname': '0.0.0.0', 'description': 'bureau'})
+
+        response = self.app.post('/api/printers/', json={
+            'ports': {'forward': 'remote', 'listen': 9108, 'send': 9100},
+            'site': 'bordeaux',
+            'hostname': '0.0.0.0',
+            'description': 'réception'
+        })
+        channels = self.app.get('/api/sites/').json['results'][0]['channels']
+
+        self.assertEqual(response.status_code, 201)
+        self.assertDictEqual(response.json['results'], {
+            'ports': {'forward': 'remote', 'listen': 9108, 'send': 9100},
+            'site': 'bordeaux',
+            'hostname': '0.0.0.0',
+            'description': 'réception'
+        })
+        self.assertEqual(len(channels), 2)
+        listening_ports = [channel['ports']['listen'] for channel in channels]
+        listening_ports.sort()
+        self.assertEqual(listening_ports, [FIRST_ALLOCATED_PORT, 9108])

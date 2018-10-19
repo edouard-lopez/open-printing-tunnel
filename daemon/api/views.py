@@ -82,9 +82,8 @@ class Config(Resource):
     def get(self, site_id):
         site_id = slugify(site_id)
 
-        config_editor = ConfigEditor()
         site_config = os.path.join('/etc', 'mast', site_id)
-        content = config_editor.load(file_path=site_config)
+        content = ConfigEditor().load(file_path=site_config)
 
         only = ['ForwardPort', 'BandwidthLimitation', 'UploadLimit', 'DownloadLimit']
         censored = Constraints().censor(config=content, keep=only)
@@ -105,7 +104,7 @@ class Config(Resource):
                 value = request.json.get(key)
                 assert isinstance(int(float(value)), int), "Bandwidth must be a positive integer."
                 assert BANDWIDTH_MIN <= value <= BANDWIDTH_MAX, "Bandwidth must be between {}Kb and {}Kb." % (
-                BANDWIDTH_MIN, BANDWIDTH_MAX)
+                    BANDWIDTH_MIN, BANDWIDTH_MAX)
                 config_editor.update(file_path=site_config, data={key: value})
 
         content = config_editor.load(file_path=site_config)
@@ -127,14 +126,42 @@ class Printers(Resource):
         if not validators.is_valid_host(hostname):
             abort(400)
 
-        site = slugify(request.json['site'])
+        site_id = slugify(request.json['site'])
         description = request.json['description']
-        response = mast_utils.add_printer(site, hostname, description)
-        response.update({
-            'site': site,
-            'hostname': hostname,
-            'description': description,
-        })
+
+        if 'ports' in request.json and 'listen' in request.json['ports']:
+            if not validators.has_all(request.json['ports'], ['forward', 'listen', 'send']):
+                abort(400)
+            assert isinstance(int(float(request.json['ports']['listen'])), int), "Bandwidth must be a positive integer."
+
+            config_editor = ConfigEditor()
+            listening_port = config_editor.cast_to_int(request.json['ports']['listen'])
+
+            PORT_NUMBER_MIN=1000
+            PORT_NUMBER_MAX=65535
+            if not PORT_NUMBER_MIN <= listening_port <= PORT_NUMBER_MAX:
+                abort(406)
+
+            sites = mast_utils.list_site_and_printers()['results']
+            if listening_port in config_editor.aggregate_listening_ports(sites):
+                abort(409)
+
+            site_config = os.path.join('/etc', 'mast', site_id)
+            config = config_editor.load(file_path=site_config)
+            ruleset = config_editor.parse_forward_ruleset(config['ForwardPort'])
+            new_rule = {'site': site_id, 'hostname': hostname, 'description': description, 'ports': request.json['ports']}
+            ruleset.append(new_rule)
+            config_editor.update(file_path=site_config,
+                          data={'ForwardPort': config_editor.serialize_forward_ruleset(ruleset)})
+            config = config_editor.load(file_path=site_config)
+            response = {'results': new_rule, 'cmd': {'exit_status': True}}
+        else:
+            response = mast_utils.add_printer(site_id, hostname, description)
+            response.update({
+                'site': site_id,
+                'hostname': hostname,
+                'description': description,
+            })
 
         return response, 201 if response['cmd']['exit_status'] else 500
 
