@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createLogger from '../middlewares/logger';
 import mutations from './mutations';
 
 Vue.use(Vuex);
@@ -61,6 +60,5 @@ const state = {
 export default new Vuex.Store({
 	state,
 	mutations,
-	strict: debug,
-	middlewares: debug ? [createLogger()] : []
+	strict: debug
 });
