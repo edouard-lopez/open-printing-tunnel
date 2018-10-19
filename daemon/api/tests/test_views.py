@@ -55,7 +55,7 @@ class TestViewsIntegrations(TestCase):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.get('/api/sites/')
-        json = response.get_json()
+        json = response.json
 
         self.assertIn('results', json)
         self.assertGreaterEqual(len(json['results']), 1)
@@ -77,7 +77,7 @@ class TestViewsIntegrations(TestCase):
         response = self.app.put('/api/sites/paris/', json={'action': 'start'})
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('status', response.get_json()['results'])
+        self.assertIn('status', response.json['results'])
 
     def test_PUT_api_site_endpoint_stop_site(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
@@ -85,7 +85,7 @@ class TestViewsIntegrations(TestCase):
         response = self.app.put('/api/sites/paris/', json={'action': 'stop'})
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('status', response.get_json()['results'])
+        self.assertIn('status', response.json['results'])
 
     def test_PUT_api_site_endpoint_check_status_site(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
@@ -93,14 +93,14 @@ class TestViewsIntegrations(TestCase):
         response = self.app.put('/api/sites/paris/', json={'action': 'status'})
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('state', response.get_json()['results'])
+        self.assertIn('state', response.json['results'])
 
     def test_PUT_api_site_endpoint_restart_site(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
 
         response = self.app.put('/api/sites/paris/', json={'action': 'restart'})
         self.assertEqual(response.status_code, 200)
-        self.assertIn('status', response.get_json()['results'])
+        self.assertIn('status', response.json['results'])
 
     def test_DELETE_api_site_endpoint(self):
         self.app.post('/api/sites/', json={'id': 'paris', 'hostname': '0.0.0.0'})
