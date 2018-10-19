@@ -71,6 +71,7 @@
 				let id = this.object.id;
 				this.promise(this.object).then(function () {
 					$('#delete-button-modal-' + id).modal('hide');
+					$('.modal-backdrop').remove()
 				});
 			}
 		}
