@@ -6547,11 +6547,6 @@ vue-html-loader@^1.2.3:
     loader-utils "^0.2.15"
     object-assign "^4.1.0"
 
-vue-i18n@^4.5.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-4.6.0.tgz#e0d17e5150b3331b6e2035e420ec87eb7c7d2cc5"
-  integrity sha1-4NF+UVCzMxtuIDXkIOyH63x9LMU=
-
 vue-loader@^8.5.2:
   version "8.5.4"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-8.5.4.tgz#8e43dd0c9910a468a908e50492ac4b3620716631"
