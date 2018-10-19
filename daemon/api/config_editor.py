@@ -89,11 +89,10 @@ class ConfigEditor:
 
     @staticmethod
     def parse_forward_ruleset(line):
-        name, value = line.strip().split('=(')
-        value = value[:-1]  # removing the trailing ')'
+        line = line[1:-1]  # removing  opening and closing parenthesis
 
         ruleset = []
-        for rule in re.split(r'\[\d+\]=', value):
+        for rule in re.split(r'\[\d+\]=', line):
             if rule:
                 ruleset.append(output_parser.forward_rule(rule.strip().strip('"')))
 

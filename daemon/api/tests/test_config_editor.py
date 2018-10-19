@@ -160,14 +160,14 @@ class ConfigEditorTestCase(unittest.TestCase):
         self.assertEqual(ConfigEditor().cast('"true"', "--"), 'true')
 
     def test_parse_forward_rule_can_parse_empty(self):
-        ruleset = 'declare -a ForwardPort=()'
+        ruleset = '()'
 
         parsed = ConfigEditor().parse_forward_ruleset(ruleset)
 
         self.assertListEqual(parsed, [])
 
     def test_parse_forward_rule_return_object(self):
-        ruleset = 'declare -a ForwardPort=([0]="L *:9102:10.0.1.8:9100 # bureau étage")'
+        ruleset = '([0]="L *:9102:10.0.1.8:9100 # bureau étage")'
 
         parsed = ConfigEditor().parse_forward_ruleset(ruleset)
 
