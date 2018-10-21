@@ -156,17 +156,12 @@ export default {
 			response.results = [response.results];
 		}
 	},
-	probeNetwork({dispatch}) {
-		function sendProbe() {
-			networks.all().then(response => {
-				dispatch('setNetworksData', response.data);
-			}).catch(err => {
-				console.error('Échec de la récupération des networks.', err);
-			});
-		}
-
-		sendProbe();
-		setInterval(() => sendProbe(), 15 * 1000);
+	probeNetwork(store) {
+		return networks.all().then(response => {
+			store.dispatch('setNetworksData', response.data);
+		}).catch(err => {
+			console.error('Échec de la récupération des networks.', err);
+		});
 	},
 
 	getSiteConfig({dispatch}, site) {

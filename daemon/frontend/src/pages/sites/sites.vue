@@ -56,16 +56,24 @@
 	import SplashComponent from '../../components/splash.vue';
 
 	export default {
-		ready(){
+		ready() {
 			this.getSites();
-			this.probeNetwork();
+			this.probeNetwork().then(() => {
+				let SECOND = 1000;
+				let PROBE_BASE_INTERVAL = 15;
+
+				this.interval = setInterval(() => this.probeNetwork(), PROBE_BASE_INTERVAL * SECOND);
+			})
+		},
+		beforeDestroy() {
+			clearInterval(this.interval);
 		},
 		computed: {
 			has_sites: function () {
 				return this.sites.length > 0;
 			},
 			network() {
-				var data = null;
+				let data = null;
 
 				if (typeof this.networks !== 'undefined') {
 					data = this.networks[this.site.hostname];
@@ -87,6 +95,7 @@
 			},
 			getters: {
 				sites: getters.retrieveSites,
+				networkDevices: getters.retrieveNetworks
 			}
 		}
 	};
