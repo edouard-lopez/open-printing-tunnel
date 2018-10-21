@@ -62,13 +62,27 @@
 				let SECOND = 1000;
 				let PROBE_BASE_INTERVAL = 15;
 
-				this.interval = setInterval(() => this.probeNetwork(), PROBE_BASE_INTERVAL * SECOND);
+				let probeDynamicInterval = PROBE_BASE_INTERVAL + Math.round(this.devicesCount / 5);
+				console.info(`ping devices every ${probeDynamicInterval}s`);
+				this.interval = setInterval(() => this.probeNetwork(), probeDynamicInterval * SECOND);
 			})
 		},
 		beforeDestroy() {
 			clearInterval(this.interval);
 		},
 		computed: {
+			devicesCount: function () {
+				let devicesCount = Object.keys(this.networkDevices).length || 0;
+				for (let siteHostname in this.networkDevices) {
+					for (let device in this.networkDevices[siteHostname]) {
+						let notDevices = ['telnet', 'ping'];
+						if (!notDevices.includes(device)) {
+							devicesCount++
+						}
+					}
+				}
+				return devicesCount;
+			},
 			has_sites: function () {
 				return this.sites.length > 0;
 			},
