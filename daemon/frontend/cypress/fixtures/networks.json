@@ -1,0 +1,18 @@
+{
+    "192.168.1.60": {
+        "192.168.1.61": {
+            "telnet": false,
+            "ping": null
+        },
+        "telnet": false,
+        "10.0.1.1": {
+            "telnet": false,
+            "ping": null
+        },
+        "ping": null
+    },
+    "192.168.1.65": {
+        "telnet": true,
+        "ping": 0.15
+    }
+}

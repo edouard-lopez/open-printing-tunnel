@@ -1,0 +1,73 @@
+{
+    "results": [
+        {
+            "hostname": "192.168.1.65",
+            "id": "paris",
+            "channels": []
+        },
+        {
+            "hostname": "192.168.1.65",
+            "id": "goulier",
+            "channels": [
+                {
+                    "hostname": "192.168.1.65",
+                    "ports": {
+                        "forward": "remote",
+                        "send": 9100,
+                        "listen": 9104
+                    },
+                    "id": 0,
+                    "description": "salon"
+                },
+                {
+                    "hostname": "10.0.1.8",
+                    "ports": {
+                        "forward": "remote",
+                        "send": 9100,
+                        "listen": 9103
+                    },
+                    "id": 1,
+                    "description": "bureau"
+                }
+            ]
+        },
+        {
+            "hostname": "192.168.1.60",
+            "id": "nautilus",
+            "channels": [
+                {
+                    "hostname": "192.168.1.61",
+                    "ports": {
+                        "forward": "remote",
+                        "send": 9100,
+                        "listen": 9102
+                    },
+                    "id": 0,
+                    "description": "bureau"
+                },
+                {
+                    "hostname": "10.0.1.1",
+                    "ports": {
+                        "forward": "remote",
+                        "send": 9100,
+                        "listen": 9105
+                    },
+                    "id": 1,
+                    "description": "whatever"
+                }
+            ]
+        }
+    ],
+    "cmd": {
+        "raw": [
+            "\t\u001b[0;35mgoulier\u001b[0m                                \u001b[0;36m192.168.1.65\u001b[0m",
+            "\t\u001b[0;35mL *:9104:192.168.1.65:9100\u001b[0m        \u001b[0;36m0\u001b[0m   \t\u001b[0;37m# salon\u001b[0m",
+            "\t\u001b[0;35mL *:9103:10.0.1.8:9100\u001b[0m            \u001b[0;36m1\u001b[0m   \t\u001b[0;37m# bureau\u001b[0m",
+            "\t\u001b[0;35mnautilus\u001b[0m                               \u001b[0;36m192.168.1.60\u001b[0m",
+            "\t\u001b[0;35mL *:9102:192.168.1.61:9100\u001b[0m        \u001b[0;36m0\u001b[0m   \t\u001b[0;37m# bureau\u001b[0m",
+            "\t\u001b[0;35mL *:9105:10.0.1.1:9100\u001b[0m            \u001b[0;36m1\u001b[0m   \t\u001b[0;37m# whatever\u001b[0m",
+            "\t\u001b[0;35mparis\u001b[0m                                  \u001b[0;36m192.168.1.65\u001b[0m"
+        ],
+        "exit_status": true
+    }
+}
