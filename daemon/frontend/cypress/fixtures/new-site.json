@@ -1,0 +1,15 @@
+{
+    "results": [
+        {
+            "hostname": "0.0.0.0",
+            "id": "test-e2e",
+            "channels": []
+        }
+    ],
+    "cmd": {
+        "raw": [
+            "\t\u001b[0;35mtest-e2e\u001b[0m                               \u001b[0;36m0.0.0.0\u001b[0m"
+            ],
+        "exit_status": true
+    }
+}

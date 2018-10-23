@@ -1,11 +1,11 @@
 <template>
-	<div data-e2e="add-site">
-		<button type="button" class="btn btn-success" data-toggle="modal"
+	<div>
+		<button data-e2e="add-site" type="button" class="btn btn-success" data-toggle="modal"
 				data-target="#site-modal">
 			<i class="fa fa-plus-circle"></i>
 			Ajouter un site
 		</button>
-		<div class="modal fade" id="site-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
+		<div class="modal fade" id="site-modal" data-e2e="add-site-modal" tabindex="-1" role="dialog" aria-labelledby="action-label"
 			 aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content text-xs-left">
@@ -21,20 +21,20 @@
 								<label for="id">Nom du site <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="id"
-									   placeholder="ex. client-un" v-model="site.id"/>
+									   placeholder="ex. client-un" v-model="site.id" data-e2e="add-site:name"/>
 							</fieldset>
 							<fieldset class="form-group">
 								<label for="hostname">Hôte distant <span class="text-danger">*</span></label>
 
 								<input type="text" class="form-control" id="hostname"
-									   placeholder="ex. 10.0.254.1" v-model="site.hostname"/>
+									   placeholder="ex. 10.0.254.1" v-model="site.hostname" data-e2e="add-site:hostname"/>
 							</fieldset>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
 						<button type="button" class="btn btn-primary" v-on:click.stop.prevent="createSite"
-								:disabled="!formIsValid">
+								:disabled="!formIsValid" data-e2e="add-site:submit">
 							<span v-if="!formSubmitted">Créer</span>
 							<span v-else><i class="fa fa-spinner fa-pulse fa-fw"></i> Création en cours</span>
 						</button>

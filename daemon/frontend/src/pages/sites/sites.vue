@@ -36,7 +36,7 @@
 				</span>
 				<span>ou navigateur non supporté</span>.
 			</div>
-			<div v-for="(index, site) in sites | orderBy 'id' " class="site card card-block">
+			<div v-for="(index, site) in sites | orderBy 'id' " class="site card card-block" data-e2e="sites">
 				<site :site="site" :index="index"></site>
 			</div>
 		</div>
