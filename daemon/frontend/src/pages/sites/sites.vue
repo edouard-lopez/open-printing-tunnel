@@ -14,7 +14,7 @@
 				<b>Accepter</b> les risques
 			</span>
 		</splash>
-		<div class="card card-block">
+		<div id="opt-header" class="card card-block">
 			<div class="row">
 				<div class="col-xs-6 col-md-6">
 					<h2>
@@ -28,13 +28,13 @@
 			</div>
 		</div>
 		<div id="accordion" class="striped" role="tablist" aria-multiselectable="true">
-			<div v-show="!has_sites" class="card card-block bg-warning ">
+			<div v-show="!has_sites" id="opt-no-site-available" class="card card-block bg-warning ">
 				<span>
 					<i class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
 					<span class="sr-only">Loading…</span>
-					Aucun sites détectés…
+					Aucun site détecté…
 				</span>
-				<span class="text-mut">ou navigateur non supporté</span>.
+				<span>ou navigateur non supporté</span>.
 			</div>
 			<div v-for="(index, site) in sites | orderBy 'id' " class="site card card-block">
 				<site :site="site" :index="index"></site>
