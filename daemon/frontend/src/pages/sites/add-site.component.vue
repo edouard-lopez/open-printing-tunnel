@@ -1,5 +1,5 @@
 <template>
-	<div id="opt-add-site">
+	<div data-e2e="add-site">
 		<button type="button" class="btn btn-success" data-toggle="modal"
 				data-target="#site-modal">
 			<i class="fa fa-plus-circle"></i>
