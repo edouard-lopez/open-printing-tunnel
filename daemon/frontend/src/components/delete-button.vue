@@ -1,15 +1,16 @@
 <style>
-	.btn-link .fa-trash-o:focus, .btn-link .fa-trash-o:hover {
-		color: hsl(2, 64%, 48%);
-	}
+.btn-link .fa-trash-o:focus,
+.btn-link .fa-trash-o:hover {
+	color: hsl(2, 64%, 48%);
+}
 
-	.btn-link .fa-trash-o {
-		color: hsl(2, 64%, 58%) !important;
-	}
+.btn-link .fa-trash-o {
+	color: hsl(2, 64%, 58%) !important;
+}
 
-	.delete-button {
-		display: inline-block;
-	}
+.delete-button {
+	display: inline-block;
+}
 </style>
 <template>
 	<div id="delete-button-{{object.site}}-{{object.id}}" class="delete-button">
@@ -54,26 +55,26 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	export default {
-		data() {
-			return {
-				pending: false
-			}
-		},
-		props: {
-			promise: {type: Function},
-			object: {type: Object, required: true},
-			class: {type: String}
-		},
-		methods: {
-			confirm() {
-				this.pending = true;
-				let id = this.object.id;
-				this.promise(this.object).then(function () {
-					$('#delete-button-modal-' + id).modal('hide');
-					$('.modal-backdrop').remove()
-				});
-			}
+export default {
+	data() {
+		return {
+			pending: false
+		};
+	},
+	props: {
+		promise: { type: Function },
+		object: { type: Object, required: true },
+		class: { type: String }
+	},
+	methods: {
+		confirm() {
+			this.pending = true;
+			let id = this.object.id;
+			this.promise(this.object).then(function() {
+				$('#delete-button-modal-' + id).modal('hide');
+				$('.modal-backdrop').remove();
+			});
 		}
 	}
+};
 </script>

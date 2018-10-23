@@ -50,73 +50,74 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import printersService from 'services/printers.service';
-	import actions from 'vuex/actions';
-	import getters from 'vuex/getters';
-	import scanFilter from 'components/scan.filters';
+import printersService from 'services/printers.service';
+import actions from 'vuex/actions';
+import getters from 'vuex/getters';
+import scanFilter from 'components/scan.filters';
 
-	export default {
-		data() {
-			return {
-				printers: {
-					siteName: '',
-					hostnames: ''
-				},
-				formSubmitted: false
-			};
-		},
-		created() {
-			this.printers.siteName = this.site.id
-		},
-		props: {
-			site: {
-				type: Object,
-				required: true
+export default {
+	data() {
+		return {
+			printers: {
+				siteName: '',
+				hostnames: ''
 			},
-			label: {},
-			class: {}
+			formSubmitted: false
+		};
+	},
+	created() {
+		this.printers.siteName = this.site.id;
+	},
+	props: {
+		site: {
+			type: Object,
+			required: true
 		},
-		methods: {
-			addBulk(){
-				this.formSubmitted = true;
-				const printers = printersService.parsePrinters(this.printers.hostnames);
-				for (let printer of printers) {
-					printer['site'] = this.site.id;
-					this.addPrinter(printer).then(response => {
+		label: {},
+		class: {}
+	},
+	methods: {
+		addBulk() {
+			this.formSubmitted = true;
+			const printers = printersService.parsePrinters(this.printers.hostnames);
+			for (let printer of printers) {
+				printer['site'] = this.site.id;
+				this.addPrinter(printer)
+					.then(response => {
 						this.getSites();
 						this.siteRestart(this.site);
 						$('#printers-modal-' + response.data.site).modal('hide');
 						this.formSubmitted = false;
-					}).catch((err) => {
+					})
+					.catch(err => {
 						console.err(err);
 						this.formSubmitted = false;
 					});
-				}
-			}
-		},
-		computed: {
-			formIsValid(){
-				return !!(
-						this.printers.siteName
-						&& this.printers.hostnames
-						&& !this.formSubmitted
-				);
-			},
-			clipboard() {
-				const printers = this.scans[this.site.id];
-				return scanFilter.text(scanFilter.toClipboard(printers));
-			}
-		},
-		vuex: {
-			actions: {
-				addPrinter: actions.addPrinter,
-				getSites: actions.getSites,
-				siteRestart: actions.siteRestart
-			},
-			getters: {
-				scans: getters.retrieveScanClipboard
 			}
 		}
-	};
+	},
+	computed: {
+		formIsValid() {
+			return !!(
+				this.printers.siteName &&
+				this.printers.hostnames &&
+				!this.formSubmitted
+			);
+		},
+		clipboard() {
+			const printers = this.scans[this.site.id];
+			return scanFilter.text(scanFilter.toClipboard(printers));
+		}
+	},
+	vuex: {
+		actions: {
+			addPrinter: actions.addPrinter,
+			getSites: actions.getSites,
+			siteRestart: actions.siteRestart
+		},
+		getters: {
+			scans: getters.retrieveScanClipboard
+		}
+	}
+};
 </script>
-

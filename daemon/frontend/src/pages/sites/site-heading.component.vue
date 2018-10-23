@@ -1,12 +1,12 @@
 <style>
-	.expandable {
-		cursor: pointer;
-	}
+.expandable {
+	cursor: pointer;
+}
 
-	.vertical-align-text {
-		line-height: 2em;
-		height: 2em;
-	}
+.vertical-align-text {
+	line-height: 2em;
+	height: 2em;
+}
 </style>
 <template>
 	<div class="row">
@@ -83,80 +83,80 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import AddPrinterButtonComponent from './add-printer.component.vue';
-	import AddPrintersButtonComponent from './add-printers.component.vue';
-	import ScriptSiteInstallation from 'components/script-site-installation.component';
-	import ScriptPortsConfiguration from 'components/script-ports-configuration.component';
-	import DeleteButton from 'components/delete-button';
+import AddPrinterButtonComponent from './add-printer.component.vue';
+import AddPrintersButtonComponent from './add-printers.component.vue';
+import ScriptSiteInstallation from 'components/script-site-installation.component';
+import ScriptPortsConfiguration from 'components/script-ports-configuration.component';
+import DeleteButton from 'components/delete-button';
 
-	import Network from 'components/network';
-	import Scanner from 'components/scanner';
-	import tunnelName from 'components/tunnel-name';
+import Network from 'components/network';
+import Scanner from 'components/scanner';
+import tunnelName from 'components/tunnel-name';
 
-	import actions from 'vuex/actions';
-	import getters from "vuex/getters";
-	import logging from 'services/logging.service';
+import actions from 'vuex/actions';
+import getters from 'vuex/getters';
+import logging from 'services/logging.service';
 
-	export default{
-		components: {
-			'add-printer-button': AddPrinterButtonComponent,
-			'add-printers-button': AddPrintersButtonComponent,
-			'script-site-installation': ScriptSiteInstallation,
-			'script-ports-configuration': ScriptPortsConfiguration,
-			'delete': DeleteButton,
-			'network': Network,
-			"scanner": Scanner,
-			'tunnel-name': tunnelName
+export default {
+	components: {
+		'add-printer-button': AddPrinterButtonComponent,
+		'add-printers-button': AddPrintersButtonComponent,
+		'script-site-installation': ScriptSiteInstallation,
+		'script-ports-configuration': ScriptPortsConfiguration,
+		delete: DeleteButton,
+		network: Network,
+		scanner: Scanner,
+		'tunnel-name': tunnelName
+	},
+	props: {
+		site: { type: Object, required: true }
+	},
+	computed: {
+		has_printers: function() {
+			return this.site.channels.length > 0;
 		},
-		props: {
-			site: {type: Object, required: true},
-		},
-		computed: {
-			has_printers: function () {
-				return this.site.channels.length > 0;
-			},
-			device() {
-				var data = null;
+		device() {
+			var data = null;
 
-				if (typeof this.networks !== 'undefined') {
-					data = this.networks[this.site.hostname];
-				}
-
-				return data;
+			if (typeof this.networks !== 'undefined') {
+				data = this.networks[this.site.hostname];
 			}
+
+			return data;
+		}
+	},
+	methods: {
+		status(site) {
+			this.siteStatus(site);
 		},
-		methods: {
-			status(site) {
-				this.siteStatus(site);
-			},
-			start(site) {
-				this.siteStart(site);
-			},
-			stop(site) {
-				this.siteStop(site);
-			},
-			restart(site) {
-				this.siteRestart(site);
-			},
-			delete_site(site){
-				return this.deleteSite(site).then(response => {
-					this.getSites();
-				});
-			}
+		start(site) {
+			this.siteStart(site);
 		},
-		vuex: {
-			actions: {
-				getSites: actions.getSites,
-				deleteSite: actions.deleteSite,
-				saveFile: actions.saveFile,
-				siteStatus: actions.siteStatus,
-				siteStart: actions.siteStart,
-				siteStop: actions.siteStop,
-				siteRestart: actions.siteRestart
-			},
-			getters: {
-				networks: getters.retrieveNetworks
-			}
+		stop(site) {
+			this.siteStop(site);
+		},
+		restart(site) {
+			this.siteRestart(site);
+		},
+		delete_site(site) {
+			return this.deleteSite(site).then(response => {
+				this.getSites();
+			});
+		}
+	},
+	vuex: {
+		actions: {
+			getSites: actions.getSites,
+			deleteSite: actions.deleteSite,
+			saveFile: actions.saveFile,
+			siteStatus: actions.siteStatus,
+			siteStart: actions.siteStart,
+			siteStop: actions.siteStop,
+			siteRestart: actions.siteRestart
+		},
+		getters: {
+			networks: getters.retrieveNetworks
 		}
 	}
+};
 </script>

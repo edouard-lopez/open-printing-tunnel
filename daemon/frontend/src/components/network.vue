@@ -7,35 +7,30 @@
 	</span>
 </template>
 <script type="text/ecmascript-6">
-	import network from './network.filter';
+import network from './network.filter';
 
-	export default {
-		props: {
-			device: {
-				type: Object,
-				default: function () {
-					return {ping: 0, telnet: 0}
-				}
+export default {
+	props: {
+		device: {
+			type: Object,
+			default: function() {
+				return { ping: 0, telnet: 0 };
 			}
-		},
-		filters: {
-			time: network.time,
-			icon: network.icon,
-			reachable: network.reachable
 		}
+	},
+	filters: {
+		time: network.time,
+		icon: network.icon,
+		reachable: network.reachable
 	}
+};
 </script>
 <style>
-	.ping {
-		text-shadow: 2px 0 0px #fff;
-		z-index: 1;
-		margin-left: .5em;
-	}
-
-	.telnet {
-		left: -12px;
-	}
-
+.ping {
+	text-shadow: 2px 0 0px #fff;
+	z-index: 1;
+	margin-left: 0.5em;
+}
 	.ping .fa-pulsing, .telnet .fa-pulsing {
 		border: .2rem solid #ccc;
 		border-radius: 5rem !important;
@@ -48,6 +43,9 @@
 		opacity: 1;
 	}
 
+.telnet {
+	left: -12px;
+}
 	@-webkit-keyframes pulsate {
 		0% {
 			border-width: .4rem;

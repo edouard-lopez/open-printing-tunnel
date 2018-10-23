@@ -11,7 +11,8 @@ export default {
 		}
 	},
 	parsePrinters(clipboard) {
-		return clipboard.split('\n')
+		return clipboard
+			.split('\n')
 			.filter(line => {
 				return line;
 			})

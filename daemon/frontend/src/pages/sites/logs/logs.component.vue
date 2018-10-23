@@ -29,34 +29,34 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import logging from 'services/logging.service';
-	import actions from 'vuex/actions';
-	import getters from 'vuex/getters';
+import logging from 'services/logging.service';
+import actions from 'vuex/actions';
+import getters from 'vuex/getters';
 
-	export default {
-		vuex: {
-			actions: {
-				clear: actions.clearLog,
-			},
-			getters: {
-				log: getters.retrieveLog
-			}
+export default {
+	vuex: {
+		actions: {
+			clear: actions.clearLog
+		},
+		getters: {
+			log: getters.retrieveLog
 		}
 	}
+};
 </script>
 <style>
-	.highlight {
-		margin-right: 0;
-		margin-left: 0;
-	}
+.highlight {
+	margin-right: 0;
+	margin-left: 0;
+}
 
-	.stdout {
-		background-color: #f7f7f9;
-		margin-bottom: 0;
-		padding: .5rem;
-	}
+.stdout {
+	background-color: #f7f7f9;
+	margin-bottom: 0;
+	padding: 0.5rem;
+}
 
-	.line {
-		display: block;
-	}
+.line {
+	display: block;
+}
 </style>

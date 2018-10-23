@@ -10,29 +10,29 @@
 	</span>
 </template>
 <script type="text/ecmascript-6">
-	import tunnelName from './tunnel-name.filter';
+import tunnelName from './tunnel-name.filter';
 
-	import actions from 'vuex/actions';
+import actions from 'vuex/actions';
 
-	export default { 
-		props: {
-			site: {type: Object, required: true},
-		},
-		ready: function () {
-			this.getSiteConfig(this.site);
-		},
-		computed: {
-			config() {
-				return this.site.config;
-			}
-		},
-		filters: {
-			kb: tunnelName.kb
-		},
-		vuex: {
-			actions: {
-				getSiteConfig: actions.getSiteConfig
-			}
+export default {
+	props: {
+		site: { type: Object, required: true }
+	},
+	ready: function() {
+		this.getSiteConfig(this.site);
+	},
+	computed: {
+		config() {
+			return this.site.config;
+		}
+	},
+	filters: {
+		kb: tunnelName.kb
+	},
+	vuex: {
+		actions: {
+			getSiteConfig: actions.getSiteConfig
 		}
 	}
+};
 </script>

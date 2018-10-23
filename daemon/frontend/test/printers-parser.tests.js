@@ -13,7 +13,8 @@ test('should parse a line', t => {
 });
 
 test('should parse two lines', t => {
-	const clipboard = 'IMP RDC Couleur\t10.100.12.21\nHP2055 Sylvie\t10.100.12.25';
+	const clipboard =
+		'IMP RDC Couleur\t10.100.12.21\nHP2055 Sylvie\t10.100.12.25';
 	const parsedLines = printers.parsePrinters(clipboard);
 
 	t.deepEqual(parsedLines, [
@@ -46,7 +47,8 @@ test('should not parse empty string', t => {
 });
 
 test('should parse two printers', t => {
-	const clipboard = '\nIMP RDC Couleur\t10.100.12.21\n\nHP2055 Sylvie\t10.100.12.25';
+	const clipboard =
+		'\nIMP RDC Couleur\t10.100.12.21\n\nHP2055 Sylvie\t10.100.12.25';
 	const parsedLines = printers.parsePrinters(clipboard);
 
 	t.is(2, parsedLines.length);

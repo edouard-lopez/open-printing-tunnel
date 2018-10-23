@@ -10,7 +10,7 @@ export default {
 		return label;
 	},
 	icon(value, type) {
-//				let icon = 'fa-pulsing fa-fw text-warning';
+		//				let icon = 'fa-pulsing fa-fw text-warning';
 		let icon = 'fa-warning text-warning';
 
 		if (type === 'ping' && value > 0) {

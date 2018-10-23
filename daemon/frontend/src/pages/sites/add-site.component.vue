@@ -45,51 +45,53 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import http from 'services/http.service';
-	import logging from 'services/logging.service';
-	import actions from 'vuex/actions';
-	import getters from 'vuex/getters';
+import http from 'services/http.service';
+import logging from 'services/logging.service';
+import actions from 'vuex/actions';
+import getters from 'vuex/getters';
 
-	const sites = http('sites', localStorage);
+const sites = http('sites', localStorage);
 
-	export default {
-		data() {
-			return {
-				site: {
-					id: '',
-					hostname: ''
-				},
-				formSubmitted: false
-			};
-		},
-		methods: {
-			createSite(){
-				this.formSubmitted = true;
+export default {
+	data() {
+		return {
+			site: {
+				id: '',
+				hostname: ''
+			},
+			formSubmitted: false
+		};
+	},
+	methods: {
+		createSite() {
+			this.formSubmitted = true;
 
-				sites.create(this.site).then(() => {
+			sites
+				.create(this.site)
+				.then(() => {
 					$('#site-modal').modal('hide');
 					this.formSubmitted = false;
-					this.getSites()
-				}).catch(() => {
+					this.getSites();
+				})
+				.catch(() => {
 					console.error(err);
 					this.formSubmitted = false;
-					logging.error('Impossible d\'ajouter le site');
+					logging.error("Impossible d'ajouter le site");
 				});
-			}
-		},
-		computed: {
-			formIsValid(){
-				return !!(this.site.id && this.site.hostname && !this.formSubmitted);
-			}
-		},
-		vuex: {
-			actions: {
-				getSites: actions.getSites,
-			},
-			getters: {
-				sites: getters.retrieveSites
-			}
 		}
-	};
+	},
+	computed: {
+		formIsValid() {
+			return !!(this.site.id && this.site.hostname && !this.formSubmitted);
+		}
+	},
+	vuex: {
+		actions: {
+			getSites: actions.getSites
+		},
+		getters: {
+			sites: getters.retrieveSites
+		}
+	}
+};
 </script>
-

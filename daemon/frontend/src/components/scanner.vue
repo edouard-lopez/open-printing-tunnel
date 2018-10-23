@@ -8,54 +8,56 @@
 	</button>
 </template>
 <script type="text/ecmascript-6">
-	import http from 'services/http.service';
-	import actions from 'vuex/actions';
+import http from 'services/http.service';
+import actions from 'vuex/actions';
 
-	export default {
-		data() {
-			return {
-				scanning: false,
-			};
-		},
-		props: {
-			site: {
-				type: Object,
-				required: true
-			}
-		},
-		methods: {
-			scan(site) {
-				if (!this.scanning) {
-					this.scanning = true;
-					this.scanSite(site).then((response) => this.scanning = false);
-				}
-			}
-		},
-		vuex: {
-			actions: {
-				scanSite: actions.scanSite,
+export default {
+	data() {
+		return {
+			scanning: false
+		};
+	},
+	props: {
+		site: {
+			type: Object,
+			required: true
+		}
+	},
+	methods: {
+		scan(site) {
+			if (!this.scanning) {
+				this.scanning = true;
+				this.scanSite(site).then(response => (this.scanning = false));
 			}
 		}
-
+	},
+	vuex: {
+		actions: {
+			scanSite: actions.scanSite
+		}
 	}
+};
 </script>
 <style>
-	.scan .fa-wifi {
-		color: #ccc;
-	}
+.scan .fa-wifi {
+	color: #ccc;
+}
 
-	.scan .fa-wifi:hover {
-		color: #373a3c;
-	}
+.scan .fa-wifi:hover {
+	color: #373a3c;
+}
 
-	.scan .fa-pulsing {
-		border: .2rem solid #373a3c;
-		border-radius: 5rem !important;
-		height: 1em;
-		width: 1em;
-		position: relative;
-		top: .1rem;
-		animation: pulsate 2s infinite ease-out;
+.scan .fa-pulsing {
+	border: 0.2rem solid #373a3c;
+	border-radius: 5rem !important;
+	height: 1em;
+	width: 1em;
+	position: relative;
+	top: 0.1rem;
+	animation: pulsate 2s infinite ease-out;
+	opacity: 1;
+}
+
 		opacity: 1;
 	}
 

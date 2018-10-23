@@ -1,13 +1,13 @@
 import pilou from 'pilou';
 
-module.exports = function (resourceName, localStorage) {
+module.exports = function(resourceName, localStorage) {
 	const resources = pilou(resourceName);
 	return {
 		localStorage,
 		getRequestConfig() {
 			const token = this.localStorage.getItem('token');
 			return {
-				headers: {Authorization: `JWT ${token}`}
+				headers: { Authorization: `JWT ${token}` }
 			};
 		},
 		create(resource) {
@@ -24,7 +24,11 @@ module.exports = function (resourceName, localStorage) {
 			return resources.get(resource, requestConfig);
 		},
 		update(resource) {
-			return resources.update({id: resource.id}, resource, this.getRequestConfig());
+			return resources.update(
+				{ id: resource.id },
+				resource,
+				this.getRequestConfig()
+			);
 		},
 		delete(resource) {
 			return resources.delete(resource, this.getRequestConfig());

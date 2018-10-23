@@ -35,7 +35,8 @@ const state = {
 	 'id': 'akema',
 	 'state': 'off'
 	 }
-	 */],
+	 */
+	],
 	networks: {
 		/*
 		 'akema': {

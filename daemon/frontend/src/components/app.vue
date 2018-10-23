@@ -8,12 +8,12 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import 'bootstrap/dist/js/bootstrap.min';
-	import store from 'vuex/store';
+import 'bootstrap/dist/js/bootstrap.min';
+import store from 'vuex/store';
 
-	export default {
-		store
-	};
+export default {
+	store
+};
 </script>
 <style lang="css">
 	@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';

@@ -5,16 +5,18 @@ export default {
 		for (const hostname in printers) {
 			if ({}.hasOwnProperty.call(printers, hostname)) {
 				const printer = printers[hostname];
-				log.push([
-					printer.description.value,
-					printer.hostname,
-					printer.port,
-					'# pageCount: ' + printer.pageCount.value,
-					'sysContact: ' + printer.sysContact.value,
-					'sysDescription: ' + printer.sysDescription.value,
-					'sysName: ' + printer.sysName.value,
-					'uptime: ' + printer.uptime.value
-				].join('\t'));
+				log.push(
+					[
+						printer.description.value,
+						printer.hostname,
+						printer.port,
+						'# pageCount: ' + printer.pageCount.value,
+						'sysContact: ' + printer.sysContact.value,
+						'sysDescription: ' + printer.sysDescription.value,
+						'sysName: ' + printer.sysName.value,
+						'uptime: ' + printer.uptime.value
+					].join('\t')
+				);
 			}
 		}
 		return log;
@@ -25,11 +27,9 @@ export default {
 		for (const hostname in printers) {
 			if ({}.hasOwnProperty.call(printers, hostname)) {
 				const printer = printers[hostname];
-				log.push([
-					printer.description.value,
-					printer.hostname,
-					printer.port
-				].join('\t'));
+				log.push(
+					[printer.description.value, printer.hostname, printer.port].join('\t')
+				);
 			}
 		}
 		return log;

@@ -1,7 +1,7 @@
 <style>
-	.btn-toolbar .btn-group {
-		float: right;
-	}
+.btn-toolbar .btn-group {
+	float: right;
+}
 </style>
 <template>
 	<div class="row" id="{{ site.id }}-id:{{ printer.id }}"
@@ -40,62 +40,65 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import DeleteButton from 'components/delete-button';
-	import Network from 'components/network';
-	import ScriptPrinterInstallation from 'components/script-printer-installation.component';
+import DeleteButton from 'components/delete-button';
+import Network from 'components/network';
+import ScriptPrinterInstallation from 'components/script-printer-installation.component';
 
-	import logging from 'services/logging.service';
-	import actions from 'vuex/actions';
-	import getters from "vuex/getters";
+import logging from 'services/logging.service';
+import actions from 'vuex/actions';
+import getters from 'vuex/getters';
 
-	export default {
-		components: {
-			'delete': DeleteButton,
-			'network': Network,
-			'script-printer-installation': ScriptPrinterInstallation
+export default {
+	components: {
+		delete: DeleteButton,
+		network: Network,
+		'script-printer-installation': ScriptPrinterInstallation
+	},
+	props: {
+		printer: { type: Object, required: true },
+		site: { type: Object, required: true }
+	},
+	created() {
+		this.printer.site = this.site.id;
+	},
+	computed: {
+		is_forwarding_remote() {
+			return this.printer.ports.forward == 'remote';
 		},
-		props: {
-			printer: {type: Object, required: true},
-			site: {type: Object, required: true}
+		from() {
+			return this.printer.ports.forward;
 		},
-		created() {
-			this.printer.site = this.site.id
-		},
-		computed: {
-			is_forwarding_remote() {
-				return this.printer.ports.forward == 'remote'
-			},
-			from() {
-				return this.printer.ports.forward
-			},
-			device() {
-				var data = null;
+		device() {
+			var data = null;
 
-				if (typeof this.networks !== 'undefined' && typeof this.networks[this.site.hostname] !== 'undefined') {
-					data = this.networks[this.site.hostname][this.printer.hostname];
-				}
-
-				return data;
-			},
-		},
-		methods: {
-			delete_printer(printer) {
-				return this.deletePrinter(this.site, printer).then(response => {
-					this.getSites();
-					this.siteRestart(this.site);
-				});
+			if (
+				typeof this.networks !== 'undefined' &&
+				typeof this.networks[this.site.hostname] !== 'undefined'
+			) {
+				data = this.networks[this.site.hostname][this.printer.hostname];
 			}
+
+			return data;
+		}
+	},
+	methods: {
+		delete_printer(printer) {
+			return this.deletePrinter(this.site, printer).then(response => {
+				this.getSites();
+				this.siteRestart(this.site);
+			});
+		}
+	},
+	vuex: {
+		actions: {
+			deletePrinter: actions.deletePrinter,
+			getSites: actions.getSites,
+			saveFile: actions.saveFile,
+			siteRestart: actions.siteRestart
 		},
-		vuex: {
-			actions: {
-				deletePrinter: actions.deletePrinter,
-				getSites: actions.getSites,
-				saveFile: actions.saveFile,
-				siteRestart: actions.siteRestart
-			},
-			getters: {
-				networks: getters.retrieveNetworks,
-			}
+		getters: {
+			networks: getters.retrieveNetworks
 		}
 	}
+};
 </script>
