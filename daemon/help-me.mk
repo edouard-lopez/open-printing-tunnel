@@ -89,6 +89,10 @@ test-frontend:
 	cd ./frontend/ \
 	&& npm test
 
+test-frontend-e2e: dev
+	cd ./frontend/ \
+	&& npm run test:e2e
+
 test-core:
 	docker run \
 		--name coaxis-daemon-core-tests \
