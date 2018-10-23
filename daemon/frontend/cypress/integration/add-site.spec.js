@@ -3,7 +3,7 @@ describe('Add site', function() {
 		cy.server();
 		cy.route('/api/sites/', {}).as('getAllSites');
 		cy.visit('/').closeSplash();
-		cy.get('#notie-alert-outer').click();
+		cy.get('#notie-alert-outer').click({ force: true });
 	});
 
 	it('open dialog to add site', function() {
