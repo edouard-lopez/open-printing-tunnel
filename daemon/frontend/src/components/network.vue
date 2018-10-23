@@ -31,34 +31,8 @@ export default {
 	z-index: 1;
 	margin-left: 0.5em;
 }
-	.ping .fa-pulsing, .telnet .fa-pulsing {
-		border: .2rem solid #ccc;
-		border-radius: 5rem !important;
-		height: 1rem;
-		width: 1rem;
-		position: relative;
-		top: .2rem;
-		left: .3rem;
-		animation: pulsate 2s infinite ease-out;
-		opacity: 1;
-	}
 
 .telnet {
 	left: -12px;
 }
-	@-webkit-keyframes pulsate {
-		0% {
-			border-width: .4rem;
-			border-color: #eee;
-			transform: scale(0.05, 0.05);
-			opacity: 0;
-		}
-		50% {
-			opacity: 1;
-		}
-		100% {
-			transform: scale(1, 1);
-			opacity: 0;
-		}
-	}
 </style>

@@ -58,22 +58,34 @@ export default {
 	opacity: 1;
 }
 
+@keyframes pulsate {
+	0% {
+		border-width: 0.4rem;
+		transform: scale(0.05, 0.05);
+		opacity: 0;
+	}
+	50% {
+		border-color: #aaa;
 		opacity: 1;
 	}
-
-	@-webkit-keyframes pulsate {
-		0% {
-			border-width: .4rem;
-			transform: scale(0.05, 0.05);
-			opacity: 0;
-		}
-		50% {
-			border-color: #aaa;
-			opacity: 1;
-		}
-		100% {
-			transform: scale(1, 1);
-			opacity: 0;
-		}
+	100% {
+		transform: scale(1, 1);
+		opacity: 0;
 	}
+}
+@-webkit-keyframes pulsate {
+	0% {
+		border-width: 0.4rem;
+		transform: scale(0.05, 0.05);
+		opacity: 0;
+	}
+	50% {
+		border-color: #aaa;
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1, 1);
+		opacity: 0;
+	}
+}
 </style>
