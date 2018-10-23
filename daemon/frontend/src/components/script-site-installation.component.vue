@@ -12,26 +12,26 @@
 import actions from 'vuex/actions';
 
 export default {
-	props: {
-		has_printers: { type: Boolean, required: true },
-		site: { type: Object, required: true }
-	},
-	methods: {
-		getScript(site) {
-			this.getSiteScript(site)
-				.then(response => {
-					this.saveFile(response);
-				})
-				.catch(err => {
-					console.error('Échec du téléchargement du script.', err);
-				});
-		}
-	},
-	vuex: {
-		actions: {
-			getSiteScript: actions.getSiteScript,
-			saveFile: actions.saveFile
-		}
-	}
+  props: {
+    has_printers: { type: Boolean, required: true },
+    site: { type: Object, required: true }
+  },
+  methods: {
+    getScript(site) {
+      this.getSiteScript(site)
+        .then(response => {
+          this.saveFile(response);
+        })
+        .catch(err => {
+          console.error('Échec du téléchargement du script.', err);
+        });
+    }
+  },
+  vuex: {
+    actions: {
+      getSiteScript: actions.getSiteScript,
+      saveFile: actions.saveFile
+    }
+  }
 };
 </script>

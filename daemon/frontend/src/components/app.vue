@@ -12,7 +12,7 @@ import 'bootstrap/dist/js/bootstrap.min';
 import store from 'vuex/store';
 
 export default {
-	store
+  store
 };
 </script>
 <style lang="css">

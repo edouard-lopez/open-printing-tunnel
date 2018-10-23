@@ -25,28 +25,28 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
-	ready() {
-		$('#splash').modal({
-			backdrop: 'static',
-			show: true
-		});
-	}
+  ready() {
+    $('#splash').modal({
+      backdrop: 'static',
+      show: true
+    });
+  }
 };
 </script>
 <style>
 .bg-danger .modal-header {
-	border-bottom-color: hsl(2, 64%, 48%);
+  border-bottom-color: hsl(2, 64%, 48%);
 }
 
 .bg-danger .modal-footer {
-	border-top-color: hsl(2, 64%, 48%);
+  border-top-color: hsl(2, 64%, 48%);
 }
 
 .bg-danger .btn-danger {
-	border-color: hsl(2, 64%, 48%);
+  border-color: hsl(2, 64%, 48%);
 }
 
 .modal-backdrop.in {
-	opacity: 0.75;
+  opacity: 0.75;
 }
 </style>

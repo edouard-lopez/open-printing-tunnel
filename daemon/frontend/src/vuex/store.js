@@ -10,8 +10,8 @@ const debug = process.env.NODE_ENV !== 'production';
 
 // eslint-disable-next-line no-unused-vars
 const state = {
-	sites: [
-		/** {
+  sites: [
+    /** {
         hostname: '192.168.2.23',
         id: 'akema',
         printers: [
@@ -36,9 +36,9 @@ const state = {
 	 'state': 'off'
 	 }
 	 */
-	],
-	networks: {
-		/*
+  ],
+  networks: {
+    /*
 		 'akema': {
 		 '1.1.1.1': {'ping': None, 'telnet': None},
 		 '1.2.3.4': {'ping': None},
@@ -53,16 +53,16 @@ const state = {
 		 'telnet': None,
 		 }
 		 */
-	},
-	scans: {
-		/**/
-	}
+  },
+  scans: {
+    /**/
+  }
 };
 
 export default new Vuex.Store({
-	state,
-	getters,
-	actions,
-	mutations,
-	strict: debug
+  state,
+  getters,
+  actions,
+  mutations,
+  strict: debug
 });

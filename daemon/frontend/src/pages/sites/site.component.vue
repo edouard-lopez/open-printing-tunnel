@@ -1,6 +1,6 @@
 <style>
 .btn-toolbar {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 </style>
 <template>
@@ -37,27 +37,27 @@ import getters from 'vuex/getters';
 import logging from 'services/logging.service';
 
 export default {
-	props: {
-		site: {
-			type: Object,
-			required: true
-		},
-		index: { type: Number }
-	},
-	components: {
-		'add-printer-button': AddPrinterButtonComponent,
-		'add-printers-button': AddPrintersButtonComponent,
-		printer: PrinterComponent,
-		heading: HeadingComponent
-	},
-	computed: {
-		printers: function() {
-			return this.site.channels;
-		},
-		expand: function() {
-			const expandClass = this.index === 0 ? 'in' : '';
-			return expandClass;
-		}
-	}
+  props: {
+    site: {
+      type: Object,
+      required: true
+    },
+    index: { type: Number }
+  },
+  components: {
+    'add-printer-button': AddPrinterButtonComponent,
+    'add-printers-button': AddPrintersButtonComponent,
+    printer: PrinterComponent,
+    heading: HeadingComponent
+  },
+  computed: {
+    printers: function() {
+      return this.site.channels;
+    },
+    expand: function() {
+      const expandClass = this.index === 0 ? 'in' : '';
+      return expandClass;
+    }
+  }
 };
 </script>

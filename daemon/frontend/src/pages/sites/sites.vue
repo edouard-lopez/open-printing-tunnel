@@ -56,78 +56,78 @@ import LogsComponent from './logs/logs.component';
 import SplashComponent from '../../components/splash.vue';
 
 export default {
-	ready() {
-		this.getSites();
-		this.probeNetwork().then(() => {
-			let SECOND = 1000;
-			let PROBE_BASE_INTERVAL = 15;
+  ready() {
+    this.getSites();
+    this.probeNetwork().then(() => {
+      let SECOND = 1000;
+      let PROBE_BASE_INTERVAL = 15;
 
-			let probeDynamicInterval =
-				PROBE_BASE_INTERVAL + Math.round(this.devicesCount / 5);
-			console.info(`ping devices every ${probeDynamicInterval}s`);
-			this.interval = setInterval(
-				() => this.probeNetwork(),
-				probeDynamicInterval * SECOND
-			);
-		});
-	},
-	beforeDestroy() {
-		clearInterval(this.interval);
-	},
-	computed: {
-		devicesCount: function() {
-			let devicesCount = Object.keys(this.networkDevices).length || 0;
-			for (let siteHostname in this.networkDevices) {
-				for (let device in this.networkDevices[siteHostname]) {
-					let notDevices = ['telnet', 'ping'];
-					if (!notDevices.includes(device)) {
-						devicesCount++;
-					}
-				}
-			}
-			return devicesCount;
-		},
-		has_sites: function() {
-			return this.sites.length > 0;
-		},
-		network() {
-			let data = null;
+      let probeDynamicInterval =
+        PROBE_BASE_INTERVAL + Math.round(this.devicesCount / 5);
+      console.info(`ping devices every ${probeDynamicInterval}s`);
+      this.interval = setInterval(
+        () => this.probeNetwork(),
+        probeDynamicInterval * SECOND
+      );
+    });
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  computed: {
+    devicesCount: function() {
+      let devicesCount = Object.keys(this.networkDevices).length || 0;
+      for (let siteHostname in this.networkDevices) {
+        for (let device in this.networkDevices[siteHostname]) {
+          let notDevices = ['telnet', 'ping'];
+          if (!notDevices.includes(device)) {
+            devicesCount++;
+          }
+        }
+      }
+      return devicesCount;
+    },
+    has_sites: function() {
+      return this.sites.length > 0;
+    },
+    network() {
+      let data = null;
 
-			if (typeof this.networks !== 'undefined') {
-				data = this.networks[this.site.hostname];
-			}
+      if (typeof this.networks !== 'undefined') {
+        data = this.networks[this.site.hostname];
+      }
 
-			return data;
-		}
-	},
-	components: {
-		site: SiteComponent,
-		'add-site-button': AddSiteButtonComponent,
-		logs: LogsComponent,
-		splash: SplashComponent
-	},
-	vuex: {
-		actions: {
-			getSites: actions.getSites,
-			probeNetwork: actions.probeNetwork
-		},
-		getters: {
-			sites: getters.retrieveSites,
-			networkDevices: getters.retrieveNetworks
-		}
-	}
+      return data;
+    }
+  },
+  components: {
+    site: SiteComponent,
+    'add-site-button': AddSiteButtonComponent,
+    logs: LogsComponent,
+    splash: SplashComponent
+  },
+  vuex: {
+    actions: {
+      getSites: actions.getSites,
+      probeNetwork: actions.probeNetwork
+    },
+    getters: {
+      sites: getters.retrieveSites,
+      networkDevices: getters.retrieveNetworks
+    }
+  }
 };
 </script>
 <style>
 h2 {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .striped .printer:nth-of-type(2n + 1) {
-	background-color: hsla(0, 0%, 0%, 0.1);
+  background-color: hsla(0, 0%, 0%, 0.1);
 }
 
 .site {
-	padding-bottom: 0.625rem;
+  padding-bottom: 0.625rem;
 }
 </style>

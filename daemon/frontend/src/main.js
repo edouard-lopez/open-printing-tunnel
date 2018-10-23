@@ -10,14 +10,14 @@ Vue.config.debug = true;
 Vue.use(VueRouter);
 // eslint-disable-next-line no-new
 const router = new VueRouter()
-	.map({ '/': { component: SitesPage } })
-	.redirect({ '*': '/' })
-	.start(App, '#app');
+  .map({ '/': { component: SitesPage } })
+  .redirect({ '*': '/' })
+  .start(App, '#app');
 
 // eslint-disable-next-line no-new
 new Vue({
-	el: '#app',
-	router,
-	store,
-	render: h => h(App)
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
 });

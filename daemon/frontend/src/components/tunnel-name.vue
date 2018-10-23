@@ -15,24 +15,24 @@ import tunnelName from './tunnel-name.filter';
 import actions from 'vuex/actions';
 
 export default {
-	props: {
-		site: { type: Object, required: true }
-	},
-	ready: function() {
-		this.getSiteConfig(this.site);
-	},
-	computed: {
-		config() {
-			return this.site.config;
-		}
-	},
-	filters: {
-		kb: tunnelName.kb
-	},
-	vuex: {
-		actions: {
-			getSiteConfig: actions.getSiteConfig
-		}
-	}
+  props: {
+    site: { type: Object, required: true }
+  },
+  ready: function() {
+    this.getSiteConfig(this.site);
+  },
+  computed: {
+    config() {
+      return this.site.config;
+    }
+  },
+  filters: {
+    kb: tunnelName.kb
+  },
+  vuex: {
+    actions: {
+      getSiteConfig: actions.getSiteConfig
+    }
+  }
 };
 </script>

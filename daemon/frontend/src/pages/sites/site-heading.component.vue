@@ -1,11 +1,11 @@
 <style>
 .expandable {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .vertical-align-text {
-	line-height: 2em;
-	height: 2em;
+  line-height: 2em;
+  height: 2em;
 }
 </style>
 <template>
@@ -98,65 +98,65 @@ import getters from 'vuex/getters';
 import logging from 'services/logging.service';
 
 export default {
-	components: {
-		'add-printer-button': AddPrinterButtonComponent,
-		'add-printers-button': AddPrintersButtonComponent,
-		'script-site-installation': ScriptSiteInstallation,
-		'script-ports-configuration': ScriptPortsConfiguration,
-		delete: DeleteButton,
-		network: Network,
-		scanner: Scanner,
-		'tunnel-name': tunnelName
-	},
-	props: {
-		site: { type: Object, required: true }
-	},
-	computed: {
-		has_printers: function() {
-			return this.site.channels.length > 0;
-		},
-		device() {
-			var data = null;
+  components: {
+    'add-printer-button': AddPrinterButtonComponent,
+    'add-printers-button': AddPrintersButtonComponent,
+    'script-site-installation': ScriptSiteInstallation,
+    'script-ports-configuration': ScriptPortsConfiguration,
+    delete: DeleteButton,
+    network: Network,
+    scanner: Scanner,
+    'tunnel-name': tunnelName
+  },
+  props: {
+    site: { type: Object, required: true }
+  },
+  computed: {
+    has_printers: function() {
+      return this.site.channels.length > 0;
+    },
+    device() {
+      var data = null;
 
-			if (typeof this.networks !== 'undefined') {
-				data = this.networks[this.site.hostname];
-			}
+      if (typeof this.networks !== 'undefined') {
+        data = this.networks[this.site.hostname];
+      }
 
-			return data;
-		}
-	},
-	methods: {
-		status(site) {
-			this.siteStatus(site);
-		},
-		start(site) {
-			this.siteStart(site);
-		},
-		stop(site) {
-			this.siteStop(site);
-		},
-		restart(site) {
-			this.siteRestart(site);
-		},
-		delete_site(site) {
-			return this.deleteSite(site).then(response => {
-				this.getSites();
-			});
-		}
-	},
-	vuex: {
-		actions: {
-			getSites: actions.getSites,
-			deleteSite: actions.deleteSite,
-			saveFile: actions.saveFile,
-			siteStatus: actions.siteStatus,
-			siteStart: actions.siteStart,
-			siteStop: actions.siteStop,
-			siteRestart: actions.siteRestart
-		},
-		getters: {
-			networks: getters.retrieveNetworks
-		}
-	}
+      return data;
+    }
+  },
+  methods: {
+    status(site) {
+      this.siteStatus(site);
+    },
+    start(site) {
+      this.siteStart(site);
+    },
+    stop(site) {
+      this.siteStop(site);
+    },
+    restart(site) {
+      this.siteRestart(site);
+    },
+    delete_site(site) {
+      return this.deleteSite(site).then(response => {
+        this.getSites();
+      });
+    }
+  },
+  vuex: {
+    actions: {
+      getSites: actions.getSites,
+      deleteSite: actions.deleteSite,
+      saveFile: actions.saveFile,
+      siteStatus: actions.siteStatus,
+      siteStart: actions.siteStart,
+      siteStop: actions.siteStop,
+      siteRestart: actions.siteRestart
+    },
+    getters: {
+      networks: getters.retrieveNetworks
+    }
+  }
 };
 </script>

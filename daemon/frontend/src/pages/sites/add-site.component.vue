@@ -53,45 +53,45 @@ import getters from 'vuex/getters';
 const sites = http('sites', localStorage);
 
 export default {
-	data() {
-		return {
-			site: {
-				id: '',
-				hostname: ''
-			},
-			formSubmitted: false
-		};
-	},
-	methods: {
-		createSite() {
-			this.formSubmitted = true;
+  data() {
+    return {
+      site: {
+        id: '',
+        hostname: ''
+      },
+      formSubmitted: false
+    };
+  },
+  methods: {
+    createSite() {
+      this.formSubmitted = true;
 
-			sites
-				.create(this.site)
-				.then(() => {
-					$('#site-modal').modal('hide');
-					this.formSubmitted = false;
-					this.getSites();
-				})
-				.catch(() => {
-					console.error(err);
-					this.formSubmitted = false;
-					logging.error("Impossible d'ajouter le site");
-				});
-		}
-	},
-	computed: {
-		formIsValid() {
-			return !!(this.site.id && this.site.hostname && !this.formSubmitted);
-		}
-	},
-	vuex: {
-		actions: {
-			getSites: actions.getSites
-		},
-		getters: {
-			sites: getters.retrieveSites
-		}
-	}
+      sites
+        .create(this.site)
+        .then(() => {
+          $('#site-modal').modal('hide');
+          this.formSubmitted = false;
+          this.getSites();
+        })
+        .catch(() => {
+          console.error(err);
+          this.formSubmitted = false;
+          logging.error("Impossible d'ajouter le site");
+        });
+    }
+  },
+  computed: {
+    formIsValid() {
+      return !!(this.site.id && this.site.hostname && !this.formSubmitted);
+    }
+  },
+  vuex: {
+    actions: {
+      getSites: actions.getSites
+    },
+    getters: {
+      sites: getters.retrieveSites
+    }
+  }
 };
 </script>

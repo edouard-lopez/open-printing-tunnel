@@ -34,29 +34,29 @@ import actions from 'vuex/actions';
 import getters from 'vuex/getters';
 
 export default {
-	vuex: {
-		actions: {
-			clear: actions.clearLog
-		},
-		getters: {
-			log: getters.retrieveLog
-		}
-	}
+  vuex: {
+    actions: {
+      clear: actions.clearLog
+    },
+    getters: {
+      log: getters.retrieveLog
+    }
+  }
 };
 </script>
 <style>
 .highlight {
-	margin-right: 0;
-	margin-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .stdout {
-	background-color: #f7f7f9;
-	margin-bottom: 0;
-	padding: 0.5rem;
+  background-color: #f7f7f9;
+  margin-bottom: 0;
+  padding: 0.5rem;
 }
 
 .line {
-	display: block;
+  display: block;
 }
 </style>

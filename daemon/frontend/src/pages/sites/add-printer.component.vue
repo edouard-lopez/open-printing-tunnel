@@ -1,6 +1,6 @@
 <style>
 .modal.in {
-	font-weight: normal;
+  font-weight: normal;
 }
 </style>
 <template>
@@ -63,57 +63,57 @@
 import actions from 'vuex/actions';
 
 export default {
-	data() {
-		return {
-			printer: {
-				site: '',
-				hostname: ''
-			},
-			formSubmitted: false
-		};
-	},
-	created() {
-		this.printer.site = this.site.id;
-	},
-	props: {
-		site: {
-			type: Object,
-			required: true
-		},
-		label: {},
-		class: {}
-	},
-	methods: {
-		add() {
-			this.formSubmitted = true;
-			this.addPrinter(this.printer)
-				.then(response => {
-					this.getSites();
-					this.siteRestart(this.site);
-					$('#printer-modal-' + response.data.site).modal('hide');
-					this.formSubmitted = false;
-				})
-				.catch(err => {
-					console.err(err);
-					this.formSubmitted = false;
-				});
-		}
-	},
-	computed: {
-		formIsValid() {
-			return !!(
-				this.printer.site &&
-				this.printer.hostname &&
-				!this.formSubmitted
-			);
-		}
-	},
-	vuex: {
-		actions: {
-			addPrinter: actions.addPrinter,
-			getSites: actions.getSites,
-			siteRestart: actions.siteRestart
-		}
-	}
+  data() {
+    return {
+      printer: {
+        site: '',
+        hostname: ''
+      },
+      formSubmitted: false
+    };
+  },
+  created() {
+    this.printer.site = this.site.id;
+  },
+  props: {
+    site: {
+      type: Object,
+      required: true
+    },
+    label: {},
+    class: {}
+  },
+  methods: {
+    add() {
+      this.formSubmitted = true;
+      this.addPrinter(this.printer)
+        .then(response => {
+          this.getSites();
+          this.siteRestart(this.site);
+          $('#printer-modal-' + response.data.site).modal('hide');
+          this.formSubmitted = false;
+        })
+        .catch(err => {
+          console.err(err);
+          this.formSubmitted = false;
+        });
+    }
+  },
+  computed: {
+    formIsValid() {
+      return !!(
+        this.printer.site &&
+        this.printer.hostname &&
+        !this.formSubmitted
+      );
+    }
+  },
+  vuex: {
+    actions: {
+      addPrinter: actions.addPrinter,
+      getSites: actions.getSites,
+      siteRestart: actions.siteRestart
+    }
+  }
 };
 </script>
