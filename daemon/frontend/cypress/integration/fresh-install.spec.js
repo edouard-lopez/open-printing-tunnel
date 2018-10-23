@@ -7,6 +7,7 @@ describe('Fresh install', function() {
 
         cy.wait('@getAllSites').its('status').should('eq', 200)
         cy.get('#notie-alert-outer').should('be.visible')
+        cy.get('#notie-alert-outer').click()
     })
     it('has a header card', function() {
         cy.get('[data-e2e=header]').contains('Sites')
