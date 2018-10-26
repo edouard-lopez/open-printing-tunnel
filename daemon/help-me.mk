@@ -89,7 +89,8 @@ test-frontend:
 	cd ./frontend/ \
 	&& npm test
 
-test-frontend-e2e: dev
+test-frontend-e2e: dev 
+	while ! ${DOCKER_COMPOSE} exec daemon sh -c 'supervisorctl status flask | grep RUNNING'; do sleep .1s; done
 	cd ./frontend/ \
 	&& npm run test:e2e
 
