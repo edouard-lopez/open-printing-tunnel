@@ -29,7 +29,7 @@ matrix:
     - name: "Front-office's front-end (Vue.js)"
       language: node_js
       node_js:
-        - '4.8'
+        - '8.12.0'
       script:
         - make test-frontoffice-frontend
 
