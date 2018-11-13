@@ -12,34 +12,34 @@ ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 RUN sed --in-place 's!$! non-free!' /etc/apt/sources.list  # add non-free repositories from snmp-mibs-downloader
 
 RUN apt-get update \
-    && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
-            autossh \
-            dpkg \
-            gawk \
-            fping \
-            grep \
-            htop \
-            libsmi2-dev \
-            libffi-dev \
-            libc-bin \
-            make \
-            nano \
-            nmap \
-			openssh-server \
-            openssh-client \
-            snmp \
-            snmpd \
-            snmp-mibs-downloader \
-            sshpass \
-            sudo \
-            trickle \
-            vim-tiny \
-            wget \
-            whois \
-            ca-certificates \
-            nginx \
-            supervisor \
-	&& rm -rf /var/lib/apt/lists/*
+  && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+  autossh \
+  dpkg \
+  gawk \
+  fping \
+  grep \
+  htop \
+  libsmi2-dev \
+  libffi-dev \
+  libc-bin \
+  make \
+  nano \
+  nmap \
+  openssh-server \
+  openssh-client \
+  snmp \
+  snmpd \
+  snmp-mibs-downloader \
+  sshpass \
+  sudo \
+  trickle \
+  vim-tiny \
+  wget \
+  whois \
+  ca-certificates \
+  nginx \
+  supervisor \
+  && rm -rf /var/lib/apt/lists/*
 
 # -------------------------------------------
 # Node APT Install
@@ -47,59 +47,58 @@ RUN apt-get update \
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
   && for key in \
-    9554F04D7259F04124DE6B476D5A82AC7E37093B \
-    94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
-    0034A06D9D9B0064CE8ADF6BF1747F4AD2306D93 \
-    FD3A5288F042B6850C66B31F09FE44734EB7990E \
-    71DCFD284A79C3B38668286BC97EC7A07EDE3FC1 \
-    DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
-    B9AE9905FFD7803F25714661B63B535A4C206CA9 \
-    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
+  9554F04D7259F04124DE6B476D5A82AC7E37093B \
+  94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
+  0034A06D9D9B0064CE8ADF6BF1747F4AD2306D93 \
+  FD3A5288F042B6850C66B31F09FE44734EB7990E \
+  71DCFD284A79C3B38668286BC97EC7A07EDE3FC1 \
+  DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
+  B9AE9905FFD7803F25714661B63B535A4C206CA9 \
+  C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
   ; do \
-    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 4.4.7
 
 RUN buildDeps='xz-utils' \
-    && set -x \
-    && apt-get update && apt-get install -y $buildDeps --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
-    && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-    && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
-    && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
-    && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
-    && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
-    && apt-get purge -y --auto-remove $buildDeps
+  && set -x \
+  && apt-get update && apt-get install -y $buildDeps --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/* \
+  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
+  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+  && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
+  && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
+  && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
+  && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
+  && apt-get purge -y --auto-remove $buildDeps
 # -------------------------------------------
-
 
 # DAEMON
 # Create users
 RUN groupadd -r ${DAEMON_USER} \
-    && useradd \
-        --gid www-data \
-        --groups ${DAEMON_USER} \
-        --password "$$(mkpasswd "${REMOTE_INIT_PWD}")" \
-        --create-home \
-        --system ${DAEMON_USER} \
-        --comment "MAST user"
+  && useradd \
+  --gid www-data \
+  --groups ${DAEMON_USER} \
+  --password "$$(mkpasswd "${REMOTE_INIT_PWD}")" \
+  --create-home \
+  --system ${DAEMON_USER} \
+  --comment "MAST user"
 RUN adduser \
-        --quiet \
-        --disabled-password \
-        --shell /bin/bash \
-        --home /home/${REMOTE_USER} \
-        --gecos "Open Print Tunnel" \
-        ${REMOTE_USER} \
-    && echo "${REMOTE_USER}:${REMOTE_INIT_PWD}" | chpasswd \
-    && addgroup ${REMOTE_USER} sudo
+  --quiet \
+  --disabled-password \
+  --shell /bin/bash \
+  --home /home/${REMOTE_USER} \
+  --gecos "Open Print Tunnel" \
+  ${REMOTE_USER} \
+  && echo "${REMOTE_USER}:${REMOTE_INIT_PWD}" | chpasswd \
+  && addgroup ${REMOTE_USER} sudo
 
 # Install service
 COPY mast /etc/init.d/
 RUN chown ${DAEMON_USER}:www-data /etc/init.d/mast \
-    && update-rc.d mast defaults > /dev/null
+  && update-rc.d mast defaults > /dev/null
 
 # Install mast-utils
 COPY makefile /usr/sbin/mast-utils
@@ -108,22 +107,22 @@ RUN chown ${DAEMON_USER}:www-data /usr/sbin/mast-utils
 # Create config directory and add template
 COPY template /etc/mast/
 RUN chmod u=rw,go= /etc/mast/template \
-    && chown ${DAEMON_USER}:www-data /etc/mast/template
+  && chown ${DAEMON_USER}:www-data /etc/mast/template
 
 # Create directories for: log, pid and lock
 RUN mkdir /var/log/mast \
-          /var/run/mast \
-          /var/lock/mast \
-    && chown -R ${DAEMON_USER}:www-data \
-            /etc/mast \
-            /var/log/mast \
-            /var/run/mast \
-            /var/lock/mast \
-    && chmod -R u=rwx,g=rwx,o= \
-            /etc/mast \
-            /var/log/mast \
-            /var/run/mast \
-            /var/lock/mast
+  /var/run/mast \
+  /var/lock/mast \
+  && chown -R ${DAEMON_USER}:www-data \
+  /etc/mast \
+  /var/log/mast \
+  /var/run/mast \
+  /var/lock/mast \
+  && chmod -R u=rwx,g=rwx,o= \
+  /etc/mast \
+  /var/log/mast \
+  /var/run/mast \
+  /var/lock/mast
 
 WORKDIR /opt/mast
 COPY makefile ./
@@ -132,7 +131,7 @@ RUN make install
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
+  && ln -sf /dev/stderr /var/log/nginx/error.log
 RUN rm /etc/nginx/nginx.conf
 RUN rm /etc/nginx/mime.types
 COPY proxy-web/nginx.conf /etc/nginx/nginx.conf
@@ -160,10 +159,10 @@ VOLUME ["/etc/mast", "/home/mast/.ssh"]
 
 # install BATS for testing
 RUN apt-get update \
-    && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
-            git \
-    && git clone --depth 1 https://github.com/sstephenson/bats.git /tmp/bats \
-    && cd /tmp/bats && ./install.sh /usr/local
+  && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+  git \
+  && git clone --depth 1 https://github.com/sstephenson/bats.git /tmp/bats \
+  && cd /tmp/bats && ./install.sh /usr/local
 COPY ./test /test
 
 COPY config/ /etc/supervisor/conf.d
