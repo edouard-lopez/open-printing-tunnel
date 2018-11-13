@@ -30,12 +30,13 @@ test-frontoffice-frontend:
 	&& make -f help-me.mk test-frontend-unittest
 
 test-frontoffice-end-to-end:
-	cd ./frontend/ \
+	cd daemon/ \
 	&& make -f help-me.mk test-frontend-end-to-end
 
 test-frontoffice: test-frontoffice-backend test-frontoffice-frontend test-frontoffice-core
 
 tests: test-backoffice test-frontoffice
+
 
 build-daemon-frontend: test-frontoffice-frontend
 	cd daemon/frontend/ \
