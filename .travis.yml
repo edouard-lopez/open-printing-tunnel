@@ -5,11 +5,11 @@ matrix:
       python:
         - '3.4'
       env:
-        - DEFAULT_INTERFACE=eth0
+        - DEFAULT_INTERFACE=eth0 # needed to setup django context
       before_install:
-        - cd backend/
+        - docker pull coaxisasp/coaxisopt_daemon:latest
       install:
-        - ip addr
+        - cd backend/
         - make install
       script:
         - make test-api DEFAULT_INTERFACE=$DEFAULT_INTERFACE

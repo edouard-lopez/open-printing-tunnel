@@ -6,7 +6,7 @@ INTERACTIVE=true
 
 default: dev
 
-test-backoffice-backend:
+test-backoffice-backend: 
 	cd backend/ \
 	&& make test-api
 
@@ -38,12 +38,11 @@ test-frontoffice: test-mast test-frontoffice-backend test-frontoffice-frontend t
 
 tests: test-backoffice test-frontoffice
 
-
-build-daemon-frontend: test-frontoffice-frontend
+build-backoffice-frontend: test-frontoffice-frontend
 	cd daemon/frontend/ \
 	&& npm run build
 
-deploy: build-daemon-frontend
+deploy: build-backoffice-frontend
 	cd deploy \
 	&& ./build_and_push.sh \
 	&& ./send-scripts.sh
