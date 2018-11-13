@@ -15,11 +15,17 @@ matrix:
       language: node_js
       node_js:
         - '4.8'
+      before_install:
+        - cd frontend/
+      install:
+        - yarn install --frozen-lockfile
       script:
-        - make test-backoffice-frontend
+        - yarn test
 
     - name: "Front-office's MAST (mast-utils)"
       language: bash
+      install:
+        - make
       script:
         - make test-mast
 
@@ -34,6 +40,8 @@ matrix:
       language: node_js
       node_js:
         - '8.12.0'
+      install:
+        - yarn install --frozen-lockfile
       script:
         - make test-frontoffice-frontend
 
