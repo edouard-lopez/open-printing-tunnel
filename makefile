@@ -6,18 +6,6 @@ INTERACTIVE=true
 
 default: dev
 
-test-frontoffice-backend:
-	cd daemon/ \
-	&& make -f help-me.mk test-backend
-
-test-frontoffice-frontend:
-	cd daemon/ \
-	&& make -f help-me.mk test-frontend
-
-test-frontoffice-core:
-	cd daemon/ \
-	&& make -f help-me.mk test-core
-
 test-backoffice-backend:
 	cd backend/ \
 	&& make test-api
@@ -27,7 +15,26 @@ test-backoffice-frontend:
 	&& npm test
 
 test-backoffice: test-backoffice-backend test-backoffice-frontend
+
+
+test-frontoffice-mast:
+	cd daemon/ \
+	&& make -f help-me.mk test-mast
+
+test-frontoffice-backend:
+	cd daemon/ \
+	&& make -f help-me.mk test-backend
+
+test-frontoffice-frontend:
+	cd daemon/ \
+	&& make -f help-me.mk test-frontend-unittest
+
+test-frontoffice-end-to-end:
+	cd ./frontend/ \
+	&& make -f help-me.mk test-frontend-end-to-end
+
 test-frontoffice: test-frontoffice-backend test-frontoffice-frontend test-frontoffice-core
+
 tests: test-backoffice test-frontoffice
 
 build-daemon-frontend: test-frontoffice-frontend

@@ -70,7 +70,7 @@ install-python-requirements:
 
 test-backend: build
 	docker run \
-		--name coaxis-daemon-tests \
+		--name test-coaxis-backend \
 		--rm \
 		--interactive \
 		--env IN_DOCKER=true \
@@ -85,18 +85,18 @@ test-backend-dev: dev
 		coaxisopt_daemon \
 			bash -c 'service ssh start && cd /api/ && python3 -m unittest discover --verbose --failfast '
 
-test-frontend:
+test-frontend-unittest:
 	cd ./frontend/ \
 	&& npm test
 
-test-frontend-e2e: dev 
+test-frontend-end-to-end: dev 
 	while ! ${DOCKER_COMPOSE} exec daemon sh -c 'supervisorctl status flask | grep RUNNING'; do sleep .1s; done
 	cd ./frontend/ \
 	&& npm run test:e2e
 
-test-core:
+test-mast:
 	docker run \
-		--name coaxis-daemon-core-tests \
+		--name test-coaxis-mast \
 		--rm \
 		--interactive \
 		coaxisopt_daemon bash -c 'bats /test/*.tests.bats'
