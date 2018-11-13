@@ -21,10 +21,12 @@ install-python-requirements:
 	source env/bin/activate \
 	&& pip3 install -r requirements.txt
 
+COAXIS_CONTAINERS:=docker ps --all | awk '/coaxisopt_daemon/ {print $$1}'
+COAXIS_CONTAINERS_EXIST:=(( $$(${COAXIS_CONTAINERS} | wc --lines) > 0 ))
 reset-test-env:
-	docker stop --time 0 $$(docker ps | awk '/coaxisopt_daemon/ {print $$1}') || true
+	if ${COAXIS_CONTAINERS_EXIST}; then docker stop --time 0 $$(${COAXIS_CONTAINERS}); fi
 	docker network prune --force
-	docker rm --force $$(docker ps | awk '/coaxisopt_daemon/ {print $$1}') || true
+	if ${COAXIS_CONTAINERS_EXIST}; then docker rm --force $$(${COAXIS_CONTAINERS}); fi
 
 test-api: reset-test-env
 	source env/bin/activate \
