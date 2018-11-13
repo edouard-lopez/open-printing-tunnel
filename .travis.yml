@@ -4,12 +4,15 @@ matrix:
       language: python
       python:
         - '3.4'
+      env:
+        - DEFAULT_INTERFACE=eth0
       before_install:
         - cd backend/
       install:
+        - ip addr
         - make install
       script:
-        - make test-api
+        - make test-api DEFAULT_INTERFACE=$DEFAULT_INTERFACE
 
     - name: "Back-office's front-end (Vue.js)"
       language: node_js

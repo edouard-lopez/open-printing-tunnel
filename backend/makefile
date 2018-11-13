@@ -11,6 +11,8 @@
 # force use of Bash
 SHELL := /bin/bash
 DOCKER_COMPOSE=docker-compose -f docker-compose.dev.yml
+DEFAULT_INTERFACE:=wlp4s0
+
 
 default: install
 
@@ -30,5 +32,5 @@ reset-test-env:
 
 test-api: reset-test-env
 	source env/bin/activate \
-	&& export DEFAULT_INTERFACE=wlp4s0 \
+	&& export DEFAULT_INTERFACE=${DEFAULT_INTERFACE} \
 	&& ./manage.py test --failfast --verbosity 2
