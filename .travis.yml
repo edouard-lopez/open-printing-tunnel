@@ -44,8 +44,10 @@ matrix:
       node_js:
         - '8.12.0'
       install:
+        - pushd ./daemon/frontend/
         - yarn install --frozen-lockfile
       script:
+        - popd
         - make test-frontoffice-frontend
 
     - name: "Front-office's End to end"
