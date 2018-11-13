@@ -17,7 +17,7 @@ test-backoffice-frontend:
 test-backoffice: test-backoffice-backend test-backoffice-frontend
 
 
-test-frontoffice-mast:
+test-mast:
 	cd daemon/ \
 	&& make -f help-me.mk test-mast
 

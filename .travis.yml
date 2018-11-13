@@ -1,27 +1,32 @@
 matrix:
   include:
-    - name: "Back-office's backend"
+    - name: "Back-office's backend (API & Docker)"
       language: python
       python:
         - '3.4'
       script:
         - make test-backoffice-backend
 
-    - name: "Back-office's front-end"
+    - name: "Back-office's front-end (Vue.js)"
       language: node_js
       node_js:
         - '4.8'
       script:
         - make test-backoffice-frontend
 
-    - name: "Front-office's backend"
+    - name: "Front-office's MAST (mast-utils)"
+      language: bash
+      script:
+        - make test-mast
+
+    - name: "Front-office's backend (API & network)"
       language: python
       python:
         - '3.4'
       script:
         - make test-frontoffice-backend
 
-    - name: "Front-office's front-end"
+    - name: "Front-office's front-end (Vue.js)"
       language: node_js
       node_js:
         - '4.8'
