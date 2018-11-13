@@ -90,7 +90,7 @@ test-frontend-unittest:
 	&& npm test
 
 test-frontend-end-to-end: dev 
-	while ! ${DOCKER_COMPOSE} exec daemon sh -c 'supervisorctl status flask | grep RUNNING'; do sleep .1s; done
+	while ! ${DOCKER_COMPOSE} exec -T daemon sh -c 'supervisorctl status flask | grep RUNNING'; do sleep .1s; done
 	cd ./frontend/ \
 	&& npm run test:e2e
 
