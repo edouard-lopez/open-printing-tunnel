@@ -33,7 +33,8 @@ test-frontoffice-end-to-end:
 	cd daemon/ \
 	&& make -f help-me.mk test-frontend-end-to-end
 
-test-frontoffice: test-frontoffice-backend test-frontoffice-frontend test-frontoffice-core
+test-frontoffice: test-mast test-frontoffice-backend test-frontoffice-frontend test-frontoffice-end-to-end
+
 
 tests: test-backoffice test-frontoffice
 
