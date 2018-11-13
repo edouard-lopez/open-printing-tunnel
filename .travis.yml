@@ -1,51 +1,32 @@
 matrix:
   include:
-    - name: "Back-office's API"
+    - name: "Back-office's backend"
       language: python
-      python: 
-        - "3.4"
-      env:
-      - DEFAULT_INTERFACE=eth0
-      before_install:
-        - cd backend/
-      install: 
-        - pip install -r requirements.txt
+      python:
+        - '3.4'
       script:
-        - python manage.py test
+        - make test-backoffice-backend
 
     - name: "Back-office's front-end"
       language: node_js
       node_js:
-        - "4.8"
-      before_install:
-        - cd frontend/
-      install:
-        - yarn install
+        - '4.8'
       script:
-        - yarn test
+        - make test-backoffice-frontend
 
-    - name: "Front-office's API"
+    - name: "Front-office's backend"
       language: python
-      python: 
-        - "3.4"
-      before_install:
-        - sudo apt-get update
-        - cd daemon/
-      install: 
-        - make -f help-me.mk install-dependencies
+      python:
+        - '3.4'
       script:
-        - make -f help-me.mk install-python-requirements test-api
+        - make test-frontoffice-backend
 
     - name: "Front-office's front-end"
       language: node_js
       node_js:
-        - "4.8"
-      before_install:
-        - cd daemon/frontend/
-      install:
-        - yarn install
+        - '4.8'
       script:
-        - yarn test
+        - make test-frontoffice-frontend
 
 notifications:
   email: false

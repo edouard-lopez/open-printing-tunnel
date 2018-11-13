@@ -18,7 +18,7 @@ test-frontoffice-core:
 	cd daemon/ \
 	&& make -f help-me.mk test-core
 
-test-backoffice-api:
+test-backoffice-backend:
 	cd backend/ \
 	&& make test-api
 
@@ -26,7 +26,7 @@ test-backoffice-frontend:
 	cd ./frontend/ \
 	&& npm test
 
-test-backoffice: test-backoffice-api test-backoffice-frontend
+test-backoffice: test-backoffice-backend test-backoffice-frontend
 test-frontoffice: test-frontoffice-backend test-frontoffice-frontend test-frontoffice-core
 tests: test-backoffice test-frontoffice
 
