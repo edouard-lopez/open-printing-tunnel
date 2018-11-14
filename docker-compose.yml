@@ -1,7 +1,10 @@
 version: '2'
+
 services:
   backend:
     build: ./backend
+    cache_from:
+      - coaxisasp/coaxisopt_backend
     image: coaxisopt_backend
     container_name: coaxisopt_backend
     volumes:
@@ -11,6 +14,8 @@ services:
 
   frontend:
     build: ./frontend
+    cache_from:
+      - coaxisasp/coaxisopt_frontend
     image: coaxisopt_frontend
     container_name: coaxisopt_frontend
     ports:
@@ -18,6 +23,8 @@ services:
 
   nginx:
     build: ./nginx
+    cache_from:
+      - coaxisasp/coaxisopt_nginx
     image: coaxisopt_nginx
     container_name: coaxisopt_nginx
     ports:

@@ -19,7 +19,10 @@ function build_images() {
     cd ..
     docker-compose build
     cd daemon
-    docker build -t coaxisopt_daemon .
+    docker build \
+        --pull \
+        --cache-from coaxisasp/coaxisopt_daemon \
+        --tag coaxisopt_daemon .
     cd ..
 }
 

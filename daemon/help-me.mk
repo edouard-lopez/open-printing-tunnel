@@ -20,7 +20,7 @@ dev:
 
 rebuild: build
 build: remove
-	${DOCKER_COMPOSE} build
+	${DOCKER_COMPOSE} build --pull
 
 remove:
 	${DOCKER_COMPOSE} rm --force coaxisopt_daemon || true

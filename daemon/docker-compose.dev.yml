@@ -2,6 +2,8 @@ version: '2'
 services:
   daemon:
     build: ./
+    cache_from:
+      - coaxisasp/coaxisopt_daemon
     image: coaxisopt_daemon
     container_name: coaxisopt_daemon
     ports:
