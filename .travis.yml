@@ -4,6 +4,8 @@ matrix:
       language: python
       python:
         - '3.4'
+      cache:
+        pip: true
       env:
         - DEFAULT_INTERFACE=eth0 # needed to setup django context
       before_script:
@@ -38,6 +40,8 @@ matrix:
       language: python
       python:
         - '3.4'
+      cache:
+        pip: true
       script:
         - make test-frontoffice-backend
 
