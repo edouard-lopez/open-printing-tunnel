@@ -15,18 +15,16 @@ In developmenet we use the `optbox` device as a reverse proxy to access customer
     # User: coaxis 
     # Password: on LessPass v1: coaxis.com + admin@akema.fr + v1>
 
-## Release
+## Release Version
 
-Run the script with the version to release:
+First, we create a feature/patch tag:
+
+    make tag-as-feature
+    # or tag-as-patch
+
+Then we will build new container images, tagged as `latest` and the latest `git` tag. Then we push them to [DockerHub](hub.docker.com/r/coaxisasp/):
 
     make release
-
-It is the same as:
-
-1. rebuild `daemon/frontend/` ;
-1. rebuild `frontend/` ;
-1. tag and push the release ;
-1. update the `docker-compose` and deploy script.
 
 ## Deploy
 
