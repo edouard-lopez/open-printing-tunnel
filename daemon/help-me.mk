@@ -91,7 +91,7 @@ test-frontend-unittest:
 
 API_READY:=curl --write-out "%{http_code}" http://localhost/ | grep 200
 test-frontend-end-to-end: dev 
-	while ! ${DOCKER_COMPOSE} exec daemon sh -c '${API_READY}'; do sleep .1s; done
+	while ! ${DOCKER_COMPOSE} exec -T daemon sh -c '${API_READY}'; do sleep .1s; done
 	cd ./frontend/ \
 	&& yarn test:e2e
 
