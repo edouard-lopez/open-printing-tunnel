@@ -1,13 +1,6 @@
 version: '2'
 
 services:
-  daemon:
-    build: ./daemon
-    image: coaxisopt_daemon
-    volumes:
-      - ./daemon/api:/api
-      - ./daemon/frontend:/frontend
-    command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
   backend:
     image: coaxisopt_backend
     volumes:
@@ -21,5 +14,14 @@ services:
       - ./frontend:/frontend
       - node_modules:/frontend/node_modules
     command: npm run dev
+
+  daemon:
+    build: ./daemon
+    image: coaxisopt_daemon
+    volumes:
+      - ./daemon/api:/api
+      - ./daemon/frontend:/frontend
+    command: /usr/bin/supervisord -c /etc/supervisor/conf.d/dev.conf
+
 volumes:
   node_modules:

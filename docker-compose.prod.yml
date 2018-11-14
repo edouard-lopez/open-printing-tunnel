@@ -1,4 +1,5 @@
 version: '2'
+
 services:
   backend:
     restart: always
@@ -8,24 +9,27 @@ services:
       - www:/backend/www
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "8000:8000"
+      - '8000:8000'
     environment:
       - DEFAULT_INTERFACE
+
   frontend:
     restart: always
     image: coaxisasp/coaxisopt_frontend:latest
     ports:
-     - "8080:8080"
+      - '8080:8080'
+
   nginx:
     restart: always
     image: coaxisasp/coaxisopt_nginx:latest
     ports:
-      - "80:80"
+      - '80:80'
     volumes_from:
       - backend
     links:
       - backend
       - frontend
+
 volumes:
   sqlite:
   www:

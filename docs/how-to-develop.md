@@ -1,6 +1,6 @@
 ### Back-office
 
-We are using a `docker-compose` to manage the various containers. See [how to docker](./docs/HOW-TO-DOCKER.md) for install and basics: 
+We are using a `docker-compose` to manage the various containers. See [how to docker](./docs/HOW-TO-DOCKER.md) for install and basics:
 
     make first-run
 
@@ -9,7 +9,7 @@ We are using a `docker-compose` to manage the various containers. See [how to do
 Create the `coaxisopt_daemon` container so we can use it as template:
 
         cd daemon
-        docker build -t coaxisopt_daemon .
+        docker build --tag coaxisopt_daemon .
 
 After having create a `client` we will need to create a `daemon`
 
