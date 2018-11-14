@@ -38,15 +38,6 @@ test-frontoffice: test-mast test-frontoffice-backend test-frontoffice-frontend t
 
 tests: test-backoffice test-frontoffice
 
-build-backoffice-frontend: test-backoffice-frontend
-	cd daemon/frontend/ \
-	&& npm run build
-
-deploy: build-backoffice-frontend
-	cd deploy \
-	&& ./build_and_push.sh \
-	&& ./send-scripts.sh
-
 connect:
 	ssh -F $$HOME/.ssh/config coaxis@opt-forward cd coaxisopt/ -vvv
 
