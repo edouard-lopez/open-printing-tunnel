@@ -33,7 +33,6 @@ RUN apt-get update \
   sshpass \
   sudo \
   trickle \
-  vim-tiny \
   wget \
   whois \
   ca-certificates \
