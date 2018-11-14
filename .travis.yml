@@ -61,8 +61,10 @@ matrix:
         directories:
           - ~/.cache
       install:
-        - npm ci
+        - pushd ./daemon/frontend/
+        - yarn install --frozen-lockfile
       script:
+        - popd
         - make test-frontoffice-end-to-end
 
 notifications:
