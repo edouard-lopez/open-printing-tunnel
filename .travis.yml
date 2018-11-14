@@ -18,6 +18,8 @@ matrix:
       language: node_js
       node_js:
         - '4.8'
+      cache:
+        yarn: true
       before_install:
         - cd frontend/
       install:
@@ -43,6 +45,8 @@ matrix:
       language: node_js
       node_js:
         - '8.12.0'
+      cache:
+        yarn: true
       install:
         - pushd ./daemon/frontend/
         - yarn install --frozen-lockfile
@@ -55,7 +59,7 @@ matrix:
       node_js:
         - '10'
       cache:
-        npm: true
+        yarn: true
         directories:
           - ~/.cache
       install:
