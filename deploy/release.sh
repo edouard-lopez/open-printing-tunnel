@@ -79,5 +79,5 @@ build_frontoffice_frontend
 build_backoffice_frontend
 build_images
 build_and_push "$TAG"
-deploy/send-scripts.sh
-# Then run deploy.sh on the host machine to pull new releases.
+printf "\nRun\n\tdeploy/send-scripts.sh\n"
+printf "\nThen, on the host machine, pull new containers releases with:\n\n\tdeploy/deploy.sh\n\n"

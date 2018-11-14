@@ -7,12 +7,12 @@ In developmenet we use the `optbox` device as a reverse proxy to access customer
     Host optbox-forward
     Port 2222
     HostName <your-optbox-ip>
-    IdentityFile ~/.ssh/id_rsa.pub 
+    IdentityFile ~/.ssh/id_rsa.pub
 
 ## Connect to docker registry
 
     docker login docker.akema.fr:5000
-    # User: coaxis 
+    # User: coaxis
     # Password: on LessPass v1: coaxis.com + admin@akema.fr + v1>
 
 ## Release Version
