@@ -62,8 +62,8 @@ WEBAPP=webapp
 WEBAPP_DEST_DIR=/var/www/
 
 # Project dependencies
-DEPS_CORE_INFRA:=autossh openssh-client trickle apache2 libapache2-mod-php5 sudo aha sshpass whois libc-bin
-DEPS_UTILS:=bmon iftop htop
+DEPS_CORE_INFRA:=autossh openssh-client trickle sudo sshpass whois libc-bin
+DEPS_UTILS:=htop
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
