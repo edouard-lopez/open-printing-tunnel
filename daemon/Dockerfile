@@ -11,6 +11,7 @@ ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 
 RUN sed --in-place 's!$! non-free!' /etc/apt/sources.list  # add non-free repositories from snmp-mibs-downloader
 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update \
   && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
   autossh \
@@ -25,6 +26,7 @@ RUN apt-get update \
   make \
   nano \
   nmap \
+  nodejs \
   openssh-server \
   openssh-client \
   snmp \
@@ -39,9 +41,6 @@ RUN apt-get update \
   nginx \
   supervisor \
   && rm -rf /var/lib/apt/lists/*
-
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install --yes nodejs
 
 # DAEMON
 # Create users
