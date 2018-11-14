@@ -73,5 +73,14 @@ matrix:
         - popd
         - make test-frontoffice-end-to-end
 
+jobs:
+  include:
+    - stage: release
+      script:
+        - echo 'RELEASE STAGE'
+      # if: tag IS present
+      # script:
+      #   - make release
+
 notifications:
   email: false
