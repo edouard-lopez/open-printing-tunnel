@@ -15,12 +15,12 @@ function usage() {
 
 function build_vps_frontend() {
     cd ../daemon/frontend/
-    npm run build
+    yarn build
 }
 
 function build_backoffice_frontend() {
     cd ../../frontend/
-    npm run build
+    yarn build
 }
 
 function build_and_push() {
