@@ -14,6 +14,7 @@ matrix:
         - cd ../daemon/
         - make -f help-me.mk build
       script:
+        - cd ../
         - make test-api DEFAULT_INTERFACE=$DEFAULT_INTERFACE
 
     - name: "Back-office's front-end (Vue.js)"
