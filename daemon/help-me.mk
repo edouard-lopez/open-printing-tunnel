@@ -89,8 +89,9 @@ test-frontend-unittest:
 	cd ./frontend/ \
 	&& yarn test
 
+API_READY:=curl --silent --write-out "%{http_code}" http://localhost/api/ | grep 200
 test-frontend-end-to-end: dev 
-	while ! ${DOCKER_COMPOSE} exec daemon sh -c 'supervisorctl status flask | grep RUNNING'; do sleep .1s; done
+	while ! ${DOCKER_COMPOSE} exec daemon sh -c '${API_READY}'; do sleep .1s; done
 	cd ./frontend/ \
 	&& yarn test:e2e
 
