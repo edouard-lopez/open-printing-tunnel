@@ -13,7 +13,7 @@ RUN sed --in-place 's!$! non-free!' /etc/apt/sources.list  # add non-free reposi
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update \
-  && apt-get install --yes --force-yes --no-install-recommends --no-install-suggests \
+  && apt-get install --yes --no-install-recommends --no-install-suggests \
   autossh \
   dpkg \
   gawk \
