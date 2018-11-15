@@ -89,6 +89,7 @@ jobs:
       if: tag IS present
       before_script:
         - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
       script:
         - make release
 
