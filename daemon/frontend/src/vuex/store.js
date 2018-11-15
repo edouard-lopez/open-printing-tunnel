@@ -11,31 +11,34 @@ const debug = process.env.NODE_ENV !== 'production';
 // eslint-disable-next-line no-unused-vars
 const state = {
   sites: [
-    /** {
-        hostname: '192.168.2.23',
-        id: 'akema',
-        printers: [
-            {
-                description: 'bureau',
-                id: 0,
-				hostname: '1.2.3.4',
-                ports: {
-					forward: 'remote',
-					listen: 9102
-                	send: 9100,
-                }
-            }
-		],
-		config: { }  // dynamicly inserted
-    }
-		 ],
-		 log: [/*
-		 {
-	 'help': 'service has not been started yet',
-	 'id': 'akema',
-	 'state': 'off'
-	 }
-	 */
+    /** 
+		{
+			hostname: '192.168.2.23',
+			id: 'akema',
+			printers: [
+				{
+					description: 'bureau',
+					id: 0,
+					hostname: '1.2.3.4',
+					ports: {
+						forward: 'remote',
+						listen: 9102,
+						send: 9100
+					}
+				}
+			],
+			config: {} // dynamicly inserted
+		}
+	 **/
+  ],
+  log: [
+    /**
+		{
+			'help': 'service has not been started yet',
+			'id': 'akema',
+			'state': 'off'
+		}
+	 **/
   ],
   networks: {
     /*

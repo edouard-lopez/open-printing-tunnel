@@ -9,7 +9,7 @@ export default {
     state.log = empty;
   },
   logResponse(state, response) {
-    state.log = response.results;
+    state.log.push(response.results);
   },
   setNetworksData(state, data) {
     state.networks = data;
