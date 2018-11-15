@@ -1,6 +1,7 @@
-matrix:
+jobs:
   include:
-    - name: "Back-office's backend (API & Docker)"
+    - stage: test
+      name: "Back-office's backend (API & Docker)"
       language: python
       python:
         - '3.4'
@@ -16,7 +17,8 @@ matrix:
         - cd ../backend/
         - make install test-api DEFAULT_INTERFACE=$DEFAULT_INTERFACE
 
-    - name: "Back-office's front-end (Vue.js)"
+    - stage: test
+      name: "Back-office's front-end (Vue.js)"
       language: node_js
       node_js:
         - '4.8'
@@ -29,14 +31,16 @@ matrix:
       script:
         - yarn test
 
-    - name: "Front-office's MAST (mast-utils)"
+    - stage: test
+      name: "Front-office's MAST (mast-utils)"
       language: bash
       install:
         - make
       script:
         - make test-mast
 
-    - name: "Front-office's backend (API & network)"
+    - stage: test
+      name: "Front-office's backend (API & network)"
       language: python
       python:
         - '3.4'
@@ -45,7 +49,8 @@ matrix:
       script:
         - make test-frontoffice-backend
 
-    - name: "Front-office's front-end (Vue.js)"
+    - stage: test
+      name: "Front-office's front-end (Vue.js)"
       language: node_js
       node_js:
         - '8.12.0'
@@ -58,7 +63,8 @@ matrix:
         - popd
         - make test-frontoffice-frontend
 
-    - name: "Front-office's End to end"
+    - stage: test
+      name: "Front-office's End to end"
       language: node_js
       node_js:
         - '10'
@@ -73,11 +79,9 @@ matrix:
         - popd
         - make test-frontoffice-end-to-end
 
-jobs:
-  include:
     - stage: release
       script:
-        - echo 'RELEASE STAGE'
+        - echo 'releasing !!!'
       # if: tag IS present
       # script:
       #   - make release
