@@ -86,11 +86,9 @@ jobs:
 
     - stage: release
       language: bash
+      if: tag IS present
       script:
-        - echo 'releasing !!!'
-      # if: tag IS present
-      # script:
-      #   - make release
+        - make release
 
 notifications:
   email: false
