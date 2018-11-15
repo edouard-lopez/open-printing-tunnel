@@ -76,4 +76,4 @@ dev-frontoffice:
 	&& make -f help-me.mk dev
 
 restart-flask:
-	docker exec	coaxisopt_daemon_1 bash -c 'supervisorctl restart flask'
+	docker exec	coaxisopt_daemon bash -c 'supervisorctl restart flask'
