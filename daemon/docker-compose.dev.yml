@@ -2,9 +2,9 @@ version: '2.4'
 services:
   daemon:
     build: 
-    context: ./
-    cache_from:
-      - coaxisasp/coaxisopt_daemon
+      context: ./
+      cache_from:
+        - coaxisasp/coaxisopt_daemon
     image: coaxisopt_daemon
     container_name: coaxisopt_daemon
     ports:
