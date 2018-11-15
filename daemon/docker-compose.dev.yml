@@ -1,7 +1,8 @@
 version: '2.2'
 services:
   daemon:
-    build: ./
+    build: 
+    context: ./
     cache_from:
       - coaxisasp/coaxisopt_daemon
     image: coaxisopt_daemon

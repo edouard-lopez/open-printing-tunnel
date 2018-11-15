@@ -2,7 +2,8 @@ version: '2.2'
 
 services:
   backend:
-    build: ./backend
+    build:
+    context: ./backend
     cache_from:
       - coaxisasp/coaxisopt_backend
     image: coaxisopt_backend
@@ -13,7 +14,8 @@ services:
       - '8000:8000'
 
   frontend:
-    build: ./frontend
+    build:
+    context: ./frontend
     cache_from:
       - coaxisasp/coaxisopt_frontend
     image: coaxisopt_frontend
@@ -22,7 +24,8 @@ services:
       - '8080:8080'
 
   nginx:
-    build: ./nginx
+    build:
+    context: ./nginx
     cache_from:
       - coaxisasp/coaxisopt_nginx
     image: coaxisopt_nginx
