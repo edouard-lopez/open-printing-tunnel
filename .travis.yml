@@ -10,6 +10,7 @@ jobs:
       env:
         - DEFAULT_INTERFACE=eth0 # needed to setup django context
       before_script:
+        - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         - docker pull coaxisasp/coaxisopt_daemon:latest
         - cd ./daemon/
         - make -f help-me.mk build
@@ -34,8 +35,9 @@ jobs:
     - stage: test
       name: "Front-office's MAST (mast-utils)"
       language: bash
-      install:
-        - make
+      before_script:
+        - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        - make dev
       script:
         - make test-mast
 
@@ -46,6 +48,8 @@ jobs:
         - '3.4'
       cache:
         pip: true
+      before_script:
+        - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
       script:
         - make test-frontoffice-backend
 
@@ -73,6 +77,7 @@ jobs:
         directories:
           - ~/.cache
       install:
+        - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         - pushd ./daemon/frontend/
         - yarn install --frozen-lockfile
       script:
@@ -80,6 +85,7 @@ jobs:
         - make test-frontoffice-end-to-end
 
     - stage: release
+      language: bash
       script:
         - echo 'releasing !!!'
       # if: tag IS present
