@@ -3,7 +3,7 @@
   "author": "Edouard Lopez <edouard@akema.fr>",
   "version": "1.12.1",
   "engines": {
-    "node": ">=8.12.0"
+    "node": ">=10.13.0"
   },
   "scripts": {
     "start": "NODE_ENV=production node server.js",
