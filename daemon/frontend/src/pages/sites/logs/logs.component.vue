@@ -9,9 +9,11 @@
 				<ul class="btn-toolbar pull-right" role="toolbar"
 					aria-label="Toolbar with button groups">
 					<li class="btn-group" role="group" aria-label="Actions publiques">
-						<button title="Status" role="button"
+						<button aria-label="Nettoyer le log"
+								data-e2e=clear-logs
+								title="Clear" 
+								role="button"
 								class="btn btn-default btn-sm hide-btn-content hint--top-left"
-								aria-label="Nettoyer le log"
 								@click="clear()"
 						>
 							<i class="fa fa-trash-o"> </i>
@@ -22,7 +24,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 highlight">
-				<pre class="stdout"><samp v-for="line in log" class="line">{{line | json }}</samp></pre>
+				<pre class="stdout" data-e2e=stdout><samp v-for="line in log" class="line">{{line | json }}</samp></pre>
 			</div>
 		</div>
 	</div>
