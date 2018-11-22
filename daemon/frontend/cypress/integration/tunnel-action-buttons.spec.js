@@ -1,4 +1,4 @@
-let EMPTY = 0;
+let EMPTY_JOURNAL = 0;
 describe('Tunnel action buttons', function() {
 	beforeEach(function() {
 		cy.server();
@@ -15,7 +15,7 @@ describe('Tunnel action buttons', function() {
 		cy.get('[data-e2e=stdout]')
 			.children()
 			.its('length')
-			.should('be.gt', EMPTY);
+			.should('be.gt', EMPTY_JOURNAL);
 	});
 
 	it('log tunnel restart', function() {
@@ -26,7 +26,7 @@ describe('Tunnel action buttons', function() {
 		cy.get('[data-e2e=stdout]')
 			.children()
 			.its('length')
-			.should('be.gt', EMPTY);
+			.should('be.gt', EMPTY_JOURNAL);
 	});
 
 	it('log tunnel stop', function() {
@@ -37,7 +37,7 @@ describe('Tunnel action buttons', function() {
 		cy.get('[data-e2e=stdout]')
 			.children()
 			.its('length')
-			.should('be.gt', EMPTY);
+			.should('be.gt', EMPTY_JOURNAL);
 	});
 
 	it('log tunnel status', function() {
@@ -48,7 +48,7 @@ describe('Tunnel action buttons', function() {
 		cy.get('[data-e2e=stdout]')
 			.children()
 			.its('length')
-			.should('be.gt', EMPTY);
+			.should('be.gt', EMPTY_JOURNAL);
 	});
 
 	it('clear logs', function() {
@@ -60,6 +60,6 @@ describe('Tunnel action buttons', function() {
 		cy.get('[data-e2e=stdout]')
 			.children()
 			.its('length')
-			.should('be', EMPTY);
+			.should('be', EMPTY_JOURNAL);
 	});
 });
