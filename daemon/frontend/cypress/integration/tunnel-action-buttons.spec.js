@@ -1,5 +1,7 @@
-let EMPTY_JOURNAL = 0;
 describe('Tunnel action buttons', function() {
+	let EMPTY_JOURNAL = 0;
+	const MOCK_RESPONSE = { results: {} };
+
 	beforeEach(function() {
 		cy.server();
 		cy.route('/api/sites/', 'fixture:new-site').as('getAllSites');
@@ -8,7 +10,7 @@ describe('Tunnel action buttons', function() {
 	});
 
 	it('log tunnel start', function() {
-		cy.route('PUT', '/api/sites/*/', { results: {} }).as('start');
+		cy.route('PUT', '/api/sites/*/', MOCK_RESPONSE).as('start');
 
 		cy.get('[data-e2e=start]').click();
 
@@ -19,7 +21,7 @@ describe('Tunnel action buttons', function() {
 	});
 
 	it('log tunnel restart', function() {
-		cy.route('PUT', '/api/sites/*/', { results: {} }).as('restart');
+		cy.route('PUT', '/api/sites/*/', MOCK_RESPONSE).as('restart');
 
 		cy.get('[data-e2e=restart]').click();
 
@@ -30,7 +32,7 @@ describe('Tunnel action buttons', function() {
 	});
 
 	it('log tunnel stop', function() {
-		cy.route('PUT', '/api/sites/*/', { results: {} }).as('stop');
+		cy.route('PUT', '/api/sites/*/', MOCK_RESPONSE).as('stop');
 
 		cy.get('[data-e2e=stop]').click();
 
@@ -41,7 +43,7 @@ describe('Tunnel action buttons', function() {
 	});
 
 	it('log tunnel status', function() {
-		cy.route('PUT', '/api/sites/*/', { results: {} }).as('status');
+		cy.route('PUT', '/api/sites/*/', MOCK_RESPONSE).as('status');
 
 		cy.get('[data-e2e=status]').click();
 
@@ -52,7 +54,7 @@ describe('Tunnel action buttons', function() {
 	});
 
 	it('clear logs', function() {
-		cy.route('PUT', '/api/sites/*/', { results: {} }).as('status');
+		cy.route('PUT', '/api/sites/*/', MOCK_RESPONSE).as('status');
 
 		cy.get('[data-e2e=status]').click();
 
