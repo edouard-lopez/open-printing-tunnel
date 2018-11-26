@@ -51,7 +51,7 @@ tag-as-patch:
 
 release:
 	cd deploy/ \
-	&& ./release.sh "$$(git describe --abbrev=0 --tags)"
+	&& ./release.sh "$$(git describe --tags $$(git rev-list --tags --max-count=1))"
 
 prepare-env:
 	docker-compose build # create the containers images 
