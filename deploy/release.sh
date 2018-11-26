@@ -70,8 +70,10 @@ function build_and_push() {
     tag_images docker_images[@] "$tag"
     push_images docker_images[@] "$tag"
 
-    tag_images docker_images[@] "latest"
-    push_images docker_images[@] "latest"
+    if [[ $tag =~ ^v[0-9].* ]]; then  # only releases with version number update latest, not a testing branch
+        tag_images docker_images[@] "latest"
+        push_images docker_images[@] "latest"
+    fi
 }
 
 usage
