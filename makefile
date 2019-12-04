@@ -64,9 +64,9 @@ reset-test-env:
 	docker network prune --force
 
 where-is-front-office:
-	frontoffice_ip="$$(docker inspect coaxisopt_daemon_1 --format "{{ json .NetworkSettings.Networks.coaxisopt_default.IPAddress }}" | python -m json.tool | sed -s 's/"//g')" \
+	frontoffice_ip="$$(docker inspect coaxis-opt_daemon_1 --format '{{ $$network := index .NetworkSettings.Networks "coaxis-opt_default" }}{{ $$network.IPAddress}}')" \
 	&& echo "Front-office → http://$$frontoffice_ip/"
-	echo
+	@echo
 
 dev: reset-test-env prepare-env where-is-front-office
 	echo "Back-office → http://localhost/"
