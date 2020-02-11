@@ -1,4 +1,4 @@
-FROM python:3.5
+FROM python:3.5-slim-stretch
 
 # -------------------------------------------
 # Daemon APT Install
@@ -11,7 +11,16 @@ ARG REMOTE_INIT_PWD=C1i3ntRmSid3
 
 RUN sed --in-place 's!$! non-free!' /etc/apt/sources.list  # add non-free repositories from snmp-mibs-downloader
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+ENV BUILD_DEPENDENCIES apt-utils \
+  libc-dev \
+  gcc \
+  gnupg2
+RUN apt-get update \
+  && apt-get install --yes --no-install-recommends \
+  $BUILD_DEPENDENCIES \
+  curl \
+  && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+  && rm --recursive --force /var/lib/apt/lists/*
 RUN apt-get update \
   && apt-get install --yes --no-install-recommends --no-install-suggests \
   autossh \
@@ -130,4 +139,5 @@ COPY ./test /test
 
 COPY config/ /etc/supervisor/conf.d
 COPY help-me.mk /
+RUN apt-get purge --yes --auto-remove $BUILD_DEPENDENCIES
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/prod.conf"]
