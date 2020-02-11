@@ -1,5 +1,5 @@
 wheel
-smartconfigparser==0.1.1
+https://github.com/guillaumevincent/smartconfigparser/archive/0.1.1.zip
 Django==1.9.6
 djangorestframework==3.6.1
 djangorestframework-jwt==1.8.0

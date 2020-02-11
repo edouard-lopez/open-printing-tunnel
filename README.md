@@ -85,20 +85,27 @@ For the host system we recommend **Debian-based** OS, other distribution are not
 * `docker-compose` `≥1.7.0`;
 * `Python` `≥3.5`.
 
-### Installation
-
-From developer computer, run:
-
-    $ cd frontend/
-    $ npm run build
-    $ cd ../deploy/
-    $ archive="$(./create_archive.sh | tail -n 1)"
-    $ ./send-scripts.sh "$archive"
-    
-If you need to setup a python environment, please have a look at our short [Python and virtualenv doc](./docs/how-to-python-and-virtualenv.md).
-### Development
+### Install (for Development)
 
 See [docs/how-to-develop.md](docs/how-to-develop.md).
+
+First configure the network interface to use, _e.g._ `wlp4s0`:
+
+    $ export DEFAULT_INTERFACE=${interface:=wlp4s0}
+
+Then build and up containers:
+
+    $ make dev
+
+If that's your first run, you will need to setup a [dabatase user](backend/README.md)
+
+    $ make first-run
+
+If you need to setup a python environment, please have a look at our short [Python and virtualenv doc](./docs/how-to-python-and-virtualenv.md).
+
+### Install (for Production)
+
+Check [deploy/README.md](deploy/README.md).
 
 ### Glossary
 
