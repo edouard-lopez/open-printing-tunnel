@@ -42,21 +42,27 @@
 				</li>
 				<li class="btn-group" role="group"
 					aria-label="Actions d'administration">
-					<button aria-label="Redémarrer"
+					<button 
+							aria-label="Redémarrer" 
+							data-e2e=restart
 							role="button"
 							class="btn btn-warning btn-sm restart hide-btn-content hint--top"
 							@click="restart(site)"
 					>
 						<i class="fa fa-refresh"> </i>
 					</button>
-					<button aria-label="Démarrer"
+					<button 
+							aria-label="Démarrer" 
+							data-e2e=start
 							role="button"
 							class="btn btn-success btn-sm hide-btn-content hint--top"
 							@click="start(site)"
 					>
 						<i class="fa fa-play"> </i>
 					</button>
-					<button aria-label="Arrêter"
+					<button 
+							aria-label="Arrêter" 
+							data-e2e=stop
 							role="button"
 							class="btn btn-danger btn-sm hide-btn-content hint--top"
 							@click="stop(site)"
@@ -66,7 +72,9 @@
 					<scanner :site="site"></scanner>
 				</li>
 				<li class="btn-group " role="group" aria-label="Actions publiques">
-					<button aria-label="Status"
+					<button 
+							aria-label="Status" 
+							data-e2e=status
 							role="button"
 							class="btn btn-info btn-sm hide-btn-content hint--top"
 							@click="status(site)"
